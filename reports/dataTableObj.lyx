@@ -1,0 +1,476 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language french
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Gérer des tableaux de données avec Matlab
+\end_layout
+
+\begin_layout Author
+D.
+ Legland
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+Quelques pistes de réflexion pour améliorer la gestion des tableaux de données
+ numériques lorsque l'on travaille sous Matlab, ou un environnement équivalent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Tableaux de données
+\end_layout
+
+\begin_layout Standard
+Une grande majorité des résultats manipulés sont de nature numérique, et
+ peuvent être organisés en tableaux de données.
+ 
+\end_layout
+
+\begin_layout Standard
+Quelques outils d'importation et de traitement existent sous certains logiciels
+ orientés statistiques (R, Excel), mais pour d'autres (tels que Matlab,
+ Python) on est souvent limité.
+ L'idée est de disposer d'une classe de haut niveau permettant d'effectuer
+ rapidement des traitements complexes.
+ Exemple :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+tab.plot('var1', 'var2', 'r'); % affichage calibre
+\end_layout
+
+\begin_layout Plain Layout
+
+var1Mean = tab.mean('var1');   % moyenne d'une colonne
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Gestion des données statistiques
+\end_layout
+
+\begin_layout Standard
+En plus des données numériques, on manipule aussi des facteurs (variété,
+ fruit, position, traitement...).
+ Ces facteurs peuvent être représentés par des valeurs numériques entières,
+ mais en pratique on a parfois du mal à se rappeler à quelle modalité appartient
+ une valeur donnée.
+ De plus, les légendes des graphiques ne sont pas très parlantes : variété
+ 1 ou 2, position 4...
+\end_layout
+
+\begin_layout Subsection
+Niveaux de facteurs
+\end_layout
+
+\begin_layout Standard
+Une possibilité de stockage est de garder une structure DIV, mais d'ajouter
+ un champs 'l' (pour 
+\emph on
+level
+\emph default
+), qui contient les niveaux de chaque facteur.
+ Le champs l est un tableau de cellules avec autant d'éléments que de colonnes,
+ et si une colonne 
+\begin_inset Formula $i$
+\end_inset
+
+ est considérée comme un facteur, la valeur de la cellule l{i} est un tableau
+ de cellules contenant les noms des modalités associées à chaque niveau.
+ On peut tester facilement si une colonne est un facteur en vérifiant si
+ la cellule est vide ou non.
+\end_layout
+
+\begin_layout Subsection
+Stockage des facteurs
+\end_layout
+
+\begin_layout Standard
+Les données sont représentées par un tableau de cellules, chaque cellule
+ contenant une colonne, et chaque colonne étant stockée comme un tableau
+ de valeurs numériques ou un tableau de cellules contenant des chaînes de
+ caractères.
+\end_layout
+
+\begin_layout Standard
+Solution plus lourde ?
+\end_layout
+
+\begin_layout Section
+Besoin fonctionnels
+\end_layout
+
+\begin_layout Subsection
+Gestion de base
+\end_layout
+
+\begin_layout Subsubsection
+Création
+\end_layout
+
+\begin_layout Description
+Table() crée une table à partir des données numériques fournies, et des
+ éventuelles informations sur les lignes et les colonnes
+\end_layout
+
+\begin_layout Description
+Table.read() charge un fichier dans un objet tableau de données
+\end_layout
+
+\begin_layout Subsubsection
+Gestion des lignes
+\end_layout
+
+\begin_layout Standard
+Gestions des lignes, et de leurs noms.
+\end_layout
+
+\begin_layout Description
+addRow
+\end_layout
+
+\begin_layout Description
+getRow
+\end_layout
+
+\begin_layout Description
+deleteRow
+\end_layout
+
+\begin_layout Description
+setRow
+\end_layout
+
+\begin_layout Description
+setRowName(i, str)
+\end_layout
+
+\begin_layout Description
+getRowName(i)
+\end_layout
+
+\begin_layout Description
+setRowNames(str{})
+\end_layout
+
+\begin_layout Description
+getRowNames
+\end_layout
+
+\begin_layout Subsubsection
+Gestion des colonnes
+\end_layout
+
+\begin_layout Standard
+Gestions des colonnes, et de leurs noms.
+\end_layout
+
+\begin_layout Description
+addColumn
+\end_layout
+
+\begin_layout Description
+getColumn
+\end_layout
+
+\begin_layout Description
+deleteColumn
+\end_layout
+
+\begin_layout Description
+setColumn
+\end_layout
+
+\begin_layout Description
+setColumnName(i)
+\end_layout
+
+\begin_layout Description
+getColumnName(i)
+\end_layout
+
+\begin_layout Description
+setColumnNames
+\end_layout
+
+\begin_layout Description
+getColumnNames
+\end_layout
+
+\begin_layout Subsubsection
+Gestion des données
+\end_layout
+
+\begin_layout Standard
+Une série de fonctions pour lire et modifier les données internes.
+\end_layout
+
+\begin_layout Description
+getValue(r,
+\begin_inset space ~
+\end_inset
+
+c)
+\end_layout
+
+\begin_layout Description
+setValue(r,
+\begin_inset space ~
+\end_inset
+
+c,
+\begin_inset space ~
+\end_inset
+
+v)
+\end_layout
+
+\begin_layout Subsection
+Entrées et sorties
+\end_layout
+
+\begin_layout Standard
+Lire et écrire une table
+\end_layout
+
+\begin_layout Description
+read méthode statique qui retourne un tableau de données
+\end_layout
+
+\begin_layout Description
+write
+\end_layout
+
+\begin_layout Subsection
+Gestion avancée
+\end_layout
+
+\begin_layout Subsection
+Données
+\end_layout
+
+\begin_layout Subsubsection
+Format de sauvegarde
+\end_layout
+
+\begin_layout Standard
+Chaque colonne est associée à une chaîne de caractères qui permet de contrôler
+ la manière dont les nombre sont sauvés, afin de rendre les fichiers plus
+ lisibles.
+\end_layout
+
+\begin_layout Description
+getFormat
+\end_layout
+
+\begin_layout Description
+setFormat
+\end_layout
+
+\begin_layout Description
+getFormats
+\end_layout
+
+\begin_layout Description
+setFormats
+\end_layout
+
+\begin_layout Subsubsection
+Divers
+\end_layout
+
+\begin_layout Standard
+Pour changer le nom de la table, le fichier de sauvegarde, les commentaires
+ (?)...
+\end_layout
+
+\begin_layout Description
+setName
+\end_layout
+
+\begin_layout Description
+getName
+\end_layout
+
+\begin_layout Description
+getFile
+\end_layout
+
+\begin_layout Section
+Formats existants
+\end_layout
+
+\begin_layout Subsection
+Format texte, CSV
+\end_layout
+
+\begin_layout Standard
+Le format CSV est l'abbréviaton de comma separated values.
+ Il contient donc des valeurs séparées par des virgules.
+ On peut en général utiliser un autre séparateur que la virgule.
+\end_layout
+
+\begin_layout Subsection
+Format DIV
+\end_layout
+
+\begin_layout Standard
+Le format DIV est un format CSV un peu normalisé, en particulier : 
+\end_layout
+
+\begin_layout Itemize
+la première ligne contient les noms des colonnes
+\end_layout
+
+\begin_layout Itemize
+pour chaque ligne, le premier élément est le nom de l'individu, suivit de
+ la liste des valeurs associées à chaque colonne.
+\end_layout
+
+\begin_layout Standard
+Manques potentiels :
+\end_layout
+
+\begin_layout Itemize
+le format de stockage des donnes (une chaîne %d ou %f) ?
+\end_layout
+
+\begin_layout Itemize
+le nom de la table ?
+\end_layout
+
+\begin_layout Itemize
+des commentaires ?
+\end_layout
+
+\begin_layout Subsection
+Conventions de noms de fichiers
+\end_layout
+
+\begin_layout Standard
+Idée générale : nom composé de plusieurs morceaux, qui vont du général au
+ particulier.
+ Dans l'ordre :
+\end_layout
+
+\begin_layout Itemize
+éventuellement : le type de mesure.
+ Ex.
+ : 'est' pour une estimation, 'meas' pour une mesure, 'map' pour une cartographi
+e...
+\end_layout
+
+\begin_layout Itemize
+les paramètres d'intérêt, qui caractérisent les colonnes.
+ Ex.
+ : 'Morpho', 'VSSv'...
+\end_layout
+
+\begin_layout Itemize
+éventuellement, un caractère de soulignement suivi de l'unité choisie pour
+ les individus.
+ Ex.
+ : '_slice', '_slab', '_fruit'...
+\end_layout
+
+\begin_layout Itemize
+éventuellement, un point puis un mot-clé de concaténation de données.
+ Ex.
+ : '.fact' quand on rajoute des facteurs, '.co', '.acp', '.vp' quand on calcule
+ une acp...
+\end_layout
+
+\end_body
+\end_document
