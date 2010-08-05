@@ -21,6 +21,9 @@ properties
     % the name of the table
     name;
     
+    % the name of the file used for initializing the Table
+    fileName;
+    
     % inner data of the table
     data;
     
@@ -29,11 +32,15 @@ properties
 
     % name or columns
     colNames;
+    
+    % factor levels
+    levels;
+    
 end
 
 %% Declaration of static classes
 methods (Static)
-
+    tab = read(fileName, varargin)
 end
 
 

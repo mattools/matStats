@@ -1,0 +1,7 @@
+nom var1 var2
+ind1  true  1
+ind2  false 2
+ind3  false 1
+ind4  true  2
+ind5  true  1
+ind10 false 2
