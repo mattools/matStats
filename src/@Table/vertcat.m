@@ -1,10 +1,10 @@
-function res = horzcat(this, varargin)
-%HORZCAT Concatenate tables horizontally
+function res = vertcat(this, varargin)
+%VERTCAT Concatenate tables vertically
 %
-%   output = horzcat(input)
+%   output = vertcat(input)
 %
 %   Example
-%   horzcat
+%   vertcat
 %
 %   See also
 %
@@ -12,7 +12,7 @@ function res = horzcat(this, varargin)
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
-% Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
+% Created: 2010-08-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 data = this.data;
@@ -23,8 +23,8 @@ name = this.name;
 for i=1:length(varargin)
     var = varargin{1};
     
-    data = [data var.data]; %#ok<AGROW>
-    colNames = [colNames var.colNames];     %#ok<AGROW>
+    data = [data ; var.data]; %#ok<AGROW>
+    rowNames = [rowNames var.rowNames];     %#ok<AGROW>
     name = strcat(name, '+', var.name);
 end
 

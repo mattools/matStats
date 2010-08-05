@@ -1,5 +1,5 @@
 classdef Table < handle
-%TABLE  One-line description here, please.
+%TABLE Class for data table with named rows and columns
 %
 %   output = Table(input)
 %
