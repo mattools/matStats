@@ -1,4 +1,4 @@
-function test_suite = test_vertcat(varargin)
+function test_suite = test_vertcat(varargin) %#ok<STOUT>
 %test_vertcat  One-line description here, please.
 %
 %   output = test_vertcat(input)
