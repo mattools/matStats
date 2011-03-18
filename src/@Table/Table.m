@@ -1,7 +1,13 @@
 classdef Table < handle
 %TABLE Class for data table with named rows and columns
 %
-%   output = Table(input)
+%   Creation:
+%   tab = Table(DATA);
+%   tab = Table.read(FILENAME);
+%
+%   Display info:
+%   tab.plot(COLNAME);
+%   tab.scatter(COLUMN1, COLUMN2);
 %
 %   Example
 %   Table
@@ -27,10 +33,10 @@ properties
     % inner data of the table
     data;
     
-    % name or rows
+    % name of rows
     rowNames;
 
-    % name or columns
+    % name of columns
     colNames;
     
     % factor levels
