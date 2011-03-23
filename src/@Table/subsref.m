@@ -27,30 +27,31 @@ if strcmp(type, '.')
     if nargout>0
         % if some output arguments are asked, pre-allocate result
         varargout = cell(nargout, 1);
-        varargout{:} = builtin('subsref', this, subs);
+        [varargout{:}] = builtin('subsref', this, subs);
+        
     else
         % call parent function, and eventually return answer
         builtin('subsref', this, subs);
         if exist('ans', 'var')
             varargout{1} = ans; %#ok<NOANS>
         end
+        
     end
     
 elseif strcmp(type, '()')
     % In case of parens reference, index the inner data
     varargout{1} = 0;
     
-    ns = length(s1.subs);    
     % different processing if 1 or 2 indices are used
-    if ns==1
+    ns = length(s1.subs);    
+    if ns == 1
         % one index: use linearised data
         varargout{1} = this.data(s1.subs{1});
-    elseif ns==2
-        % two indices: parse x and y indices 
         
-        % extract corresponding data, and transpose to comply with matlab
-        % representation
+    elseif ns == 2
+        % two indices: extract corresponding table data
         varargout{1} = this.data(s1.subs{:});
+        
     else
         error('Table:subsref', 'too many indices');
     end
