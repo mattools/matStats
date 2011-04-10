@@ -2,18 +2,26 @@ function tab = read(fileName, varargin)
 %READ Read a datatable file
 %
 %   TABLE = Table.read(FILENAME);
-%   Returns a data table structure, with fields
-%   - n: the name of the data table
-%   - f: the name of the file
-%   - d: a MxN array of double containing numeric data
-%   - i: a Mx1 cell array containing names of rows (individuals)
-%   - v: a 1xN cell array containing names of columns (variables)
-%   - l: a 1xN cell array containing factor levels
+%   Where FILENAME is the name of the file to read, returns a new data
+%   table initialized with the content of the file.
 %
 %   TABLE = Table.read;
 %   Without argument, the function opens a dialog to choose a data file,
 %   and return the corresponding data table.
 %
+%   TABLE = Table.read(..., PARAM, VALUE);
+%   Can specifiy parameters when reading the file. Available parameters
+%   are:
+%   'header' specifies if an header is present in the file. Can be true
+%       (the default) or false.
+%   'decimalPoint' a character to use when parsing numbers. Default is '.'.
+%       When using a different value, lines will be analysed as text and
+%       parsed, making the processing time longer. 
+%   'delim' the set of characters used to delimitate values. Default are
+%       space and tabulation.
+%   'needParse' is a boolean used to force the parsing of numeric values.
+%       If the decimal point is changed, parsing is automatically forced.
+%   
 %   Example
 %   
 %

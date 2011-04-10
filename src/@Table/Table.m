@@ -3,7 +3,12 @@ classdef Table < handle
 %
 %   Creation:
 %   tab = Table(DATA);
+%   tab = Table(DATA, 'rowNames', ROWNAMES, 'colNames', COLNAMES);
+%   Create data table from a numeric array, with possibility to specify
+%   values of some parameters. See Table/Table.
+%
 %   tab = Table.read(FILENAME);
+%   Read the content of a data table from a text file.
 %
 %   Display info:
 %   tab.plot(COLNAME);
@@ -13,7 +18,7 @@ classdef Table < handle
 %   Table
 %
 %   See also
-%
+%   Table.Table, Table.read
 %
 % ------
 % Author: David Legland
@@ -54,7 +59,23 @@ end
 methods
 
     function this = Table(varargin)
-        % Constructor for Table class
+    %Constructor for Table class
+    %
+    %   TAB = Table(DATA)
+    %   where DATA is a numeric array, create a new data table from a
+    %   numeric array.
+    %
+    %   TAB = Table(..., 'colNames', NAMES)
+    %   Also specifies the name of columns. NAMES is a cell array with as
+    %   many columns as the number of columns of the data table. 
+    %
+    %   TAB = Table(..., 'rowNames', NAMES)
+    %   Also specifies the name of rows. NAMES is a cell array with as many
+    %   columns as the number of rows of the data table. 
+    %
+    %   TAB = Table(..., 'name', NAME)
+    %   Also specify the name of the data table. NAME is a char array.
+    %  
         
         if nargin==0
             % empty constructor
@@ -72,8 +93,8 @@ methods
             
             varargin(1) = [];
             
-        else
-            % setup data
+        elseif isnumeric(varargin{1})
+            % If first argument is numeric, assume this is data array
             this.data = varargin{1};
             
             % create default values for other fields
@@ -89,7 +110,7 @@ methods
         % check if column names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
-               this.colNames = varargin{1};
+                this.colNames = varargin{1};
                 varargin(1) = [];
             end
         end
