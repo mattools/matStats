@@ -24,7 +24,12 @@ if isnumeric(rowName)
     
 elseif ischar(rowName)
     % parse row name
-    indRow = strmatch(rowName, this.rowNames, 'exact');
+    if strcmp(rowName, ':')
+        indRow = 1:length(this.rowNames);
+    else
+        indRow = strmatch(rowName, this.rowNames', 'exact');
+    end
+    
     if isempty(indRow)>0
         error(errorMsg, rowName);
     end

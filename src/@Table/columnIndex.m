@@ -24,7 +24,12 @@ if isnumeric(colName)
     
 elseif ischar(colName)
     % parse column name
-    indCol = strmatch(colName, this.colNames, 'exact');
+    if strcmp(colName, ':')
+        indCol = 1:length(this.colNames);
+    else
+        indCol = strmatch(colName, this.colNames, 'exact');
+    end
+    
     if isempty(indCol)>0
         error(errorMsg, colName);
     end

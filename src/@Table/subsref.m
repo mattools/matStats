@@ -50,12 +50,27 @@ elseif strcmp(type, '()')
         
     elseif ns == 2
         % two indices: extract corresponding table data
+        
+        % analyze row indices
+        if ~isnumeric(s1.subs{1})
+            inds = rowIndex(this, s1.subs{1})';
+            s1.subs{1} = inds;
+        end
+        
+        % analyze column indices
+        if ~isnumeric(s1.subs{2})
+            inds = columnIndex(this, s1.subs{2})';
+            s1.subs{2} = inds;
+        end
+        
+        % extract corresponding data
         varargout{1} = this.data(s1.subs{:});
         
     else
-        error('Table:subsref', 'too many indices');
+        error('Table:subsref', 'Too many indices');
     end
+    
 else
-    error('Table:subsref', 'can not manage such reference');
+    error('Table:subsref', 'Can not manage such reference');
 end
 
