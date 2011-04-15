@@ -1,16 +1,16 @@
-function varargout = write(this, fileName, varargin)
+function write(this, fileName, varargin)
 %WRITE Write a datatable into a file
 %
 %   TABLE.write(COLNAME)
 %   where TABLE is a Table object, and COLNAME is either index or name of 
 %   a column of the table.
 %
-%   tableWrite(..., FORMAT);
-%   tableWrite(..., 'format', FORMAT);
+%   TABLE.write(..., FORMAT);
+%   TABLE.write(..., 'format', FORMAT);
 %   Also provides writing format for variable. FORMAT is a string
 %   containing series of C-language based formatting tags, such as:
-%   '%5.3f %3d %6.4f %02d %02d'. Number of formatting tags must equals
-%   number of columns of data table.
+%   '%5.3f %3d %6.4f %02d %02d'. Number of formatting tags must equals the
+%   number of columns in data table.
 %   FORMAT can also end with '\n', and begin with '%s '. Following formats
 %   are equivalent for tableWrite:
 %   '%5.2f %3d %3d'
@@ -33,9 +33,11 @@ function varargout = write(this, fileName, varargin)
 
 %% process input
 
-% extrat format for writing data
+% default values of parameters
 format = [];
 writeLevels = false;
+
+% extrat value of optional parameters
 while length(varargin)>1
     var = lower(varargin{1});
     switch var
@@ -44,7 +46,7 @@ while length(varargin)>1
         case 'writelevels'
             writeLevels = varargin{2};
         otherwise
-            error(['unknown parameter: ' varargin{1}]);
+            error(['Unknown parameter: ' varargin{1}]);
     end
     varargin(1:2) = [];
 end
@@ -57,15 +59,20 @@ end
 
 %% Prepare data of the table for writing 
 
+% number of row and columns
+nRows = size(this.data, 1);
+nCols = size(this.data, 2);
+
 % compute default format string for writing data, if not given as argument
 if isempty(format)
-    format = [repmat(' %g', 1, length(this.colNames)) '\n'];
+    format = ['%g' repmat(' %g', 1, nCols-1) '\n'];
 end
 
 % check which columns are factors, and update format string accordingly
 if writeLevels
-    isFactor = false(length(this.levels), 1);
-    for i=1:length(this.levels)
+    nLevels = length(this.levels);
+    isFactor = false(nLevels, 1);
+    for i = 1:nLevels
         isFactor(i) = ~isempty(this.levels{i});
     end
     
@@ -73,14 +80,13 @@ if writeLevels
     formats = textscan(format, '%s');
     formats = formats{1};
     
-    
     % replace double format by string format
     inds = find(isFactor);
-    for i=1:length(inds)
+    for i = 1:length(inds)
         % compute max length of level names
-        n=-1;
+        n = -1;
         levels = this.levels{inds(i)}; 
-        for j=1:length(levels)
+        for j = 1:length(levels)
             n = max(n, length(levels{j}));
         end
 
@@ -90,7 +96,7 @@ if writeLevels
     % create new format string
     format = formats{1};
     sep = ' ';
-    for i=2:length(this.colNames)
+    for i = 2:nCols
         format = [format sep formats{i}]; %#ok<AGROW>
     end
 end
@@ -102,12 +108,20 @@ end
 
 % count number of tokens
 tokens = textscan(format, '%s');
-n = length(tokens{1});
+nTokens = length(tokens{1});
+
+% If only one formatting argument is given, it is repeated by the number of
+% columns
+if nTokens == 1 && nCols > 1
+    format = strtrim(format);
+    format = [format repmat([' ' format], 1, nCols - 1)];
+    nTokens = nCols;
+end
 
 % add '%s ' in the beginning if missing
-if n~=size(this.data, 2)+1
-    len=-1;
-    for i=1:length(this.rowNames)
+if nTokens ~= nCols + 1
+    len = -1;
+    for i = 1:nRows
         len = max(len, length(this.rowNames{i}));
     end
 
@@ -122,37 +136,41 @@ end
 
 %% Write into file
 
-% open file
-f = fopen(fileName,'wt');
-if (f==-1)
+% open file for writing text
+f = fopen(fileName, 'wt');
+if (f == -1)
 	error('Couldn''t open the file %s', fileName);
-end;
+end
 
 % write the names of the columns, separated by spaces
 str = this.name;
 sep = '   ';
-for i=1:length(this.colNames)
+for i = 1:nCols
     str = [str sep this.colNames{i}]; %#ok<AGROW>
 end
+
 str = [str '\n'];
 fprintf(f, str);
 
 % write each row of data
-if writeLevels
-    data = cell(1, length(this.colNames));
+if ~writeLevels
+    % write data as numeric
+    for i = 1:nRows
+        fprintf(f, sprintf(format, this.rowNames{i}, this.data(i, :)));
+    end
+    
+else
+    % some columns are levels, so we need to format text
+    data = cell(1, nCols);
     inds = find(isFactor);
-    for i=1:length(this.rowNames)
-        for j=1:length(inds)
+    for i = 1:nRows
+        for j = 1:length(inds)
             data{inds(j)} = this.levels{inds(j)}{this.data(i, inds(j))};
         end
-        if sum(~isFactor)>0
+        if sum(~isFactor) > 0
             data(~isFactor) = num2cell(this.data(i, ~isFactor));
         end
         fprintf(f, sprintf(format, this.rowNames{i}, data{:}));
-    end
-else
-    for i=1:length(this.rowNames)
-        fprintf(f, sprintf(format, this.rowNames{i}, this.data(i, :)));
     end
 end
 
