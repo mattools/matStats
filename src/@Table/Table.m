@@ -122,6 +122,9 @@ methods
                 varargin(1) = [];
             end
         end
+
+        % initialize levels
+        this.levels = cell(1, size(this.data, 2));
         
         % other parameters can be set using parameter name-value pairs
         while length(varargin)>1
