@@ -1,0 +1,7 @@
+nom;var1;var2
+ind1;0;1
+ind2;1;2
+ind3;0;1
+ind4;1;2
+ind5;0;1
+ind10;1;2

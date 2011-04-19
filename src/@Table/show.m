@@ -23,17 +23,33 @@ function varargout = show(this)
 nr = size(this.data, 1);
 nc = size(this.data, 2);
 
-% Create parent figure
+% create figure name
 figName = sprintf('%s (%d-by-%d Data Table)', this.name, nr, nc);
+
+% Create parent figure
 f = figure(...
     'Name', figName, 'NumberTitle', 'off', ...
     'MenuBar', 'none');
 
 % add a table
+hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
+if ~hasLevels
+    % create a numeric data table
+    data2 = this.data;
+    
+else
+    % if data table has levels, need to convert data array
+    data2 = num2cell(this.data);
+    indLevels = find(~cellfun(@isnumeric, this.levels));
+    for i = indLevels
+        data2(:,i) = this.levels{i}(this.data(:, i));
+    end
+end
+
 ht = uitable(f, ...
     'Units', 'normalized', ...
     'Position', [0 0 1 1], ...
-    'Data', this.data,... 
+    'Data', data2,...
     'ColumnName', this.colNames,...
     'RowName', this.rowNames);
 
