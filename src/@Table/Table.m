@@ -18,7 +18,7 @@ classdef Table < handle
 %   Table
 %
 %   See also
-%   Table.Table, Table.read
+%   Table.create, Table.read
 %
 % ------
 % Author: David Legland
@@ -51,6 +51,7 @@ end
 
 %% Declaration of static classes
 methods (Static)
+    tab = create(varargin)
     tab = read(fileName, varargin)
 end
 
@@ -76,6 +77,9 @@ methods
     %   TAB = Table(..., 'name', NAME)
     %   Also specify the name of the data table. NAME is a char array.
     %  
+    %   See Also
+    %   Table/create
+    %
         
         if nargin==0
             % empty constructor
