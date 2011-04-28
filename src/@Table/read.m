@@ -117,6 +117,10 @@ tab.levels = cell(1, nc);
 % determines which columns are numeric
 numeric = isfinite(str2double(C1));
 
+if options.rowNamesIndex > 0
+    numeric(options.rowNamesIndex) = false;
+end
+
 % compute appropriate format for reading all lines
 formats = cell(1, n);
 if options.needParse
@@ -159,7 +163,9 @@ elseif ~isempty(options.rowNames)
     tab.rowNames = options.rowNames;
     
 else
+    % default row names are indices converted to cell array of chars
     tab.rowNames = strtrim(cellstr(num2str((1:nr)')));
+    
 end
 
 % format data table

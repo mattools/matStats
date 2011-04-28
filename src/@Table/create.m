@@ -50,7 +50,7 @@ tab.levels = cell(1, nCols);
 % check if column names were specified
 if ~isempty(varargin)
     if iscell(varargin{1})
-        this.colNames = varargin{1};
+        tab.colNames = varargin{1};
         varargin(1) = [];
     end
 end
@@ -58,7 +58,7 @@ end
 % check if row names were specified
 if ~isempty(varargin)
     if iscell(varargin{1})
-        this.rowNames = varargin{1};
+        tab.rowNames = varargin{1};
         varargin(1) = [];
     end
 end
@@ -71,11 +71,11 @@ while length(varargin) > 1
     
     % switch
     if strcmp(param, 'rownames')
-        this.rowNames = value;
+        tab.rowNames = value;
     elseif strcmp(param, 'colnames')
-        this.colNames = value;
+        tab.colNames = value;
     elseif strcmp(param, 'name')
-        this.name = value;
+        tab.name = value;
     else
         error('Table:Table', ...
             ['Unknown parameter name: ' varargin{1}]);
