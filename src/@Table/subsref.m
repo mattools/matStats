@@ -45,7 +45,16 @@ elseif strcmp(type, '()')
     % different processing if 1 or 2 indices are used
     ns = length(s1.subs);    
     if ns == 1
-        % one index: use linearised data
+        % one index: use either linearised data, or column name
+        
+        % try to find a column name
+        if ~isnumeric(s1.subs{1})
+            if ~strcmp(s1.subs{1}, ':')
+                inds = columnIndex(this, s1.subs{1})';
+                s1.subs = {inds, ':'};
+            end
+        end
+        
         varargout{1} = this.data(s1.subs{1});
         
     elseif ns == 2

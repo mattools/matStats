@@ -23,9 +23,9 @@ if strcmp(type, '.')
     % if some output arguments are asked, use specific processing
     if nargout>0
         varargout = cell(1);
-        varargout{1} = builtin('subsasgn', this, subs);    
+        varargout{1} = builtin('subsasgn', this, subs, value);    
     else
-        builtin('subsasgn', this, subs);
+        builtin('subsasgn', this, subs, value);
     end
     
 elseif strcmp(type, '()')
