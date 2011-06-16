@@ -1,5 +1,5 @@
 function column = getColumn(this, colName)
-%GETROW Extract column data of the table
+%GETCOLUMN Extract column data of the table
 %
 %   output = getColumn(input)
 %

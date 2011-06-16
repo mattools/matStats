@@ -1,5 +1,5 @@
 function varargout = subsasgn(this, subs, value)
-%subsasgn Overrides subsasgn function for Image objects
+%SUBSASGN Overrides subsasgn function for Image objects
 %   output = subsasgn(input)
 %
 %   Example
