@@ -61,15 +61,23 @@ elseif strcmp(type, '()')
         % two indices: extract corresponding table data
         
         % analyze row indices
-        if ~isnumeric(s1.subs{1})
-            inds = rowIndex(this, s1.subs{1})';
-            s1.subs{1} = inds;
+        sub1 = s1.subs{1};
+        if ~isnumeric(sub1)
+            if ~strcmp(sub1, ':') 
+                % parse the name of the row
+                inds = rowIndex(this, sub1)';
+                s1.subs{1} = inds;
+            end
         end
         
         % analyze column indices
-        if ~isnumeric(s1.subs{2})
-            inds = columnIndex(this, s1.subs{2})';
-            s1.subs{2} = inds;
+        sub2 = s1.subs{2};
+        if ~isnumeric(sub2)
+            if ~strcmp(sub2, ':')
+                % parse the name of the column
+                inds = columnIndex(this, sub2)';
+                s1.subs{2} = inds;
+            end
         end
         
         % extract corresponding data

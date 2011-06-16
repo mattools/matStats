@@ -1,8 +1,8 @@
 function tab = stats(this, varargin)
 %STATS Compute basic descriptive statistics on data table columns
 %
-%   RES = TAB.stats(TAB, STATS)
-%   RES = stats(TAB, STATS)
+%   RES = TAB.stats(STAT_NAMES)
+%   RES = stats(TAB, STAT_NAMES)
 %   Computes several descriptive statistics on the data table TAB.
 %
 %   STATS specifies which statistics will be computed. STATS is a cell
@@ -124,6 +124,9 @@ for c = 1:nCols
         elseif strcmp(statName, 'count')
             % number of elements
             res(s, c) = length(col);
+            
+        else
+            error('Unknown statistic name: %s', statName);
         end
     end
 end
