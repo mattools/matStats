@@ -1,4 +1,4 @@
-function test_suite = test_horzcat(varargin)
+function test_suite = test_horzcat(varargin) %#ok<STOUT>
 %test_horzcat  One-line description here, please.
 %
 %   output = test_horzcat(input)

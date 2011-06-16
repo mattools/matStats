@@ -1,13 +1,17 @@
 function indCol = columnIndex(this, colName)
 %COLUMNINDEX Index of a column from its name
 %
-%   output = columnIndex(input)
+%   IND = columnIndex(TAB, COLNAME)
+%   Returns the index of the column whose name is COLNAME. If COLNAME is a
+%   cell array of strings, returns an array of indices.
+%   An error is raised when the column name (or one of the column names in
+%   the array) is not found.
 %
-%   Example
-%   Tab2 = Tab';
+%   If COLNAME is numeric, it is assumed to be the column index, and is
+%   returned directly. Hence, the two lines return the same result:
+%       IND = columnIndex(TAB, NAME);
+%       IND = columnIndex(TAB, columnIndex(TAB, columnIndex(TAB, NAME)));
 %
-%   See also
-%   transpose
 %
 % ------
 % Author: David Legland
