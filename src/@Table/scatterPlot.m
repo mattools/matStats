@@ -3,7 +3,7 @@ function varargout = scatterPlot(this, var1, var2, varargin)
 %
 %   scatterPlot(TAB, VAR1, VAR2)
 %   where TABLE is a Table object, and VAR1 and VAR2 are either indices or
-%   names of 2 columns in the table, scatterPlot the individuals given with
+%   names of 2 columns in the table, scatter the individuals given with
 %   given coordinates
 %
 %   scatterPlot(TAB, VAR1, VAR2, STYLE)
@@ -35,14 +35,14 @@ if isempty(varargin)
     varargin = {'+b'};
 end
 
-% scatterPlot plot of selected columns
+% scatter plot of selected columns
 h = plot(col1, col2, varargin{:});
 
 % add plot annotations
 xlabel(this.colNames{ind1});
 ylabel(this.colNames{ind2});
 if ~isempty(this.name)
-    title(this.name);
+    title(this.name, 'Interpreter', 'none');
 end
 
 % eventually returns handle to graphics

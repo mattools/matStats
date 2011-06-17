@@ -24,7 +24,7 @@ for i = 1:length(varargin)
     var = varargin{1};
     
     data = [data ; var.data]; %#ok<AGROW>
-    rowNames = [rowNames ; var.rowNames];     %#ok<AGROW>
+    rowNames = [rowNames(:) ; var.rowNames(:)];
     name = strcat(name, '+', var.name);
 end
 
