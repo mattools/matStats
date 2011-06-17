@@ -26,15 +26,21 @@ function varargout = plot(this, varargin)
 
 % determines whether an axis handle is given as argument
 ax = gca;
-if ishandle(varargin{1})
-    ax = varargin{1};
-    varargin(1) = [];
+if ~isempty(varargin)
+    if ishandle(varargin{1})
+        ax = varargin{1};
+        varargin(1) = [];
+    end
 end
 
 % works for plot(Y)
-indY = columnIndex(this, varargin{1});
-varargin(1) = [];
-
+if ~isempty(varargin)
+    indY = columnIndex(this, varargin{1});
+    varargin(1) = [];
+else
+    indY = 1:size(this.data, 2);
+end
+   
 % Choose between plot(Y) or plot(X, Y)
 indX = [];
 if ~isempty(varargin)
@@ -71,7 +77,7 @@ end
 
 % title is the name of the table
 if ~isempty(this.name)
-    title(sprintf('%s', this.name));
+    title(this.name, 'Interpreter', 'none');
 end
 
 % legend is the column name

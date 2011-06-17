@@ -20,11 +20,11 @@ rowNames = this.rowNames;
 colNames = this.colNames;
 name = this.name;
 
-for i=1:length(varargin)
+for i = 1:length(varargin)
     var = varargin{1};
     
     data = [data ; var.data]; %#ok<AGROW>
-    rowNames = [rowNames var.rowNames];     %#ok<AGROW>
+    rowNames = [rowNames ; var.rowNames];     %#ok<AGROW>
     name = strcat(name, '+', var.name);
 end
 
