@@ -70,15 +70,18 @@ while length(varargin) > 1
     value = varargin{2};
     
     % switch
-    if strcmp(param, 'rownames')
-        tab.rowNames = value;
-    elseif strcmp(param, 'colnames')
-        tab.colNames = value;
-    elseif strcmp(param, 'name')
-        tab.name = value;
-    else
-        error('Table:Table', ...
-            ['Unknown parameter name: ' varargin{1}]);
+    switch lower(param)
+        case 'rownames'
+            tab.rowNames = value;
+        case 'colnames'
+            tab.colNames = value;
+        case  'name'
+            tab.name = value;
+        case 'levels'
+            tab.levels = value;
+        otherwise
+            error('Table:create', ...
+                ['Unknown parameter name: ' varargin{1}]);
     end
     
     varargin(1:2) = [];

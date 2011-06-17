@@ -80,8 +80,39 @@ elseif strcmp(type, '()')
             end
         end
         
+        % name of the new table
+        newName = '';
+        if ~isempty(this.name)
+            newName = ['part of ' this.name];
+        end
+        
         % extract corresponding data
-        varargout{1} = this.data(s1.subs{:});
+        tab = Table.create(this.data(s1.subs{:}), ...
+            'rowNames', this.rowNames(s1.subs{1}), ...
+            'colNames', this.colNames(s1.subs{2}), ...
+            'levels', this.levels(s1.subs{2}), ...
+            'name', newName);
+        
+        
+        if length(subs) == 1
+            varargout{1} = tab;
+        else
+            % check if we need to return output or not
+            if nargout>0
+                % if some output arguments are asked, pre-allocate result
+                varargout = cell(nargout, 1);
+                [varargout{:}] = subsref(tab, subs(2:end));
+                
+            else
+                % call parent function, and eventually return answer
+                subsref(tab, subs(2:end));
+                if exist('ans', 'var')
+                    varargout{1} = ans; %#ok<NOANS>
+                end
+                
+            end
+
+        end
         
     else
         error('Table:subsref', 'Too many indices');
