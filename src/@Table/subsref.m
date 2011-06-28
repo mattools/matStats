@@ -51,12 +51,13 @@ elseif strcmp(type, '()')
         if ~isnumeric(s1.subs{1})
             if ~strcmp(s1.subs{1}, ':')
                 inds = columnIndex(this, s1.subs{1})';
-                s1.subs = {inds, ':'};
+                s1.subs = {':', inds};
+                
+                varargout{1} = subsref(this, s1);
+                return;
             end
         end
-        
-        varargout{1} = this.data(s1.subs{1});
-        
+                
     elseif ns == 2
         % two indices: extract corresponding table data
         
