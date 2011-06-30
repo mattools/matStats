@@ -24,7 +24,7 @@ if strcmp(type, '.')
     % in case of dot reference, use builtin
     
     % check if we need to return output or not
-    if nargout>0
+    if nargout > 0
         % if some output arguments are asked, pre-allocate result
         varargout = cell(nargout, 1);
         [varargout{:}] = builtin('subsref', this, subs);
@@ -34,9 +34,11 @@ if strcmp(type, '.')
         builtin('subsref', this, subs);
         if exist('ans', 'var')
             varargout{1} = ans; %#ok<NOANS>
-        end
-        
+        end        
     end
+    
+    % stop here
+    return;
     
 elseif strcmp(type, '()')
     % In case of parens reference, index the inner data
@@ -50,14 +52,19 @@ elseif strcmp(type, '()')
         % try to find a column name
         if ~isnumeric(s1.subs{1})
             if ~strcmp(s1.subs{1}, ':')
+                % transorm indexing to 2 indices
                 inds = columnIndex(this, s1.subs{1})';
                 s1.subs = {':', inds};
-                
-                varargout{1} = subsref(this, s1);
-                return;
             end
         end
-                
+        
+        % compute resulting table
+        if length(s1.subs) == 1
+            tab = subsref(this.data, s1);
+        else
+            tab = subsref(this, s1);
+        end
+        
     elseif ns == 2
         % two indices: extract corresponding table data
         
@@ -94,27 +101,6 @@ elseif strcmp(type, '()')
             'levels', this.levels(s1.subs{2}), ...
             'name', newName);
         
-        
-        if length(subs) == 1
-            varargout{1} = tab;
-        else
-            % check if we need to return output or not
-            if nargout>0
-                % if some output arguments are asked, pre-allocate result
-                varargout = cell(nargout, 1);
-                [varargout{:}] = subsref(tab, subs(2:end));
-                
-            else
-                % call parent function, and eventually return answer
-                subsref(tab, subs(2:end));
-                if exist('ans', 'var')
-                    varargout{1} = ans; %#ok<NOANS>
-                end
-                
-            end
-
-        end
-        
     else
         error('Table:subsref', 'Too many indices');
     end
@@ -123,3 +109,23 @@ else
     error('Table:subsref', 'Can not manage such reference');
 end
 
+% Additional processing of other subsref calls
+if length(subs) == 1
+    varargout{1} = tab;
+else
+    % check if we need to return output or not
+    if nargout>0
+        % if some output arguments are asked, pre-allocate result
+        varargout = cell(nargout, 1);
+        [varargout{:}] = subsref(tab, subs(2:end));
+        
+    else
+        % call parent function, and eventually return answer
+        subsref(tab, subs(2:end));
+        if exist('ans', 'var')
+            varargout{1} = ans; %#ok<NOANS>
+        end
+        
+    end
+    
+end

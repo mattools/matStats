@@ -21,7 +21,7 @@ if strcmp(type, '.')
     % in case of dot reference, use builtin
     
     % if some output arguments are asked, use specific processing
-    if nargout>0
+    if nargout > 0
         varargout = cell(1);
         varargout{1} = builtin('subsasgn', this, subs, value);    
     else
@@ -33,20 +33,27 @@ elseif strcmp(type, '()')
     
     % different processing if 1 or 2 indices are used
     ns = length(s1.subs);
-    if ns==1
+    if ns == 1
         % one index: use linearised image
         this.data(s1.subs{1}) = value;
 
-    elseif ns==2
-        % two indices: parse x and y indices
+    elseif ns == 2
+        % two indices: fill up with given value
+        
+        % in case right-hand arg is a Table, extract its data
+        if isa(value, 'Table')
+            value = value.data;
+        end
         this.data(s1.subs{:}) = value;
+        
     else
         error('Table:subsasgn', 'too many indices');
     end
+    
 else
     error('Table:subsasgn', 'can not manage such reference');
 end
 
-if nargout>0
+if nargout > 0
     varargout{1} = this;
 end
