@@ -15,11 +15,8 @@ function res = transpose(this)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-% create table
-res = Table(this);
-
-% transpose data
-res.data = this.data';
+% create table with transposed data
+res = Table.create(this.data');
 
 % switch names of rows and columns
 res.rowNames = this.colNames;

@@ -81,7 +81,7 @@ methods
     %   Table/create
     %
         
-        if nargin==0
+        if nargin == 0
             % empty constructor
             this.data = [];
             this.rowNames = {};

@@ -29,9 +29,6 @@ function res = aggregate(this, name, op, varargin)
 %   Example
 %   aggregate
 %
-%   See also
-%   tableGroupRows
-%
 %
 % ------
 % Author: David Legland

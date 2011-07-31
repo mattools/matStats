@@ -84,7 +84,7 @@ end
 % Read the first line, which contains the name of each column
 if options.header
     names = textscan(fgetl(f), '%s', delimOptions{:});
-    tab.colNames = names{:}';
+    tab.colNames = names{1}(:)';
 end
 
 

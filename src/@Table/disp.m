@@ -39,7 +39,7 @@ if nRows > 0 && nCols > 0
     
     % init row names
     if ~isempty(this.rowNames)
-        txtArray = strjust([colPad char([{' '}; this.rowNames])]);
+        txtArray = strjust([colPad char([{' '}; this.rowNames(:)])]);
     else
         txtArray = char(zeros(nRows + 1, 0));
     end
@@ -99,7 +99,7 @@ if nRows > 0 && nCols > 0
     end
     
 else
-    txtArray = sprintf('[empty %d-by-%d dataset]', nRows, nCols);
+    txtArray = sprintf('[empty %d-by-%d Table]', nRows, nCols);
 end
 
 disp(txtArray);
