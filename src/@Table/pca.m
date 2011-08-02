@@ -166,6 +166,30 @@ ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
 title(name, 'interpreter', 'none');
 
 
+
+
+figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
+
+plot(ld.data(:, 1), ld.data(:,2), 'w.');
+text(ld.data(:, 1), ld.data(:,2), ld.rowNames);
+
+xlabel(sprintf('Principal component 1 (%5.2f)', eigenValues(1, 2)));
+ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
+title(name, 'interpreter', 'none');
+    
+
+figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
+
+
+plot(ld.data(:, 3), ld.data(:,4), 'w.');
+text(ld.data(:, 3), ld.data(:,4), ld.rowNames);
+
+xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
+ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
+title(name, 'interpreter', 'none');
+    
+
+
 function drawText(x, y, labels)
 %DRAWTEXT display text with specific formating
 plot(x, y, '.w');

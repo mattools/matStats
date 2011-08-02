@@ -32,6 +32,8 @@ function tab = create(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
+%% setup data
+
 % first argument is assumed to contain data
 data = varargin{1};
 tab = Table(data);
@@ -46,6 +48,26 @@ tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
 % initialize levels
 tab.levels = cell(1, nCols);
 
+
+%% Process parent table
+
+if length(varargin) > 1
+    ind = find(strcmp(varargin(1:2:end), 'parent'));
+    if ~isempty(ind)
+        % initialize new table with values from parent
+        parent = varargin{ind+1};
+        tab.name        = parent.name;
+        tab.rowNames    = parent.rowNames;
+        tab.colNames    = parent.colNames;
+        tab.levels      = parent.levels;
+        
+        % remove argumets from the list
+        varargin(ind:ind+1) = [];
+    end
+end
+
+
+%% Process row and column names specified as cell arrays (deprecated)
 
 % check if column names were specified
 if ~isempty(varargin)
@@ -62,6 +84,9 @@ if ~isempty(varargin)
         varargin(1) = [];
     end
 end
+
+
+%% Process other arguments
 
 % other parameters can be set using parameter name-value pairs
 while length(varargin) > 1
