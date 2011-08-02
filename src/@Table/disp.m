@@ -16,7 +16,7 @@ function disp(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-
+% loose format: display more empty lines
 isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 
 % isLong = ~isempty(strfind(get(0,'Format'),'long'));
@@ -25,7 +25,7 @@ isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 maxWidth = get(0, 'CommandWindowSize');
 maxWidth = maxWidth(1);
 
-if (isLoose)
+if isLoose
     fprintf('\n');
 end
 
@@ -35,6 +35,7 @@ nCols = length(this.colNames);
 
 if nRows > 0 && nCols > 0
 
+    % padding between columns
     colPad = repmat(' ', nRows+1, 4);
     
     % init row names
@@ -99,16 +100,14 @@ if nRows > 0 && nCols > 0
     end
     
 else
+    % In case of empty table, just display small info message
     txtArray = sprintf('[empty %d-by-%d Table]', nRows, nCols);
+    
 end
 
 disp(txtArray);
 
-if (isLoose)
+if isLoose
     fprintf('\n');
 end
 
-
-% %-----------------------------------------------------------------------
-% function str = removeBraces(str)
-% str = regexprep(str,'\{(.*)\}','$1');

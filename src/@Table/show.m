@@ -44,6 +44,7 @@ else
     for i = indLevels
         data2(:,i) = this.levels{i}(this.data(:, i));
     end
+    
 end
 
 ht = uitable(f, ...
