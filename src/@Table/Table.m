@@ -97,7 +97,7 @@ methods
             
             varargin(1) = [];
             
-        elseif isnumeric(varargin{1})
+        elseif isnumeric(varargin{1}) || islogical(varargin{1})
             % If first argument is numeric, assume this is data array
             this.data = varargin{1};
             
