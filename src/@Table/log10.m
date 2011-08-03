@@ -18,7 +18,7 @@ function res = log10(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
+if hasFactors(this)
     error('Can not compute log10 for table with factors');
 end
 

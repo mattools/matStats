@@ -23,5 +23,7 @@ ind = columnIndex(this, colName);
 
 res = false(1, length(ind));
 for i = 1:length(ind)
-    res(i) = ~isempty(this.levels{ind(i)});
+    if ind(i) <= length(this.levels)
+        res(i) = ~isempty(this.levels{ind(i)});
+    end
 end
