@@ -17,15 +17,17 @@ function res = vertcat(this, varargin)
 
 data = this.data;
 rowNames = this.rowNames;
-colNames = this.colNames;
 name = this.name;
 
 for i = 1:length(varargin)
-    var = varargin{1};
+    var = varargin{i};
     
     data = [data ; var.data]; %#ok<AGROW>
     rowNames = [rowNames(:) ; var.rowNames(:)];
     name = strcat(name, '+', var.name);
 end
 
-res = Table(data, 'rowNames', rowNames, 'colNames', colNames, 'name', name);
+res = Table.create(data, ...
+    'parent', this, ...
+    'rowNames', rowNames, ...
+    'name', name);

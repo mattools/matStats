@@ -16,16 +16,18 @@ function res = horzcat(this, varargin)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 data = this.data;
-rowNames = this.rowNames;
 colNames = this.colNames;
 name = this.name;
 
 for i = 1:length(varargin)
-    var = varargin{1};
+    var = varargin{i};
     
     data = [data var.data]; %#ok<AGROW>
     colNames = [colNames var.colNames];     %#ok<AGROW>
     name = strcat(name, '+', var.name);
 end
 
-res = Table(data, 'rowNames', rowNames, 'colNames', colNames, 'name', name);
+res = Table.create(data, ...
+    'parent', this, ...
+    'colNames', colNames, ...
+    'name', name);
