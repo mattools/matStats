@@ -1,4 +1,4 @@
-function res = mtimes(this, arg)
+function res = mtimes(this, that)
 %MTIMES  Overload the mtimes operator for Table objects
 %
 %   output = mtimes(input)
@@ -15,10 +15,17 @@ function res = mtimes(this, arg)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-if isa(arg, 'Table')
-    arg = arg.data;
+% error checking
+if sum(isFactor(this, 1:size(this.data, 2))) > 0
+    error('Can not compute gt for table with factors');
 end
 
-newData = bsxfun(@times, this.data, cast(arg, class(this.data)));
+[this that parent names1 names2] = parseInputCouple(this, that);
 
-res = Table.create(newData, 'parent', this);
+newData = bsxfun(@times, this, that);
+
+newColNames = strcat(names1, '*', names2);
+
+res = Table.create(newData, ...
+    'parent', parent, ...
+    'colNames', newColNames);

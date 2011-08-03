@@ -19,37 +19,7 @@ if sum(isFactor(this, 1:size(this.data, 2))) > 0
     error('Can not compute lt for table with factors');
 end
 
-% extract info from first input
-if isa(this, 'Table')
-    parent = this;
-    names1 = this.colNames;
-    this = this.data;
-else
-    parent = that;
-    names1 = inputname(1);
-    if isempty(names1) 
-        if isscalar(this)
-            names1 = num2str(this);
-        else
-            names1 = '...';
-        end
-    end
-end
-
-% extract info from second input
-if isa(that, 'Table')
-    names2 = that.colNames;
-    that = that.data;
-else
-    names2 = inputname(2);
-    if isempty(names2) 
-        if isscalar(that)
-            names2 = num2str(that);
-        else
-            names2 = '...';
-        end
-    end
-end
+[this that parent names1 names2] = parseInputCouple(this, that);
 
 % compute new data
 newData = bsxfun(@lt, this, that);
