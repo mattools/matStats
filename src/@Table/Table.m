@@ -93,6 +93,7 @@ methods
             this.data = tab.data;
             this.rowNames   = tab.rowNames;
             this.colNames   = tab.colNames;
+            this.levels     = tab.levels;
             this.name       = tab.name;
             
             varargin(1) = [];
@@ -131,7 +132,7 @@ methods
         this.levels = cell(1, size(this.data, 2));
         
         % other parameters can be set using parameter name-value pairs
-        while length(varargin)>1
+        while length(varargin) > 1
             % get parameter name and value
             param = lower(varargin{1});
             value = varargin{2};
@@ -141,6 +142,8 @@ methods
                 this.rowNames = value;
             elseif strcmp(param, 'colnames')
                 this.colNames = value;
+            elseif strcmp(param, 'levels')
+                this.levels = value;
             elseif strcmp(param, 'name')
                 this.name = value;
             else
