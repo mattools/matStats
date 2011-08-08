@@ -26,7 +26,7 @@ maxWidth = maxWidth(1);
 isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 
 % name of descriptive statistics used for summary
-statNames = {'Min', 'Median', 'Mean', 'Max'};
+statNames = {'Min', '1st Qu.', 'Median', 'Mean', '3rd Qu.', 'Max'};
 nStats = length(statNames);
 
 % number of rows used for display (4 stats, 3 are kept for later use).
@@ -53,15 +53,24 @@ if nRows > 0 && nCols > 0
 
         if ~this.isFactor(iCol)
              % data are numeric -> compute summary statistics
+             [vmin vmax vmedian vq1 vq3] = computeOrderStats(values);
              summaryStats = [...
-                 min(values); ...
-                 median(values); ...
+                 vmin; ...
+                 vq1; ...
+                 vmedian; ...
                  mean(values); ...
-                 max(values)];
+                 vq3; ...
+                 vmax];
              
-             % create containing summary stats
+             % comptue formatting string of numeric values
+             nDigits = 6;
+             nSigDigits = ceil(max(log10(abs(summaryStats))));
+             nDecDigits = max(nDigits - nSigDigits - 1, 0);
+             fmt = sprintf('%%%d.%df', nSigDigits+1, nDecDigits);
+             
+             % create cell array for display
              for i = 1:nStats
-                 statCells{i} = sprintf('%-9s %g', ...
+                 statCells{i} = sprintf(['%-9s' fmt], ...
                      [statNames{i} ':'], summaryStats(i));
              end
              
@@ -128,3 +137,16 @@ disp(txtArray);
 if (isLoose)
     fprintf('\n');
 end
+
+
+function [vmin vmax vmedian vq1 vq3] = computeOrderStats(values)
+
+n = length(values);
+values = sort(values);
+vmin = values(1);
+vmax = values(end);
+
+vmedian = mean([values(floor(n/2)) values(ceil(n/2))]);
+
+vq1 = values( floor((n-1) * .25) + 1);
+vq3 = values( floor((n-1) * .75) + 1);

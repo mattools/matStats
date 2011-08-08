@@ -1,8 +1,8 @@
 function res = mean(this, varargin)
-%MEAN Put the mean of each column in a new table
+%MEAN Compute the mean of table columns
 %
 %   M = mean(TAB)
-%   Computes the mean of eacjh column in theatable. The result is a new
+%   Computes the mean of each column in the table. The result is a new
 %   Table with one row, named 'mean'.
 %
 %   M = mean(TAB, DIM)
@@ -23,7 +23,7 @@ function res = mean(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
+if hasFactors(this)
     error('Can not compute mean for table with factors');
 end
 

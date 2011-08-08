@@ -23,13 +23,11 @@ if isa(this, 'Table')
     this = this.data;
 else
     parent = that;
-    names1 = inputname(1);
-    if isempty(names1) 
-        if isscalar(this)
-            names1 = num2str(this);
-        else
-            names1 = '...';
-        end
+    
+    if isscalar(this)
+        names1 = num2str(this);
+    else
+        names1 = '...';
     end
 end
 
@@ -38,12 +36,9 @@ if isa(that, 'Table')
     names2 = that.colNames;
     that = that.data;
 else
-    names2 = inputname(2);
-    if isempty(names2) 
-        if isscalar(that)
-            names2 = num2str(that);
-        else
-            names2 = '...';
-        end
+    if isscalar(that)
+        names2 = num2str(that);
+    else
+        names2 = '...';
     end
 end
