@@ -2,15 +2,18 @@ function varargout = plot(this, varargin)
 %PLOT Plot the content of a column
 %
 %   Syntax
-%   plot(TAB, COL)
-%   plot(TAB, COLX, COL)
+%   plot(TAB)
+%   Plot all columns in table TAB
+%
+%   plot(TABX, TAB)
+%   Plot all columns in table TAB, using TABX as input for x values. TABX
+%   must have only onr column.
 %
 %   Description
 %   Plot the content of the column specified by COL. COL can be either an
 %   index, or a column name.
 %
 %   Example
-%   plot
 %
 %   See also
 %
@@ -33,55 +36,54 @@ if ~isempty(varargin)
     end
 end
 
-% works for plot(Y)
+% default tables for plotting
+tabX = [];
+tabY = this;
+
+% check if one or two tables are specified
 if ~isempty(varargin)
-    indY = columnIndex(this, varargin{1});
-    varargin(1) = [];
-else
-    indY = 1:size(this.data, 2);
-end
-   
-% Choose between plot(Y) or plot(X, Y)
-indX = [];
-if ~isempty(varargin)
-    var1 = varargin{1};
-    if isColumnName(this, var1)
-        indX = indY;
-    	indY = columnIndex(this, var1);
+    if isa(varargin{1}, 'Table')
+        tabX = this;
+        tabY = varargin{1};
         varargin(1) = [];
     end
-    
 end
 
 
 %% Plot data
 
-if isempty(indX)
+if isempty(tabX)
     % plot(Y)
-    h = plot(ax, this.data(:, indY), varargin{:});
+    h = plot(ax, tabY.data, varargin{:});
+    
+   % setup x-axis limits
+   set(gca, 'xlim', [1 length(tabY.rowNames)]);
+    
 else
     % plot(X, Y)
-    h = plot(ax, this.data(:, indX), this.data(:, indY), varargin{:});
+    h = plot(ax, tabX.data(:, 1), tabY.data, varargin{:});
+    
+    % setup x-axis limits
+    xValues = tabX.data(:, 1);
+    set(gca, 'xlim', [min(xValues) max(xValues)]);
+    
+    xlabel(tabX.colNames{1});
 end
 
-% setup x-axis limits
-if isempty(indX)
-    set(gca, 'xlim', [1 length(this.rowNames)]);
-else
-    x = this.data(:, indX);
-    set(gca, 'xlim', [min(x) max(x)]);
-end
-
-
+ 
 %% Graph decoration
 
 % title is the name of the table
-if ~isempty(this.name)
-    title(this.name, 'Interpreter', 'none');
+if ~isempty(tabY.name)
+    title(tabY.name, 'Interpreter', 'none');
 end
 
-% legend is the column name
-legend(this.colNames{indY});
+if size(tabY.data, 2) > 1
+    % legend is the column names
+    legend(tabY.colNames);
+else
+    ylabel(tabY.colNames{1});
+end
 
 
 %% Format output
