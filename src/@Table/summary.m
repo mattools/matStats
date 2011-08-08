@@ -66,7 +66,7 @@ if nRows > 0 && nCols > 0
              nDigits = 6;
              nSigDigits = ceil(max(log10(abs(summaryStats))));
              nDecDigits = max(nDigits - nSigDigits - 1, 0);
-             fmt = sprintf('%%%d.%df', nSigDigits+1, nDecDigits);
+             fmt = sprintf('%% %d.%df', nSigDigits+1, nDecDigits);
              
              % create cell array for display
              for i = 1:nStats
