@@ -7,7 +7,7 @@ function varargout = plot(this, varargin)
 %
 %   plot(TABX, TAB)
 %   Plot all columns in table TAB, using TABX as input for x values. TABX
-%   must have only onr column.
+%   must have only one column.
 %
 %   Description
 %   Plot the content of the column specified by COL. COL can be either an
@@ -40,12 +40,25 @@ end
 tabX = [];
 tabY = this;
 
-% check if one or two tables are specified
+% if two inputs are specified, setup the tabX variable
 if ~isempty(varargin)
     if isa(varargin{1}, 'Table')
         tabX = this;
         tabY = varargin{1};
         varargin(1) = [];
+    end
+end
+
+
+xData = [];
+xAxisLabel = '';
+
+if ~isempty(tabX)
+    if isa(tabX, 'Table')
+        xData = tabX.data(:, 1);
+        xAxisLabel = tabX.colNames{1};
+    else
+        xData = tabX;
     end
 end
 
@@ -61,13 +74,14 @@ if isempty(tabX)
     
 else
     % plot(X, Y)
-    h = plot(ax, tabX.data(:, 1), tabY.data, varargin{:});
+    h = plot(ax, xData, tabY.data, varargin{:});
     
     % setup x-axis limits
-    xValues = tabX.data(:, 1);
-    set(gca, 'xlim', [min(xValues) max(xValues)]);
+    set(gca, 'xlim', [min(xData) max(xData)]);
     
-    xlabel(tabX.colNames{1});
+    if ~isempty(xAxisLabel)
+        xlabel(xAxisLabel);
+    end
 end
 
  
