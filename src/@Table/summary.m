@@ -62,11 +62,27 @@ if nRows > 0 && nCols > 0
                  vq3; ...
                  vmax];
              
-             % comptue formatting string of numeric values
-             nDigits = 6;
-             nSigDigits = ceil(max(log10(abs(summaryStats))));
-             nDecDigits = max(nDigits - nSigDigits - 1, 0);
-             fmt = sprintf('%% %d.%df', nSigDigits+1, nDecDigits);
+%              % compute number of digits before and after the decimal sep.
+%              nDigitsMax = 6;
+%              nSigDigits = ceil(max(log10(abs(summaryStats))));
+%              nDecDigits = max(nDigitsMax - nSigDigits - 1, 0);
+%              
+%              % number of significant digits
+%              nDigits = nSigDigits + nDecDigits;
+%              % add one digit fr the sign
+%              if any(summaryStats < 0) 
+%                  nDigits = nDigits + 1;
+%              end
+%              
+%              % add one digit fr the decimal separator
+%              if any(abs(summaryStats) < 1)
+%                  nDigits = nDigits + 1;
+%              end
+%              
+%              fmt = sprintf('%% %d.%df', nDigits, nDecDigits);
+              
+             % create formatting string
+             fmt = createFormattingString(summaryStats);
              
              % create cell array for display
              for i = 1:nStats
@@ -150,3 +166,30 @@ vmedian = mean([values(floor(n/2)) values(ceil(n/2))]);
 
 vq1 = values( floor((n-1) * .25) + 1);
 vq3 = values( floor((n-1) * .75) + 1);
+
+
+function format = createFormattingString(values)
+
+nDigitsMax = 6;
+
+% compute number of digits before and after the decimal separator
+nSigDigits = ceil(max(log10(abs(values))));
+nDecDigits = max(nDigitsMax - nSigDigits - 1, 0);
+
+% number of significant digits
+nDigits = nSigDigits + nDecDigits;
+
+% add one digit for the sign
+signDigit = '';
+if any(values < 0)
+    nDigits = nDigits + 1;
+    signDigit = ' ';
+end
+
+% add one digit for the decimal separator
+if any((values - floor(values)) > 0)
+    nDigits = nDigits + 1;
+end
+
+% create formatting string
+format = sprintf('%%%s%d.%df', signDigit, nDigits, nDecDigits);
