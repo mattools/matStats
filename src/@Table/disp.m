@@ -30,8 +30,8 @@ if isLoose
 end
 
 % get table size
-nRows = length(this.rowNames);
-nCols = length(this.colNames);
+nRows = rowNumber(this);
+nCols = columnNumber(this);
 
 if nRows > 0 && nCols > 0
 
@@ -101,7 +101,7 @@ if nRows > 0 && nCols > 0
     
 else
     % In case of empty table, just display small info message
-    txtArray = sprintf('[empty %d-by-%d Table]', nRows, nCols);
+    txtArray = sprintf('    [empty %d-by-%d Table]', nRows, nCols);
     
 end
 

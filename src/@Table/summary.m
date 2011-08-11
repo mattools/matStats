@@ -62,25 +62,6 @@ if nRows > 0 && nCols > 0
                  vq3; ...
                  vmax];
              
-%              % compute number of digits before and after the decimal sep.
-%              nDigitsMax = 6;
-%              nSigDigits = ceil(max(log10(abs(summaryStats))));
-%              nDecDigits = max(nDigitsMax - nSigDigits - 1, 0);
-%              
-%              % number of significant digits
-%              nDigits = nSigDigits + nDecDigits;
-%              % add one digit fr the sign
-%              if any(summaryStats < 0) 
-%                  nDigits = nDigits + 1;
-%              end
-%              
-%              % add one digit fr the decimal separator
-%              if any(abs(summaryStats) < 1)
-%                  nDigits = nDigits + 1;
-%              end
-%              
-%              fmt = sprintf('%% %d.%df', nDigits, nDecDigits);
-              
              % create formatting string
              fmt = createFormattingString(summaryStats);
              
