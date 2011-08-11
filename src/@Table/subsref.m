@@ -70,7 +70,7 @@ elseif strcmp(type, '()')
         
         % analyze row indices
         sub1 = s1.subs{1};
-        if ~isnumeric(sub1)
+        if ischar(sub1) || iscell(sub1)
             if ~strcmp(sub1, ':') 
                 % parse the name of the row
                 inds = rowIndex(this, sub1)';
@@ -80,7 +80,7 @@ elseif strcmp(type, '()')
         
         % analyze column indices
         sub2 = s1.subs{2};
-        if ~isnumeric(sub2)
+        if ischar(sub2) || iscell(sub2)
             if ~strcmp(sub2, ':')
                 % parse the name of the column
                 inds = columnIndex(this, sub2)';
@@ -89,11 +89,8 @@ elseif strcmp(type, '()')
         end
         
         % name of the new table
-        newName = '';
-        if ~isempty(this.name)
-            newName = ['part of ' this.name];
-        end
-        
+        newName = this.name;
+                
         % extract corresponding data
         tab = Table.create(this.data(s1.subs{:}), ...
             'rowNames', this.rowNames(s1.subs{1}), ...
