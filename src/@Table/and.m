@@ -1,10 +1,10 @@
-function res = plus(this, that)
-%PLUS  Overload the plus operator for Table objects
+function res = and(this, that)
+%AND Overload the and operator for Table objects
 %
-%   output = plus(input)
+%   output = and(input)
 %
 %   Example
-%   plus
+%   and
 %
 %   See also
 %
@@ -19,13 +19,13 @@ function res = plus(this, that)
 
 % error checking
 if hasFactors(parent)
-    error('Can not compute PLUS for table with factors');
+    error('Can not compute AND for table with factors');
 end
 
 % compute new data
-newData = bsxfun(@plus, this, that);
+newData = bsxfun(@and, this, that);
 
-newColNames = strcat(names1, '+', names2);
+newColNames = strcat(names1, '&', names2);
 
 % create result array
 res = Table.create(newData, ...

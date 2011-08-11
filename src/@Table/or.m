@@ -1,16 +1,16 @@
-function res = plus(this, that)
-%PLUS  Overload the plus operator for Table objects
+function res = or(this, that)
+%OR Overload the or operator for Table objects
 %
-%   output = plus(input)
+%   output = or(input)
 %
 %   Example
-%   plus
+%   or
 %
 %   See also
 %
 %
 % ------
-% Author: David Legland
+% Author: David Leglor
 % e-mail: david.legland@grignon.inra.fr
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
@@ -19,13 +19,13 @@ function res = plus(this, that)
 
 % error checking
 if hasFactors(parent)
-    error('Can not compute PLUS for table with factors');
+    error('Can not compute OR for table with factors');
 end
 
 % compute new data
-newData = bsxfun(@plus, this, that);
+newData = bsxfun(@or, this, that);
 
-newColNames = strcat(names1, '+', names2);
+newColNames = strcat(names1, '|', names2);
 
 % create result array
 res = Table.create(newData, ...

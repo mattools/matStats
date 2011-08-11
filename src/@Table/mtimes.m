@@ -19,7 +19,7 @@ function res = mtimes(this, that)
 
 % error checking
 if hasFactors(parent)
-    error('Can not compute gt for table with factors');
+    error('Can not compute TIMES for table with factors');
 end
 
 % compute new data
