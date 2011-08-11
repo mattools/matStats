@@ -5,12 +5,29 @@ function varargout = pca(this, varargin)
 %   SC = pca(TAB);
 %   [SC LD] = pca(TAB);
 %   [SC LD EV] = pca(TAB);
+%   ... = pca(..., PARAM, VALUE);
 %
 %   Description
-%   CO = pca(TAB);
+%   SC = pca(TAB);
 %   Performs Principal components analysis of the data in table and returns
-%   the transformed coordinates.
+%   the transformed coordinates (scores).
 %   
+%   [SC LD] = pca(TAB);
+%   Also returns loadings, in a 3 column table objects.
+%
+%   [SC LD EV] = pca(TAB);
+%   Also returns eigen vectors.
+%
+%   ... = pca(..., PARAM, VALUE);
+%   Specified some processing options using parameter name-value pairs.
+%   Available options are: 
+%
+%   'scale'     boolean flag indicating whether the data array should be
+%               scaled (the default) or not. If data are scaled, they are
+%               divided by their standard deviation.
+%
+%   'display'   (true) specifies if figures should be displayed or not.
+%
 %
 %   Example
 %   pca
@@ -28,7 +45,7 @@ function varargout = pca(this, varargin)
 %% Parse input arguments
 
 display = true;
-scale = false;
+scale = true;
 
 while length(varargin) > 1
     paramName = varargin{1};
@@ -54,7 +71,7 @@ end
 % recenter data (remove mean)
 cData = bsxfun(@minus, this.data, mean(this.data, 1));
 
-% optional scaling of data (divide by standard error)
+% optional scaling of data (divide by standard deviation)
 if scale
     sigma   = sqrt(var(cData));
     cData   = cData * diag(1 ./ sigma);
@@ -92,7 +109,9 @@ else
     name = 'Scores';
 end
 sc = Table.create(coord, ...
-    'rowNames', this.rowNames, 'colNames', varNames, 'name', name);
+    'rowNames', this.rowNames, ...
+    'colNames', varNames, ...
+    'name', name);
 
 % Table object for loadings
 if ~isempty(this.name)
@@ -101,7 +120,9 @@ else
     name = 'Loadings';
 end
 ld = Table.create(eigenVectors, ...
-    'rowNames', this.colNames, 'colNames', varNames, 'name', name);
+    'rowNames', this.colNames, ...
+    'colNames', varNames, ...
+    'name', name);
 
 % Table object for loadings
 if ~isempty(this.name)
@@ -110,11 +131,12 @@ else
     name = 'Eigen values';
 end
 ev = Table.create(eigenValues, ...
-    'rowNames', varNames, 'name', name, ...
+    'rowNames', varNames, ...
+    'name', name, ...
     'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
 
 
-%% Display some data
+%% Display some results
 
 if display
     displayPcaResults(this.name, sc, ld, ev);
@@ -156,15 +178,16 @@ ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
 title(name, 'interpreter', 'none');
 
 % individuals in plane PC3-PC4
-figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
-%     scatterPlot(sc, 'pc3', 'pc4');
-x = coord(:, 3);
-y = coord(:, 4);
-drawText(x, y, sc.rowNames);
-xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
-ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
-title(name, 'interpreter', 'none');
-
+if size(coord, 2) >= 4
+    figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
+    %     scatterPlot(sc, 'pc3', 'pc4');
+    x = coord(:, 3);
+    y = coord(:, 4);
+    drawText(x, y, sc.rowNames);
+    xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
+    ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
+    title(name, 'interpreter', 'none');
+end
 
 
 
@@ -181,13 +204,14 @@ title(name, 'interpreter', 'none');
 figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
 
 
-plot(ld.data(:, 3), ld.data(:,4), 'w.');
-text(ld.data(:, 3), ld.data(:,4), ld.rowNames);
-
-xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
-ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
-title(name, 'interpreter', 'none');
+if size(coord, 2) >= 4
+    plot(ld.data(:, 3), ld.data(:,4), 'w.');
+    text(ld.data(:, 3), ld.data(:,4), ld.rowNames);
     
+    xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
+    ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
+    title(name, 'interpreter', 'none');
+end
 
 
 function drawText(x, y, labels)
