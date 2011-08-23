@@ -1,7 +1,7 @@
 function [this that parent names1 names2] = parseInputCouple(this, that)
 %PARSEINPUTCOUPLE  One-line description here, please.
 %
-%   [THIS THAT PARENT NAMES1 NAMES2] = parseInputCouple(THIS, THAT)
+%   [DATA1 DATA2 PARENT NAMES1 NAMES2] = parseInputCouple(THIS, THAT)
 %
 %   Example
 %   parseInputCouple

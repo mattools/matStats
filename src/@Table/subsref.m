@@ -49,16 +49,34 @@ elseif strcmp(type, '()')
     if ns == 1
         % one index: use either linearised data, or column name
         
-        % try to find a column name
-        if ~isnumeric(s1.subs{1})
-            if ~strcmp(s1.subs{1}, ':')
-                % transorm indexing to 2 indices
+        sub1 = s1.subs{1};
+        
+        % Manage indexing by another (logical) table
+        if isa(sub1, 'Table')
+            siz = size(s1.subs{1});
+            if siz(2) > 1
+                % if indexing table has several columns, use linear
+                % indexing 
+                s1.subs = {find(sub1.data > 0)};
+            else
+                % if indexing table has only one column, use it for row
+                % indexing
+                s1.subs = {find(sub1.data > 0), ':'};
+            end
+        
+        elseif ischar(sub1) || iscell(sub1)
+            % if sub1 is a string (or a cell array of strings), try to find
+            % indices of column(s) that correspond to that string(s)
+            if ~strcmp(sub1, ':')
                 inds = columnIndex(this, s1.subs{1})';
+                
+                % transform to 2 indices indexing
                 s1.subs = {':', inds};
             end
         end
         
-        % compute resulting table
+        % compute result, that can be either a new table, or a set of
+        % values (in case of linear indexing)
         if length(s1.subs) == 1
             tab = subsref(this.data, s1);
         else

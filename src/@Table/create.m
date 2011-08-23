@@ -40,13 +40,16 @@ tab = Table(data);
 varargin(1) = [];
 
 % create default values for other fields
-nRows = size(tab.data, 1);
-tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
-nCols = size(tab.data, 2);
-tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
+if ~isa(data, 'Table')
+    % row and column names
+    nRows = size(tab.data, 1);
+    tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+    nCols = size(tab.data, 2);
+    tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
 
-% initialize levels
-tab.levels = cell(1, nCols);
+    % initialize levels
+    tab.levels = cell(1, nCols);
+end
 
 
 %% Process parent table
@@ -105,7 +108,7 @@ while length(varargin) > 1
         case 'levels'
             tab.levels = value;
         otherwise
-            error('Table:create', ...
+            error('Table:create:UnknownParameter', ...
                 ['Unknown parameter name: ' varargin{1}]);
     end
     

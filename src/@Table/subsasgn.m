@@ -34,7 +34,10 @@ elseif strcmp(type, '()')
     % different processing if 1 or 2 indices are used
     ns = length(s1.subs);
     if ns == 1
-        % one index: use linearised image
+        % one index: use linearised data
+        if isa(value, 'Table')
+            value = value.data;
+        end
         this.data(s1.subs{1}) = value;
 
     elseif ns == 2

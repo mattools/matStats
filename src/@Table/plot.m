@@ -70,7 +70,7 @@ if isempty(tabX)
     h = plot(ax, tabY.data, varargin{:});
     
    % setup x-axis limits
-   set(gca, 'xlim', [1 length(tabY.rowNames)]);
+   set(gca, 'xlim', [1 size(tabY.data, 1)]);
     
 else
     % plot(X, Y)

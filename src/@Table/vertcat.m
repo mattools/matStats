@@ -15,19 +15,38 @@ function res = vertcat(this, varargin)
 % Created: 2010-08-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-data = this.data;
-rowNames = this.rowNames;
-name = this.name;
+if isa(this, 'Table')
+    data = this.data;
+    rowNames = this.rowNames;
+    name = this.name;
+    
+else
+    data = this;
+    rowNames = strtrim(cellstr(num2str((1:size(data, 1))')));
+    name = 'NoName';
+    
+end
+
 
 for i = 1:length(varargin)
     var = varargin{i};
     
-    data = [data ; var.data]; %#ok<AGROW>
-    rowNames = [rowNames(:) ; var.rowNames(:)];
-    name = strcat(name, '+', var.name);
+    if isa(var, 'Table')
+        data = [data ; var.data]; %#ok<AGROW>
+        rowNames = [rowNames(:) ; var.rowNames(:)];
+        name = strcat(name, '+', var.name);
+        
+    else
+        data = [data ; var]; %#ok<AGROW>
+        newRows = strtrim(cellstr(num2str((1:size(var, 1))')));
+        rowNames = [rowNames(:) ; newRows(:)];
+        name = strcat(name, '+', 'NoName');
+        
+    end
+    
+
 end
 
 res = Table.create(data, ...
-    'parent', this, ...
     'rowNames', rowNames, ...
     'name', name);
