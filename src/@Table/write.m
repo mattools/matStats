@@ -142,8 +142,10 @@ if (f == -1)
 	error('Couldn''t open the file %s', fileName);
 end
 
+% initialize first row with default tag
+str = 'name';
+
 % write the names of the columns, separated by spaces
-str = this.name;
 sep = '   ';
 for i = 1:nCols
     str = [str sep this.colNames{i}]; %#ok<AGROW>
