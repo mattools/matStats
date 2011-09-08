@@ -6,11 +6,19 @@ function s = size(this, varargin)
 %   Returns the size of the data table TAB. S is a row vector containing
 %   the number of rows and the number of columns in the table.
 %
+%   NROWS = size(TAB, 1)
+%   Returns the number of rows (or observations, or individuals) in the
+%   table.
+%
+%   NCOLS = size(TAB, 2)
+%   Returns the number of columns (or variables, or parameters) in the
+%   table.
+%
 %   Example
 %   size
 %
 %   See also
-%
+%   rowNumber, columnNumber
 %
 % ------
 % Author: David Legland
@@ -18,4 +26,4 @@ function s = size(this, varargin)
 % Created: 2011-04-15,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-s = [rowNumber(this) columnNumber(this)];
+s = size(this.data, varargin{:});    
