@@ -37,12 +37,14 @@ for i = 1:length(varargin)
     if isa(var, 'Table')
         data = [data var.data]; %#ok<AGROW>
         colNames = [colNames var.colNames]; %#ok<AGROW>
+        levels = [levels var.levels]; %#ok<AGROW>
         name = strcat(name, '+', var.name);
         
     else
         data = [data var]; %#ok<AGROW>
         newCols = strtrim(cellstr(num2str((1:size(var, 2))')));
         colNames = [colNames(:) ; newCols(:)];
+        levels = [levels cell(1, size(var, 2))]; %#ok<AGROW>
         name = strcat(name, '+', 'NoName');
         
     end

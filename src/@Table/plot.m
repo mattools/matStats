@@ -92,11 +92,17 @@ if ~isempty(tabY.name)
     title(tabY.name, 'Interpreter', 'none');
 end
 
-if size(tabY.data, 2) > 1
-    % legend is the column names
+if min(size(tabY.data)) > 1
+    % When several curves are drawn, display a legend
     legend(tabY.colNames);
 else
-    ylabel(tabY.colNames{1});
+    % otherwise, use only the first column or row as ylabel
+    if size(tabY, 2) == 1
+        label = tabY.colNames{1};
+    else
+        label = tabY.rowNames{1};
+    end
+    ylabel(label);
 end
 
 

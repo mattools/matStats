@@ -108,7 +108,7 @@ elseif strcmp(type, '()')
         
         % name of the new table
         newName = this.name;
-                
+        
         % extract corresponding data
         tab = Table.create(this.data(s1.subs{:}), ...
             'rowNames', this.rowNames(s1.subs{1}), ...

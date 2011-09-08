@@ -164,7 +164,7 @@ nx = min(10, size(coord, 2));
 plot(1:nx, eigenValues(1:nx, 2));
 xlim([1 nx]);
 xlabel('Number of components');
-ylabel('Inerta (%)');
+ylabel('Inertia (%)');
 title([name ' - eigen values'], 'interpreter', 'none');
 
 % individuals in plane PC1-PC2
