@@ -201,7 +201,7 @@ ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
 title(name, 'interpreter', 'none');
     
 
-figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
+figure('Name', 'PCA Variables - Coords 3 and 4', 'NumberTitle', 'off');
 
 
 if size(coord, 2) >= 4
