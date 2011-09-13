@@ -63,11 +63,12 @@ if nRows > 0 && nCols > 0
             end
             
             % replace factor levels that are too long by a short description
-            if size(colText, 2) > 10
-                lens = cellfun(@length, cellstr(cellstr(varchars)));
+            if size(colText, 2) > 12
+                lens = cellfun(@length, strtrim(cellstr(colText)));
                 inds = find(lens > 10);
-                for i = 1:lengtgh(inds)
+                for i = 1:length(inds)
                     str = sprintf('[1x%d char]', lens(inds(i)));
+                    colText(inds(i), :) = ' ';
                     colText(inds(i), 1:length(str)) = str;
                 end
             end
