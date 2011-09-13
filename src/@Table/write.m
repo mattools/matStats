@@ -1,15 +1,15 @@
 function write(this, fileName, varargin)
 %WRITE Write a datatable into a file
 %
-%   TABLE.write(COLNAME)
-%   where TABLE is a Table object, and COLNAME is either index or name of 
-%   a column of the table.
+%   write(TAB, FILENAME)
+%   writes the content of the data table TAB into the file given by name
+%   FILENAME.
 %
-%   TABLE.write(..., FORMAT);
-%   TABLE.write(..., 'format', FORMAT);
+%   write(TAB, FORMAT);
+%   write(TAB, 'format', FORMAT);
 %   Also provides writing format for variable. FORMAT is a string
 %   containing series of C-language based formatting tags, such as:
-%   '%5.3f %3d %6.4f %02d %02d'. Number of formatting tags must equals the
+%   '%5.3f %3d %6.4f %02d %02d'. Number of formatting tags must equal the
 %   number of columns in data table.
 %   FORMAT can also end with '\n', and begin with '%s '. Following formats
 %   are equivalent for tableWrite:
@@ -18,10 +18,24 @@ function write(this, fileName, varargin)
 %   '%5.2f %3d %3d\n'
 %   '%s %5.2f %3d %3d\n'
 %
+%   write(..., NAME, VALUE)
+%   Specifies one or several parameters using name-value pairs. Available
+%   parameters are:
+%   'Format'        as described above
+%   'WriteLevels'   boolean indicating whether factor columns must be saved
+%       as numeric values (WriteLevels=FALSE) or as character strings
+%       (WriteLevels=TRUE). Default is TRUE.
+%
+%
 %   Example
-%   write
+%     tab = Table.create([5.2 6.7;8.1 7.8;5.3 8.1], ...
+%       'colNames', {'var1', 'var2'});
+%     write(tab, 'demoWrite.txt');
+%     type demoWrite.txt
+%
 %
 %   See also
+%     read
 %
 %
 % ------
@@ -35,10 +49,10 @@ function write(this, fileName, varargin)
 
 % default values of parameters
 format = [];
-writeLevels = false;
+writeLevels = true;
 
 % extrat value of optional parameters
-while length(varargin)>1
+while length(varargin) > 1
     var = lower(varargin{1});
     switch var
         case 'format'

@@ -29,7 +29,7 @@ function tab = read(fileName, varargin)
 %   
 %
 %   See also
-%     textscan
+%     write, textscan
 %
 %
 % ------
