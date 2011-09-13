@@ -36,10 +36,19 @@ assertTrue(size(tab.data, 2)==2);
 % assertTrue(tableIsFactor(tab, 'var1'));
 % assertFalse(tableIsFactor(tab, 'var2'));
 
+
 function testReadWithDelimiterSC
+
 tab = Table.read(fullfile('files', 'file1-delimSC.txt'), 'Delimiter', ';');
+
 assertEqual(2, length(tab.colNames));
 assertEqual(6, length(tab.rowNames));
 assertEqual(6, size(tab.data, 1));
 assertEqual(2, size(tab.data, 2));
+
+function testReadFleaBeetles
+
+tab = Table.read(fullfile('files', 'fleaBeetles.txt'));
+
+assertEqual(3, columnNumber(tab));
 

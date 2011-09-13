@@ -21,12 +21,15 @@ function tab = read(fileName, varargin)
 %       are ' \b\t' (space and tabulation).
 %   'needParse' is a boolean used to force the parsing of numeric values.
 %       If the decimal point is changed, parsing is automatically forced.
-%   
+%   'rowNames' specifies index of the column containing the name of rows.
+%       If set to 0, rows are numbered in natural ordering.
+%
+%
 %   Example
 %   
 %
 %   See also
-%   textscan
+%     textscan
 %
 %
 % ------
@@ -100,6 +103,13 @@ C1  = C1{1};
 % number of columns, and of data column
 n   = length(C1);
 nc  = n;
+
+% if first variable is explicitely called 'name', use it for row names
+if options.rowNamesIndex == -1
+    if strcmp(tab.colNames{1}, 'name') || strcmp(tab.colNames{1}, 'nom')
+        options.rowNamesIndex = 1;
+    end
+end
 
 if options.rowNamesIndex > 0
     % number of data columns (remove one as first column contains row names)
@@ -209,7 +219,7 @@ function options = parseOptions(varargin)
 
 % default values
 options.rowNames        = {};
-options.rowNamesIndex   = 1;
+options.rowNamesIndex   = -1; % -1 for auto, 0 for no name, >=1 for index
 options.decimalPoint    = '.';
 options.whiteSpaces     = ' \b\t';
 options.delim           = options.whiteSpaces;
