@@ -22,6 +22,9 @@ function varargout = scatterPlot(this, var1, var2, varargin)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
+warning('Table:scatterPlot:deprecated', ...
+    'function "scatterPlot" is deprecated, use "scatter" instead');
+
 % index of first column
 ind1 = this.columnIndex(var1);
 col1 = this.data(:, ind1(1));

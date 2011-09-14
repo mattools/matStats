@@ -18,6 +18,9 @@ function varargout = histogram(this, var, varargin)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
+warning('Table:histogram:deprecated', ...
+    'function "histogram" is deprecated, use "hist" instead');
+
 % find index of first column
 ind = this.columnIndex(var);
 if isempty(ind)>0
@@ -35,7 +38,7 @@ if ~isempty(this.name)
     title(this.name);
 end
 
-% % eventually returns handle to graphics
-% if nargout>0
-%     varargout{1} = h;
-% end
+% eventually returns handle to graphics
+if nargout > 0
+    varargout = {h};
+end
