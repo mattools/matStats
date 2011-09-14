@@ -21,10 +21,25 @@ function write(this, fileName, varargin)
 %   write(..., NAME, VALUE)
 %   Specifies one or several parameters using name-value pairs. Available
 %   parameters are:
+%
 %   'Format'        as described above
+%
 %   'WriteLevels'   boolean indicating whether factor columns must be saved
-%       as numeric values (WriteLevels=FALSE) or as character strings
-%       (WriteLevels=TRUE). Default is TRUE.
+%       as numeric values (value = FALSE) or as character strings (value =
+%       TRUE). Default is TRUE. 
+%
+%   'WriteRowNames' boolean indicating whether the name of each row should
+%       be written in the beginning of each line. Default is TRUE.
+%
+%   'WriteHeader'   boolean indicating whether the header line should be
+%       written or not. Default is TRUE.
+%
+%   'Separator'     character string that is used for separating different
+%       values in the file. Default is ' '. If a different value is
+%       specified, it is used also for separating header names.
+%
+%   'HeaderSeparator'     character string used for separating column names
+%       in the first line of the file. Default is '   '.
 %
 %
 %   Example
@@ -50,8 +65,12 @@ function write(this, fileName, varargin)
 % default values of parameters
 format = [];
 writeLevels = true;
+writeRowNames = true;
+writeHeader = true;
+sep = ' ';
+headerSep = '   ';
 
-% extrat value of optional parameters
+% extract value of optional parameters
 while length(varargin) > 1
     var = lower(varargin{1});
     switch var
@@ -59,6 +78,15 @@ while length(varargin) > 1
             format = varargin{2};
         case 'writelevels'
             writeLevels = varargin{2};
+        case 'writerownames'
+            writeRowNames = varargin{2};
+        case 'writeheader'
+            writeHeader = varargin{2};
+        case 'separator'
+            sep = varargin{2};
+            headerSep = sep;
+        case 'headerseparator'
+            headerSep = varargin{2};
         otherwise
             error(['Unknown parameter: ' varargin{1}]);
     end
@@ -71,7 +99,7 @@ if ~isempty(varargin)
 end
 
 
-%% Prepare data of the table for writing 
+%% Compute the formatting string
 
 % number of row and columns
 nRows = size(this.data, 1);
@@ -109,7 +137,6 @@ if writeLevels
     
     % create new format string
     format = formats{1};
-    sep = ' ';
     for i = 2:nCols
         format = [format sep formats{i}]; %#ok<AGROW>
     end
@@ -128,7 +155,7 @@ nTokens = length(tokens{1});
 % columns
 if nTokens == 1 && nCols > 1
     format = strtrim(format);
-    format = [format repmat([' ' format], 1, nCols - 1)];
+    format = [format repmat([sep format], 1, nCols - 1)];
     nTokens = nCols;
 end
 
@@ -156,23 +183,31 @@ if (f == -1)
 	error('Couldn''t open the file %s', fileName);
 end
 
-% initialize first row with default tag
-str = 'name';
+% write the header line
+if writeHeader
+    % initialize first row with default tag
+    str = 'name';
 
-% write the names of the columns, separated by spaces
-sep = '   ';
-for i = 1:nCols
-    str = [str sep this.colNames{i}]; %#ok<AGROW>
+    % write the names of the columns, separated by spaces
+    for i = 1:nCols
+        str = [str headerSep this.colNames{i}]; %#ok<AGROW>
+    end
+
+    str = [str '\n'];
+    fprintf(f, str);
 end
-
-str = [str '\n'];
-fprintf(f, str);
 
 % write each row of data
 if ~writeLevels
     % write data as numeric
-    for i = 1:nRows
-        fprintf(f, sprintf(format, this.rowNames{i}, this.data(i, :)));
+    if writeRowNames
+        for i = 1:nRows
+            fprintf(f, sprintf(format, this.rowNames{i}, this.data(i, :)));
+        end
+    else
+        for i = 1:nRows
+            fprintf(f, sprintf(format, this.data(i, :)));
+        end
     end
     
 else
@@ -180,13 +215,21 @@ else
     data = cell(1, nCols);
     inds = find(isFactor);
     for i = 1:nRows
+        % fill up levels
         for j = 1:length(inds)
             data{inds(j)} = this.levels{inds(j)}{this.data(i, inds(j))};
         end
+        % fill up numeric values
         if sum(~isFactor) > 0
             data(~isFactor) = num2cell(this.data(i, ~isFactor));
         end
-        fprintf(f, sprintf(format, this.rowNames{i}, data{:}));
+        
+        % write current row
+        if writeRowNames
+            fprintf(f, sprintf(format, this.rowNames{i}, data{:}));
+        else
+            fprintf(f, sprintf(format, data{:}));
+        end
     end
 end
 
