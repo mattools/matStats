@@ -44,7 +44,7 @@ if columnNumber(this) == 1
     if isa(var, 'Table')
         valuesGroup = var.data(:, 1);
         if isFactor(var, 1)
-            groupNames = factor.levels{1};
+            groupNames = var.levels{1};
         end
         factorName = var.colNames{1};
         

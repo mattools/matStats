@@ -69,15 +69,15 @@ if isempty(tabX)
     % plot(Y)
     h = plot(ax, tabY.data, varargin{:});
     
-   % setup x-axis limits
-   set(gca, 'xlim', [1 size(tabY.data, 1)]);
+%     % setup x-axis limits
+%     set(gca, 'xlim', [1 size(tabY.data, 1)]);
     
 else
     % plot(X, Y)
     h = plot(ax, xData, tabY.data, varargin{:});
     
-    % setup x-axis limits
-    set(gca, 'xlim', [min(xData) max(xData)]);
+%     % setup x-axis limits
+%     set(gca, 'xlim', [min(xData) max(xData)]);
     
     if ~isempty(xAxisLabel)
         xlabel(xAxisLabel);

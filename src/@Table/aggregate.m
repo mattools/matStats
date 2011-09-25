@@ -46,6 +46,12 @@ if isnumeric(name) && length(name) == rowNumber(this)
     cols    = 1:columnNumber(this);
     colName = '';
     
+elseif isa(name, 'Table')
+    % extract column to process
+    values = name.data(:, 1);
+    colName = name.colNames{1};
+    cols    = 1:columnNumber(this);
+    
 else
     % Second argument is either column index or a column name
     
@@ -61,6 +67,7 @@ else
     cols = 1:columnNumber(this);
     cols(ind) = [];
 end
+
 
 
 %% Performs grouping 
@@ -86,7 +93,7 @@ end
 if ~isempty(varargin)
     rowNames = varargin{1};
 else
-    rowNames = strtrim(cellstr(num2str(uniVals, [colName '%d'])));
+    rowNames = strtrim(cellstr(num2str(uniVals, [colName '=%d'])));
 end
 
 % create result dataTable
