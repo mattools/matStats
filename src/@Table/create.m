@@ -1,9 +1,16 @@
-function tab = create(varargin)
+function tab = create(data, varargin)
 %CREATE Create a new data table
 %
 %   TAB = Table.create(DATA)
-%   where DATA is a numeric array, create a new data table initialized with
-%   the array.
+%   where DATA is a numeric array, creates a new data table initialized
+%   with the content of the array.
+%
+%   TAB = Table.create(STRUCTARRAY)
+%   where STRUCTARRAY is a N-by-1 or 1-by-N vector of structures, creates a
+%   new table whose rows correspond to the structures, and columns
+%   correspond to the structure fields. Column names are initialised with
+%   the field names.
+%   Does not support nested fields.
 %
 %   TAB = Table.create(..., 'colNames', NAMES)
 %   Also specifies the name of columns. NAMES is a cell array with as many
@@ -17,13 +24,20 @@ function tab = create(varargin)
 %   Also specify the name of the data table. NAME is a char array.
 %
 %   Example
-%   dat = rand(4, 3);
-%   cols = {'col1', 'col2', 'col3'};
-%   tab = Table.create(dat, 'colNames', cols);
-%   tab.show();
+%     % create data table with direct initialization of the fields
+%     dat = rand(4, 3);
+%     cols = {'col1', 'col2', 'col3'};
+%     tab = Table.create(dat, 'colNames', cols);
+%     tab.show();
+%
+%     % create data table from structure array obtained with regionprops
+%     lbl = bwlabel(imread('coins.png') > 100);
+%     props = regionprops(lbl, {'Area', 'EquivDiameter', 'Eccentricity'});
+%     tab = Table.create(props);
+%     scatter(tab, 'Area','EquivDiameter', 'o');
 %
 %   See also
-%   Table.read
+%   read, write
 %
 % ------
 % Author: David Legland
@@ -32,15 +46,36 @@ function tab = create(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-%% setup data
+%% Setup data
 
-% first argument is assumed to contain data
-data = varargin{1};
-tab = Table(data);
-varargin(1) = [];
+if isstruct(data)
+    nRows = length(data(:));
+    names = fieldnames(data);
+    nCols = length(names);
 
+    dat = zeros(nRows, nCols);
+    for i = 1:nRows
+        for j = 1:nCols
+            var = data(i).(names{j});
+            if ~isnumeric(var) || ~isscalar(var)
+                error('Requires structure with scalar numeric fields');
+            end
+            dat(i, j) = var;
+        end
+    end
+    
+    tab = Table(dat);
+    tab.colNames = names;
+    tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+    
+else
+    % first argument is assumed to contain data
+    tab = Table(data);
+    
+end
+    
 % create default values for other fields
-if ~isa(data, 'Table')
+if isnumeric(data)
     % row and column names
     nRows = size(tab.data, 1);
     tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
