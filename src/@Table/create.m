@@ -76,11 +76,21 @@ end
     
 % create default values for other fields
 if isnumeric(data)
-    % row and column names
+    % initialize defualt row names
     nRows = size(tab.data, 1);
-    tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+    if nRows > 0
+        tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+    else
+        tab.rowNames = {};
+    end
+    
+    % initialize default column names
     nCols = size(tab.data, 2);
-    tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
+    if nCols > 0
+        tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
+    else
+        tab.colNames = {};
+    end
 
     % initialize levels
     tab.levels = cell(1, nCols);

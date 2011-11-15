@@ -90,10 +90,10 @@ if nRows > 0 && nCols > 0
                 fprintf('\n');
             end
             
-            if isempty(this.rowNames)
-                txtArray = char(zeros(nRows+1, 0));
+            if ~isempty(this.rowNames)
+                txtArray = strjust([colPad char([{' '}; this.rowNames(:)])]);
             else
-                txtArray = strjust([colPad char([{' '}; this.rowNames])]);
+                txtArray = char(zeros(nRows + 1, 0));
             end
         end
         txtArray = [txtArray colPad colText]; %#ok<AGROW>
