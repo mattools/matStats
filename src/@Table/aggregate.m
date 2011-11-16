@@ -1,4 +1,4 @@
-function res = aggregate(this, name, op, varargin)
+function res = aggregate(this, name, op, rowNames)
 %AGGREGATE Group table rows according to unique values in a vector or column
 %
 %   TAB2 = aggregate(TAB, VALUES, OP)
@@ -39,6 +39,18 @@ function res = aggregate(this, name, op, varargin)
 
 %% Process input arguments
 
+% if operation is not specified, use 'mean' by default
+if nargin < 3
+    op = @mean;
+end
+
+if nargin < 4
+    rowNames = {};
+end
+
+% the name of each unique value
+valueNames = {};
+
 if isnumeric(name) && length(name) == rowNumber(this)
     % Second argument is a list of values with same length as the number of
     % rows in the input table
@@ -51,6 +63,10 @@ elseif isa(name, 'Table')
     values = name.data(:, 1);
     colName = name.colNames{1};
     cols    = 1:columnNumber(this);
+    
+    if isFactor(name, 1)
+        valueNames = name.levels{1};
+    end
     
 else
     % Second argument is either column index or a column name
@@ -69,31 +85,43 @@ else
 end
 
 
-
 %% Performs grouping 
 
 % number of selectedcolumns
 nCols = length(cols);
 
 % extract unique values
-uniVals = unique(values);
+if ischar(values)
+    uniVals = unique(values, 'rows');
+    nValues = size(uniVals, 1);
+else
+    uniVals = unique(values);
+    nValues = length(uniVals);
+end
 
 % create empty data array
 res = zeros(length(uniVals), nCols);
 
 % apply operation on each column
-for i = 1:length(uniVals)
+for i = 1:nValues
     inds = values == uniVals(i);
     for j = 1:nCols
         res(i, j) = feval(op, this.data(inds, cols(j)));
     end    
 end
 
+% if value names are not initialized, create string array of numeric vector 
+if isempty(valueNames)
+    if isnumeric(uniVals)
+        valueNames = strtrim(cellstr(num2str(uniVals, '%d')));
+    elseif ischar(uniVals)
+        valueNames = strtrim(cellstr(uniVals));
+    end
+end
+
 % extract names of rows, or create them if necessary
-if ~isempty(varargin)
-    rowNames = varargin{1};
-else
-    rowNames = strtrim(cellstr(num2str(uniVals, [colName '=%d'])));
+if isempty(rowNames)
+    rowNames = strcat([colName '='], valueNames);
 end
 
 % create result dataTable
