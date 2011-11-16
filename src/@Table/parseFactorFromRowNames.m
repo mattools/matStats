@@ -16,6 +16,11 @@ function res = parseFactorFromRowNames(this, pos1, len, factorName)
 % Created: 2011-11-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
+% ensure valid name for column
+if nargin < 4
+    factorName = 'group';
+end
+
 % compute last position
 pos2 = pos1 + len - 1;
 
@@ -35,4 +40,5 @@ levels = cellstr(levels)';
 res = Table.create(indices, ...
     'rowNames', this.rowNames, ...
     'colNames', {factorName}, ...
-    'levels', {levels});
+    'levels', {levels}, ...
+    'name', this.name);
