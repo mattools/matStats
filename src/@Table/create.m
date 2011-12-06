@@ -49,6 +49,7 @@ function tab = create(data, varargin)
 %% Setup data
 
 if isstruct(data)
+    % parses from data structure containing d, i and v fields
     nRows = length(data(:));
     names = fieldnames(data);
     nCols = length(names);
@@ -70,94 +71,99 @@ if isstruct(data)
     
 else
     % first argument is assumed to contain data
-    tab = Table(data);
+    tab = Table(data, varargin{:});
     
 end
     
-% create default values for other fields
-if isnumeric(data)
-    % initialize defualt row names
-    nRows = size(tab.data, 1);
-    if nRows > 0
-        tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
-    else
-        tab.rowNames = {};
-    end
-    
-    % initialize default column names
-    nCols = size(tab.data, 2);
-    if nCols > 0
-        tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
-    else
-        tab.colNames = {};
-    end
-
-    % initialize levels
-    tab.levels = cell(1, nCols);
-end
-
-
-%% Process parent table
-
-if length(varargin) > 1
-    ind = find(strcmp(varargin(1:2:end), 'parent'));
-    if ~isempty(ind)
-        % initialize new table with values from parent
-        parent = varargin{ind+1};
-        tab.name        = parent.name;
-        tab.rowNames    = parent.rowNames;
-        tab.colNames    = parent.colNames;
-        tab.levels      = parent.levels;
-        
-        % remove argumets from the list
-        varargin(ind:ind+1) = [];
-    end
-end
-
-
-%% Process row and column names specified as cell arrays (deprecated)
-
-% check if column names were specified
-if ~isempty(varargin)
-    if iscell(varargin{1})
-        tab.colNames = varargin{1};
-        varargin(1) = [];
-    end
-end
-
-% check if row names were specified
-if ~isempty(varargin)
-    if iscell(varargin{1})
-        tab.rowNames = varargin{1};
-        varargin(1) = [];
-    end
-end
-
-
-%% Process other arguments
-
-% other parameters can be set using parameter name-value pairs
-while length(varargin) > 1
-    % get parameter name and value
-    param = lower(varargin{1});
-    value = varargin{2};
-    
-    % switch
-    switch lower(param)
-        case 'rownames'
-            tab.rowNames = value;
-        case 'colnames'
-            tab.colNames = value;
-        case  'name'
-            tab.name = value;
-        case 'levels'
-            tab.levels = value;
-        otherwise
-            error('Table:create:UnknownParameter', ...
-                ['Unknown parameter name: ' varargin{1}]);
-    end
-    
-    varargin(1:2) = [];
-end
-
+% 
+% %% Process parent table
+% 
+% if length(varargin) > 1
+%     ind = find(strcmp(varargin(1:2:end), 'parent'));
+%     if ~isempty(ind)
+%         % initialize new table with values from parent
+%         parent = varargin{ind+1};
+%         tab.name        = parent.name;
+%         tab.rowNames    = parent.rowNames;
+%         tab.colNames    = parent.colNames;
+%         tab.levels      = parent.levels;
+%         
+%         % remove argumets from the list
+%         varargin(ind:ind+1) = [];
+%     end
+% end
+% 
+% 
+% %% Process row and column names specified as cell arrays (deprecated)
+% 
+% % check if column names were specified
+% if ~isempty(varargin)
+%     if iscell(varargin{1})
+%         tab.colNames = varargin{1};
+%         varargin(1) = [];
+%     end
+% end
+% 
+% % check if row names were specified
+% if ~isempty(varargin)
+%     if iscell(varargin{1})
+%         tab.rowNames = varargin{1};
+%         varargin(1) = [];
+%     end
+% end
+% 
+% 
+% %% Process other arguments
+% 
+% % other parameters can be set using parameter name-value pairs
+% while length(varargin) > 1
+%     % get parameter name and value
+%     param = lower(varargin{1});
+%     value = varargin{2};
+%     
+%     % switch
+%     switch lower(param)
+%         case 'rownames'
+%             tab.rowNames = value;
+%         case 'colnames'
+%             tab.colNames = value;
+%         case  'name'
+%             tab.name = value;
+%         case 'levels'
+%             tab.levels = value;
+%         otherwise
+%             error('Table:create:UnknownParameter', ...
+%                 ['Unknown parameter name: ' varargin{1}]);
+%     end
+%     
+%     varargin(1:2) = [];
+% end
+% 
+% 
+% %% initialze empty fields
+% 
+% % initialize default row names
+% if isempty(tab.rowNames)
+%     nRows = size(tab.data, 1);
+%     if nRows > 0
+%         tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+%     else
+%         tab.rowNames = {};
+%     end
+% end
+% 
+% % initialize default column names
+% if isempty(tab.colNames)
+%     nCols = size(tab.data, 2);
+%     if nCols > 0
+%         tab.colNames = strtrim(cellstr(num2str((1:nCols)')))';
+%     else
+%         tab.colNames = {};
+%     end
+% end
+% 
+% % initialize levels
+% if isempty(tab.levels)
+%     tab.levels = cell(1, nCols);
+% end
 

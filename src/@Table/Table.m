@@ -80,6 +80,10 @@ methods
     %   See Also
     %   Table/create
     %
+
+
+        % ---------
+        % Analyse the first argument, if present
         
         if nargin == 0
             % empty constructor
@@ -101,17 +105,14 @@ methods
         elseif isnumeric(varargin{1}) || islogical(varargin{1})
             % If first argument is numeric, assume this is data array
             this.data = varargin{1};
-            
-            % create default values for other fields
-            nr = size(this.data, 1);
-            this.rowNames = strtrim(cellstr(num2str((1:nr)')))';
-            nc = size(this.data, 2);
-            this.colNames = strtrim(cellstr(num2str((1:nc)')))';
-
             varargin(1) = [];
             
         end
  
+        
+        % ---------
+        % Parse row and col names
+        
         % check if column names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
@@ -123,15 +124,34 @@ methods
         % check if row names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
-               this.rowNames = varargin{1};
+                this.rowNames = varargin{1};
                 varargin(1) = [];
             end
         end
 
-        % initialize levels
-        this.levels = cell(1, size(this.data, 2));
         
-        % other parameters can be set using parameter name-value pairs
+        % ---------
+        % Process parent table if present
+        
+        if length(varargin) > 1
+            ind = find(strcmp(varargin(1:2:end), 'parent'));
+            if ~isempty(ind)
+                % initialize new table with values from parent
+                parent = varargin{ind+1};
+                this.name        = parent.name;
+                this.rowNames    = parent.rowNames;
+                this.colNames    = parent.colNames;
+                this.levels      = parent.levels;
+                
+                % remove argumets from the list
+                varargin(ind:ind+1) = [];
+            end
+        end
+
+        
+        % ---------
+        % parse additional arguments set using parameter name-value pairs
+        
         while length(varargin) > 1
             % get parameter name and value
             param = lower(varargin{1});
@@ -153,6 +173,25 @@ methods
             
             varargin(1:2) = [];
         end
+        
+        
+        % ---------
+        % create default values for other fields if they're not initialised
+
+        % size if the data table            
+        nr = size(this.data, 1);
+        nc = size(this.data, 2);
+        
+        if isempty(this.rowNames)
+            this.rowNames = strtrim(cellstr(num2str((1:nr)')))';
+        end
+        if isempty(this.colNames)
+            this.colNames = strtrim(cellstr(num2str((1:nc)')))';
+        end
+        if isempty(this.levels)
+            this.levels = cell(1, size(this.data, 2));
+        end    
+
     end
     
 end % constructor section

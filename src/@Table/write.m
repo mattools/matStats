@@ -166,7 +166,7 @@ if nTokens ~= nCols + 1
         len = max(len, length(this.rowNames{i}));
     end
 
-    format = ['%-' num2str(len) 's ' format];
+    format = ['%-' int2str(len) 's ' format];
 end
 
 % add '\n' if missing
