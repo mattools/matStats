@@ -64,9 +64,9 @@ function write(this, fileName, varargin)
 
 % default values of parameters
 format = [];
-writeLevels = true;
-writeRowNames = true;
 writeHeader = true;
+writeRowNames = true;
+writeLevels = hasFactors(this) ;
 sep = ' ';
 headerSep = '   ';
 
