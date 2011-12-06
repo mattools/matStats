@@ -2,15 +2,24 @@ function varargout = show(this)
 %SHOW Display the content of the table in a new figure
 %
 %   show(TABLE);
-%   TABLE.show();
-%   Displays the content of the data table TABLE in a new uitable graphical
-%   display.
+%   Displays the content of the data table TABLE in a new figure, using a
+%   'uitable' widget.
+%
+%   hf = show(TABLE);
+%   Returns a handle to the created figure. 
+%
+%   [hf ht] = show(TABLE);
+%   Also returns a handle to the uitable object.
+%
 %
 %   Example
-%   show
+%     tab = Table(rand(5, 3), 'colNames', {'v1', 'var2', 'other'});
+%     h = show(tab);
+%     close(h);
+%
 %
 %   See also
-%
+%     display, uitable
 %
 % ------
 % Author: David Legland
@@ -31,7 +40,7 @@ f = figure(...
     'Name', figName, ...
     'NumberTitle', 'off', ...
     'MenuBar', 'none', ...
-    'NextPlot', 'New');
+    'HandleVisibility', 'Callback');
 
 % add a table
 hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
@@ -58,5 +67,9 @@ ht = uitable(f, ...
 
 % return handle to table if requested
 if nargout > 0
-    varargout = {ht};
+    if nargout == 1
+        varargout = {f};
+    else
+        varargout = {f, ht};
+    end
 end
