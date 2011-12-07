@@ -13,9 +13,9 @@ function varargout = find(this, varargin)
 %     % get row and column indices
 %     [r c] = find(tab == 12)
 %     r =
-%         15
+%         3
 %     c =
-%         15
+%         4
 %
 %
 %   See also
