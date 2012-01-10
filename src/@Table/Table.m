@@ -137,6 +137,7 @@ methods
             ind = find(strcmp(varargin(1:2:end), 'parent'));
             if ~isempty(ind)
                 % initialize new table with values from parent
+                ind = ind * 2 - 1;
                 parent = varargin{ind+1};
                 this.name        = parent.name;
                 this.rowNames    = parent.rowNames;
