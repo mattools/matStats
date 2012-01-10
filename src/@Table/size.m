@@ -1,4 +1,4 @@
-function s = size(this, varargin)
+function varargout = size(this, varargin)
 %SIZE Size of a data table
 %
 %   S = size(TAB)
@@ -26,4 +26,5 @@ function s = size(this, varargin)
 % Created: 2011-04-15,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-s = size(this.data, varargin{:});    
+varargout = cell(1, max(nargout, 1));
+[varargout{:}] = size(this.data, varargin{:});    

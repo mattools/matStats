@@ -1,4 +1,4 @@
-function varargout = plotRows(this, varargin)
+function varargout = plotRows(varargin)
 %PLOTROWS Plot all the rows of the data table
 %
 %   plotRows(TAB)
@@ -16,13 +16,7 @@ function varargout = plotRows(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % determines whether an axis handle is given as argument
-ax = gca;
-if ~isempty(varargin)
-    if ishandle(varargin{1})
-        ax = varargin{1};
-        varargin(1) = [];
-    end
-end
+[ax this varargin] = parseAxisHandle(varargin{:});
 
 % default tables for plotting
 tabX = [];
@@ -46,7 +40,13 @@ if ~isempty(tabX)
         xData = tabX.data(:, 1);
         xAxisLabel = tabX.colNames{1};
     else
+        % x data is given as numerical array
         xData = tabX;
+    end
+    
+    % check input sizes are consistent
+    if length(xData) ~= size(tabY, 2)
+        error('Dimension of input arguments are not consistent');
     end
     
 else
