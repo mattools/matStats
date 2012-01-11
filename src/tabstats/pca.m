@@ -137,6 +137,16 @@ eigenValues(:, 2) = 100 * vl / sum(vl);
 eigenValues(:, 3) = cumsum(eigenValues(:,2));
 
 
+% computation of correlation circle
+if scale
+    nv = size(this.data, 2);
+    correl = zeros(nv, nv);
+    for i = 1:nv
+        correl(:,i) = sqrt(vl(i)) * eigenVectors(:,i);
+    end
+end
+
+
 %% Create result data tables
 
 % name of new columns
@@ -175,6 +185,18 @@ ev = Table.create(eigenValues, ...
     'name', name, ...
     'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
 
+% Table object for correlation circle
+if scale
+    if ~isempty(this.name)
+        name = sprintf('Correlations of %s', this.name);
+    else
+        name = 'Correlations';
+    end
+    correl = Table.create(correl, ...
+        'rowNames', varNames, ...
+        'name', name, ...
+        'colNames', this.colNames);
+end
 
 
 %% Save and display results if needed
@@ -190,6 +212,21 @@ if display
     
     if saveFiguresFlag
         saveFigures(hFigs, this.name, dirFigures);
+    end
+end
+
+% display correlation circle
+if display && scale
+    h = displayCorrelationCircle(name, correl, ev);
+    
+    if saveFiguresFlag
+        fileName = sprintf('%s-pca.cc12.png', name);
+        print(h(1), fullfile(dirFigs, fileName));
+        
+        if ishandle(h(2))
+            fileName = sprintf('%s-pca.cc34.png', baseName);
+            print(h(2), fullfile(dirFigs, fileName));
+        end
     end
 end
 
@@ -321,10 +358,60 @@ if ishandle(hFigs(5))
 end
 
 
+function h = displayCorrelationCircle(name, correl, ev)
+
+eigenValues = ev.data;
+
+% correlation plot PC1-PC2
+h1 = figure('Name', 'PCA Correlation Circle - Coords 1 and 2', ...
+    'NumberTitle', 'off');
+
+drawText(correl.data(:, 1), correl.data(:,2), correl.colNames, ...
+        'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
+hold on; plot(correl.data(:, 1), correl.data(:,2), '.');    
+makeCircleAxis;
+
+xlabel(sprintf('Principal component 1 (%5.2f)', eigenValues(1, 2)));
+ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
+title(name, 'interpreter', 'none');
+
+% correlation plot PC1-PC2
+if size(correl, 2) >= 4
+    h2 = figure('Name', 'PCA Correlation Circle - Coords 3 and 4', ...
+        'NumberTitle', 'off');
+    
+    drawText(correl.data(:, 3), correl.data(:,4), correl.colNames, ...
+        'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
+    hold on; plot(correl.data(:, 3), correl.data(:,4), '.');
+    makeCircleAxis;
+    
+    xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
+    ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
+    title(name, 'interpreter', 'none');
+    
+else
+    h2 = -1;
+end
+
+h = [h1 h2];
+
+
 function drawText(x, y, labels, varargin)
 %DRAWTEXT display text with specific formating
 plot(x, y, '.w');
 text(x, y, labels, 'color', 'k', 'fontsize', 8, varargin{:});
+
+
+function makeCircleAxis
+%MAKECIRCLEAXIS Draw a circle and format display
+hold on;
+x = linspace(0, 2*pi, 200);
+plot(cos(x), sin(x), 'k')
+axis square;
+plot([-1 1], [0 0], ':k');
+plot([0 0 ], [-1 1], ':k');
+axis([-1.1 1.1 -1.1 1.1]);
+hold off;
 
 
 function b = parseBoolean(input)
