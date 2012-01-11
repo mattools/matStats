@@ -13,10 +13,12 @@ function varargout = pca(this, varargin)
 %   the transformed coordinates (scores).
 %   
 %   [SC LD] = pca(TAB);
-%   Also returns loadings, in a 3 column table objects.
+%   Also returns loadings.
 %
 %   [SC LD EV] = pca(TAB);
-%   Also returns eigen vectors.
+%   Also returns eigen values, in a 3 column table object. First column
+%   corresponds to eigen values, second column contains the inertia, and
+%   third columns cotnains cumulative inertia.
 %
 %   ... = pca(..., PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
@@ -27,6 +29,22 @@ function varargout = pca(this, varargin)
 %               divided by their standard deviation.
 %
 %   'display'   (true) specifies if figures should be displayed or not.
+%
+%   'showNames' character array with value 'on' (the default) or 'off',
+%       indicating whether row names should be displayed on score plots, or
+%       if only dots are plotted.
+%
+%   'saveResults' char array with value 'on' or 'off' indicating whether
+%       the results should be saved as text files or not. Default is 'off'.
+%
+%   'saveFigures' char array with value 'on' or 'off' indicating whether
+%       the displayed figures should be saved or not. Default is 'off'.
+%
+%   'resultsDir' character array indicating the directory to which results
+%       will be saved. Default is current directory.
+%
+%   'figuresDir' character array indicating the directory to which figures
+%       will be saved. Default is current directory.
 %
 %
 %   Example
@@ -44,8 +62,16 @@ function varargout = pca(this, varargin)
 
 %% Parse input arguments
 
-display = true;
-scale = true;
+% analysis options
+scale           = true;
+
+% other options
+display         = true;
+showNames       = true;
+saveFiguresFlag = false;
+dirFigures      = pwd;
+saveResultsFlag = false;
+dirResults      = pwd;
 
 while length(varargin) > 1
     paramName = varargin{1};
@@ -54,6 +80,16 @@ while length(varargin) > 1
             display = varargin{2};
         case 'scale'
             scale = varargin{2};
+        case 'saveresults'
+            saveResultsFlag = parseBoolean(varargin{2});
+        case 'resultsdir'
+            dirResults = varargin{2};
+        case 'savefigures'
+            saveFiguresFlag = parseBoolean(varargin{2});
+        case 'figuresdir'
+            dirFigures = varargin{2};
+        case 'shownames'
+            showNames = parseBoolean(varargin{2});
         otherwise
             error(['Unknown parameter name: ' paramName]);
     end
@@ -85,15 +121,19 @@ V = cData' * cData;
 V = V / (size(cData, 1) - 1);
 
 % Diagonalisation of the covariance matrix.
+% * eigenVectors: basis transform matrix
+% * vl: eigen values diagonal matrix
+% * coord: not used
 [eigenVectors, vl, coord] = svd(V); %#ok<NASGU>
 
 % compute new coordinates from the eigen vectors
 coord = cData * eigenVectors;
 
 % compute array of eigen values
-eigenValues = zeros(size(this.data, 2), 3);
-eigenValues(:, 1) = diag(vl);
-eigenValues(:, 2) = 100 * eigenValues(:,1) / sum(eigenValues(:,1));
+vl = diag(vl);
+eigenValues = zeros(length(vl), 3);
+eigenValues(:, 1) = vl;
+eigenValues(:, 2) = 100 * vl / sum(vl);
 eigenValues(:, 3) = cumsum(eigenValues(:,2));
 
 
@@ -124,7 +164,7 @@ ld = Table.create(eigenVectors, ...
     'colNames', varNames, ...
     'name', name);
 
-% Table object for loadings
+% Table object for eigen values
 if ~isempty(this.name)
     name = sprintf('Eigen values of %s', this.name);
 else
@@ -136,10 +176,21 @@ ev = Table.create(eigenValues, ...
     'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
 
 
-%% Display some results
 
+%% Save and display results if needed
+
+% save results
+if saveResultsFlag
+    savePcaResults(this.name, sc, ld, ev, dirResults);
+end
+
+% display results
 if display
-    displayPcaResults(this.name, sc, ld, ev);
+    hFigs = displayPcaResults(this.name, sc, ld, ev, showNames);
+    
+    if saveFiguresFlag
+        saveFigures(hFigs, this.name, dirFigures);
+    end
 end
 
 
@@ -153,13 +204,33 @@ elseif nargout == 3
 end
 
 
-function displayPcaResults(name, sc, ld, ev)
 
+function savePcaResults(baseName, sc, ld, ev, dirResults)
+% Save 3 result files corresponding to Scores, loadings and eigen values
+
+% save score array (coordinates of individuals in new basis)
+fileName = sprintf('%s-pca.scores.txt', baseName);
+write(sc, fullfile(dirResults, fileName));
+
+% save loadings array (corodinates of variable in new basis)
+fileName = sprintf('%s-pca.loadings.txt', baseName);
+write(ld, fullfile(dirResults, fileName));
+
+% save eigen values array
+fileName = sprintf('%s-pca.values.txt', baseName);
+write(ev, fullfile(dirResults, fileName));
+
+
+
+%% Display results of PCA
+function h = displayPcaResults(name, sc, ld, ev, showNames)
+
+% extract data
 coord = sc.data;
 eigenValues = ev.data;
 
 % distribution of the first 10 eigen values
-figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');
+h1 = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');
 nx = min(10, size(coord, 2));
 plot(1:nx, eigenValues(1:nx, 2));
 xlim([1 nx]);
@@ -168,53 +239,108 @@ ylabel('Inertia (%)');
 title([name ' - eigen values'], 'interpreter', 'none');
 
 % individuals in plane PC1-PC2
-figure('Name', 'PCA - Comp. 1 and 2', 'NumberTitle', 'off');
-%     scatterPlot(sc, 'pc1', 'pc2');
+h2 = figure('Name', 'PCA - Comp. 1 and 2', 'NumberTitle', 'off');
 x = coord(:, 1);
 y = coord(:, 2);
-drawText(x, y, sc.rowNames);
+if showNames
+    drawText(x, y, sc.rowNames);
+else
+    plot(x, y, '.k');
+end
+
 xlabel(sprintf('Principal component 1 (%5.2f)', eigenValues(1, 2)));
 ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
 title(name, 'interpreter', 'none');
 
 % individuals in plane PC3-PC4
 if size(coord, 2) >= 4
-    figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
-    %     scatterPlot(sc, 'pc3', 'pc4');
+    h3 = figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
     x = coord(:, 3);
     y = coord(:, 4);
-    drawText(x, y, sc.rowNames);
+    
+    if showNames
+        drawText(x, y, sc.rowNames);
+    else
+        plot(x, y, '.k');
+    end
+    
     xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
     ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
     title(name, 'interpreter', 'none');
+else
+    h3 = -1;
 end
 
 
+% loading plots PC1-PC2
+h4 = figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
 
-figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
-
-plot(ld.data(:, 1), ld.data(:,2), 'w.');
-text(ld.data(:, 1), ld.data(:,2), ld.rowNames);
+drawText(ld.data(:, 1), ld.data(:,2), ld.rowNames, ...
+        'HorizontalAlignment', 'Center');
 
 xlabel(sprintf('Principal component 1 (%5.2f)', eigenValues(1, 2)));
 ylabel(sprintf('Principal component 2 (%5.2f)', eigenValues(2, 2)));
 title(name, 'interpreter', 'none');
-    
-
-figure('Name', 'PCA Variables - Coords 3 and 4', 'NumberTitle', 'off');
 
 
+% loading plots PC1-PC2
 if size(coord, 2) >= 4
-    plot(ld.data(:, 3), ld.data(:,4), 'w.');
-    text(ld.data(:, 3), ld.data(:,4), ld.rowNames);
+    h5 = figure('Name', 'PCA Variables - Coords 3 and 4', 'NumberTitle', 'off');
+
+    drawText(ld.data(:, 3), ld.data(:,4), ld.rowNames, ...
+        'HorizontalAlignment', 'Center');
     
     xlabel(sprintf('Principal component 3 (%5.2f)', eigenValues(3, 2)));
     ylabel(sprintf('Principal component 4 (%5.2f)', eigenValues(4, 2)));
     title(name, 'interpreter', 'none');
 end
 
+% return handle array to figures
+h = [h1 h2 h3 h4 h5];
 
-function drawText(x, y, labels)
+
+function saveFigures(hFigs, baseName, dirFigs)
+
+fileName = sprintf('%s-pca.ev.png', baseName);
+print(hFigs(1), fullfile(dirFigs, fileName));
+
+fileName = sprintf('%s-pca.sc12.png', baseName);
+print(hFigs(2), fullfile(dirFigs, fileName));
+
+if ishandle(hFigs(3))
+    fileName = sprintf('%s-pca.sc34.png', baseName);
+    print(hFigs(3), fullfile(dirFigs, fileName));
+end
+
+fileName = sprintf('%s-pca.ld12.png', baseName);
+print(hFigs(4), fullfile(dirFigs, fileName));
+
+if ishandle(hFigs(5))
+    fileName = sprintf('%s-pca.ld34.png', baseName);
+    print(hFigs(5), fullfile(dirFigs, fileName));
+end
+
+
+function drawText(x, y, labels, varargin)
 %DRAWTEXT display text with specific formating
 plot(x, y, '.w');
-text(x, y, labels, 'color', 'k', 'fontsize', 8);
+text(x, y, labels, 'color', 'k', 'fontsize', 8, varargin{:});
+
+
+function b = parseBoolean(input)
+% Returns a boolean value from parsing text string
+
+if islogical(input)
+    b = input;
+    
+elseif ischar(input)
+    if ismember(lower(input), {'on', 'true'})
+        b = true;
+    elseif ismember(lower(input), {'off', 'false'})
+        b = false;
+    else
+        error(['Illegal value for logical string argument: ' input]);
+    end
+elseif isnumeric(input)
+    b = input ~= 0;
+end
