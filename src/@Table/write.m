@@ -112,19 +112,32 @@ end
 
 % check which columns are factors, and update format string accordingly
 if writeLevels
+    % first check that table has a valid number of levels
     nLevels = length(this.levels);
-    isFactor = false(nLevels, 1);
-    for i = 1:nLevels
-        isFactor(i) = ~isempty(this.levels{i});
+    if nLevels == 0 && nLevels ~= nCols
+        error('Table:write', ...
+            'Number of levels in table should match number of columns');
     end
-    
+     
     % extract format tokens
     formats = textscan(format, '%s');
     formats = formats{1};
     
-    % replace double format by string format
-    inds = find(isFactor);
+    % use flag
+    useRowNamesFormat = length(formats) > nCols;
+        
+    % for each factor column, replace numeric format by string format
+    isFactorFlag = isFactor(this, 1:nLevels);
+    inds = find(isFactorFlag);
     for i = 1:length(inds)
+        % current format
+        colFormat = formats{inds(i) + useRowNamesFormat};
+        
+        % check if replacement is needed
+        if colFormat(end) == 's'
+            continue;
+        end
+        
         % compute max length of level names
         n = -1;
         levels = this.levels{inds(i)}; 
@@ -132,12 +145,14 @@ if writeLevels
             n = max(n, length(levels{j}));
         end
 
-        formats(inds(i)) = {['%' num2str(n) 's']};
+        % update with string format
+        colFormat = {['%' num2str(n) 's']};
+        formats(inds(i) + useRowNamesFormat) = colFormat;
     end
     
     % create new format string
     format = formats{1};
-    for i = 2:nCols
+    for i = 2:length(formats)
         format = [format sep formats{i}]; %#ok<AGROW>
     end
 end
@@ -213,15 +228,14 @@ if ~writeLevels
 else
     % some columns are levels, so we need to format text
     data = cell(1, nCols);
-    inds = find(isFactor);
     for i = 1:nRows
         % fill up levels
         for j = 1:length(inds)
             data{inds(j)} = this.levels{inds(j)}{this.data(i, inds(j))};
         end
         % fill up numeric values
-        if sum(~isFactor) > 0
-            data(~isFactor) = num2cell(this.data(i, ~isFactor));
+        if sum(~isFactorFlag) > 0
+            data(~isFactorFlag) = num2cell(this.data(i, ~isFactorFlag));
         end
         
         % write current row
