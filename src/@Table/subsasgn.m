@@ -43,10 +43,31 @@ elseif strcmp(type, '()')
     elseif ns == 2
         % two indices: fill up with given value
         
+        % analyze row indices
+        sub1 = s1.subs{1};
+        if ischar(sub1) || iscell(sub1)
+            if ~strcmp(sub1, ':') 
+                % parse the name of the row
+                inds = rowIndex(this, sub1)';
+                s1.subs{1} = inds;
+            end
+        end
+        
+        % analyze column indices
+        sub2 = s1.subs{2};
+        if ischar(sub2) || iscell(sub2)
+            if ~strcmp(sub2, ':')
+                % parse the name of the column
+                inds = columnIndex(this, sub2)';
+                s1.subs{2} = inds;
+            end
+        end
+       
         % in case right-hand arg is a Table, extract its data
         if isa(value, 'Table')
             value = value.data;
         end
+        
         this.data(s1.subs{:}) = value;
         
     else

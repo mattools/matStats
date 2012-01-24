@@ -51,9 +51,11 @@ elseif strcmp(type, '()')
         
         sub1 = s1.subs{1};
         
-        % Manage indexing by another (logical) table
+        % If indexing by table, string or cell array, determines the
+        % corresponding numeric indices
         if isa(sub1, 'Table')
-            siz = size(s1.subs{1});
+            % Manage indexing by another (logical) table
+            siz = size(sub1);
             if siz(2) > 1
                 % if indexing table has several columns, use linear
                 % indexing 
