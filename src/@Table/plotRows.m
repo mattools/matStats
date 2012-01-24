@@ -31,10 +31,11 @@ if ~isempty(varargin)
     end
 end
 
-
+% default xData values
 xData = [];
 xAxisLabel = '';
 
+% compute xdata, either from ydata, or from first input argument
 if ~isempty(tabX)
     if isa(tabX, 'Table')
         xData = tabX.data(:, 1);
