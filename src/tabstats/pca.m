@@ -46,6 +46,8 @@ function varargout = pca(this, varargin)
 %   'figuresDir' character array indicating the directory to which figures
 %       will be saved. Default is current directory.
 %
+%   'axesProperties' a cell array of parameter name-value pairs, that will
+%       be applied to each new created figure.
 %
 %   Example
 %   pca
@@ -72,6 +74,7 @@ saveFiguresFlag = false;
 dirFigures      = pwd;
 saveResultsFlag = false;
 dirResults      = pwd;
+axesProperties  = {};
 
 while length(varargin) > 1
     paramName = varargin{1};
@@ -90,6 +93,8 @@ while length(varargin) > 1
             dirFigures = varargin{2};
         case 'shownames'
             showNames = parseBoolean(varargin{2});
+        case 'axesproperties'
+            axesProperties = varargin{2};
         otherwise
             error(['Unknown parameter name: ' paramName]);
     end
@@ -208,7 +213,7 @@ end
 
 % display results
 if display
-    hFigs = displayPcaResults(this.name, sc, ld, ev, showNames);
+    hFigs = displayPcaResults(this.name, sc, ld, ev, showNames, axesProperties);
     
     if saveFiguresFlag
         saveFigures(hFigs, this.name, dirFigures);
@@ -217,7 +222,7 @@ end
 
 % display correlation circle
 if display && scale
-    h = displayCorrelationCircle(name, correl, ev);
+    h = displayCorrelationCircle(name, correl, ev, axesProperties);
     
     if saveFiguresFlag
         fileName = sprintf('%s-pca.cc12.png', name);
@@ -260,7 +265,7 @@ write(ev, fullfile(dirResults, fileName));
 
 
 %% Display results of PCA
-function h = displayPcaResults(name, sc, ld, ev, showNames)
+function h = displayPcaResults(name, sc, ld, ev, showNames, axesProperties)
 
 % extract data
 coord = sc.data;
@@ -268,6 +273,8 @@ eigenValues = ev.data;
 
 % distribution of the first 10 eigen values
 h1 = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');
+set(gca, axesProperties{:});
+
 nx = min(10, size(coord, 2));
 plot(1:nx, eigenValues(1:nx, 2));
 xlim([1 nx]);
@@ -277,6 +284,8 @@ title([name ' - eigen values'], 'interpreter', 'none');
 
 % individuals in plane PC1-PC2
 h2 = figure('Name', 'PCA - Comp. 1 and 2', 'NumberTitle', 'off');
+set(gca, axesProperties{:});
+
 x = coord(:, 1);
 y = coord(:, 2);
 if showNames
@@ -292,6 +301,8 @@ title(name, 'interpreter', 'none');
 % individuals in plane PC3-PC4
 if size(coord, 2) >= 4
     h3 = figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
+    set(gca, axesProperties{:});
+    
     x = coord(:, 3);
     y = coord(:, 4);
     
@@ -311,6 +322,7 @@ end
 
 % loading plots PC1-PC2
 h4 = figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
+set(gca, axesProperties{:});
 
 drawText(ld.data(:, 1), ld.data(:,2), ld.rowNames, ...
         'HorizontalAlignment', 'Center');
@@ -323,6 +335,7 @@ title(name, 'interpreter', 'none');
 % loading plots PC1-PC2
 if size(coord, 2) >= 4
     h5 = figure('Name', 'PCA Variables - Coords 3 and 4', 'NumberTitle', 'off');
+    set(gca, axesProperties{:});
 
     drawText(ld.data(:, 3), ld.data(:,4), ld.rowNames, ...
         'HorizontalAlignment', 'Center');
@@ -358,13 +371,14 @@ if ishandle(hFigs(5))
 end
 
 
-function h = displayCorrelationCircle(name, correl, ev)
+function h = displayCorrelationCircle(name, correl, ev, axesProperties)
 
 eigenValues = ev.data;
 
 % correlation plot PC1-PC2
 h1 = figure('Name', 'PCA Correlation Circle - Coords 1 and 2', ...
     'NumberTitle', 'off');
+    set(gca, axesProperties{:});
 
 drawText(correl.data(:, 1), correl.data(:,2), correl.colNames, ...
         'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
@@ -379,6 +393,7 @@ title(name, 'interpreter', 'none');
 if size(correl, 2) >= 4
     h2 = figure('Name', 'PCA Correlation Circle - Coords 3 and 4', ...
         'NumberTitle', 'off');
+    set(gca, axesProperties{:});
     
     drawText(correl.data(:, 3), correl.data(:,4), correl.colNames, ...
         'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
