@@ -38,7 +38,7 @@ if ~isempty(this.name)
     title(this.name);
 end
 
-% eventually returns handle to graphics
-if nargout > 0
-    varargout = {h};
-end
+% % eventually returns handle to graphics
+% if nargout > 0
+%     varargout = {h};
+% end

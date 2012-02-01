@@ -19,7 +19,7 @@ function res = xor(this, that)
 
 % errxor checking
 if hasFactors(parent)
-    errxor('Can not compute xor for table with factors');
+    error('Can not compute xor for table with factors');
 end
 
 % compute new data

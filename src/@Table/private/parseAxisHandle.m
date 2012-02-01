@@ -1,13 +1,16 @@
-function [ax this varargin] = parseAxisHandle(varargin)
-%PARSEAXISHANDLE  One-line description here, please.
+function [ax varargin] = parseAxisHandle(varargin)
+%PARSEAXISHANDLE Parse handle to axis, or return current axis
 %
-%   output = parseAxisHandle(input)
+%   [AX VARARGIN] = parseAxisHandle(...)
+%   If first input argument is an axis handle, return it in AX. Otherwise,
+%   return an handle tio th current axis.
+%   The rest of the arguments are returned in VARARGIN.
 %
 %   Example
 %   parseAxisHandle
 %
 %   See also
-%
+%     parseAxisAndTable
 %
 % ------
 % Author: David Legland
@@ -15,24 +18,35 @@ function [ax this varargin] = parseAxisHandle(varargin)
 % Created: 2011-12-15,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-% determines whether an axis handle is given as argument
-if ~isempty(varargin) &&  ishandle(varargin{1})
-    ax = varargin{1};
-    varargin(1) = [];
-else
-    ax = gca;
+% varargin can not be empty
+if isempty(varargin)
+    error('can not be called without argument');
 end
 
-% extract the first instance of table object
-ind = 0;
-for i = 1:length(varargin)
-    if isa(varargin{1}, 'Table')
-        ind = i;
-        break;
+ax = [];
+    
+var1 = varargin{1};
+if isa(var1, 'Table')
+    % first argument can be a Table class if called using syntax T.plot(..)
+    % in this case, check if second argument is a scalar axis handle
+    if nargin > 1
+        var2 = varargin{2};
+        if isscalar(var2) && ishandle(var2)
+            ax = var2;
+            varargin(2) = [];
+        end
+    end
+    
+else
+    % if first argument is not a table, it can be an axis or something else
+    % (x data...)
+    if isscalar(var1) && ishandle(var1)
+        ax = var1;
+        varargin(1) = [];
     end
 end
-if ind == 0
-    error('Could not find index of Table object in argument list');
+
+% if no axis was found, return current one
+if isempty(ax)
+    ax = gca;
 end
-this = varargin{ind};
-varargin(ind) = [];

@@ -30,8 +30,9 @@ function varargout = plot(this, varargin)
 % determines whether an axis handle is given as argument
 ax = gca;
 if ~isempty(varargin)
-    if ishandle(varargin{1})
-        ax = varargin{1};
+    var1 = varargin{1};
+    if isscalar(var1) && ishandle(var1)
+        ax = var1;
         varargin(1) = [];
     end
 end

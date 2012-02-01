@@ -1,4 +1,4 @@
-function varargout = hist(this, varargin)
+function hist(this, varargin)
 %HIST Histogram plot of a column in a data table
 %
 %   hist(TAB)
@@ -44,7 +44,7 @@ else
     
 end
 
-% scatter plot of selected columns
+% histogram of the selected column
 hist(data, varargin{:});
 xlabel(this.colNames{1});
 
@@ -52,7 +52,7 @@ if ~isempty(this.name)
     title(this.name);
 end
 
-% eventually returns handle to graphics
-if nargout > 0
-    varargout = {h};
-end
+% % eventually returns handle to graphics
+% if nargout > 0
+%     varargout = {h};
+% end

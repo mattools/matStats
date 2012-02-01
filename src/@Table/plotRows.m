@@ -16,7 +16,11 @@ function varargout = plotRows(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % determines whether an axis handle is given as argument
-[ax this varargin] = parseAxisHandle(varargin{:});
+[ax varargin] = parseAxisHandle(varargin{:});
+
+% assumes first input argument is the current table
+this = varargin{1};
+varargin(1) = [];
 
 % default tables for plotting
 tabX = [];

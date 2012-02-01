@@ -26,36 +26,72 @@ function varargout = plotGroupRows(varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % determines whether an axis handle is given as argument
-[ax this varargin] = parseAxisHandle(varargin{:});
+[ax varargin] = parseAxisHandle(varargin{:});
 
-% extract xdata
-xdata = 1:size(this, 2);
+% assumes first input argument is the current table
+this = varargin{1};
+varargin(1) = [];
 
 % extract the group
 group = varargin{1};
 varargin(1) = [];
 
 
-groupColors = [0 0 1;1 0 0;0 1 0;1 0 1;0 1 1;.4 .4 .4;0 0 0];
-
-hold on;
-
-if isnumeric(group)
-    groupValues = unique(group);
-    nGroups = length(groupValues);
-    
-    h = zeros(nGroups, 1);
-    for iGroup = 1:nGroups
-        inds = group == groupValues(iGroup);
-        hl = plot(ax, xdata, this.data(inds, :)', ...
-            'color', groupColors(iGroup, :), varargin{:});
-        h(iGroup) = hl(1);
+% check if the argument specifying the x data is given
+xdata = [];
+if ~isempty(varargin)
+    var = varargin{1};
+    if ~ischar(var)
+        % 'shift' variables
+        xdata   = this;
+        this    = group;
+        group   = var;
     end
 end
 
-groupNames = num2str((1:nGroups)');
-legend(h, groupNames);
+% compute xdata if it was not defined
+if isempty(xdata)
+    % default xdata is a linear vector between 1 and nCols
+    xdata = 1:size(this, 2);
 
+    % try to parse column names as input vectors
+    vals = str2num(char(this.colNames')); %#ok<ST2NM>
+    if length(vals) == size(this, 2)
+        xdata = vals;
+    end
+
+end
+
+
+% default colors for groups
+groupColors = [0 0 1;1 0 0;0 1 0;1 0 1;0 1 1;.4 .4 .4;0 0 0];
+nColors = size(groupColors, 1);
+
+
+%% Display curves corresponding to each group
+
+% extract goup indices and names
+[groupIndices groupNames] = indexGroupValues(group);
+nGroups = length(groupNames);
+
+% allocate memory
+h = zeros(nGroups, 1);
+
+% prepare display
+hold on;
+
+for iGroup = 1:nGroups
+    inds = groupIndices == iGroup;
+    
+    color = groupColors(mod(iGroup-1, nColors)+1, :);
+    hl = plot(ax, xdata, this.data(inds, :)', ...
+        'color', color, ...
+        varargin{:});
+    h(iGroup) = hl(1);
+end
+
+legend(h, groupNames);
+    
 
 %% Format output
 if nargout > 0

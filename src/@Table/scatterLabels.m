@@ -85,7 +85,7 @@ end
 
 % scatter names of selected columns
 plot(col1, col2, 'w.');
-text(col1, col2, labels, 'FontSize', fontSize, options{:});
+h = text(col1, col2, labels, 'FontSize', fontSize, options{:});
 
 % add plot annotations
 xlabel(xlabelText);
