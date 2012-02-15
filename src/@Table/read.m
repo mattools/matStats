@@ -151,6 +151,14 @@ end
 
 % read the rest of the file, in a Cell array (each cell is a column)
 C = textscan(f, format, delimOptions{:});
+
+% check if all data file was read
+if ~feof(f)
+    error('Table:UnExpectedEndOfFile', ...
+        'Could not read the whole file, possibly due to NaN or text values');
+end
+
+% close file
 fclose(f);
 
 % concatenate first line with the rest 
@@ -161,15 +169,17 @@ end
 % number of rows
 nr  = length(C{1});
 
-% indices of columns that do not contain row names
-inds = 1:n;
-
-% store row names into data structure
+% determination of row name labels
 if options.rowNamesIndex > 0
+    % row names are given in one of the columns
     tab.rowNames = C{options.rowNamesIndex};
-    inds(options.rowNamesIndex) = [];
+    
+    % update remaining data
+    C(options.rowNamesIndex) = [];
+    numeric(options.rowNamesIndex) = [];
     
 elseif ~isempty(options.rowNames)
+    % row names are given by the user 
     tab.rowNames = options.rowNames;
     
 else
@@ -185,14 +195,14 @@ tab.data = zeros(nr, nc);
 %% Format data
 
 % fill up each column
-for i = 1:length(inds)
+for i = 1:nc
     
-    if numeric(inds(i)) && ~options.needParse
-        tab.data(:, i) = C{inds(i)};
+    if numeric(i) && ~options.needParse
+        tab.data(:, i) = C{i};
         
     else
         % current column
-        col = C{inds(i)};
+        col = C{i};
 
         % replace decimal separator by a dot
         col = strrep(col, options.decimalPoint, '.');
@@ -202,10 +212,12 @@ for i = 1:length(inds)
 
         indNan = strcmpi(col, 'na') | strcmpi(col, 'nan');
         
-        % if there are unconverted values, changes to factor levels
+        % choose to store data as numeric values or as factors levels
         if sum(isnan(num(~indNan))) == 0
+            % all data are numeric
             tab.data(:, i)  = num;
         else
+            % if there are unconverted values, changes to factor levels
             [levels I num]  = unique(col); %#ok<ASGLU>
             tab.data(:, i)  = num;
             tab.levels{i}   = levels;
@@ -230,26 +242,35 @@ options.needParse       = false;
 % corresponding value in the result structure
 while length(varargin)>1
     switch lower(varargin{1})
+        
         case 'rownames'
+            % Specify either row name, or column containing row names
             var = varargin{2};
-            if ~iscell(var)
+            if iscell(var)
+                % row names are directly specified with cell array of names
+                options.rowNames = var;
+            else
                 % row names are given either as index or column name
                 options.rowNamesIndex = var;
-            else
-                % row names are directly specified with cell array of names
-                options.rowNamesIndex = var;
             end
+            
         case 'header'
             options.header = varargin{2};
+            
         case 'decimalpoint'
             options.decimalPoint = varargin{2};
             options.needParse = true;
+            
         case {'delim', 'delimiter'}
             options.delim = varargin{2};
+            
         case 'needparse'
             options.needParse = varargin{2};
+            
         otherwise
             error('Table:read', ['unknown parameter: ' varargin{1}]);
     end
+    
+    % remove processed parameter pair
     varargin(1:2) = [];
 end
