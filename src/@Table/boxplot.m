@@ -1,4 +1,4 @@
-function boxplot(varargin)
+function varargout = boxplot(varargin)
 %BOXPLT Box plot of a data table
 %
 %   output = boxplot(input)
@@ -69,14 +69,15 @@ end
 % performs boxplot using Statistics toolbox
 if ~grouping
     % Box plot of (selected) columns, without grouping
-    boxplot(ax, data, ...
+    h = boxplot(ax, data, ...
         'labels', this.colNames(indCols), ...
         varargin{:});
     
 else
     % Box plot of (selected) columns, grouped by factor(s)
-    boxplot(ax, data, group, ...
+    h = boxplot(ax, data, group, ...
         'groupOrder', groupOrder, ...
+        'labels', this.colNames(indCols), ...
         varargin{:});
     
     % labels
@@ -91,3 +92,6 @@ if ~isempty(this.name)
 end
 
 
+if nargout > 0
+    varargout = {h};
+end
