@@ -183,14 +183,14 @@ methods
         nr = size(this.data, 1);
         nc = size(this.data, 2);
         
-        if isempty(this.rowNames)
-            this.rowNames = strtrim(cellstr(num2str((1:nr)')))';
+        if isempty(this.rowNames) && nr > 0
+            this.rowNames = strtrim(cellstr(num2str((1:nr)')));
         end
-        if isempty(this.colNames)
+        if isempty(this.colNames) && nc > 0
             this.colNames = strtrim(cellstr(num2str((1:nc)')))';
         end
-        if isempty(this.levels)
-            this.levels = cell(1, size(this.data, 2));
+        if isempty(this.levels) && nc > 0
+            this.levels = cell(1, nc);
         end    
 
     end

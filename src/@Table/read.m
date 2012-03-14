@@ -121,6 +121,11 @@ if options.rowNamesIndex > 0
     end
 end
 
+% ensure table has valid column names
+if isempty(tab.colNames)
+     tab.colNames = strtrim(cellstr(num2str((1:nc)'))');
+end
+
 % init levels
 tab.levels = cell(1, nc);
 
