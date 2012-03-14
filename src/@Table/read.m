@@ -9,6 +9,13 @@ function tab = read(fileName, varargin)
 %   Without argument, the function opens a dialog to choose a data file,
 %   and return the corresponding data table.
 %
+%   TABLE = Table.read(NAME)
+%   Open one of the sample files packaged with the class. Sample files
+%   include:
+%     'fisherIris'  classical Fisher's Iris data set
+%     'fleaBeetles' a data set included in R software, see:
+%       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
+%
 %   TABLE = Table.read(..., PARAM, VALUE);
 %   Can specifiy parameters when reading the file. Available parameters
 %   are:
@@ -26,7 +33,8 @@ function tab = read(fileName, varargin)
 %
 %
 %   Example
-%   
+%     tab = Table.read('fisherIris');
+%     scatterGroup(tab('petalWidth'), tab('petalLength'), tab('class'));
 %
 %   See also
 %     write, textscan
@@ -58,7 +66,12 @@ options = parseOptions(varargin{:});
 %% Open file
 
 % open file
-f = fopen(fileName,'r');
+f = fopen(fileName, 'r');
+if f == -1
+    % try to add a txt extension if it was forgotten
+	fileName = [fileName '.txt'];
+    f = fopen(fileName, 'r');
+end
 if f == -1
 	error('Couldn''t open the file %s', fileName);
 end
