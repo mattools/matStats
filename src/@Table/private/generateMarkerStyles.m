@@ -9,7 +9,7 @@ function styles = generateMarkerStyles(n)
 if n < 8
     map = [0 0 1;0 1 0;1 0 0;0 1 1;1 0 1;1 1 0;0 0 0];
 else
-    map = colormap(colorcube(Nc+1));
+    map = colormap(colorcube(n+1));
 end
 
 % the basic set of marks

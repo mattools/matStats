@@ -18,8 +18,8 @@ function varargout = boxplot(varargin)
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
-this = varargin{indThis};
-varargin(indThis) = [];
+this = varargin{indThis(1)};
+varargin(indThis(1)) = [];
 
 % determines whether an axis handle is given as argument
 ax = gca;

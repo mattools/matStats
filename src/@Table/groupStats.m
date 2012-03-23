@@ -14,10 +14,17 @@ function res = groupStats(this, varargin)
 %   descriptive statistics for the input values coresponding to this level.
 %
 %   Example
-%   groupStats
+%     iris = Table.read('fisherIris');
+%     groupStats(iris('petalLength'), iris('class'))
+%     ans = 
+%                        mean        std         sem
+%             Setosa    1.464    0.17351    0.024538
+%         Versicolor     4.26    0.46991    0.066455
+%          Virginica    5.552    0.55189     0.07805
+%
 %
 %   See also
-%
+%   aggregate
 %
 % ------
 % Author: David Legland

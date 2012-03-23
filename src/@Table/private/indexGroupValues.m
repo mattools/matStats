@@ -7,13 +7,16 @@ function [groupIndices groupNames] = indexGroupValues(group)
 %   indexGroupValues
 %
 %   See also
-%
+%   parseGroupInfos
 %
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
 % Created: 2012-02-01,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
+
+warning('Table:deprecated', ...
+    'function "indexGroupValues" is deprecated, use "parseGroupInfos" instead');
 
 if isnumeric(group)
     % group can be given as a numeric column vector

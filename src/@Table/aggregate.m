@@ -27,8 +27,16 @@ function res = aggregate(this, name, op, rowNames)
 %   Specifies the names of the rows in the new table.
 %
 %   Example
-%   aggregate
+%     iris = Table.read('fisherIris');
+%     aggregate(iris(:,1:4), iris('class'), @mean)
+%     ans = 
+%                             sepalLength    sepalWidth    petalLength    petalWidth
+%             class=Setosa          5.006         3.418          1.464         0.244
+%         class=Versicolor          5.936          2.77           4.26         1.326
+%          class=Virginica          6.588         2.974          5.552         2.026
 %
+%   See also
+%   groupStats
 %
 % ------
 % Author: David Legland
@@ -59,7 +67,8 @@ if isnumeric(name) && length(name) == rowNumber(this)
     colName = '';
     
 elseif isa(name, 'Table')
-    % extract column to process
+    % Second argument is a table containing factor levels
+%     [values truc] = indexGroupValues(name);
     values = name.data(:, 1);
     colName = name.colNames{1};
     cols    = 1:columnNumber(this);
@@ -70,6 +79,8 @@ elseif isa(name, 'Table')
     
 else
     % Second argument is either column index or a column name
+    % 1 extract group values
+    % 2 remove group column from original table
     
     % find index of the column, keep only the first one
     ind = this.columnIndex(name);

@@ -93,11 +93,14 @@ else
     varargin(1:3) = [];
 end
 
+% extraction of groups indices and labels from input table
+[groupIndices groupLabels, groupNames] = parseGroupInfos(group);
+groupLabels = formatLevelLabels(groupLabels, groupNames); 
 
-[groupIndices groupNames] = indexGroupValues(group);
-nGroups = length(groupNames);
+% number of groups
+nGroups = length(groupLabels);
 
-
+% kind of decoration for the graph
 envelope = 'convexhull';
 ind = find(strcmp(varargin, 'envelope'));
 if ~isempty(ind)
@@ -143,7 +146,7 @@ for i = 1:nGroups
                 styles{i}{:}, 'marker', 'none', 'linestyle', '-', 'lineWidth', 2);
             
         otherwise
-            error(['Can not understand parameter value: ' decoration]);
+            error(['Can not understand parameter value: ' envelope]);
     end
 end
 
@@ -156,7 +159,7 @@ ylabel(nameY);
 if ~isempty(this.name)
     title(this.name, 'Interpreter', 'none');
 end
-legend(hm, groupNames{:});
+legend(hm, groupLabels{:});
 
 % eventually returns handle to graphics
 if nargout == 1
@@ -164,3 +167,4 @@ if nargout == 1
 elseif nargout == 2
     varargout = {hm, hl};
 end
+
