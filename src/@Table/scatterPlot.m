@@ -1,6 +1,8 @@
 function varargout = scatterPlot(this, var1, var2, varargin)
 %SCATTERPLOT Scatter plot of two columns in a table
 %
+%   Note: deprecated, use scatter instead
+%
 %   scatterPlot(TAB, VAR1, VAR2)
 %   where TABLE is a Table object, and VAR1 and VAR2 are either indices or
 %   names of 2 columns in the table, scatter the individuals given with
@@ -14,7 +16,7 @@ function varargout = scatterPlot(this, var1, var2, varargin)
 %   scatterPlot
 %
 %   See also
-%
+%   scatter
 %
 % ------
 % Author: David Legland

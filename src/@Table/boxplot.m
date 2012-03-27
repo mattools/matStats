@@ -16,19 +16,18 @@ function varargout = boxplot(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
+% determines whether an axis handle is given as argument
+ax = gca;
+if ishandle(varargin{1})
+    ax = varargin{1};
+    varargin(1) = [];
+end
+
+
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
 this = varargin{indThis(1)};
 varargin(indThis(1)) = [];
-
-% determines whether an axis handle is given as argument
-ax = gca;
-if ~isempty(varargin)
-    if ishandle(varargin{1})
-        ax = varargin{1};
-        varargin(1) = [];
-    end
-end
 
 % default: box plot of each column
 data = this.data;
@@ -77,7 +76,6 @@ else
     % Box plot of (selected) columns, grouped by factor(s)
     h = boxplot(ax, data, group, ...
         'groupOrder', groupOrder, ...
-        'labels', this.colNames(indCols), ...
         varargin{:});
     
     % labels

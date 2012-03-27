@@ -37,12 +37,21 @@ function varargout = scatterGroup(this, varargin)
 %     figure; set(gca, 'fontsize', 14);
 %     scatterGroup(tab(:,3), tab(:,4), species, 'envelope', 'ellipse')
 %
+%   % Display some scatter plot of iris classes
+%     tab = Table.read('fisherIris.txt');
+%     % display points
+%     figure; 
+%     scatterGroup(tab('PetalLength'), tab('PetalWidth'), tab('Species'));
+%     % another plot, with ellipses
+%     figure; set(gca, 'fontsize', 14);
+%     scatterGroup(tab(:,3), tab(:,4), tab('Species'), 'envelope', 'ellipse')
+%
 %   See also
 %   scatter
 %
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@grignon.inra.fr
 % Created: 2012-03-08,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2007 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
  

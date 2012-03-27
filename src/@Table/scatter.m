@@ -74,8 +74,8 @@ end
 h = scatter(xdata, ydata, varargin{:});
 
 % add plot annotations
-xlabel(nameX);
-ylabel(nameY);
+xlabel(nameX, 'Interpreter', 'none');
+ylabel(nameY, 'Interpreter', 'none');
 if ~isempty(this.name)
     title(this.name, 'Interpreter', 'none');
 end
