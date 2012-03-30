@@ -1,10 +1,28 @@
 function varargout = boxplot(varargin)
 %BOXPLT Box plot of a data table
 %
-%   output = boxplot(input)
+%   boxplot(TAB)
+%   Displays boxplots of the columns in data table TAB.
+%
+%   boxplot(TAB, G)
+%   Displays the box plot of the 1-column data table TAB, with groups given
+%   by G. G can be either a table obejct with one factor column, a cell
+%   array of strings, or a numeric column array.
+%
+%   boxplot(AX, TAB, ...)
+%   Specifies the axis to draw the bowplot in.
+%
+%   boxplot(..., PARAM, VALUE)
+%   additional argument parameter name-value pairs that can be passen to
+%   the boxplot function.
 %
 %   Example
-%   boxplot
+%     iris = Table.read('fisherIris.txt');
+%     % boxplot of numeric variables
+%     boxplot(iris(:,1:4));
+%     % Box plot by group
+%     figure;
+%     boxplot(iris('PetalLength'), iris('Species')));
 %
 %   See also
 %
@@ -33,20 +51,20 @@ varargin(indThis(1)) = [];
 data = this.data;
 indCols = 1:length(this.colNames);
 
-% determines if columns are specified
-if ~isempty(varargin)
-    if sum(isColumnName(this, varargin{1})) > 0
-        indCols = columnIndex(this, varargin{1});
-        data = this.data(:, indCols);
-        varargin(1) = [];
-    end
-end
 
 % check grouping
 grouping = false;
-indGroup = [];
 if ~isempty(varargin)
-    if sum(isColumnName(this, varargin{1})) > 0
+    var1 = varargin{1};
+    
+    if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
+        grouping = true;
+        [group levels groupLabel] = parseGroupInfos(var1);
+        group = levels(group);
+        
+        varargin(1) = [];
+        
+    elseif sum(isColumnName(this, var1)) > 0
         indGroup = columnIndex(this, varargin{1});
         group = this.data(:, indGroup);
         grouping = true;
@@ -60,12 +78,13 @@ if ~isempty(varargin)
         
         [B I J] = unique(group); %#ok<ASGLU>
         group = levels(J);
-        groupOrder = group(I);
+        groupLabel = this.colNames(indGroup(1));
+
     end
 end
 
 
-% performs boxplot using Statistics toolbox
+% performs boxplot (using Statistics toolbox)
 if ~grouping
     % Box plot of (selected) columns, without grouping
     h = boxplot(ax, data, ...
@@ -75,12 +94,11 @@ if ~grouping
 else
     % Box plot of (selected) columns, grouped by factor(s)
     h = boxplot(ax, data, group, ...
-        'groupOrder', groupOrder, ...
         varargin{:});
     
     % labels
-    xlabel(this.colNames(indGroup(1)));
-    ylabel(this.colNames(indCols(1)));
+    xlabel(groupLabel, 'interpreter', 'none');
+    ylabel(this.colNames(indCols(1)), 'interpreter', 'none');
 
 end
 

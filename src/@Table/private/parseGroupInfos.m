@@ -9,12 +9,12 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 %   * a data table (assuming factor columns)
 %   The output variable INDICES is a N-by-1 column vector containing index
 %   of corresponding group for each row.
-%   The output variable LEVELS is a NG-by-1 cell array of strings containing
-%   the name of each group. 
+%   The output variable LEVELS is a NG-by-1 cell array containing the name
+%   or the numeric value of each group. 
 %
 %   [INDICES NAMES LABEL] = parseGroupInfos(GROUP)
 %   Also return the label of the group, that correspond either to the
-%   variable name, or to the column nmae of the data table.
+%   variable name, or to the column name of the data table.
 %
 %
 %   Example
@@ -26,9 +26,9 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 %       3
 %       2
 %   NAMES =
-%       '2'
-%       '3'
-%       '5'
+%         [2]
+%         [3]
+%         [5]
 %
 %   See also
 %
@@ -45,10 +45,10 @@ if isnumeric(group)
     labels = {inputname(1)};
     
 elseif iscell(group)
-    % group can also be a cell array of strings (only col
-    
+    % group can also be a cell array of strings (column vector, row vector
+    % tolered)
     if min(size(group)) > 1
-        error('Group cell arrays should have only one column');
+        error('Cell arrays of group levels must be a column vector');
     end
     [levelNames pos groupIndices] = unique(group(:)); %#ok<ASGLU>
     labels = {inputname(1)};
@@ -69,12 +69,12 @@ elseif isa(group, 'Table')
             end
             
         else
-            % in case of numeric variable, create labels from values,
-            % and update name indices
+            % in case of numeric variable, create cell array from numeric
+            % levels, and update name indices
             [levelInds pos inds] = unique(nameIndices(:,iGroup)); %#ok<ASGLU>
             
             nameIndices(:,iGroup) = inds;
-            levels = cellstr(num2str(levelInds));
+            levels = num2cell(levelInds);
         end
         
         % associate each level index to level name
@@ -87,8 +87,4 @@ elseif isa(group, 'Table')
     
     labels = group.colNames;
     
-end
-
-if isnumeric(levelNames)
-    levelNames = cellstr(num2str(levelNames));
 end
