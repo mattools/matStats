@@ -4,10 +4,12 @@ function labels = formatLevelLabels(levels, groupNames, varargin)
 %   LABELS = formatLevelLabels(LEVELS, GROUPLABEL)
 %
 %   Example
-%   formatLevelLabels
+%     iris = Table.read('fisherIris');
+%     species = iris('Species');
+%     formatLevelLabels(species.levels{1}, {'group'})
 %
 %   See also
-%
+%   parseGroupInfos
 %
 % ------
 % Author: David Legland
@@ -18,17 +20,21 @@ function labels = formatLevelLabels(levels, groupNames, varargin)
 labels = levels;
 format = '%s=%s';
 
-% replace individual labels
+
 for iGroup = 1:size(levels, 2)
     groupLabel = groupNames{iGroup};
     
     for iLevel = 1:size(levels, 1)
-        label = levels{iLevel, iGroup};
-        label = sprintf(format, groupLabel, label);
+        level = levels{iLevel, iGroup};
+        if isnumeric(level)
+            level = num2str(level);
+        end
+        label = sprintf(format, groupLabel, level);
         labels{iLevel, iGroup} = label;
     end
 end
 
+% Concatenate 
 if size(labels, 1) > 1
     tmp = labels;
     labels = labels(:, 1);

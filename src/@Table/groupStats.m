@@ -33,7 +33,16 @@ function res = groupStats(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
+%% Default values
+
+% number of synthetic descriptive stats
+nStats = 3;
+statNames = {'mean', 'std', 'sem'};
+
 groupNames = {}; 
+
+
+%% Parse inpu arguments
 
 if columnNumber(this) == 1
     % data are all given in first input
@@ -79,6 +88,8 @@ else
 end
 
 
+%% Compute statistics for each group level
+
 % levels are unique group values
 groups = unique(valuesGroup(:));
 
@@ -88,11 +99,6 @@ if isempty(groupNames)
 end
 
 nGroups = length(groups);
-
-
-% number of synthetic descriptive stats
-nStats = 3;
-statNames = {'mean', 'std', 'sem'};
 
 % allocate memory for result
 resValues = zeros(nGroups, nStats);
