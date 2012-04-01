@@ -35,16 +35,19 @@ properties
     % the name of the file used for initializing the Table
     fileName;
     
-    % inner data of the table
+    % inner data of the table, stored in a Nr-by-Nc array of double
     data;
     
-    % name of rows
-    rowNames;
-
-    % name of columns
+    % name of columns, stored in a 1-by-Nc cell array of strings
     colNames;
     
-    % factor levels
+    % name of rows, stored in a Nr-by-1 cell array of strings
+    rowNames;
+
+    % factor levels, stored in a 1-by-Nc cell array. Each cell can be empty
+    % (column is not a factor), a cell array of chars (column is a
+    % categorical factor), or an array of numeric values (colum is an
+    % ordered factor).
     levels;
     
 end
@@ -72,7 +75,7 @@ methods
     %
     %   TAB = Table(..., 'rowNames', NAMES)
     %   Also specifies the name of rows. NAMES is a cell array with as many
-    %   columns as the number of rows of the data table. 
+    %   rows as the number of rows of the data table. 
     %
     %   TAB = Table(..., 'name', NAME)
     %   Also specify the name of the data table. NAME is a char array.
@@ -160,13 +163,26 @@ methods
             
             % switch
             if strcmp(param, 'rownames')
+                if length(value) ~= size(this.data,1)
+                     error('Number of row names does not match row number');
+                end
                 this.rowNames = value;
+                    
             elseif strcmp(param, 'colnames')
+                if length(value) ~= size(this.data,2)
+                     error('Number of column names does not match column number');
+                end
                 this.colNames = value;
+
             elseif strcmp(param, 'levels')
+                if length(value) ~= size(this.data,2)
+                     error('Number of level does not match column number');
+                end
                 this.levels = value;
+            
             elseif strcmp(param, 'name')
                 this.name = value;
+            
             else
                 error('Table:Table', ...
                     ['Unknown parameter name: ' varargin{1}]);

@@ -1,7 +1,9 @@
 function res = transpose(this)
 %TRANSPOSE Transpose a data table and intervert names of row and columns
 %
-%   output = transpose(input)
+%   RES = transpose(TAB)
+%   Returns a new data with transposed data array, and swaped column and
+%   row names.
 %
 %   Example
 %   transpose
@@ -16,11 +18,7 @@ function res = transpose(this)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 % create table with transposed data
-res = Table.create(this.data');
-
-% switch names of rows and columns
-res.rowNames = this.colNames;
-res.colNames = this.rowNames;
+res = Table(this.data', this.rowNames', this.colNames');
 
 % also add a small mark to the title
 if ~isempty(this.name)

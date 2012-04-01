@@ -110,7 +110,8 @@ end
 %% Pre-processing
 
 % recenter data (remove mean)
-cData = bsxfun(@minus, this.data, mean(this.data, 1));
+cMean = mean(this.data, 1);
+cData = bsxfun(@minus, this.data, cMean);
 
 % optional scaling of data (divide by standard deviation)
 if scale

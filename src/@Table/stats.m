@@ -7,16 +7,16 @@ function tab = stats(this, varargin)
 %
 %   STATS specifies which statistics will be computed. STATS is a cell
 %   array containing strings, each string being the name of a statistic:
-%   'mean'  mean of the data
-%   'var'   variance of the data
-%   'std'   standard deviation of the data (normalized by (n-1))
-%   'sem'   standard error of the mean, assuming gaussian distribution of data
-%   'min'   minimal value of the data
-%   'max'   maximal value of the data
-%   'median' median value of the data
-%   'sum'   the sum of the data
-%   'dyn'   the dynamic of the data (max-min)
-%   'count' the number of elements which are not 'NaN'
+%   'mean'      mean of the data
+%   'var'       variance of the data
+%   'std'       standard deviation of the data (normalized by (n-1))
+%   'sem'       standard error of the mean (assuming gaussian distribution)
+%   'min'       minimal value of the data
+%   'max'       maximal value of the data
+%   'median'    median value of the data
+%   'sum'       the sum of the data
+%   'extent'    the extent, or dynamic, of the data (max-min)
+%   'count'     the number of elements which are not 'NaN'
 %
 %   The result is sored if a table RES, with as many columns as the number
 %   of columns of TAB, and as many rows as the number of computed
@@ -72,6 +72,7 @@ res(:) = NaN;
 % process each column in data table
 for c = 1:nCols
     
+    % does not process factor columns
     if ~isempty(this.levels{c})
         continue;
     end
@@ -86,47 +87,49 @@ for c = 1:nCols
     for s = 1:nStats
         
         statName = statNames{s};
-        if strcmp(statName, 'mean')
-            % compute mean
-            res(s, c) = mean(col);
-            
-        elseif strcmp(statName, 'var')
-            % compute variance
-            res(s, c) = var(col);
-            
-        elseif strcmp(statName, 'std')
-            % compute standard deviation
-            res(s, c) = std(col);
-        elseif strcmp(statName, 'sem')
-            % compute standard error of the mean
-            res(s, c) = std(col) / sqrt(length(col));
-            
-        elseif strcmp(statName, 'min')
-            % minimal value
-            res(s, c) = min(col);
-            
-        elseif strcmp(statName, 'max')
-            % maximal value
-            res(s, c) = max(col);
-            
-        elseif strcmp(statName, 'median')
-            % median value
-            res(s, c) = median(col);
-            
-        elseif strcmp(statName, 'sum')
-            % sum of the values
-            res(s, c) = sum(col);
-            
-        elseif strcmp(statName, 'dyn')
-            % dynamic (difference of extreme values)
-            res(s, c) = max(col) - min(col);
-            
-        elseif strcmp(statName, 'count')
-            % number of elements
-            res(s, c) = length(col);
-            
-        else
-            error('Unknown statistic name: %s', statName);
+        switch lower(statName)
+            case 'mean'
+                % compute mean
+                res(s, c) = mean(col);
+                
+            case 'var'
+                % compute variance
+                res(s, c) = var(col);
+                
+            case 'std'
+                % compute standard deviation
+                res(s, c) = std(col);
+                
+            case 'sem'
+                % compute standard error of the mean
+                res(s, c) = std(col) / sqrt(length(col));
+                
+            case 'min'
+                % minimal value
+                res(s, c) = min(col);
+                
+            case 'max'
+                % maximal value
+                res(s, c) = max(col);
+                
+            case 'median'
+                % median value
+                res(s, c) = median(col);
+                
+            case 'sum'
+                % sum of the values
+                res(s, c) = sum(col);
+                
+            case 'dyn'
+                % dynamic (difference of extreme values)
+                res(s, c) = max(col) - min(col);
+                
+            case 'count'
+                % number of elements
+                res(s, c) = length(col);
+                
+            otherwise
+                error('Unknown statistic name: %s', statName);
         end
     end
 end
