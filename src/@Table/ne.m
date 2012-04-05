@@ -15,15 +15,30 @@ function res = ne(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[this that parent names1 names2] = parseInputCouple(this, that);
+[dat1 dat2 parent names1 names2] = parseInputCouple(this, that);
 
-% error checking
-if hasFactors(parent)
-    error('Can not compute ne for table with factors');
+if ~hasFactors(parent)
+    % compute new data with numeric data
+    newData = bsxfun(@ne, dat1, dat2);
+    
+else
+    % Case of factor data table
+    if size(parent, 2) > 1
+        error('Table:eq:FactorColumnForbidden', ...
+            'If table is factor, it should have only one column');
+    end
+    
+    % extract factor level for each row
+    levels = parent.levels{1};
+    levels = levels(dat1);
+    
+    % compare factor levels with second argument
+    if ischar(dat2)
+        newData = ~strcmp(levels, dat2);
+    else
+        newData = bsxfun(@ne, levels, dat2);
+    end
 end
-
-% compute new data
-newData = bsxfun(@ne, this, that);
 
 newColNames = strcat(names1, '~=', names2);
 
