@@ -2,18 +2,23 @@ function varargout = pca(this, varargin)
 %PCA Principal components analysis of the data
 %
 %   Usage
-%   SC = pca(TAB);
+%   PCARES = pca(TAB);
 %   [SC LD] = pca(TAB);
 %   [SC LD EV] = pca(TAB);
 %   ... = pca(..., PARAM, VALUE);
 %
 %   Description
-%   SC = pca(TAB);
-%   Performs Principal components analysis of the data in table and returns
-%   the transformed coordinates (scores).
+%   PCARES = pca(TAB);
+%   Performs Principal Components Analysis (PCA) of the data in table TAB
+%   with N rows and P columns, and returns the result in a data structures
+%   with following fields:
+%     scores        the new coordinates of individuals, as N-by-P array
+%     loadings      the loadinds (or coefficients) of PCA, as P-by-P array
+%     eigenValues   values of inertia, inertia percent and cumulated inertia
+%     means         the mean value of each column of original data array
 %   
 %   [SC LD] = pca(TAB);
-%   Also returns loadings.
+%   Returns scores and loadings in two separate arrays.
 %
 %   [SC LD EV] = pca(TAB);
 %   Also returns eigen values, in a 3 column table object. First column
@@ -110,8 +115,8 @@ end
 %% Pre-processing
 
 % recenter data (remove mean)
-cMean = mean(this.data, 1);
-cData = bsxfun(@minus, this.data, cMean);
+means = mean(this.data, 1);
+cData = bsxfun(@minus, this.data, means);
 
 % optional scaling of data (divide by standard deviation)
 if scale
@@ -240,7 +245,13 @@ end
 %% Format output arguments
 
 if nargout == 1
-    varargout = {sc};
+    % Create a data structure that contains all results
+    res = struct(...
+        'scores', sc, ...
+        'loadings', ld, ...
+        'eigenValues', ev, ...
+        'means', means);
+    varargout = {res};
     
 elseif nargout == 3
     varargout = {sc, ld, ev};
@@ -285,7 +296,9 @@ title([name ' - eigen values'], 'interpreter', 'none');
 
 % individuals in plane PC1-PC2
 h2 = figure('Name', 'PCA - Comp. 1 and 2', 'NumberTitle', 'off');
-set(gca, axesProperties{:});
+if ~isempty(axesProperties)
+    set(gca, axesProperties{:});
+end
 
 x = coord(:, 1);
 y = coord(:, 2);
@@ -302,7 +315,9 @@ title(name, 'interpreter', 'none');
 % individuals in plane PC3-PC4
 if size(coord, 2) >= 4
     h3 = figure('Name', 'PCA - Comp. 3 and 4', 'NumberTitle', 'off');
-    set(gca, axesProperties{:});
+    if ~isempty(axesProperties)
+        set(gca, axesProperties{:});
+    end
     
     x = coord(:, 3);
     y = coord(:, 4);
@@ -323,7 +338,9 @@ end
 
 % loading plots PC1-PC2
 h4 = figure('Name', 'PCA Variables - Coords 1 and 2', 'NumberTitle', 'off');
-set(gca, axesProperties{:});
+if ~isempty(axesProperties)
+    set(gca, axesProperties{:});
+end
 
 drawText(ld.data(:, 1), ld.data(:,2), ld.rowNames, ...
         'HorizontalAlignment', 'Center');
@@ -336,8 +353,10 @@ title(name, 'interpreter', 'none');
 % loading plots PC1-PC2
 if size(coord, 2) >= 4
     h5 = figure('Name', 'PCA Variables - Coords 3 and 4', 'NumberTitle', 'off');
-    set(gca, axesProperties{:});
-
+    if ~isempty(axesProperties)
+        set(gca, axesProperties{:});
+    end
+    
     drawText(ld.data(:, 3), ld.data(:,4), ld.rowNames, ...
         'HorizontalAlignment', 'Center');
     
@@ -379,7 +398,9 @@ eigenValues = ev.data;
 % correlation plot PC1-PC2
 h1 = figure('Name', 'PCA Correlation Circle - Coords 1 and 2', ...
     'NumberTitle', 'off');
+if ~isempty(axesProperties)
     set(gca, axesProperties{:});
+end
 
 drawText(correl.data(:, 1), correl.data(:,2), correl.colNames, ...
         'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
@@ -394,7 +415,9 @@ title(name, 'interpreter', 'none');
 if size(correl, 2) >= 4
     h2 = figure('Name', 'PCA Correlation Circle - Coords 3 and 4', ...
         'NumberTitle', 'off');
-    set(gca, axesProperties{:});
+    if ~isempty(axesProperties)
+        set(gca, axesProperties{:});
+    end
     
     drawText(correl.data(:, 3), correl.data(:,4), correl.colNames, ...
         'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom');
