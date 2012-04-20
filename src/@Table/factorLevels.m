@@ -2,12 +2,30 @@ function levels = factorLevels(this, colName)
 %FACTORLEVELS List of the levels for a given factor
 %
 %   LEVELS = factorLevels(TAB, COLNAME)
+%   Returns the unique levels contained in the given column.
+%
+%   LEVELS = factorLevels(TAB)
+%   When the table has only one column, it is not necessary to specify the
+%   column name.
 %
 %   Example
-%   factorLevels
+%     % Display the different species in iris data table
+%     iris = Table.read('fisherIris.txt');
+%     factorLevels(iris, 'Species')
+%     ans =
+%         'Setosa'
+%         'Versicolor'
+%         'Virginica'
+%
+%     % alternative syntax:
+%     factorLevels(iris('Species'))
+%     ans =
+%         'Setosa'
+%         'Versicolor'
+%         'Virginica'
 %
 %   See also
-%
+%     hasFactors, isFactor
 %
 % ------
 % Author: David Legland
@@ -16,10 +34,21 @@ function levels = factorLevels(this, colName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-indFactor = columnIndex(this, colName);
+if nargin < 2
+    % assumes data table has only one column
+    if size(this.data, 2) ~= 1
+        error('Require either a column name, or a single column table');
+    end
+    
+    indFactor = 1;
+else
+    % extract column index from column name, and check validity
+    indFactor = columnIndex(this, colName);
+end
 
 if isempty(this.levels{indFactor})
     error('Column "%s" is not a factor', this.colNames{indFactor});
 end
 
+% extract levels
 levels = this.levels{indFactor};

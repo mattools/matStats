@@ -70,8 +70,12 @@ nColors = size(groupColors, 1);
 
 %% Display curves corresponding to each group
 
-% extract goup indices and names
-[groupIndices groupNames] = indexGroupValues(group);
+
+% extraction of groups indices and labels from input table
+[groupIndices groupLabels, groupNames] = parseGroupInfos(group);
+groupLabels = formatLevelLabels(groupLabels, groupNames); 
+
+groupNames = groupLabels;
 nGroups = length(groupNames);
 
 % allocate memory

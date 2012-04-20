@@ -69,8 +69,8 @@ options = parseOptions(varargin{:});
 f = fopen(fileName, 'r');
 if f == -1
     % try to add a txt extension if it was forgotten
-	fileName = [fileName '.txt'];
-    f = fopen(fileName, 'r');
+	fileName2 = [fileName '.txt'];
+    f = fopen(fileName2, 'r');
 end
 if f == -1
 	error('Couldn''t open the file %s', fileName);
