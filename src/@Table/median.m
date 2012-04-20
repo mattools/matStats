@@ -1,13 +1,19 @@
 function res = median(this, varargin)
 %MEDIAN Put the median of each column in a new table
 %
-%   output = median(input)
+%   RES = median(TAB)
+%   Computes the median of each column in the table, and put the result in
+%   a new table.
 %
 %   Example
-%   median
+%     iris = Table.read('fisherIris.txt');
+%     median(iris(:,1:4))
+%     ans =
+%                   SepalLength    SepalWidth    PetalLength    PetalWidth
+%         median            5.8             3           4.35           1.3
 %
 %   See also
-%
+%   mean, std
 %
 % ------
 % Author: David Legland
@@ -16,9 +22,11 @@ function res = median(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
-    error('Can not compute median for table with factors');
+% check conditions
+if hasFactors(this)
+    error('Can not compute mean for table with factors');
 end
+
 
 newName = '';
 if ~isempty(this.name)

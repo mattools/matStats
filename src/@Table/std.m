@@ -1,13 +1,19 @@
 function res = std(this, varargin)
 %STD Put the std of each column in a new table
 %
-%   output = std(input)
+%   RES = std(TAB)
+%   Computes the standard deviation of each column in the table, and put
+%   the result in a new table.
 %
 %   Example
-%   std
+%     iris = Table.read('fisherIris.txt');
+%     std(iris(:,1:4))
+%     ans =
+%                SepalLength    SepalWidth    PetalLength    PetalWidth
+%         std        0.82807       0.43359         1.7644       0.76316
 %
 %   See also
-%
+%   var, mean
 %
 % ------
 % Author: David Legland
@@ -16,8 +22,9 @@ function res = std(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
-    error('Can not compute std for table with factors');
+% check conditions
+if hasFactors(this)
+    error('Can not compute mean for table with factors');
 end
 
 newName = '';

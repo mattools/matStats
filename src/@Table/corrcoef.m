@@ -13,7 +13,16 @@ function res = corrcoef(this, varargin)
 %   coefficient is computed. The result is a scalar.
 %
 %   Example
-%   corrcoef
+%     % correlation matrix of iris data
+%     iris = Table.read('fisherIris.txt');
+%     corrcoef(iris(:, 1:4))
+%     ans = 
+%                        SepalLength    SepalWidth    PetalLength    PetalWidth
+%         SepalLength              1      -0.10937        0.87175       0.81795
+%          SepalWidth       -0.10937             1       -0.42052      -0.35654
+%         PetalLength        0.87175      -0.42052              1       0.96276
+%          PetalWidth        0.81795      -0.35654        0.96276             1
+%
 %
 %   See also
 %     std, cov

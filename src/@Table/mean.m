@@ -11,10 +11,14 @@ function res = mean(this, varargin)
 %   and the result is a table with one column, called 'mean'.
 %
 %   Example
-%   mean
+%     iris = Table.read('fisherIris.txt');
+%     mean(iris(:,1:4))
+%     ans =
+%                 SepalLength    SepalWidth    PetalLength    PetalWidth
+%         mean         5.8433         3.054         3.7587        1.1987
 %
 %   See also
-%
+%   median, std, var
 %
 % ------
 % Author: David Legland
@@ -22,7 +26,7 @@ function res = mean(this, varargin)
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-
+% check conditions
 if hasFactors(this)
     error('Can not compute mean for table with factors');
 end
