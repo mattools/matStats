@@ -1,10 +1,5 @@
-function res = groupStats(this, varargin)
-%GROUPSTATS Compute descriptive stats for each level of a factor column
-%
-%   RES = groupStats(TAB, COLNAME, FACTORNAME)
-%   TAB is a data table with several columns, COLNAME is the index or the
-%   name of the colun containing values, FACTORNAME is the index or the
-%   name of the column containing the factor.
+function varargout = groupStats(this, group, stats, varargin)
+%GROUPSTATS Compute basic statistics for each level of a group
 %
 %   RES = groupStats(TAB, FACT)
 %   TAB is a data table with only one column, FACT is either a numeric
@@ -14,13 +9,13 @@ function res = groupStats(this, varargin)
 %   descriptive statistics for the input values coresponding to this level.
 %
 %   Example
-%     iris = Table.read('fisherIris');
-%     groupStats(iris('petalLength'), iris('class'))
-%     ans = 
-%                        mean        std         sem
-%             Setosa    1.464    0.17351    0.024538
-%         Versicolor     4.26    0.46991    0.066455
-%          Virginica    5.552    0.55189     0.07805
+%     iris = Table.read('fisherIris.txt');
+%     groupStats(iris(:, 1:4), iris('Species'))
+%     ans =
+%                       SepalLength    SepalWidth    PetalLength    PetalWidth
+%             Setosa          5.006         3.418          1.464         0.244
+%         Versicolor          5.936          2.77           4.26         1.326
+%          Virginica          6.588         2.974          5.552         2.026
 %
 %
 %   See also
@@ -33,88 +28,47 @@ function res = groupStats(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-%% Default values
+%% Process input arguments
 
-% number of synthetic descriptive stats
-nStats = 3;
-statNames = {'mean', 'std', 'sem'};
+% if operation is not specified, use 'mean' by default
+if nargin < 3
+    stats = {@mean};
+end
 
-groupNames = {}; 
+% ensure stats is a cell array
+if ~iscell(stats)
+    stats = {stats};
+end
+nStats = length(stats);
 
+% check validity of group
+if size(group, 2) > 1
+    error('group argument must have only 1 column');
+end
 
-%% Parse inpu arguments
+[groupIndices levels label] = parseGroupInfos(group);
+nLevels = length(levels);
 
-if columnNumber(this) == 1
-    % data are all given in first input
+varargout = cell(1, nStats);
+for s = 1:nStats
+    % extract operation to apply
+    op = stats{s};
     
-    % need to specify at least one other input
-    if nargin < 2
-        error('Need to specify the grouping variable');
-    end
-    
-    values = this.data;
-    name = this.colNames{1};
-
-    % second input represents groups
-    var = varargin{1};
-    if isa(var, 'Table')
-        valuesGroup = var.data(:, 1);
-        if isFactor(var, 1)
-            groupNames = var.levels{1};
+    % apply operation on each column
+    data = zeros(nLevels, size(this, 2));
+    for i = 1:nLevels
+        inds = groupIndices == i;
+        for j = 1:size(this, 2);
+            data(i, j) = feval(op, this.data(inds, j));
         end
-        factorName = var.colNames{1};
-        
-    else
-        valuesGroup = var;
-        factorName = '??';
     end
     
-else
-    % need to specify at least two other inputs
-    if nargin < 3
-        error('Need to specify names of data and grouping variables');
-    end
-
-    % parse index of column containing data
-    indValues = columnIndex(this, varargin{1});
-    values = this.data(:, indValues(1));
-    name = this.colNames{indValues(1)};
-
-    % parse index of grouping variable
-    indGroups = columnIndex(this, varargin{2});
-    valuesGroup = this.data(:, indGroups(1));
-    factorName = this.colNames{indGroups(1)};
+    % extract names of rows, or create them if necessary
+    %rowNames = strcat([label '='], levels);
+    rowNames = levels;
     
+    % create result dataTable
+    varargout{s} = Table(data, ...
+        'parent', this, ...
+        'rowNames', rowNames);    
 end
-
-
-%% Compute statistics for each group level
-
-% levels are unique group values
-groups = unique(valuesGroup(:));
-
-% create group names if this was not specified by table
-if isempty(groupNames)
-    groupNames = cellstr(num2str(groups));
-end
-
-nGroups = length(groups);
-
-% allocate memory for result
-resValues = zeros(nGroups, nStats);
-
-% Compute stats for each group
-for i = 1:nGroups
-    % extract the values of the current group
-    vals = values(valuesGroup == groups(i));
-  
-    resValues(i, 1) = mean(vals);
-    resValues(i, 2) = std(vals);
-    resValues(i, 3) = resValues(i,2) / sqrt(length(vals));
-end
-
-% create result data table
-res = Table.create(resValues, ...
-    'rowNames', groupNames, ...
-    'colNames', statNames, ...
-    'name', [name '.' factorName]);

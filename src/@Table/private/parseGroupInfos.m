@@ -18,14 +18,14 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 %
 %
 %   Example
-%   [INDS NAMES] = parseGroupInfos([2 3 2 5 3]')
+%   [INDS LEVELS] = parseGroupInfos([2 3 2 5 3]')
 %   INDS = 
 %       1
 %       2
 %       1
 %       3
 %       2
-%   NAMES =
+%   LEVELS =
 %         [2]
 %         [3]
 %         [5]

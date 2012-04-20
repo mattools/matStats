@@ -30,7 +30,7 @@ function res = aggregate(this, name, op, rowNames)
 %     iris = Table.read('fisherIris');
 %     aggregate(iris(:,1:4), iris('class'), @mean)
 %     ans = 
-%                             sepalLength    sepalWidth    petalLength    petalWidth
+%                             SepalLength    SepalWidth    PetalLength    PetalWidth
 %             class=Setosa          5.006         3.418          1.464         0.244
 %         class=Versicolor          5.936          2.77           4.26         1.326
 %          class=Virginica          6.588         2.974          5.552         2.026
