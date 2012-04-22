@@ -1,9 +1,10 @@
-function varargout = groupStats(this, group, stats, varargin)
+function varargout = groupStats(data, group, stats, varargin)
 %GROUPSTATS Compute basic statistics for each level of a group
 %
 %   RES = groupStats(TAB, FACT)
-%   TAB is a data table with only one column, FACT is either a numeric
+%   TAB is a data table or a data array, FACT is either a numeric
 %   vector, a char array, or a data table with one column.
+%   At least one of TAB and FACT must be a Table object.
 %
 %   The function extracts levels of the factor input, and computes a set of
 %   descriptive statistics for the input values coresponding to this level.
@@ -46,8 +47,19 @@ if size(group, 2) > 1
     error('group argument must have only 1 column');
 end
 
+% extract group infos
 [groupIndices levels label] = parseGroupInfos(group);
 nLevels = length(levels);
+
+% memory allocation
+newData = zeros(nLevels, size(data, 2));
+
+% if data is a Table object, convert it to simple array
+this = [];
+if isa(data, 'Table')
+    this = data;
+    data = data.data;
+end
 
 varargout = cell(1, nStats);
 for s = 1:nStats
@@ -55,11 +67,10 @@ for s = 1:nStats
     op = stats{s};
     
     % apply operation on each column
-    data = zeros(nLevels, size(this, 2));
     for i = 1:nLevels
         inds = groupIndices == i;
-        for j = 1:size(this, 2);
-            data(i, j) = feval(op, this.data(inds, j));
+        for j = 1:size(data, 2);
+            newData(i, j) = feval(op, data(inds, j));
         end
     end
     
@@ -68,7 +79,12 @@ for s = 1:nStats
     rowNames = levels;
     
     % create result dataTable
-    varargout{s} = Table(data, ...
-        'parent', this, ...
-        'rowNames', rowNames);    
+    if isempty(this)
+        varargout{s} = Table(newData, ...
+            'rowNames', rowNames);
+    else
+        varargout{s} = Table(newData, ...
+            'parent', this, ...
+            'rowNames', rowNames);
+    end
 end
