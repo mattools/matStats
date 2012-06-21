@@ -119,6 +119,9 @@ methods
         % check if column names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
+                if length(varargin{1}) ~= size(this.data,2)
+                    error('Number of column names does not match column number');
+                end
                 this.colNames = varargin{1};
                 varargin(1) = [];
             end
@@ -127,6 +130,9 @@ methods
         % check if row names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
+                if length(varargin{1}) ~= size(this.data,1)
+                    error('Number of row names does not match row number');
+                end
                 this.rowNames = varargin{1};
                 varargin(1) = [];
             end
@@ -190,8 +196,8 @@ methods
             
             varargin(1:2) = [];
         end
-        
-        
+       
+            
         % ---------
         % create default values for other fields if they're not initialised
 

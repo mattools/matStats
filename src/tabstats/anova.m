@@ -1,4 +1,4 @@
-function [p, table, stats, terms] = anovan(data, groups, varargin)
+function [p, table, stats, terms] = anova(data, groups, varargin)
 %ANOVAN Multi-way analysis of variance
 %
 %   anovan(DATA, groups)
