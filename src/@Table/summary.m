@@ -74,24 +74,26 @@ if nRows > 0 && nCols > 0
         else
             % data are factors -> display level count
             
-            % first extract unique values
-            [B, I, J] = unique(values); %#ok<ASGLU>
+            % number of levels
+            nbLevels = length(this.levels{iCol});
             
-            % compute occurences of each unique value
-            h = hist(J, 1:max(J))';
+            % Count occurences number of each level
+            h = zeros(nbLevels, 1);
+            for i = 1:nbLevels
+                h(i) = sum(values == i);
+            end
             
             % number of characters of the lengthest level name
             nChar = max(cellfun(@length, this.levels{iCol}));
             pattern = ['%-' num2str(nChar+1) 's %d'];
             
             % display the count of each factor level
-            nbLevels = length(this.levels{iCol});
             for i = 1:min(nbLevels, nDisplayRows)
                 statCells{i} = sprintf(pattern, ...
                     [this.levels{iCol}{i} ':'], h(i));
             end
             
-            % eventually displays the number of levels
+            % eventually displays the number of other levels
             if nbLevels > nDisplayRows
                 statCells{nDisplayRows} = sprintf('%d more: %d', ...
                     nbLevels-nDisplayRows+1, sum(h(nDisplayRows:end)));
