@@ -25,6 +25,9 @@ res = groupStats(iris(:, 1:4), iris('Species'));
 exp = [3 4];
 assertElementsAlmostEqual(exp, size(res));
 
+assertTrue(iscell(res.rowNames));
+assertEqual(3, length(res.rowNames));
+
 function test_SeveralOutputs
 
 iris = Table.read('fisherIris.txt');

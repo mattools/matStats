@@ -75,9 +75,8 @@ for s = 1:nStats
     end
     
     % extract names of rows, or create them if necessary
-    %rowNames = strcat([label '='], levels);
-    rowNames = levels;
-    
+    rowNames = strcat([label{1} '='], levels);
+        
     % create result dataTable
     if isempty(this)
         varargout{s} = Table(newData, ...

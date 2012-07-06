@@ -74,12 +74,15 @@ elseif isa(group, 'Table')
             [levelInds pos inds] = unique(nameIndices(:,iGroup)); %#ok<ASGLU>
             
             nameIndices(:,iGroup) = inds;
-            levels = num2cell(levelInds);
+            levels = strtrim(cellstr(num2str(levelInds)));
         end
         
         % associate each level index to level name
         for iLevel = 1:length(levelInds)
+            % find indices
             inds = nameIndices(:,iGroup) == iLevel;
+           
+            % associate name to index
             levelNames(inds, iGroup) = levels(iLevel);
         end
         
