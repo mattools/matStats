@@ -42,6 +42,7 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 if isnumeric(group)
     % group can be given as a numeric column vector
     [levelNames pos groupIndices] = unique(group, 'rows'); %#ok<ASGLU>
+    levelNames = strtrim(cellstr(num2str(levelNames)));
     labels = {inputname(1)};
     
 elseif iscell(group)
