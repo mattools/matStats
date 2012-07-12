@@ -1,5 +1,5 @@
 function varargout = boxplot(varargin)
-%BOXPLT Box plot of a data table
+%BOXPLOT Box plot of a data table
 %
 %   boxplot(TAB)
 %   Displays boxplots of the columns in data table TAB.
