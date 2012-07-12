@@ -1,5 +1,5 @@
 function varargout = scatterGroup(this, varargin)
-%TABLEPLOTCLASSES scatter plot individuals grouped by classes
+%SCATTERGROUP Scatter plot individuals grouped by classes
 %
 %   scatterGroup(VAR1, VAR2, GROUP)
 %
@@ -47,7 +47,7 @@ function varargout = scatterGroup(this, varargin)
 %     scatterGroup(tab(:,3), tab(:,4), tab('Species'), 'envelope', 'ellipse')
 %
 %   See also
-%   scatter
+%   scatter, scatterNames
 %
 % ------
 % Author: David Legland

@@ -1,5 +1,5 @@
 function res = ceil(this)
-%RES Ceil values in the table
+%CEIL Ceil values in the table
 %
 %   RES = ceil(TAB)
 %   Returns a new table with ceiled values.

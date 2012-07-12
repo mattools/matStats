@@ -1,5 +1,7 @@
 function varargout = scatterLabels(this, var1, var2, labels, varargin)
-%SCATTERNAME Scatter labels according to 2 variables
+%SCATTERLABELS Scatter labels according to 2 variables
+%
+%   Note: should consider scatterNames as a replacement for this function.
 %
 %   scatterLabels(TAB, VAR1, VAR2, LABELS)
 %   where TABLE is a Table object, and VAR1 and VAR2 are either indices or
@@ -13,7 +15,7 @@ function varargout = scatterLabels(this, var1, var2, labels, varargin)
 %   scatterLabels
 %
 %   See also
-%
+%   scatterNames
 %
 % ------
 % Author: David Legland

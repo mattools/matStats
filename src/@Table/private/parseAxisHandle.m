@@ -1,13 +1,16 @@
 function [ax varargin] = parseAxisHandle(varargin)
 %PARSEAXISHANDLE Parse handle to axis, or return current axis
 %
-%   [AX VARARGIN] = parseAxisHandle(...)
+%   [ax varargin] = parseAxisHandle(varargin{:})
 %   If first input argument is an axis handle, return it in AX. Otherwise,
-%   return an handle tio th current axis.
+%   return an handle to the current axis.
 %   The rest of the arguments are returned in VARARGIN.
 %
 %   Example
-%   parseAxisHandle
+%     function myFunction(varargin)
+%       [ax varargin] = parseAxisHandle(varargin{:});
+%       % ... parse other arguments
+%       plot(ax, ...); % plot on specified axis
 %
 %   See also
 %     parseAxisAndTable
@@ -31,7 +34,7 @@ if isa(var1, 'Table')
     % in this case, check if second argument is a scalar axis handle
     if nargin > 1
         var2 = varargin{2};
-        if isscalar(var2) && ishandle(var2)
+        if isAxesHandle(var2)
             ax = var2;
             varargin(2) = [];
         end
@@ -40,7 +43,7 @@ if isa(var1, 'Table')
 else
     % if first argument is not a table, it can be an axis or something else
     % (x data...)
-    if isscalar(var1) && ishandle(var1)
+    if isAxesHandle(var1)
         ax = var1;
         varargin(1) = [];
     end
@@ -50,3 +53,8 @@ end
 if isempty(ax)
     ax = gca;
 end
+
+
+function b = isAxesHandle(h)
+
+b = isscalar(h) && ishandle(h) && strcmp(get(h, 'type'), 'axes');

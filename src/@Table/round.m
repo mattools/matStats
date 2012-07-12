@@ -1,5 +1,5 @@
 function res = round(this)
-%RES Round values in the table
+%ROUND Round values in the table
 %
 %   RES = round(TAB)
 %   Returns a new table with rounded values.

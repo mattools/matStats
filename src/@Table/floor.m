@@ -1,5 +1,5 @@
 function res = floor(this)
-%RES Floor values in the table
+%FLOOR Floor values in the table
 %
 %   RES = floor(TAB)
 %   Returns a new table with floored values.

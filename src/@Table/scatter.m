@@ -26,7 +26,7 @@ function varargout = scatter(this, varargin)
 %     scatter(iris('Species'), iris('PetalLength'), 's')
 %
 %   See also
-%     plot
+%     plot, scatterNames, scatterGroup
 %
 % ------
 % Author: David Legland

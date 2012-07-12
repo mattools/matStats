@@ -1,5 +1,5 @@
 function res = power(this, arg)
-%MPOWER Overload the power operator for Table objects
+%POWER Overload the power operator for Table objects
 %
 %   output = mpower(input)
 %

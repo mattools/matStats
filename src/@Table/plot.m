@@ -1,4 +1,4 @@
-function varargout = plot(this, varargin)
+function varargout = plot(varargin)
 %PLOT Plot the content of a column
 %
 %   Syntax
@@ -27,15 +27,12 @@ function varargout = plot(this, varargin)
 
 %% Process input arguments
 
-% determines whether an axis handle is given as argument
-ax = gca;
-if ~isempty(varargin)
-    var1 = varargin{1};
-    if isscalar(var1) && ishandle(var1)
-        ax = var1;
-        varargin(1) = [];
-    end
-end
+% Extract the axis handle to draw in
+[ax varargin] = parseAxisHandle(varargin{:});
+
+% extract calling table
+this = varargin{1};
+varargin(1) = [];
 
 % default tables for plotting
 tabX = [];

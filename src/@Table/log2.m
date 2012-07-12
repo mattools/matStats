@@ -1,5 +1,5 @@
 function res = log2(this)
-%LOG Binary logarithm of table values
+%LOG2 Binary logarithm of table values
 %
 %   RES = log2(TAB)
 %   Returns table with same row names and column names, but whose values

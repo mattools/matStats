@@ -34,13 +34,8 @@ function varargout = boxplot(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-% determines whether an axis handle is given as argument
-ax = gca;
-if ishandle(varargin{1})
-    ax = varargin{1};
-    varargin(1) = [];
-end
-
+% Extract the axis handle to draw in
+[ax varargin] = parseAxisHandle(varargin{:});
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
