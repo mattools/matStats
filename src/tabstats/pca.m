@@ -231,12 +231,12 @@ if display && scale
     h = displayCorrelationCircle(name, correl, ev, axesProperties);
     
     if saveFiguresFlag
-        fileName = sprintf('%s-pca.cc12.png', name);
-        print(h(1), fullfile(dirFigs, fileName));
+        fileName = sprintf('%s-pca.cc12.png', this.name);
+        print(h(1), fullfile(dirFigures, fileName));
         
         if ishandle(h(2))
-            fileName = sprintf('%s-pca.cc34.png', baseName);
-            print(h(2), fullfile(dirFigs, fileName));
+            fileName = sprintf('%s-pca.cc34.png', this.name);
+            print(h(2), fullfile(dirFigures, fileName));
         end
     end
 end
@@ -285,7 +285,9 @@ eigenValues = ev.data;
 
 % distribution of the first 10 eigen values
 h1 = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');
-set(gca, axesProperties{:});
+if ~isempty(axesProperties)
+    set(gca, axesProperties{:});
+end
 
 nx = min(10, size(coord, 2));
 plot(1:nx, eigenValues(1:nx, 2));
