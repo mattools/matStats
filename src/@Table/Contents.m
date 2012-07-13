@@ -103,7 +103,6 @@
 %   boxplot                 - Box plot of a data table
 %   bar                     - Bar plot of the table data
 %   plotmatrix              - Overload plotmatrix function to display column names
-%   scatterGroup            - Scatter plot individuals grouped by classes
 %   scatterLabels           - Scatter labels according to 2 variables
 %   scatterPlot             - Scatter plot of two columns in a table
 %   plotRows                - Plot all the rows of the data table
@@ -116,8 +115,11 @@
 %   hasFactors              - Check if the table has column(s) representing factor(s)
 %   clearFactors            - Replace all factor columns by numeric columns
 %   parseFactorFromRowNames - Create a factor table by parsing row names
+%   groupStats              - Compute basic statistics for each level of a group
+%   paragons                - Find paragon for each level of a group
 %
 %   Display groups
+%   scatterGroup            - Scatter plot individuals grouped by classes
 %   plotGroups              - Display data ordererd by their group levels
 %   plotGroupMeans          - One-line description here, please.
 %   plotGroupRows           - Plot data table rows with different style by group
@@ -131,6 +133,4 @@
 %   Not yet integrated
 %   addColumn               - Add a new column to the data table
 %   aggregate               - Group table rows according to unique values in a vector or column
-%   groupStats              - Compute basic statistics for each level of a group
 %   groupfun                - Aggregate table values according to levels of a group
-
