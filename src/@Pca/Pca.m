@@ -301,6 +301,102 @@ methods
         h = [h1 h2 h3 h4 h5];
     end
     
+    function varargout = scorePlot(this, cp1, cp2, varargin) 
+        % individuals in plane PC1-PC2
+        
+        if nargin < 3 || ischar(cp1)
+            cp1 = 1;
+            cp2 = 2;
+        end
+        
+        % extract display options
+        showNames = true;
+        for i = 1:2:(length(varargin)-1)
+            if strncmp('showNames', varargin{i})
+                showNames = varargin{i+1};
+                varargin(i:i+1) = [];
+                break;
+            end
+        end
+        
+        % create new figure
+        str = sprintf('PCA - Comp. %d and %d', cp1, cp2);
+        h = figure('Name', str, 'NumberTitle', 'off');
+        if ~isempty(varargin)
+            set(gca, varargin{:});
+        end
+        
+        % score coordinates
+        x = this.scores(:, cp1).data;
+        y = this.scores(:, cp2).data;
+        
+        % display either names or dots
+        if showNames
+            drawText(x, y, this.scores.rowNames);
+        else
+            plot(x, y, '.k');
+        end
+        
+        % create legends
+        vl1 = this.eigenValues(cp1, 2).data;
+        vl2 = this.eigenValues(cp2, 2).data;
+        xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
+        ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
+        title(this.tableName, 'interpreter', 'none');
+        
+        if nargout > 0
+            varargout = {h};
+        end
+    end
+    
+    function varargout = loadingPlot(this, cp1, cp2, varargin)
+        % loading plot in plane PC1-PC2
+        
+        if nargin < 3 || ischar(cp1)
+            cp1 = 1;
+            cp2 = 2;
+        end
+        
+        % extract display options
+        showNames = true;
+        for i = 1:2:(length(varargin)-1)
+            if strncmp('showNames', varargin{i})
+                showNames = varargin{i+1};
+                varargin(i:i+1) = [];
+                break;
+            end
+        end
+        
+        % create new figure
+        str = sprintf('PCA Variable - Comp. %d and %d', cp1, cp2);
+        h = figure('Name', str, 'NumberTitle', 'off');
+        if ~isempty(varargin)
+            set(gca, varargin{:});
+        end
+        
+        % score coordinates
+        x = this.loadings(:, cp1).data;
+        y = this.loadings(:, cp2).data;
+        
+        % display either names or dots
+        if showNames
+            drawText(x, y, this.loadings.rowNames);
+        else
+            plot(x, y, '.k');
+        end
+        
+        % create legends
+        vl1 = this.eigenValues(cp1, 2).data;
+        vl2 = this.eigenValues(cp2, 2).data;
+        xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
+        ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
+        title(this.tableName, 'interpreter', 'none');
+        
+        if nargout > 0
+            varargout = {h};
+        end
+    end
+    
     
     function saveFigures(this, hFigs, dirFigs)
         
@@ -384,16 +480,76 @@ methods
         h = [h1 h2];
     end
 
+    function varargout = correlationCircle(this, cp1, cp2, varargin)
+        % Plot correlation circle in plane given by two PC
+        
+        if nargin < 3 || ischar(cp1)
+            cp1 = 1;
+            cp2 = 2;
+        end
+        
+        % extract display options
+        showNames = true;
+        for i = 1:2:(length(varargin)-1)
+            if strncmp('showNames', varargin{i})
+                showNames = varargin{i+1};
+                varargin(i:i+1) = [];
+                break;
+            end
+        end
+        
+        % create new figure
+        str = sprintf('PCA Correlation Circle - Comp. %d and %d', cp1, cp2);
+        h = figure('Name', str, 'NumberTitle', 'off');
+        if ~isempty(varargin)
+            set(gca, varargin{:});
+        end
+        
+        name = this.tableName;
+        values = this.eigenValues.data;
+        
+        % Create the correlation table
+        nv = size(this.scores, 2);
+        correl = zeros(nv, nv);
+        for i = 1:nv
+            correl(:,i) = sqrt(values(i)) * this.loadings(:,i).data;
+        end
+
+        correl = Table.create(correl, ...
+            'rowNames', this.loadings.rowNames, ...
+            'name', name, ...
+            'colNames', this.loadings.colNames);
+        
+        
+        % score coordinates
+        x = correl(:, cp1).data;
+        y = correl(:, cp2).data;
+        
+        % display either names or dots
+        if showNames
+            drawText(x, y, correl.rowNames, ...
+                'HorizontalAlignment', 'Center', ...
+                'VerticalAlignment', 'Bottom');
+        end
+        
+        hold on; 
+        plot(x, y, '.');
+        makeCircleAxis;
+        
+        % create legends
+        vl1 = this.eigenValues(cp1, 2).data;
+        vl2 = this.eigenValues(cp2, 2).data;
+        xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
+        ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
+        title(this.tableName, 'interpreter', 'none');
+        
+        if nargout > 0
+            varargout = {h};
+        end
+    end
+    
 end % end methods
 
-
-% %% Display Methods
-% methods
-%     function disp(this)
-%         disp('PCA Result');
-%     end
-%     
-% end % end methods
 
 end % end classdef
 
