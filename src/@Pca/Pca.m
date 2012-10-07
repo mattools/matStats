@@ -1,16 +1,16 @@
 classdef Pca < handle
 %PCA  Performs a Principal Components Analysis
 %
-%   RES = pca(TAB);
-%   Performs Principal Components Analysis (PCA) of the data in table TAB
-%   with N rows and P columns, and returns the result in a data structures
-%   with following fields:
+%   RES = Pca(TAB);
+%   Performs Principal Components Analysis (PCA) of the data table TAB with
+%   N rows and P columns, and returns the result in a new instance of Pca
+%   class with following fields:
 %     scores        the new coordinates of individuals, as N-by-P array
 %     loadings      the loadinds (or coefficients) of PCA, as P-by-P array
 %     eigenValues   values of inertia, inertia percent and cumulated inertia
 %     means         the mean value of each column of original data array
 %   
-%   res = pca(TAB, PARAM, VALUE);
+%   res = Pca(TAB, PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
 %   Available options are: 
 %
@@ -163,7 +163,7 @@ methods
         
         % display correlation circle
         if display && scale
-            h = displayCorrelationCircle(this, axesProperties);
+            h = displayCorrelationCircle(this, axesProperties{:});
             
             if saveFiguresFlag
                 fileName = sprintf('%s-pca.cc12.png', this.tableName);
