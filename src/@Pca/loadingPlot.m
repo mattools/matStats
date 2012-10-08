@@ -1,13 +1,16 @@
 function varargout = loadingPlot(this, cp1, cp2, varargin)
 %LOADINGPLOT Plot variables in a factorial plane
 %
-%   output = loadingPlot(input)
+%   loadingPlot(PCA, I, J)
+%
+%   loadingPlot(PCA)
+%   Assumes I = 1 and J = 2.
 %
 %   Example
 %   loadingPlot
 %
 %   See also
-%
+%       correlationCircle
 %
 % ------
 % Author: David Legland
@@ -16,9 +19,16 @@ function varargout = loadingPlot(this, cp1, cp2, varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 if nargin < 3 || ischar(cp1)
+    % update option list
+    if ischar(cp1)
+        varargin = [{cp1, cp2} varargin];
+    end
+    
+    % choose default axis
     cp1 = 1;
-    cp2 = 2;
+    cp2 = 2;    
 end
+
 
 nc = size(this.scores, 2);
 if cp1 > nc || cp2 > nc
@@ -53,12 +63,7 @@ else
     plot(x, y, '.k');
 end
 
-% % create legends
-% vl1 = this.eigenValues(cp1, 2).data;
-% vl2 = this.eigenValues(cp2, 2).data;
-% xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
-% ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
-% title(this.tableName, 'interpreter', 'none');
+% create legends
 annotateFactorialPlot(this, cp1, cp2);
 
 if nargout > 0
