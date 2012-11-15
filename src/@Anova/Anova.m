@@ -38,6 +38,11 @@ methods
     function this = Anova(data, groups, varargin)
     % Constructor for Anova class
 
+        % check presence of stats toolbox
+        if isempty(strfind(path, [fullfile('toolbox', 'stats') ';']))
+            error('Requires the statistcs toolbox');
+        end
+
         % copy constructor
         if isa(data, 'Pca')
             this.tableName  = data.tableName;
