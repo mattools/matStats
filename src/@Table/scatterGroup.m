@@ -77,7 +77,7 @@ if size(this.data, 2) == 1
 
 else
     % Data are given as one table and three column names/indices
-    if nargin < 4 
+    if nargin < 3 
         error(['Table:' mfilename ':NotEnoughArguments'], ...
             'Need to specify names of x and y columns');
     end
@@ -94,11 +94,14 @@ else
     ydata = this.data(:, indy(1));
     nameY = this.colNames{indy(1)};
     
-    % index of third column
     var3 = varargin{3};
-    indG = this.columnIndex(var3);
-    group = this.data(indG(1));
-    
+    if isa(var3, 'Table')
+        group = var3.data;
+    else
+        % index of third column
+        indG = this.columnIndex(var3);
+        group = this.data(indG(1));
+    end    
     varargin(1:3) = [];
 end
 
