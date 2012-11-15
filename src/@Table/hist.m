@@ -2,15 +2,17 @@ function hist(this, varargin)
 %HIST Histogram plot of a column in a data table
 %
 %   hist(TAB)
-%   Displays histogram of table obejct TAB, that is assumed to contains
+%   Displays histogram of table object TAB, that is assumed to contains
 %   only one column.
 %
 %
 %   Example
-%   histogram
+%     % Histogram of Iris Sepal Length
+%     iris = Table.read('fisherIris');
+%     hist(iris('SepalLength'), 20);
 %
 %   See also
-%
+%     plotmatrix
 %
 % ------
 % Author: David Legland

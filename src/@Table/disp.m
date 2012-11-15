@@ -74,7 +74,10 @@ if nRows > 0 && nCols > 0
             end
         end
 
-        % add the name of the colum
+        % add the name of the column
+        if isempty(name)
+            name = ' ';
+        end
         colText = strjust(strvcat(name, colText)); %#ok<VCAT>
         
         
