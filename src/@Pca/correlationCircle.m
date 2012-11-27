@@ -70,16 +70,12 @@ if showNames
         'VerticalAlignment', 'Bottom');
 end
 
+% setup display
 hold on;
 plot(x, y, '.');
 makeCircleAxis;
 
-% % create legends
-% vl1 = this.eigenValues(cp1, 2).data;
-% vl2 = this.eigenValues(cp2, 2).data;
-% xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
-% ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
-% title(this.tableName, 'interpreter', 'none');
+% create legends
 annotateFactorialPlot(this, cp1, cp2);
 
 if nargout > 0

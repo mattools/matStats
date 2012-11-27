@@ -74,13 +74,13 @@ methods
         
         % copy constructor
         if isa(data, 'Pca')
-            this.tableName  = data.tableName;
-            this.scaled     = data.scaled;
+            this.tableName      = data.tableName;
+            this.scaled         = data.scaled;
 
-            this.means      = data.means;
-            this.scores     = data.scores;
-            this.loadings   = data.loadings;
-            this.eigenValues     = data.eigenValues;
+            this.means          = data.means;
+            this.scores         = Table(data.scores);
+            this.loadings       = Table(data.loadings);
+            this.eigenValues    = Table(data.eigenValues);
             return;
         end
         
