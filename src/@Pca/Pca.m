@@ -133,17 +133,19 @@ methods
         % ensure data is a data table
         if isnumeric(data)
             data = Table(data);
+            data.name = inputname(1);
         end
         
+        % compute PCA results
         [m sc ld ev] = computePCA(data, scale);
         
         % keep results
-        this.scaled     = scale;
-        this.tableName  = data.name;
-        this.means      = m;
-        this.scores     = sc;
-        this.loadings   = ld;
-        this.eigenValues = ev;
+        this.scaled         = scale;
+        this.tableName      = data.name;
+        this.means          = m;
+        this.scores         = sc;
+        this.loadings       = ld;
+        this.eigenValues    = ev;
         
         
         
@@ -306,6 +308,13 @@ methods
 
 end % end methods
 
+methods
+    function disp(this)
+        disp('Principal Component Analysis Result');
+        disp(['  Input data: ' this.tableName]);
+        
+    end
+end
 
 end % end classdef
 
