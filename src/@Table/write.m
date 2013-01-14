@@ -176,11 +176,11 @@ end
 
 % add '%s ' in the beginning if missing
 if nTokens ~= nCols + 1
-    len = -1;
-    for i = 1:nRows
-        len = max(len, length(this.rowNames{i}));
-    end
-
+%     len = -1;
+%     for i = 1:nRows
+%         len = max(len, length(this.rowNames{i}));
+%     end
+    len = max(cellfun(@length, this.rowNames));
     format = ['%-' int2str(len) 's ' format];
 end
 

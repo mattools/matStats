@@ -39,6 +39,7 @@ if isnumeric(colData) || islogical(colData)
 else
     % column is a factor
     if ischar(colData)
+        % Factor are given as a char array
         [levels pos indices] = unique(strtrim(colData), 'rows');
         [pos2 inds] = sort(pos); %#ok<ASGLU>
         
@@ -54,13 +55,12 @@ else
         
     elseif iscell(colData)
         % Factor are given as a cell array
-        [levels pos indices]  = unique(strtrim(colData));  %#ok<ASGLU>
+        [levels pos indices] = unique(strtrim(colData));  %#ok<ASGLU>
         numData = indices;
         this.levels{nCols + 1} = levels;
-%         error('Not yet implemented');
         
     else
-        error(['Column data have an unknown type: ' class(colData)]);
+        error(['Column factor have an unknown type: ' class(colData)]);
     end
 end
 
