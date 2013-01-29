@@ -40,7 +40,7 @@ if nRows > 0 && nCols > 0
     
     % init row names
     if ~isempty(this.rowNames)
-        txtArray = strjust([colPad char([{' '}; this.rowNames(:)])]);
+        txtArray = strjust([colPad char([{' '}; this.rowNames(:)])], 'left');
     else
         txtArray = char(zeros(nRows + 1, 0));
     end
