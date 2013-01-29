@@ -8,7 +8,7 @@
 %   Table                   - Class for data table with named rows and columns
 %   create                  - Create a new data table
 %
-%   Files
+%   Basic functions
 %   columnIndex             - Index of a column from its name
 %   isColumnName            - Check if the table contains a column with the given name
 %   columnNumber            - Number of columns in the table
@@ -84,6 +84,7 @@
 %   Basic statistical analyses
 %   summary                 - Display a summary of the data in the table
 %   stats                   - Compute basic descriptive statistics on data table columns
+%   aggregate               - Group table rows according to unique values in a vector or column
 %   corrcoef                - Correlation coefficients of table data
 %   cov                     - Covariance matrix of the data table
 %   zscore                  - Standardized z-score
@@ -101,10 +102,12 @@
 %   surf                    - Surfacic representation of the data stored in a Table
 %   hist                    - Histogram plot of a column in a data table
 %   boxplot                 - Box plot of a data table
+%   violinPlot              - Plot distribution of data in a table
 %   bar                     - Bar plot of the table data
 %   plotmatrix              - Overload plotmatrix function to display column names
 %   scatterLabels           - Scatter labels according to 2 variables
 %   scatterPlot             - Scatter plot of two columns in a table
+%   correlationCircles      - Represent correlation matrix using colored circles
 %   plotRows                - Plot all the rows of the data table
 %
 %   Factors
@@ -119,18 +122,21 @@
 %   paragons                - Find paragon for each level of a group
 %
 %   Display groups
+%   kmeans                  - K-means clustering of the data table
 %   scatterGroup            - Scatter plot individuals grouped by classes
 %   plotGroups              - Display data ordererd by their group levels
 %   plotGroupMeans          - One-line description here, please.
 %   plotGroupRows           - Plot data table rows with different style by group
 %   plotGroupErrorBars      - One-line description here, please.
 %
+%   Utility functions
+%   addColumn               - Add a new column to the data table
+%   bsxfun                  - Binary Singleton Expansion Function for Table
+%   unique                  - Returns unique values in data tables
 
 
 %   Deprecated
 %   groupStatsOld           - GROUPSTATS Compute descriptive stats for each level of a factor column
 
 %   Not yet integrated
-%   addColumn               - Add a new column to the data table
-%   aggregate               - Group table rows according to unique values in a vector or column
 %   groupfun                - Aggregate table values according to levels of a group

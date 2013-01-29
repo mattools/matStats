@@ -25,7 +25,7 @@ function varargout = boxplot(varargin)
 %     boxplot(iris('PetalLength'), iris('Species')));
 %
 %   See also
-%
+%     violinPlot
 %
 % ------
 % Author: David Legland
