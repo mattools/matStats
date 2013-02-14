@@ -21,24 +21,59 @@ function [means sc ld ev] = computePCA(this, scale)
 means = mean(this.data, 1);
 cData = bsxfun(@minus, this.data, means);
 
-% optional scaling of data (divide by standard deviation)
+% optional scaling of data (divide each column by standard deviation)
 if scale
     sigma   = sqrt(var(cData));
-    cData   = cData * diag(1 ./ sigma);
+    try 
+        cData   = cData * diag(1 ./ sigma);
+    catch %#ok<CTCH>
+        for i = 1:size(cData, 2)
+            if abs(sigma(i)) > 1e-10
+                cData(:,i) = cData(:,i) / sigma(i);
+            end
+        end
+    end
 end
 
 
 %% Computation of Principal components
 
 % computation of covariance matrix
-V = cData' * cData;  
+
+transpose = false;
+if size(cData, 1) < size(cData, 2) && size(cData, 2) > 50
+    % If data table has large number of variables, computes the covariance
+    % matrix on the transposed array.
+    % Result V has dimension nind x nind
+    transpose = true;
+    V = cData * cData';
+    
+else
+    % V has dimension nvar * nvar
+    V = cData' * cData;  
+end
+
+% divides by the number of rows to have a covariance
 V = V / (size(cData, 1) - 1);
+
 
 % Diagonalisation of the covariance matrix.
 % * eigenVectors: basis transform matrix
 % * vl: eigen values diagonal matrix
 % * coord: not used
-[eigenVectors, vl, coord] = svd(V); %#ok<NASGU>
+[eigenVectors, vl, coord] = svd(V);
+
+% In case the input table was transposed, eigen vectors need to be
+% recomputed from the coord array
+if transpose
+    eigenVectors = cData' * coord;
+    
+    % Normalisation of eigen vectors, such that eigenVectors * eigenVectors
+    % corresponds to identity matrix
+    for i = 1:size(eigenVectors, 2)
+        eigenVectors(:,i) = eigenVectors(:,i) / sqrt(sum(eigenVectors(:,i) .^ 2));
+    end
+end
 
 % compute new coordinates from the eigen vectors
 coord = cData * eigenVectors;
@@ -46,15 +81,19 @@ coord = cData * eigenVectors;
 % compute array of eigen values
 vl = diag(vl);
 eigenValues = zeros(length(vl), 3);
-eigenValues(:, 1) = vl;
-eigenValues(:, 2) = 100 * vl / sum(vl);
-eigenValues(:, 3) = cumsum(eigenValues(:,2));
+eigenValues(:, 1) = vl;                         % eigen values
+eigenValues(:, 2) = 100 * vl / sum(vl);         % inertia
+eigenValues(:, 3) = cumsum(eigenValues(:,2));   % cumulated inertia
 
 
 %% Create result data tables
 
 % name of new columns
-varNames = strtrim(cellstr(num2str((1:size(this.data, 2))', 'pc%d')));
+nCols = size(this.data, 2);
+if transpose
+    nCols = size(this.data, 1);
+end
+varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')));
 
 % Table object for new coordinates
 if ~isempty(this.name)

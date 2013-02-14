@@ -37,7 +37,7 @@ classdef Pca < handle
 %       will be saved. Default is current directory.
 %
 %   'axesProperties' a cell array of parameter name-value pairs, that will
-%       be applied to each new created figure.
+%       be applied to each newly created figure.
 %
 %   Example
 %     % Principal component Analysis of Fisher's iris
@@ -54,12 +54,26 @@ classdef Pca < handle
 
 %% Properties
 properties
+    % The name of the input table
     tableName;
+    
+    % A boolean flag indicating whether the input table is scaled or not
     scaled;
     
+    % the mean value of each variable. 1-by-NV
     means;
+
+    % Table of coordinates of each individual in new coordinate system
+    % NI-by-NC (NC: Number of components)
     scores;
+    
+    % Table of coordinates of each variable in the new coordinate system
+    % NV-by-NC
     loadings;
+    
+    % The array of eigen values, inertia, and cumulated inertia
+    % NC-by-3 
+
     eigenValues;
     
     % indsup;
@@ -87,18 +101,24 @@ methods
         
         %% Parse input arguments
         
+        if mod(length(varargin), 2) > 0
+            error('Should specify options as parameter name-value pairs');
+        end
+        
         % analysis options
         scale           = true;
         
+        nVars = size(data, 2);
+        
         % other options
         display         = true;
-        showNames       = true;
+        showNames       = nVars < 100;
         saveFiguresFlag = false;
         dirFigures      = pwd;
         saveResultsFlag = false;
         dirResults      = pwd;
         axesProperties  = {};
-        
+
         while length(varargin) > 1
             paramName = varargin{1};
             switch lower(paramName)
@@ -178,6 +198,17 @@ methods
             end
         end
 
+        
+        function b = parseBoolean(string)
+            if islogical(string)
+                b = string;
+            elseif ischar(string)
+                b = sum(strcmpi(string, {'true', 'on'})) > 0;
+            elseif isnumeric(string)
+                b = string ~= 0;
+            end
+        end
+        
     end % end of main constructor
 
 end % end constructors
@@ -222,8 +253,8 @@ methods
         end
         
         nx = min(10, size(coord, 2));
-        plot(1:nx, values(1:nx, 2));
-        xlim([1 nx]);
+        bar(1:nx, values(1:nx, 2));
+        xlim([0 nx+1]);
         xlabel('Number of components');
         ylabel('Inertia (%)');
         title([name ' - eigen values'], 'interpreter', 'none');
@@ -240,11 +271,11 @@ methods
         
         
         % loading plots PC1-PC2
-        h4 = loadingPlot(this, 1, 2, axesProperties{:});
+        h4 = loadingPlot(this, 1, 2, 'showNames', showNames, axesProperties{:});
         
         % loading plots PC3-PC4
         if size(coord, 2) >= 4
-            h5 = loadingPlot(this, 3, 4, axesProperties{:});
+            h5 = loadingPlot(this, 3, 4, 'showNames', showNames, axesProperties{:});
         end
         
         % return handle array to figures
@@ -310,8 +341,20 @@ end % end methods
 
 methods
     function disp(this)
+        
+        if this.scaled
+            scaleString = 'true';
+        else
+            scaleString = 'false';
+        end
+        
         disp('Principal Component Analysis Result');
-        disp(['  Input data: ' this.tableName]);
+        disp(['   Input data: ' this.tableName]);
+        disp(['       scaled: ' scaleString]);
+        disp(['        means: ' sprintf('<%dx%d> double', size(this.means))]);
+        disp(['       scores: ' sprintf('<%dx%d> Table', size(this.scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d> Table', size(this.loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d> Table', size(this.eigenValues))]);
         
     end
 end
