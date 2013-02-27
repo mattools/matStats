@@ -15,6 +15,10 @@ function tab = read(fileName, varargin)
 %     'fisherIris'  classical Fisher's Iris data set
 %     'fleaBeetles' a data set included in R software, see:
 %       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
+%     'decathlon'   results of sportive tournament, described in:
+%       http://factominer.free.fr/classical-methods/analyse-en-composantes-
+%       principales.html
+%
 %
 %   TABLE = Table.read(..., PARAM, VALUE);
 %   Can specifiy parameters when reading the file. Available parameters

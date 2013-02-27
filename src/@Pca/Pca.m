@@ -44,7 +44,11 @@ classdef Pca < handle
 %     iris = Table.read('fisherIris');
 %     res = Pca(iris(:,1:4));
 %
+%     % Principal component Analysis on Decathlon data
+%     tab = Table.read('decathlon');
+%     resPca = Pca(tab(:,1:10));
 %
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
