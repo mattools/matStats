@@ -241,29 +241,17 @@ methods
     function h = displayPcaResults(this, showNames, axesProperties)
         % Display results of PCA
         
-        % extract data
-        name = this.tableName;
-        coord = this.scores.data;
-        values = this.eigenValues.data;
+        % number of principal components to display
+        npc = size(this.scores.data, 2);
         
-        % distribution of the first 10 eigen values
-        h1 = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');
-        if ~isempty(axesProperties)
-            set(gca, axesProperties{:});
-        end
-        
-        nx = min(10, size(coord, 2));
-        bar(1:nx, values(1:nx, 2));
-        xlim([0 nx+1]);
-        xlabel('Number of components');
-        ylabel('Inertia (%)');
-        title([name ' - eigen values'], 'interpreter', 'none');
+        % Scree plot of the PCA
+        h1 = screePlot(this, axesProperties{:});
         
         % individuals in plane PC1-PC2
         h2 = scorePlot(this, 1, 2, 'showNames', showNames, axesProperties{:});
 
         % individuals in plane PC3-PC4
-        if size(coord, 2) >= 4
+        if npc >= 4
             h3 = scorePlot(this, 3, 4, 'showNames', showNames, axesProperties{:});
         else
             h3 = -1;
@@ -274,7 +262,7 @@ methods
         h4 = loadingPlot(this, 1, 2, 'showNames', showNames, axesProperties{:});
         
         % loading plots PC3-PC4
-        if size(coord, 2) >= 4
+        if npc >= 4
             h5 = loadingPlot(this, 3, 4, 'showNames', showNames, axesProperties{:});
         end
         

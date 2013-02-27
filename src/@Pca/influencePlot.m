@@ -1,4 +1,4 @@
-function influencePlot(this)
+function varargout = influencePlot(this, varargin)
 %INFLUENCEPLOT  One-line description here, please.
 %
 %   output = influencePlot(input)
@@ -19,12 +19,30 @@ n = size(this.scores, 1);
 % p = size(this.scores, 2);
 
 
-% xi = sqrt(sum(this.scores.data .^ 2, 2));
+xi = sqrt(sum(this.scores.data .^ 2, 2));
 % xi = max(abs(this.scores.data), [], 2);
-xi = abs(this.scores.data(:,1));
+% xi = abs(this.scores.data(:,1));
 yi = min(abs(this.scores.data), [], 2);
 
+% prepare figure
+figure;
+if ~isempty(varargin)
+    set(gca, varargin{:});
+end
 
-drawText(xi, yi, this.scores.rowNames);
-hold on;
+% influence plot
 plot(xi, yi, 'k.');
+hold on;
+if n < 200
+    drawText(xi, yi, this.scores.rowNames);
+end
+
+% annotate graph
+xlabel('Distance to origin');
+ylabel('Distance to axis');
+title([this.tableName ' - Influence plot']);
+
+% return graphic handle if needed
+if nargout > 0
+    varargout = {h};
+end
