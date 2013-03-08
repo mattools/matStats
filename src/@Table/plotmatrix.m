@@ -25,8 +25,11 @@ function varargout = plotmatrix(this, varargin)
 % also display column names as labels
 nCols = size(this, 2);
 for i = 1:nCols
-    xlabel(AX(nCols, i), this.colNames{i});
-    ylabel(AX(i, 1), this.colNames{i});
+    xlabel(AX(nCols, i), this.colNames{i}, ...
+        'Visible', 'On', 'FontSize', 12);
+    ylabel(AX(i, 1), this.colNames{i}, ...
+        'Visible', 'On', 'FontSize', 12, 'Rotation', 0, ...
+        'VerticalAlignment', 'Middle', 'HorizontalAlignment', 'Right');
 end
 
 
@@ -45,13 +48,13 @@ end
 
 % Update label font size
 for i = 1:nCols
-    set(get(AX(nCols, i), 'XLabel'), 'FontSize', 16)
-    set(get(AX(i, 1), 'YLabel'), 'FontSize', 16)
+    set(get(AX(nCols, i), 'XLabel'), 'FontSize', 12)
+    set(get(AX(i, 1), 'YLabel'), 'FontSize', 12)
 end
 
 % Update axes tick labels
 for i = 1:(nCols * nCols)
-    set(AX(i), 'FontSize', 14);
+    set(AX(i), 'FontSize', 10);
 end
 
 
