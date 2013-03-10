@@ -79,7 +79,7 @@ else
     % Data are given as one table and three column names/indices
     if nargin < 3 
         error(['Table:' mfilename ':NotEnoughArguments'], ...
-            'Need to specify names of x and y columns');
+            'Need to specify names of x, y and group columns');
     end
     
     % index of first column
@@ -100,7 +100,7 @@ else
     else
         % index of third column
         indG = this.columnIndex(var3);
-        group = this.data(indG(1));
+        group = this.data(:, indG(1));
     end    
     varargin(1:3) = [];
 end
