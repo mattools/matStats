@@ -70,6 +70,24 @@ elseif strcmp(type, '()')
         
         this.data(s1.subs{:}) = value;
         
+        % if right-hand side is empty, need to update other data as well
+        if isempty(value)
+            if strcmp(sub1, ':')
+                % remove some columns
+                this.colNames(sub2) = [];
+                if ~isempty(this.levels)
+                    this.levels(sub2) = [];
+                end
+                
+            elseif strcmp(sub2, ':') 
+                % remove some rows
+                this.rowNames(sub1) = [];
+                
+            else
+                error('Illegal table modification');
+            end
+        end
+        
     else
         error('Table:subsasgn', 'too many indices');
     end
