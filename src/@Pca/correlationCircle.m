@@ -23,7 +23,7 @@ end
 
 nc = size(this.scores, 2);
 if cp1 > nc || cp2 > nc
-    error('Component number should be less than variable number');
+    error('Component index should be less than variable number');
 end
 
 % extract display options
@@ -50,11 +50,11 @@ values = this.eigenValues.data;
 nv = size(this.scores, 2);
 correl = zeros(nv, nv);
 for i = 1:nv
-    correl(:,i) = sqrt(values(i)) * this.loadings(:,i).data;
+    correl(:,i) = sqrt(values(i)) * this.loadings(1:nv,i).data;
 end
 
 correl = Table.create(correl, ...
-    'rowNames', this.loadings.rowNames, ...
+    'rowNames', this.loadings.rowNames(1:nv), ...
     'name', name, ...
     'colNames', this.loadings.colNames);
 

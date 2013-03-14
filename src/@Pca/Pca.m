@@ -20,9 +20,15 @@ classdef Pca < handle
 %
 %   'display'   (true) specifies if figures should be displayed or not.
 %
-%   'showNames' character array with value 'on' (the default) or 'off',
-%       indicating whether row names should be displayed on score plots, or
-%       if only dots are plotted.
+%   'obsNames' character array with value 'on' or 'off', indicating whether
+%       row names should be displayed on score plots, or if only dots are
+%       plotted. 
+%       Default value is 'on' if number of observations is less than 200.
+%
+%   'varNames' character array with value 'on' (the default) or 'off',
+%       indicating whether column names should be displayed on loadings
+%       plots, or if only dots are plotted.
+%       Default value is 'on' if number of variables is less than 50.
 %
 %   'saveResults' char array with value 'on' or 'off' indicating whether
 %       the results should be saved as text files or not. Default is 'off'.
@@ -112,11 +118,13 @@ methods
         % analysis options
         scale           = true;
         
+        nObs  = size(data, 1);
         nVars = size(data, 2);
         
         % other options
         display         = true;
-        showNames       = nVars < 100;
+        showObsNames    = nObs  < 200;
+        showVarNames    = nVars < 50;
         saveFiguresFlag = false;
         dirFigures      = pwd;
         saveResultsFlag = false;
@@ -138,8 +146,10 @@ methods
                     saveFiguresFlag = parseBoolean(varargin{2});
                 case 'figuresdir'
                     dirFigures = varargin{2};
-                case 'shownames'
-                    showNames = parseBoolean(varargin{2});
+                case 'showobsnames'
+                    showObsNames = parseBoolean(varargin{2});
+                case 'showvarnames'
+                    showVarNames = parseBoolean(varargin{2});
                 case 'axesproperties'
                     axesProperties = varargin{2};
                 otherwise
@@ -180,7 +190,7 @@ methods
         
         % display results
         if display
-            hFigs = displayPcaResults(this, showNames, axesProperties);
+            hFigs = displayPcaResults(this, showObsNames, showVarNames, axesProperties);
             
             if saveFiguresFlag
                 saveFigures(this, hFigs, dirFigures);
@@ -242,7 +252,8 @@ methods
     end
 
     
-    function h = displayPcaResults(this, showNames, axesProperties)
+    function h = displayPcaResults(this, showObsNames, showVarNames, ...
+            axesProperties)
         % Display results of PCA
         
         % number of principal components to display
@@ -252,22 +263,22 @@ methods
         h1 = screePlot(this, axesProperties{:});
         
         % individuals in plane PC1-PC2
-        h2 = scorePlot(this, 1, 2, 'showNames', showNames, axesProperties{:});
+        h2 = scorePlot(this, 1, 2, 'showNames', showObsNames, axesProperties{:});
 
         % individuals in plane PC3-PC4
         if npc >= 4
-            h3 = scorePlot(this, 3, 4, 'showNames', showNames, axesProperties{:});
+            h3 = scorePlot(this, 3, 4, 'showNames', showObsNames, axesProperties{:});
         else
             h3 = -1;
         end
         
         
         % loading plots PC1-PC2
-        h4 = loadingPlot(this, 1, 2, 'showNames', showNames, axesProperties{:});
+        h4 = loadingPlot(this, 1, 2, 'showNames', showVarNames, axesProperties{:});
         
         % loading plots PC3-PC4
         if npc >= 4
-            h5 = loadingPlot(this, 3, 4, 'showNames', showNames, axesProperties{:});
+            h5 = loadingPlot(this, 3, 4, 'showNames', showVarNames, axesProperties{:});
         end
         
         % return handle array to figures
@@ -307,11 +318,11 @@ methods
         nv = size(this.scores, 2);
         correl = zeros(nv, nv);
         for i = 1:nv
-            correl(:,i) = sqrt(values(i)) * this.loadings(:,i).data;
+            correl(:,i) = sqrt(values(i)) * this.loadings.data(1:nv,i);
         end
 
         correl = Table.create(correl, ...
-            'rowNames', this.loadings.rowNames, ...
+            'rowNames', this.loadings.rowNames(1:nv), ...
             'name', name, ...
             'colNames', this.loadings.colNames);
         
