@@ -1,4 +1,4 @@
-function varargout = correlationCircle(this, cp1, cp2, varargin)
+function varargout = correlationCircle(varargin)
 %CORRELATIONCIRCLE Plot correlation circle in a factorial plane
 %
 %   output = correlationCircle(input)
@@ -16,10 +16,22 @@ function varargout = correlationCircle(this, cp1, cp2, varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 
-if nargin < 3 || ischar(cp1)
-    cp1 = 1;
-    cp2 = 2;
+% Extract the axis handle to draw in
+[ax varargin] = parseAxisHandle(varargin{:});
+
+% extract calling table
+this = varargin{1};
+varargin(1) = [];
+
+% get factorial axes
+cp1 = 1;
+cp2 = 2;
+if length(varargin) >= 2 && isnumeric(varargin{1})
+    cp1 = varargin{1};
+    cp2 = varargin{2};    
+    varargin(1:2) = [];
 end
+
 
 nc = size(this.scores, 2);
 if cp1 > nc || cp2 > nc
@@ -36,11 +48,16 @@ for i = 1:2:(length(varargin)-1)
     end
 end
 
-% create new figure
-str = sprintf('PCA Correlation Circle - Comp. %d and %d', cp1, cp2);
-h = figure('Name', str, 'NumberTitle', 'off');
+
+% Set up parent figure
+hFig = get(ax, 'Parent');
+str = sprintf('PCA Correlation Circle - CP%d vs CP%d', cp1, cp2);
+set(hFig, 'Name', str, 'NumberTitle', 'off');
+
+% Set up axis
+cla(ax);
 if ~isempty(varargin)
-    set(gca, varargin{:});
+    set(ax, varargin{:});
 end
 
 name = this.tableName;
@@ -58,26 +75,26 @@ correl = Table.create(correl, ...
     'name', name, ...
     'colNames', this.loadings.colNames);
 
-
 % score coordinates
 x = correl(:, cp1).data;
 y = correl(:, cp2).data;
 
 % display either names or dots
 if showNames
-    drawText(x, y, correl.rowNames, ...
+    drawText(ax, x, y, correl.rowNames, ...
         'HorizontalAlignment', 'Center', ...
         'VerticalAlignment', 'Bottom');
 end
 
 % setup display
 hold on;
-plot(x, y, '.');
-makeCircleAxis;
+plot(ax, x, y, '.');
+axes(ax); %#ok<MAXES>
+makeCircleAxis(ax);
 
 % create legends
-annotateFactorialPlot(this, cp1, cp2);
+annotateFactorialPlot(this, ax, cp1, cp2);
 
 if nargout > 0
-    varargout = {h};
+    varargout = {hFig};
 end

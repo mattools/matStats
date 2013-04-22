@@ -1,5 +1,5 @@
-function annotateFactorialPlot(this, cp1, cp2)
-%ANNOTATEFACTORIALPLOT  create labels and title of a factorial plot
+function annotateFactorialPlot(this, ax, cp1, cp2)
+%ANNOTATEFACTORIALPLOT Create labels and title of a factorial plot
 %
 %   output = annotateFactorialPlot(input)
 %
@@ -19,7 +19,7 @@ function annotateFactorialPlot(this, cp1, cp2)
 vl1 = this.eigenValues(cp1, 2).data;
 vl2 = this.eigenValues(cp2, 2).data;
 
-xlabel(sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
-ylabel(sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
+xlabel(ax, sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
+ylabel(ax, sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
 
-title(this.tableName, 'interpreter', 'none');
+title(ax, this.tableName, 'interpreter', 'none');

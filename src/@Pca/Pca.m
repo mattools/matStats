@@ -18,7 +18,8 @@ classdef Pca < handle
 %               scaled (the default) or not. If data are scaled, they are
 %               divided by their standard deviation.
 %
-%   'display'   (true) specifies if figures should be displayed or not.
+%   'display'   {'on'} or 'off',  specifies if figures should be displayed
+%               or not. 
 %
 %   'obsNames' character array with value 'on' or 'off', indicating whether
 %       row names should be displayed on score plots, or if only dots are
@@ -134,10 +135,10 @@ methods
         while length(varargin) > 1
             paramName = varargin{1};
             switch lower(paramName)
-                case 'display'
-                    display = varargin{2};
                 case 'scale'
                     scale = varargin{2};
+                case 'display'
+                    display = parseBoolean(varargin{2});
                 case 'saveresults'
                     saveResultsFlag = parseBoolean(varargin{2});
                 case 'resultsdir'
@@ -260,25 +261,30 @@ methods
         npc = size(this.scores.data, 2);
         
         % Scree plot of the PCA
-        h1 = screePlot(this, axesProperties{:});
+        h1 = figure;
+        screePlot(this, axesProperties{:});
         
         % individuals in plane PC1-PC2
-        h2 = scorePlot(this, 1, 2, 'showNames', showObsNames, axesProperties{:});
+        h2 = figure;
+        scorePlot(this, 1, 2, 'showNames', showObsNames, axesProperties{:});
 
         % individuals in plane PC3-PC4
         if npc >= 4
-            h3 = scorePlot(this, 3, 4, 'showNames', showObsNames, axesProperties{:});
+            h3 = figure;
+            scorePlot(this, 3, 4, 'showNames', showObsNames, axesProperties{:});
         else
             h3 = -1;
         end
         
         
         % loading plots PC1-PC2
-        h4 = loadingPlot(this, 1, 2, 'showNames', showVarNames, axesProperties{:});
+        h4 = figure;
+        loadingPlot(this, 1, 2, 'showNames', showVarNames, axesProperties{:});
         
         % loading plots PC3-PC4
         if npc >= 4
-            h5 = loadingPlot(this, 3, 4, 'showNames', showVarNames, axesProperties{:});
+            h5 = figure;
+            loadingPlot(this, 3, 4, 'showNames', showVarNames, axesProperties{:});
         end
         
         % return handle array to figures
@@ -327,11 +333,13 @@ methods
             'colNames', this.loadings.colNames);
         
         % correlation plot PC1-PC2
-        h1 = correlationCircle(this, 1, 2, varargin{:});
+        h1 = figure;
+        correlationCircle(this, 1, 2, varargin{:});
         
         % correlation plot PC3-PC4
         if size(correl, 2) >= 4
-            h2 = correlationCircle(this, 3, 4, varargin{:});            
+            h2 = figure;
+            correlationCircle(this, 3, 4, varargin{:});            
         else
             h2 = -1;
         end

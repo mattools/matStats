@@ -1,4 +1,4 @@
-function varargout = loadingPlot(this, cp1, cp2, varargin)
+function varargout = loadingPlot(varargin)
 %LOADINGPLOT Plot variables in a factorial plane
 %
 %   loadingPlot(PCA, I, J)
@@ -18,15 +18,20 @@ function varargout = loadingPlot(this, cp1, cp2, varargin)
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-if nargin < 3 || ischar(cp1)
-    % update option list
-    if ischar(cp1)
-        varargin = [{cp1, cp2} varargin];
-    end
-    
-    % choose default axis
-    cp1 = 1;
-    cp2 = 2;    
+% Extract the axis handle to draw in
+[ax varargin] = parseAxisHandle(varargin{:});
+
+% extract calling table
+this = varargin{1};
+varargin(1) = [];
+
+% get factorial axes
+cp1 = 1;
+cp2 = 2;
+if length(varargin) >= 2 && isnumeric(varargin{1})
+    cp1 = varargin{1};
+    cp2 = varargin{2};    
+    varargin(1:2) = [];
 end
 
 
@@ -45,11 +50,14 @@ for i = 1:2:(length(varargin)-1)
     end
 end
 
-% create new figure
-str = sprintf('PCA Variable - Comp. %d and %d', cp1, cp2);
-h = figure('Name', str, 'NumberTitle', 'off');
+% Set up parent figure
+hFig = get(ax, 'Parent');
+str = sprintf('PCA Loadings - CP%d vs CP%d', cp1, cp2);
+set(hFig, 'Name', str, 'NumberTitle', 'off');
+
+% Set up axis
 if ~isempty(varargin)
-    set(gca, varargin{:});
+    set(ax, varargin{:});
 end
 
 % score coordinates
@@ -58,14 +66,14 @@ y = this.loadings(:, cp2).data;
 
 % display either names or dots
 if showNames
-    drawText(x, y, this.loadings.rowNames);
+    drawText(ax, x, y, this.loadings.rowNames);
 else
-    plot(x, y, '.k');
+    plot(ax, x, y, '.k');
 end
 
 % create legends
-annotateFactorialPlot(this, cp1, cp2);
+annotateFactorialPlot(this, ax, cp1, cp2);
 
 if nargout > 0
-    varargout = {h};
+    varargout = {hFig};
 end
