@@ -55,7 +55,7 @@ if ~isempty(varargin)
     if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
         grouping = true;
         [group levels groupLabel] = parseGroupInfos(var1);
-        group = levels(group);
+%         group = levels(group);
         
         varargin(1) = [];
         
@@ -71,8 +71,8 @@ if ~isempty(varargin)
             levels = strtrim(cellstr(num2str(unique(group(:)))));
         end
         
-        [B I J] = unique(group); %#ok<ASGLU>
-        group = levels(J);
+%         [B I J] = unique(group); %#ok<ASGLU>
+%         group = levels(J);
         groupLabel = this.colNames(indGroup(1));
 
     end
@@ -89,6 +89,7 @@ if ~grouping
 else
     % Box plot of (selected) columns, grouped by factor(s)
     h = boxplot(ax, data, group, ...
+        'labels', levels, ...
         varargin{:});
     
     % labels

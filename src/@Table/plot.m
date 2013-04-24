@@ -50,11 +50,16 @@ end
 
 xData = [];
 xAxisLabel = '';
+xTickLabels = {};
 
 if ~isempty(tabX)
     if isa(tabX, 'Table')
         xData = tabX.data(:, 1);
+        
         xAxisLabel = tabX.colNames{1};
+        if isFactor(tabX, 1)
+            xTickLabels = tabX.levels{1};
+        end
     else
         xData = tabX;
     end
@@ -77,9 +82,16 @@ else
 %     % setup x-axis limits
 %     set(gca, 'xlim', [min(xData) max(xData)]);
     
+    % Annotate X axis
+    if ~isempty(xTickLabels)
+        set(ax, 'XTick', 1:length(xTickLabels));
+        set(ax, 'XTickLabel', xTickLabels);
+        set(ax, 'XLim', [0 length(xTickLabels)]+.5);
+    end
     if ~isempty(xAxisLabel)
         xlabel(xAxisLabel);
     end
+
 end
 
  
