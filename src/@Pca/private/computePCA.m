@@ -24,15 +24,8 @@ cData = bsxfun(@minus, this.data, means);
 % optional scaling of data (divide each column by standard deviation)
 if scale
     sigma   = sqrt(var(cData));
-    try 
-        cData   = cData * diag(1 ./ sigma);
-    catch %#ok<CTCH>
-        for i = 1:size(cData, 2)
-            if abs(sigma(i)) > 1e-10
-                cData(:,i) = cData(:,i) / sigma(i);
-            end
-        end
-    end
+    sigma(sigma < 1e-10) = 1;
+    cData   = cData * diag(1 ./ sigma);
 end
 
 
