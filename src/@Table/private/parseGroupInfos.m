@@ -80,11 +80,14 @@ elseif isa(group, 'Table')
         
         % associate each level index to level name
         for iLevel = 1:length(levelInds)
+            % index of current level
+            index = levelInds(iLevel);
+            
             % find indices
-            inds = nameIndices(:,iGroup) == iLevel;
+            inds = nameIndices(:,iGroup) == index;
            
             % associate name to index
-            levelNames(inds, iGroup) = levels(iLevel);
+            levelNames(inds, iGroup) = levels(index);
         end
         
     end

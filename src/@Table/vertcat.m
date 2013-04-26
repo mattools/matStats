@@ -53,16 +53,44 @@ for i = 1:length(varargin)
             error('Table:vertcat:wrongsize', ...
                 'Input tables must have the same number of columns');
         end
-        data = [data ; var.data]; %#ok<AGROW>
-        rowNames = [rowNames(:) ; var.rowNames(:)];
-        name = strcat(name, '+', var.name);
+        
+        data2 = var.data;
+        % in case of factor columns, merge the existing factor levels
+        indFactCol = find(isFactor(this, 1:nCols) | isFactor(var, 1:nCols));
+        for j = 1:length(indFactCol)
+            indCol = indFactCol(j);
+            levels0 = this.levels{indCol};
+            levels2 = var.levels{indCol};
+
+            % update level indices
+            count = 0;
+            for k = 1:length(levels2)
+                indL = strmatch(levels2{k}, levels0, 'exact');
+                inds = var.data(:, indCol) == k;
+                if isempty(indL)
+                    count = count + 1;
+                    data2(inds, indCol) = length(levels0) + count;
+                else
+                    data2(inds, indCol) = indL;
+                end
+            end
+           
+            % find which levels do not exist in current level
+            indLevels = ~ismember(levels2, levels0);
+            levels{indCol} = [levels0 ; levels2(indLevels)];
+        end
         
         % if some levels are more numerous, keep the most numerous ones
         inds = find(cellfun(@length, var.levels) > cellfun(@length, levels));
         for j = 1:length(inds)
             levels{inds(j)} = var.levels{inds(j)};
         end
-
+        
+        
+        data = [data ; data2]; %#ok<AGROW>
+        rowNames = [rowNames(:) ; var.rowNames(:)];
+        name = strcat(name, '+', var.name);
+        
     else
         if size(var, 2) ~= nCols
             error('Table:vertcat:wrongsize', ...

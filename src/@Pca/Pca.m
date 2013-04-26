@@ -362,10 +362,10 @@ methods
         disp('Principal Component Analysis Result');
         disp(['   Input data: ' this.tableName]);
         disp(['       scaled: ' scaleString]);
-        disp(['        means: ' sprintf('<%dx%d> double', size(this.means))]);
-        disp(['       scores: ' sprintf('<%dx%d> Table', size(this.scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d> Table', size(this.loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d> Table', size(this.eigenValues))]);
+        disp(['        means: ' sprintf('<%dx%d double>', size(this.means))]);
+        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
         
     end
 end
