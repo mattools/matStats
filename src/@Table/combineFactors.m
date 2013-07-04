@@ -40,6 +40,25 @@ function res = combineFactors(this, varargin)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 
+%% Parse input arguments
+
+keepFactorNames = false;
+
+% parse input options
+while length(varargin) > 1
+    paramName = lower(varargin{1});
+    switch paramName
+        case 'keepfactornames'
+            keepFactorNames = varargin{2};
+        otherwise
+            error(['Unknown parameter name: ' paramName]);
+    end
+
+    varargin(1:2) = [];
+end
+
+
+%% Compute new groups as combination of input groups
 
 [nameIndices pos groupIndices] = unique(this.data, 'rows'); %#ok<ASGLU>
 
@@ -77,35 +96,46 @@ for iGroup = 1:size(levelNames, 2)
 end
 
 
-labels = levelNames;
-format = '%s=%s';
 
-for iGroup = 1:size(levelNames, 2)
-    groupLabel = this.colNames{iGroup};
-    
-    for iLevel = 1:size(levelNames, 1)
-        levelName = levelNames{iLevel, iGroup};
-        if isnumeric(levelName)
-            levelName = num2str(levelName);
+%% Compute the names of the nes levels
+
+labels = levelNames;
+
+if keepFactorNames
+    format = '%s=%s';
+    % iterate on the different factors
+    for iGroup = 1:size(levelNames, 2)
+        groupLabel = this.colNames{iGroup};
+
+        for iLevel = 1:size(levelNames, 1)
+            levelName = levelNames{iLevel, iGroup};
+            if isnumeric(levelName)
+                levelName = num2str(levelName);
+            end
+            label = sprintf(format, groupLabel, levelName);
+            labels{iLevel, iGroup} = label;
         end
-        label = sprintf(format, groupLabel, levelName);
-        labels{iLevel, iGroup} = label;
     end
 end
 
-% Concatenate 
+% Concatenate the different level names to create new level names
+if keepFactorNames
+    levelNamesSep = ';';
+else
+    levelNamesSep = '*';
+end
 if size(labels, 1) > 1
     tmp = labels;
     labels = labels(:, 1);
     for iCol = 2:size(tmp, 2)
-        labels = strcat(labels, ';', tmp(:,iCol));
+        labels = strcat(labels, levelNamesSep, tmp(:,iCol));
     end
 end
 
 
+%% Create resulting data table
 
 colNames = {[this.colNames{1} '*' this.colNames{2}]};
-
 
 res = Table(groupIndices, ...
     'colNames', colNames, ...
