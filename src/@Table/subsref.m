@@ -101,7 +101,11 @@ elseif strcmp(type, '()')
         % analyze column indices
         sub2 = s1.subs{2};
         if ischar(sub2) || iscell(sub2)
-            if ~strcmp(sub2, ':')
+            if strcmp(sub2, ':')
+                % transform into numerical indices
+                s1.subs{2} = 1:size(this.data, 2);
+                
+            else
                 % parse the name of the column
                 inds = columnIndex(this, sub2)';
                 s1.subs{2} = inds;

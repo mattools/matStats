@@ -32,6 +32,7 @@ else
     % extract factor level for each row
     levels = parent.levels{1};
     levels = levels(dat1);
+    levels = levels(:);
     
     % compare factor levels with second argument
     if ischar(dat2)
