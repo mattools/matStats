@@ -12,10 +12,6 @@ function varargout = scatterGroup(this, varargin)
 %   VARCLASSES is either the index or the name of the column in the data
 %   table which will be used for identifying classes
 %
-%   % scatterGroup(TAB1, VAR1, VAR2, TAB2, VARCLASS)
-%   % Considers that the classes are stored in a separate table.
-%   % (not yet implemented)
-%
 %   scatterGroup(..., 'envelope', TYPE)
 %   Display an envelope around the data points of each group. TYPE is a
 %   string that can be one of the following:
@@ -25,6 +21,14 @@ function varargout = scatterGroup(this, varargin)
 %         as the set of points is displayed
 %   * 'inertiaellipse': the inertia ellipse of each group
 %   Display of ellipses or inertia ellipses requires the MatGeom Toolbox.
+%
+%   scatterGroup(..., 'groupColors', COLORS)
+%   scatterGroup(..., 'groupMarkers', MARKERS)
+%   Specifies the type and the color of the markers. COLORS is a NG-by-3
+%   array of double, MARKERS is a NG-by-1 cell array of strings.
+%
+%   scatterGroup(..., 'keepGroupName', BOOL)
+%   Specifies if the name of the group should appear in the legend.
 %
 %   Example
 %   % Display some scatter plot of iris classes
@@ -56,6 +60,9 @@ function varargout = scatterGroup(this, varargin)
 % Copyright 2007 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
  
 %   HISTORY
+
+
+%% Extract main data
 
 if size(this.data, 2) == 1
     % Data are given as separate arrays
@@ -105,26 +112,66 @@ else
     varargin(1:3) = [];
 end
 
+
+%% Initialisations
+
 % extraction of groups indices and labels from input table
 [groupIndices groupLabels, groupNames] = parseGroupInfos(group);
-groupLabels = formatLevelLabels(groupLabels, groupNames); 
 
 % number of groups
 nGroups = length(groupLabels);
 
+% default drawing styles
+groupColors = generateColors(nGroups);
+groupMarkers = generateMarkers(nGroups);
+legendLocation = 'NorthEast';
+fillMarkers = false(nGroups, 1);
+
+
+%% Parse input arguments
+
 % kind of decoration for the graph
 envelope = 'convexhull';
-ind = find(strcmp(varargin, 'envelope'));
-if ~isempty(ind)
-    envelope = varargin{ind+1};
-    varargin(ind:ind+1) = [];
-end
+% ind = find(strcmp(varargin, 'envelope'));
+% if ~isempty(ind)
+%     envelope = varargin{ind+1};
+%     varargin(ind:ind+1) = [];
+% end
 
+% should we keep the name of the group in the legend ?
+keepGroupName = ~isempty(this.colNames{1});
+% ind = find(strcmp(varargin, 'keepGroupName'));
+% if ~isempty(ind)
+%     keepGroupName = varargin{ind+1};
+%     varargin(ind:ind+1) = [];
+% end
 
-% default graphical for classes
-if length(varargin) < nGroups
-    styles = generateMarkerStyles(nGroups);
+% parse input options
+options = {};
+while length(varargin) > 1
+    paramName = lower(varargin{1});
+    switch paramName
+        case 'envelope'
+            envelope = varargin{2};
+        case 'keepgroupname'
+            keepGroupName = varargin{2};
+        case 'groupcolors'
+            groupColors = varargin{2};
+        case 'groupmarkers'
+            groupMarkers = varargin{2};
+        case 'legendlocation'
+            legendLocation = varargin{2};
+        case 'fillmarkers'
+            fillMarkers = varargin{2};
+        otherwise
+            % Other parameters are assumed to be general styles
+            options = [options varargin(1:2)]; %#ok<AGROW>
+    end
+
+    varargin(1:2) = [];
 end
+varargin = options;
+
 
 % open figure
 gcf; hold on;
@@ -135,7 +182,15 @@ hl = zeros(nGroups, 1);
 
 for i = 1:nGroups
     inds = find(groupIndices == i);
-    hm(i) = plot(xdata(inds), ydata(inds), styles{i}{:});
+
+    faceColor = 'none';
+    if fillMarkers(i)
+        faceColor = groupColors(i,:);
+    end
+    
+    hm(i) = plot(xdata(inds), ydata(inds), 'lineStyle', 'none', ...
+        'marker', groupMarkers{i}, 'color', groupColors(i,:), ...
+        'MarkerFaceColor', faceColor, varargin{:});
     
     switch lower(envelope)
         case 'none'
@@ -143,22 +198,25 @@ for i = 1:nGroups
             
         case 'convexhull'
             inds2   = convhull(xdata(inds), ydata(inds));
-            hl(i) = plot(xdata(inds(inds2)), ydata(inds(inds2)), ...
-                styles{i}{:}, 'marker', 'none', 'linestyle', '-', 'lineWidth', 2);
+            hl(i)   = plot(xdata(inds(inds2)), ydata(inds(inds2)), ...
+                'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
+                'color', groupColors(i,:), varargin{:});
             
         case 'ellipse'
             center  = mean([xdata(inds) ydata(inds)]);
             sigma   = std([xdata(inds) ydata(inds)]) * 1.96; 
             hl(i)   = drawEllipse([center sigma 0],...
-                styles{i}{:}, 'marker', 'none', 'linestyle', '-', 'lineWidth', 2);
+                'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
+                'color', groupColors(i,:), varargin{:});
             
         case 'inertiaellipse'
-            elli  = inertiaEllipse([xdata(inds) ydata(inds)]);
+            elli    = inertiaEllipse([xdata(inds) ydata(inds)]);
             hl(i)   = drawEllipse(elli,...
-                styles{i}{:}, 'marker', 'none', 'linestyle', '-', 'lineWidth', 2);
+                'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
+                'color', groupColors(i,:), varargin{:});
             
         otherwise
-            error(['Can not understand parameter value: ' envelope]);
+            error(['Can not understand envelope type: ' envelope]);
     end
 end
 
@@ -171,7 +229,12 @@ ylabel(nameY);
 if ~isempty(this.name)
     title(this.name, 'Interpreter', 'none');
 end
-legend(hm, groupLabels{:});
+
+% Legend of the graph
+if keepGroupName
+    groupLabels = formatLevelLabels(groupLabels, groupNames); 
+end
+legend(hm, groupLabels{:}, 'Location', legendLocation);
 
 % eventually returns handle to graphics
 if nargout == 1
@@ -180,3 +243,26 @@ elseif nargout == 2
     varargout = {hm, hl};
 end
 
+
+function map = generateColors(n)
+% Generate NG different colors. 
+% Result is a N-by3 double array, containing color triplets with values
+% between 0 and 1.
+%
+
+% generate Nc+1 colors. The last one is white, but is not used
+if n < 8
+    map = [0 0 1;0 1 0;1 0 0;0 1 1;1 0 1;1 1 0;0 0 0];
+else
+    map = colormap(colorcube(n+1));
+end
+
+
+function marks = generateMarkers(n)
+% Generate NG different marker types. 
+% Result is a cell array of strings.
+%
+
+% the basic set of marks
+marks = {'+', 'o', '*', 'x', 's', 'd', '^', 'v', '<', '>', 'p', 'h'};
+marks = marks(mod((1:n)-1, length(marks)) + 1)';
