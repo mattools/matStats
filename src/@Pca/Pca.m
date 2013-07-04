@@ -96,6 +96,11 @@ end % end properties
 methods
     function this = Pca(data, varargin)
         % Constructor for Pca class
+
+        % avoid empty constructor
+        if nargin == 0
+            error('Pca requires at least one input argument');
+        end
         
         % copy constructor
         if isa(data, 'Pca')
@@ -107,6 +112,19 @@ methods
             this.loadings       = Table(data.loadings);
             this.eigenValues    = Table(data.eigenValues);
             return;
+        end
+        
+        
+        %% Initialize raw data
+        
+        % ensure data is a data table
+        if isnumeric(data)
+            data = Table(data);
+        end
+        
+        % ensure data table has a valid name
+        if isempty(data.name)
+            data.name = inputname(1);
         end
         
         
@@ -165,12 +183,6 @@ methods
         end
         
 
-        % ensure data is a data table
-        if isnumeric(data)
-            data = Table(data);
-            data.name = inputname(1);
-        end
-        
         % compute PCA results
         [m sc ld ev] = computePCA(data, scale);
         
