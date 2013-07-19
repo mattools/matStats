@@ -132,19 +132,9 @@ fillMarkers = false(nGroups, 1);
 
 % kind of decoration for the graph
 envelope = 'convexhull';
-% ind = find(strcmp(varargin, 'envelope'));
-% if ~isempty(ind)
-%     envelope = varargin{ind+1};
-%     varargin(ind:ind+1) = [];
-% end
 
 % should we keep the name of the group in the legend ?
 keepGroupName = ~isempty(this.colNames{1});
-% ind = find(strcmp(varargin, 'keepGroupName'));
-% if ~isempty(ind)
-%     keepGroupName = varargin{ind+1};
-%     varargin(ind:ind+1) = [];
-% end
 
 % parse input options
 options = {};

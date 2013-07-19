@@ -120,7 +120,8 @@ methods
         if ~isempty(varargin)
             if iscell(varargin{1})
                 if length(varargin{1}) ~= size(this.data,2)
-                    error('Number of column names does not match column number');
+                    error('Column names have %d elements, whereas table has %d columns', ...
+                        length(varargin{1}), size(this.data,2));
                 end
                 this.colNames = varargin{1};
                 varargin(1) = [];

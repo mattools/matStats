@@ -57,37 +57,47 @@ elseif iscell(group)
 elseif isa(group, 'Table')
     % group can be a table, possibly with factor
 
-    [nameIndices pos groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
+    [groupValues pos groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
 
-    levelNames = cell(size(nameIndices));
+    levelNames = cell(size(groupValues));
     for iGroup = 1:size(levelNames, 2)
         if isFactor(group, iGroup)
-            % in case of factor, extract stored levels
-            levelInds = unique(nameIndices(:,iGroup));
-            levels = group.levels{iGroup};
-            if length(levelInds) > length(levels)
+            % in case of factor, extract stored level values
+            levelValues = unique(groupValues(:,iGroup));
+            levelLabels = group.levels{iGroup};
+            if length(levelValues) > length(levelLabels)
                 error('Not enough level names for factor data');
             end
             
         else
             % in case of numeric variable, create cell array from numeric
             % levels, and update name indices
-            [levelInds pos inds] = unique(nameIndices(:,iGroup)); %#ok<ASGLU>
+            levelValues = unique(groupValues(:,iGroup));
             
-            nameIndices(:,iGroup) = inds;
-            levels = strtrim(cellstr(num2str(levelInds)));
+%             groupValues(:,iGroup) = inds;
+            levelLabels = strtrim(cellstr(num2str(levelValues)));
         end
         
         % associate each level index to level name
-        for iLevel = 1:length(levelInds)
+        for iLevel = 1:length(levelValues)
             % index of current level
-            index = levelInds(iLevel);
+            value = levelValues(iLevel);
             
             % find indices
-            inds = nameIndices(:,iGroup) == index;
+            inds = groupValues(:,iGroup) == value;
            
             % associate name to index
-            levelNames(inds, iGroup) = levels(index);
+            levelNames(inds, iGroup) = levelLabels(iLevel);        
+            
+%             % index of current level
+%             index = levelInds(iLevel);
+%             
+%             % find indices
+%             inds = nameIndices(:,iGroup) == index;
+%            
+%             % associate name to index
+%             levelNames(inds, iGroup) = levels(index);
+
         end
         
     end
