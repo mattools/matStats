@@ -10,7 +10,7 @@ function setFactorLevels(this, colName, levels)
 %   setFactorLevels
 %
 %   See also
-%   setAsFactor, hasFactors
+%   setAsFactor, hasFactors, trimLevels
 %
 % ------
 % Author: David Legland
@@ -27,5 +27,5 @@ nVals = length(unique(this.data(:, indCol)));
 nLevels = length(levels);
 if nVals > nLevels
     warning('Table:setFactorLevels',...
-        'The number of unique values is greater to the number of levels');
+        'The number of unique values is greater than the number of levels');
 end

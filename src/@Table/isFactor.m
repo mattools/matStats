@@ -7,10 +7,16 @@ function res = isFactor(this, colName)
 %
 %
 %   Example
-%   isFactor
+%     iris = Table.read('fisherIris');
+%     isFactor(iris, 'Species')
+%     ans = 
+%         1
+%     isFactor(iris, 'PetalLength')
+%     ans = 
+%         0
 %
 %   See also
-%   Table/setAsFactor
+%     setAsFactor, trimLevels
 %
 % ------
 % Author: David Legland
@@ -21,7 +27,11 @@ function res = isFactor(this, colName)
 % extract index of column
 ind = columnIndex(this, colName);
 
+% result is a row vector with the same number of columns as the number of
+% indices
 res = false(1, length(ind));
+
+% check if input column
 for i = 1:length(ind)
     if ind(i) <= length(this.levels)
         res(i) = ~isempty(this.levels{ind(i)});

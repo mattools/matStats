@@ -25,7 +25,7 @@ function levels = factorLevels(this, colName)
 %         'Virginica'
 %
 %   See also
-%     hasFactors, isFactor
+%     hasFactors, isFactor, trimLevels
 %
 % ------
 % Author: David Legland
