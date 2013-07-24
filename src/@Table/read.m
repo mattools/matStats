@@ -16,8 +16,7 @@ function tab = read(fileName, varargin)
 %     'fleaBeetles' a data set included in R software, see:
 %       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
 %     'decathlon'   results of sportive tournament, described in:
-%       http://factominer.free.fr/classical-methods/analyse-en-composantes-
-%       principales.html
+%       http://factominer.free.fr/classical-methods/analyse-en-composantes-principales.html
 %
 %
 %   TABLE = Table.read(..., PARAM, VALUE);
@@ -41,7 +40,7 @@ function tab = read(fileName, varargin)
 %     scatterGroup(tab('petalWidth'), tab('petalLength'), tab('class'));
 %
 %   See also
-%     write, textscan
+%     write, concatFiles, textscan
 %
 %
 % ------

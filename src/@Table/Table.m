@@ -56,6 +56,7 @@ end
 methods (Static)
     tab = create(varargin)
     tab = read(fileName, varargin)
+    varargout = concatFiles(inputFiles, outputFile, varargin)
 end
 
 
