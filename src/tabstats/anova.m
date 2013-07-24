@@ -31,15 +31,22 @@ function [p, table, stats, terms] = anova(data, groups, varargin)
 % extract input data
 if isa(data, 'Table')
     dataValues = data.data;
-    
 else
     % if data are numeric, assumes groups is Table object
     dataValues = data;
 end
 
+% number of observations
+nRows = size(dataValues, 1);
+
 % extract group values
 groupNames = {}; 
 if isa(groups, 'Table')
+    if size(groups, 1) ~= nRows
+        error('tabstats:anova:wrongDimension', ...
+            'Group table must have %d rows, but have %d', ...
+            nRows, size(groups, 1));
+    end
     groupNames = groups.colNames;
     
     % create a new groupValues populated with level names
@@ -60,6 +67,11 @@ if isa(groups, 'Table')
     
 else
     % if groups is an array, keep it the same
+    if size(groups, 1) ~= nRows
+        error('tabstats:anova:wrongDimension', ...
+            'Group array must have %d rows, but have %d', ...
+            nRows, size(groups, 1));
+    end
     groupValues = groups;
     
 end

@@ -23,9 +23,12 @@ function res = corrcoef(this, varargin)
 %         PetalLength        0.87175      -0.42052              1       0.96276
 %          PetalWidth        0.81795      -0.35654        0.96276             1
 %
+%     corrcoef(iris('PetalLength'), iris('SepalLength'))
+%     ans =
+%          0.8718
 %
 %   See also
-%     std, cov
+%     std, cov, correlationCircles
 %
 % ------
 % Author: David Legland
