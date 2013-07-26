@@ -12,10 +12,11 @@ function tab = read(fileName, varargin)
 %   TABLE = Table.read(NAME)
 %   Open one of the sample files packaged with the class. Sample files
 %   include:
-%     'fisherIris'  classical Fisher's Iris data set
-%     'fleaBeetles' a data set included in R software, see:
+%   'fisherIris'    classical Fisher's Iris data set (with corrections)
+%   'fisherIrisOld' Matlab Iris data set, with errors on samples 35 and 38
+%   'fleaBeetles'   a data set included in R software, see:
 %       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
-%     'decathlon'   results of sportive tournament, described in:
+%   'decathlon'     results of sportive tournament, described in:
 %       http://factominer.free.fr/classical-methods/analyse-en-composantes-principales.html
 %
 %
