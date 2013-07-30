@@ -154,6 +154,9 @@ methods
             paramName = varargin{1};
             switch lower(paramName)
                 case 'scale'
+                    if varargin{2} ~= 0 && varargin{2} ~= 1
+                        error('Scale parameter must be logical');
+                    end
                     scale = varargin{2};
                 case 'display'
                     display = parseBoolean(varargin{2});
