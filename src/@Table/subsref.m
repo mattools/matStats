@@ -7,7 +7,7 @@ function  varargout = subsref(this, subs)
 %   subsref
 %
 %   See also
-%   subsasgn, end
+%   subsasgn, end, getValue, getLevel
 %
 % ------
 % Author: David Legland
