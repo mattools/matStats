@@ -48,8 +48,8 @@ elseif strcmp(type, '()')
         if ischar(sub1) || iscell(sub1)
             if ~strcmp(sub1, ':') 
                 % parse the name of the row
-                inds = rowIndex(this, sub1)';
-                s1.subs{1} = inds;
+                sub1 = rowIndex(this, sub1)';
+                s1.subs{1} = sub1;
             end
         end
         
@@ -58,8 +58,8 @@ elseif strcmp(type, '()')
         if ischar(sub2) || iscell(sub2)
             if ~strcmp(sub2, ':')
                 % parse the name of the column
-                inds = columnIndex(this, sub2)';
-                s1.subs{2} = inds;
+                sub2 = columnIndex(this, sub2)';
+                s1.subs{2} = sub2;
             end
         end
        
@@ -68,6 +68,22 @@ elseif strcmp(type, '()')
             value = value.data;
         end
         
+        % if right-hand arg is char, then it is a factor level
+        if ischar(value)
+            colLevels = this.levels{sub2};
+            if ~ismember(value, colLevels)
+                warning('Table:subsasgn:UnknownLevel', ...
+                    'Level %s is not in the list of known levels, add it to current levels', value);
+                % Add the new level to the list of levels for this column
+                colLevels(length(colLevels)+1) = {value};
+                this.levels{sub2} = colLevels;
+            end
+            
+            % use index of specified level as value
+            value = strmatch(value, colLevels);
+        end
+        
+        % Assign the new value
         this.data(s1.subs{:}) = value;
         
         % if right-hand side is empty, need to update other data as well
