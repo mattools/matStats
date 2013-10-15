@@ -5,10 +5,25 @@ function res = trimLevels(this)
 %   TAB should be a table with 1 column and should be a factor column.
 %
 %   Example
-%   trimLevels
+%     % read input table
+%     iris = Table.read('fisherIris.txt');
+%     % select observations from only 2 species
+%     inds = ismember(iris('Species').data, [2 3]);
+%     tab2 = iris(inds, :);
+%     % the level indices do not start at 1
+%     unique(tab2.data(:,5))
+%     ans =
+%           2
+%           3
+%     % create new table with level indices starting at 1
+%     tab3 = trimLevels(tab2);
+%     unique(tab3.data(:,5))
+%     ans =
+%           1
+%           2
 %
 %   See also
-%
+%     isFactor, setFactorLevels, setAsFactor
 %
 % ------
 % Author: David Legland

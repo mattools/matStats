@@ -219,11 +219,11 @@ methods
             
             if saveFiguresFlag
                 fileName = sprintf('%s-pca.cc12.png', this.tableName);
-                print(h(1), fullfile(dirFigures, fileName));
+                print(h(1), fullfile(dirFigures, fileName), '-dpng');
                 
                 if ishandle(h(2))
                     fileName = sprintf('%s-pca.cc34.png', this.tableName);
-                    print(h(2), fullfile(dirFigures, fileName));
+                    print(h(2), fullfile(dirFigures, fileName), '-dpng');
                 end
             end
         end
@@ -311,22 +311,22 @@ methods
         baseName = this.tableName;
         
         fileName = sprintf('%s-pca.ev.png', baseName);
-        print(hFigs(1), fullfile(dirFigs, fileName));
+        print(hFigs(1), fullfile(dirFigs, fileName), '-dpng');
         
         fileName = sprintf('%s-pca.sc12.png', baseName);
-        print(hFigs(2), fullfile(dirFigs, fileName));
+        print(hFigs(2), fullfile(dirFigs, fileName), '-dpng');
         
         if ishandle(hFigs(3))
             fileName = sprintf('%s-pca.sc34.png', baseName);
-            print(hFigs(3), fullfile(dirFigs, fileName));
+            print(hFigs(3), fullfile(dirFigs, fileName), '-dpng');
         end
         
         fileName = sprintf('%s-pca.ld12.png', baseName);
-        print(hFigs(4), fullfile(dirFigs, fileName));
+        print(hFigs(4), fullfile(dirFigs, fileName), '-dpng');
         
         if ishandle(hFigs(5))
             fileName = sprintf('%s-pca.ld34.png', baseName);
-            print(hFigs(5), fullfile(dirFigs, fileName));
+            print(hFigs(5), fullfile(dirFigs, fileName), '-dpng');
         end
     end
     
