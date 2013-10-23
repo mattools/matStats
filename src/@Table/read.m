@@ -136,7 +136,16 @@ if options.rowNamesIndex > 0
     if length(tab.colNames) > nc
         tab.colNames(options.rowNamesIndex) = [];
     end
+    
+else
+    % no colum is secified for row names, but row names may still be
+    % present. So we check number of columns in header and in first line
+    if n > length(tab.colNames)
+        options.rowNamesIndex = 1;
+        nc = n - 1;
+    end
 end
+
 
 % ensure table has valid column names
 if isempty(tab.colNames)
@@ -252,13 +261,13 @@ end
 function options = parseOptions(varargin)
 
 % default values
-options.rowNames        = {};
-options.rowNamesIndex   = -1; % -1 for auto, 0 for no name, >=1 for index
+options.rowNames        = {};   % row names specified by user
+options.rowNamesIndex   = -1;   % -1 for auto, 0 for no name, >=1 for index
 options.decimalPoint    = '.';
 options.whiteSpaces     = ' \b\t';
 options.delim           = options.whiteSpaces;
-options.header          = true;
-options.needParse       = false;
+options.header          = true; % true if the file contains a header
+options.needParse       = false;% true if each line need to be explicitely parsed
 
 % process each couple of argument, identifies the options, and set up the
 % corresponding value in the result structure
@@ -266,7 +275,7 @@ while length(varargin)>1
     switch lower(varargin{1})
         
         case 'rownames'
-            % Specify either row name, or column containing row names
+            % Specify either row names, or index of column containing row names
             var = varargin{2};
             if iscell(var)
                 % row names are directly specified with cell array of names
@@ -281,7 +290,10 @@ while length(varargin)>1
             
         case 'decimalpoint'
             options.decimalPoint = varargin{2};
-            options.needParse = true;
+            % if not '.' character, we need to parse each item
+            if ~strcmp(options.decimalPoint, '.')
+                options.needParse = true;
+            end
             
         case {'delim', 'delimiter'}
             options.delim = varargin{2};

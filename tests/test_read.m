@@ -37,6 +37,14 @@ assertTrue(size(tab.data, 2)==2);
 % assertFalse(tableIsFactor(tab, 'var2'));
 
 
+function testReadWithoutRowNamesHeader
+
+fileName = fullfile('files', 'fileWithoutRowNamesHeader.txt');
+tab = Table.read(fileName);
+assertEqual(6, size(tab, 1));
+assertEqual(2, size(tab, 2));
+
+
 function testReadWithDelimiterSC
 
 tab = Table.read(fullfile('files', 'file1-delimSC.txt'), 'Delimiter', ';');
