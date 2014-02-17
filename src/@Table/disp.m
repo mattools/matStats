@@ -7,14 +7,15 @@ function disp(this)
 %   disp
 %
 %   See also
-%
-%
+%       display
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
 % Created: 2011-06-30,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
+% history : demo modif
 
 % loose format: display more empty lines
 isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
