@@ -7,7 +7,9 @@ function disp(this)
 %   disp
 %
 %   See also
-display, show% ------
+%       display, show
+%
+% ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
 % Created: 2011-06-30,    using Matlab 7.9.0.529 (R2009b)

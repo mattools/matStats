@@ -140,7 +140,7 @@ if options.rowNamesIndex > 0
 else
     % no colum is secified for row names, but row names may still be
     % present. So we check number of columns in header and in first line
-    if n > length(tab.colNames)
+    if options.header && n > length(tab.colNames)
         options.rowNamesIndex = 1;
         nc = n - 1;
     end
