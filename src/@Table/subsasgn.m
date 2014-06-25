@@ -72,10 +72,17 @@ elseif strcmp(type, '()')
         if ischar(value)
             colLevels = this.levels{sub2};
             if ~ismember(value, colLevels)
+                % Add the new level to the list of current levels
                 warning('Table:subsasgn:UnknownLevel', ...
                     'Level %s is not in the list of known levels, add it to current levels', value);
+                
+                % check level array was already created
+                if isempty(colLevels)
+                    colLevels = {};
+                end
+                
                 % Add the new level to the list of levels for this column
-                colLevels(length(colLevels)+1) = {value};
+                colLevels(length(colLevels)+1, 1) = {value};
                 this.levels{sub2} = colLevels;
             end
             
