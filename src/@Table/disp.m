@@ -8,14 +8,18 @@ function disp(this)
 %
 %   See also
 %       display, show
-%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
 % Created: 2011-06-30,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-% history : demo modif
+% HISTORY
+% 2014-06-25 add support for factors with level 0 (unassigned)
+
+
+%% Initialisations
 
 % loose format: display more empty lines
 isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
@@ -34,10 +38,12 @@ end
 nRows = rowNumber(this);
 nCols = columnNumber(this);
 
+
+% create a char array representing the table contents
 if nRows > 0 && nCols > 0
 
     % padding between columns
-    colPad = repmat(' ', nRows+1, 4);
+    colPad = repmat(' ', nRows + 1, 4);
     
     % init row names
     if ~isempty(this.rowNames)
@@ -56,11 +62,18 @@ if nRows > 0 && nCols > 0
             colText = num2str(var);
                     
         else
+            % data are factors -> identify level names
+            % Get levels of current factor, and add an 'unassigned' level
+            % in case of index 0
             colLevels = this.levels{iCol};
             if iscell(colLevels)
-                colText = strjust(char(colLevels(var)));
+                % factor levels given as cell array of strings
+                colLevels2 = [{'Unknown'} ; colLevels];
+                colText = strjust(char(colLevels2(var + 1)));
             else
-                colText = strjust(colLevels(var, :));
+                % factor levels given as char array
+                colLevels2 = strvcat('Unknown', colLevels); %#ok<VCAT>
+                colText = strjust(colLevels2(var + 1, :));
             end
             
             % replace factor levels that are too long by a short description
