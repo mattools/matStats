@@ -38,7 +38,7 @@ function  varargout = subsref(this, subs)
 %
 %     % Extract all levels from a factor
 %     iris = Table.read('fisherIris.txt');
-%     levels = unique(iris{:,'Species'})
+%     levels = unique(iris{'Species'})
 %     levels = 
 %         'Setosa'
 %         'Versicolor'
