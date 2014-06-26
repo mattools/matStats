@@ -177,43 +177,66 @@ else
     % In case of parens reference, index the inner data
     varargout{1} = 0;
     
-    % assume 2 indices are given as argument
+    % switch processing depending on number of subs
     ns = length(s1.subs);
-    if ns ~= 2
-        error('Braces indexing requires two indices');
-    end
+    if ns == 1
+        % Assumes sub is the index or the name of a column
 
-    % analyze row indices
-    sub1 = s1.subs{1};
-    if ischar(sub1) || iscell(sub1)
-        if ~strcmp(sub1, ':')
-            % parse the name of the row
-            inds = rowIndex(this, sub1)';
-            s1.subs{1} = inds;
+        inds = s1.subs{1};
+        if ischar(inds) || iscell(inds)
+            % if sub1 is a string (or a cell array of strings), try to find
+            % indices of column(s) that correspond to that string(s)
+            if ~strcmp(inds, ':')
+                inds = columnIndex(this, s1.subs{1})';
+            end
         end
+        
+        % convert column index/indices to 2 subs
+        s1.subs = {':', inds};
+        
+        
+    elseif ns == 2
+        % If two subs are given, simply need to parse row and/or column
+        % names if present
+        
+        % analyze row indices
+        sub1 = s1.subs{1};
+        if ischar(sub1) || iscell(sub1)
+            if ~strcmp(sub1, ':')
+                % parse the name of the row
+                inds = rowIndex(this, sub1)';
+                s1.subs{1} = inds;
+            end
+        end
+        
+        % analyze column indices
+        sub2 = s1.subs{2};
+        if ischar(sub2) || iscell(sub2)
+            if strcmp(sub2, ':')
+                % transform into numerical indices
+                s1.subs{2} = 1:size(this.data, 2);
+                
+            else
+                % parse the name of the column
+                inds = columnIndex(this, sub2)';
+                s1.subs{2} = inds;
+            end
+        end
+        
+    else
+        error('Braces indexing requires one or two indices');
     end
     
-    % analyze column indices
-    sub2 = s1.subs{2};
-    if ischar(sub2) || iscell(sub2)
-        if strcmp(sub2, ':')
-            % transform into numerical indices
-            s1.subs{2} = 1:size(this.data, 2);
-            
-        else
-            % parse the name of the column
-            inds = columnIndex(this, sub2)';
-            s1.subs{2} = inds;
-        end
-    end
-
+    % At this step, s1 is pre-processed and should eb able to index table
+    % data directly
+    
     % extract corresponding data, and transform into a cell array
     tab = num2cell(this.data(s1.subs{:}));
-
+    
     % compute index of columns containing factors
     colInds = s1.subs{2};
     inds2 = find(isFactor(this, colInds));
-
+    
     % additional processing for factors
     for iFact = 1:length(inds2)
         % get levels for current column
@@ -227,7 +250,6 @@ else
         levelIndices = this.data(s1.subs{1}, iCol);
         tab(:,inds2(iFact)) = colLevels2(levelIndices + 1);
     end
-    
 end
 
 
