@@ -104,11 +104,17 @@ else
     var3 = varargin{3};
     if isa(var3, 'Table')
         group = var3.data;
+        levels = var3.levels{1};
     else
         % index of third column
         indG = this.columnIndex(var3);
         group = this.data(:, indG(1));
-    end    
+        levels = this.levels{indG(1)};
+    end
+    if ~isempty(levels)
+        group = levels(group);
+    end
+    
     varargin(1:3) = [];
 end
 
