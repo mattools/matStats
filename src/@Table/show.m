@@ -42,15 +42,12 @@ f = figure(...
     'MenuBar', 'none', ...
     'HandleVisibility', 'Callback');
 
-% add a table
-hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
-if ~hasLevels
-    % create a numeric data table
-    data2 = this.data;
+% convert numerical data to cell array
+data2 = num2cell(this.data);
     
-else
-    % if data table has levels, need to convert data array
-    data2 = num2cell(this.data);
+% if data table has factors, need to convert factor levels
+% hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
+if hasFactors(this)
     indLevels = find(~cellfun(@isnumeric, this.levels));
     for i = indLevels
         data2(:,i) = this.levels{i}(this.data(:, i));
@@ -58,12 +55,19 @@ else
     
 end
 
+data2 = [this.rowNames data2];
+
+% ht = uitable(f, ...
+%     'Units', 'normalized', ...
+%     'Position', [0 0 1 1], ...
+%     'Data', data2,...
+%     'ColumnName', this.colNames,...
+%     'RowName', this.rowNames);
 ht = uitable(f, ...
     'Units', 'normalized', ...
     'Position', [0 0 1 1], ...
     'Data', data2,...
-    'ColumnName', this.colNames,...
-    'RowName', this.rowNames);
+    'ColumnName', [{'Name'} this.colNames]);
 
 % return handle to table if requested
 if nargout > 0
