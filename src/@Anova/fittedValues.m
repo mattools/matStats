@@ -73,7 +73,7 @@ for c = 1:nValues
         end
             
         % add contributions of third factor (not tested!!)
-        if nFactors > 1
+        if nFactors > 2
             % add contribution of third factor
             row = zeros(1, size(vars, 3));
             row(groupInds(3)) = factorCombos(c, 3).data;
