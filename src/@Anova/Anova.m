@@ -39,8 +39,8 @@ methods
     % Constructor for Anova class
 
         % check presence of stats toolbox
-        if isempty(strfind(path, [fullfile('toolbox', 'stats') ';']))
-            error('Requires the statistcs toolbox');
+        if isempty(ver('stats'))
+            error('Requires the statistics toolbox');
         end
 
         % copy constructor
