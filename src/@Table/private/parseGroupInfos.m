@@ -1,4 +1,4 @@
-function [groupIndices levelNames labels] = parseGroupInfos(group)
+function [groupIndices, levelNames, labels] = parseGroupInfos(group)
 %PARSEGROUPINFOS Return indices and names of group in a variable
 %
 %   [INDICES LEVELS] = parseGroupInfos(GROUP)
@@ -9,11 +9,18 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 %   * a data table (assuming factor columns)
 %   The output variable INDICES is a N-by-1 column vector containing index
 %   of corresponding group for each row.
-%   The output variable LEVELS is a NG-by-1 cell array containing the name
-%   or the numeric value of each group. 
+%   The output variable LEVELS is a NL-by-NG cell array containing the name
+%   or the numeric value of each level, with NL being the total number of
+%   levels, and NG being the number of groups or factors given as input.
+%   The number of levels is determined by the input GROUP. If GROUP is a
+%   numeric vector, the number of levels if the number of unique values. If
+%   group is a single column factor table, the number of levels is the
+%   number of levels of this group. If GROUP is a combination of two
+%   factors, the number of levels is the product of the number of levels of
+%   each factor.
 %
-%   [INDICES NAMES LABEL] = parseGroupInfos(GROUP)
-%   Also return the label of the group, that correspond either to the
+%   [INDICES LEVELS LABEL] = parseGroupInfos(GROUP)
+%   Also returns the label of the group, that correspond either to the
 %   variable name, or to the column name of the data table.
 %
 %
@@ -41,7 +48,7 @@ function [groupIndices levelNames labels] = parseGroupInfos(group)
 
 if isnumeric(group)
     % group can be given as a numeric column vector
-    [levelNames pos groupIndices] = unique(group, 'rows'); %#ok<ASGLU>
+    [levelNames, pos, groupIndices] = unique(group, 'rows'); %#ok<ASGLU>
     levelNames = strtrim(cellstr(num2str(levelNames)));
     labels = {inputname(1)};
     
@@ -51,13 +58,13 @@ elseif iscell(group)
     if min(size(group)) > 1
         error('Cell arrays of group levels must be a column vector');
     end
-    [levelNames pos groupIndices] = unique(group(:)); %#ok<ASGLU>
+    [levelNames, pos, groupIndices] = unique(group(:)); %#ok<ASGLU>
     labels = {inputname(1)};
     
 elseif isa(group, 'Table')
     % group can be a table, possibly with factor
 
-    [groupValues pos groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
+    [groupValues, pos, groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
 
     levelNames = cell(size(groupValues));
     for iGroup = 1:size(levelNames, 2)

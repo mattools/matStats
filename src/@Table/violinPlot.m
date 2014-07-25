@@ -17,7 +17,7 @@ function violinPlot(varargin)
 %   See also
 %     boxplot
 %
-%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
@@ -26,7 +26,7 @@ function violinPlot(varargin)
 
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
@@ -43,12 +43,14 @@ if ~isempty(varargin)
     var1 = varargin{1};
     
     if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
+        % groups are given as table or as cell array
         grouping = true;
-        [groupIndices levels groupLabel] = parseGroupInfos(var1);
+        [groupIndices, levels, groupLabel] = parseGroupInfos(var1);
         
         varargin(1) = [];
         
-    elseif sum(isColumnName(this, var1)) > 0
+    elseif ischar(var1) && sum(isColumnName(this, var1)) > 0
+        % group is given as the name of a column in the input table
         indGroup = columnIndex(this, varargin{1});
         groupIndices = this.data(:, indGroup);
         grouping = true;
@@ -73,23 +75,28 @@ if isempty(varargin)
 end
 
 if grouping
+    % compute and plot density of each group/level
     nGroups = max(groupIndices);
     for i = 1:nGroups
         inds = groupIndices == i;
-        [f xf] = ksdensity(data(inds,1));
+        [f, xf] = ksdensity(data(inds,1));
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});
         plot(i+f, xf);
         plot(i-f, xf);
-
     end
     
+    % compute full name of the groups when several factors are specified
+    fullLevelNames = concatLabels(levels);
+    
+    % decorate plot
     xlim([0 nGroups+1]);
     set(gca, 'xtick', 1:nGroups);
-    set(gca, 'xticklabel', levels);
+    set(gca, 'xticklabel', fullLevelNames);
     
-    xlabel(groupLabel);
+    % set xlabel by concatenating group names
+    xlabel(concatLabels(groupLabel(1,:)));
     ylabel(this.colNames(indCols(1)), 'interpreter', 'none');
 
 else
@@ -98,7 +105,7 @@ else
     nCols = size(this, 2);
     
     for i = 1:nCols
-        [f xf] = ksdensity(this.data(:, i));
+        [f, xf] = ksdensity(this.data(:, i));
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});

@@ -10,7 +10,7 @@ function labels = formatLevelLabels(levels, groupNames, varargin)
 %
 %   See also
 %   parseGroupInfos
-%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
