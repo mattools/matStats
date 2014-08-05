@@ -29,8 +29,8 @@ isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 statNames = {'Min', '1st Qu.', 'Median', 'Mean', '3rd Qu.', 'Max'};
 nStats = length(statNames);
 
-% number of rows used for display (4 stats, 3 are kept for later use).
-nDisplayRows = 7;
+% number of rows used for display (7 stats).
+nDisplayRows = 8;
 
 if isLoose
     fprintf('\n');
@@ -50,23 +50,30 @@ if nRows > 0 && nCols > 0
         values  = this.data(:, iCol);
 
         statCells = repmat({''}, nDisplayRows, 1);
-
+             
         if ~this.isFactor(iCol)
              % data are numeric -> compute summary statistics
-             [vmin vmax vmedian vq1 vq3] = computeOrderStats(values);
+             [vmin, vmax, vmedian, vmean, vq1, vq3] = summaryStatistics(values);
              summaryStats = [...
                  vmin; ...
                  vq1; ...
                  vmedian; ...
-                 mean(values); ...
+                 vmean; ...
                  vq3; ...
                  vmax];
+             
+             % add number of missing values if there are some
+             naNumber = sum(isnan(values));
+             if naNumber > 0
+                 statNames = [statNames , {'Missing'}]; %#ok<AGROW>
+                 summaryStats = [summaryStats ; naNumber]; %#ok<AGROW>
+             end
              
              % create formatting string
              fmt = createFormattingString(summaryStats);
              
              % create cell array for display
-             for i = 1:nStats
+             for i = 1:length(summaryStats)
                  statCells{i} = sprintf(['%-9s' fmt], ...
                      [statNames{i} ':'], summaryStats(i));
              end
@@ -138,14 +145,19 @@ if (isLoose)
 end
 
 
-function [vmin vmax vmedian vq1 vq3] = computeOrderStats(values)
+function [vmin, vmax, vmedian, vmean, vq1, vq3] = summaryStatistics(values)
 
+% do no take into account NaN (missing values)
+values = values(~isnan(values));
+
+% sort, and compute order stats
 n = length(values);
 values = sort(values);
 vmin = values(1);
 vmax = values(end);
 
 vmedian = mean([values(floor(n/2)) values(ceil(n/2))]);
+vmean = mean(values);
 
 vq1 = values( floor((n-1) * .25) + 1);
 vq3 = values( floor((n-1) * .75) + 1);

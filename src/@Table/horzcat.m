@@ -1,7 +1,7 @@
 function res = horzcat(this, varargin)
 %HORZCAT Concatenate tables horizontally
 %
-%   output = horzcat(input)
+%   RES = horzcat(TAB1, TAB2)
 %
 %   Example
 %   horzcat
