@@ -16,7 +16,7 @@ function varargout = plotRows(varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % determines whether an axis handle is given as argument
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % assumes first input argument is the current table
 this = varargin{1};
@@ -63,6 +63,22 @@ else
 end
 
 
+%% parse additional input arguments
+
+showLegend = true;
+legendLocation = 'NorthEast';
+
+ind = find(strcmpi(varargin(1:2:end), 'legendLocation'));
+if ~isempty(ind)
+    legendLocation = varargin{2*ind};
+    varargin(2*ind-1:2*ind) = [];
+end
+ind = find(strcmpi(varargin(1:2:end), 'showLegend'));
+if ~isempty(ind)
+    showLegend = varargin{2*ind};
+    varargin(2*ind-1:2*ind) = [];
+end
+
 %% Plot data
 
 if isempty(xData)
@@ -84,9 +100,9 @@ if ~isempty(tabY.name)
     title(tabY.name, 'Interpreter', 'none');
 end
 
-if min(size(tabY.data)) > 1
+if min(size(tabY.data)) > 1 && showLegend
     % When several curves are drawn, display a legend
-    legend(tabY.rowNames);
+    legend(tabY.rowNames, 'Location', legendLocation);
 else
     % otherwise, use only the first column or row as ylabel
     ylabel(tabY.rowNames{1});
