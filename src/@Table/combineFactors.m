@@ -1,38 +1,41 @@
 function res = combineFactors(this, varargin)
 %COMBINEFACTORS Aggregate two factors to create a new factor
 %
-% %   [INDICES LEVELS] = combineFactors(GROUP)
-% %   Extract group indices and names from the input GROUP. The input GROUP
-% %   can be either:
-% %   * a cell array of values
-% %   * a numeric array
-% %   * a data table (assuming factor columns)
-% %   The output variable INDICES is a N-by-1 column vector containing index
-% %   of corresponding group for each row.
-% %   The output variable LEVELS is a NG-by-1 cell array containing the name
-% %   or the numeric value of each group. 
-% %
-% %   [INDICES NAMES LABEL] = combineFactors(GROUP)
-% %   Also return the label of the group, that correspond either to the
-% %   variable name, or to the column name of the data table.
-% %
-% %
-% %   Example
-% %   [INDS LEVELS] = combineFactors([2 3 2 5 3]')
-% %   INDS = 
-% %       1
-% %       2
-% %       1
-% %       3
-% %       2
-% %   LEVELS =
-% %         [2]
-% %         [3]
-% %         [5]
-% %
+%   RES = combineFactors(GROUP)
+%   Extract group indices and names from the input GROUP. The input GROUP
+%   can be either:
+%   * a cell array of values
+%   * a numeric array
+%   * a data table (assuming factor columns)
+%   The output variable RES is a new data table, containing for each row
+%   the result of the combination of the different factors.
+%
+%   Example
+%     % create a table with two different group values
+%     TAB = Table([1 1; 1 2; 1 1; 1 2; 2 3; 2 4; 2 3], {'group1', 'group2'});
+%     TAB.setAsFactor([1 2]);
+%     % combien the two factor columns
+%     RES = combineFactors(TAB, 1:2)
+%         RES = 
+%                  group1*group2
+%         1                  1*1
+%         2                  1*2
+%         3                  1*1
+%         4                  1*2
+%         5                  2*3
+%         6                  2*4
+%         7                  2*3
+%     % show the unique levels of the resulting factor
+%     RES.levels{1}
+%         ans = 
+%             '1*1'
+%             '1*2'
+%             '2*3'
+%             '2*4'
+%
 %   See also
-%
-%
+%     reorderLevels
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
@@ -60,7 +63,7 @@ end
 
 %% Compute new groups as combination of input groups
 
-[nameIndices pos groupIndices] = unique(this.data, 'rows'); %#ok<ASGLU>
+[nameIndices, pos, groupIndices] = unique(this.data, 'rows'); %#ok<ASGLU>
 
 levelNames = cell(size(nameIndices));
 for iGroup = 1:size(levelNames, 2)
@@ -75,7 +78,7 @@ for iGroup = 1:size(levelNames, 2)
     else
         % in case of numeric variable, create cell array from numeric
         % levels, and update name indices
-        [levelInds pos inds] = unique(nameIndices(:,iGroup)); %#ok<ASGLU>
+        [levelInds, pos, inds] = unique(nameIndices(:,iGroup)); %#ok<ASGLU>
         
         nameIndices(:,iGroup) = inds;
         levels = strtrim(cellstr(num2str(levelInds)));
