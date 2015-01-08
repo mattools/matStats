@@ -7,11 +7,25 @@ function setFactorLevels(this, colName, levels)
 %   the given column.
 %
 %   Example
-%   setFactorLevels
+%     VALS = [10.12 10.23 9.83 10.53 9.98 10.81]';
+%     GRP = [1 1 1 2 2 2]';
+%     TAB = Table([VALS GRP], {'values', 'group'});
+%     TAB.setAsFactor('group');
+%     TAB.setFactorLevels('group', {'original', 'modified'}');
+%     TAB
+%     TAB = 
+%              values       group
+%     1         10.12    original
+%     2         10.23    original
+%     3          9.83    original
+%     4         10.53    modified
+%     5          9.98    modified
+%     6         10.81    modified
 %
 %   See also
 %   setAsFactor, hasFactors, trimLevels
 %
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
