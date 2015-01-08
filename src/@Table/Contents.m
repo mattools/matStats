@@ -89,6 +89,7 @@
 %   cov                     - Covariance matrix of the data table
 %   zscore                  - Standardized z-score
 %   geomean                 - Compute geometrical mean of table columns
+%   ttest2                  - Two-sample t-test
 %
 %   Plot and display
 %   disp                    - Display the content of a data table, with row and column names
@@ -113,17 +114,23 @@
 %   Factors
 %   setAsFactor             - Set the given column as a factor
 %   isFactor                - Check if a column is treated as a factor
-%   setFactorLevels         - Set up the levels of a factor in a table
-%   factorLevels            - List of the levels for a given factor
 %   hasFactors              - Check if the table has column(s) representing factor(s)
 %   clearFactors            - Replace all factor columns by numeric columns
+%   factorLevels            - List of the levels for a given factor
+%   setFactorLevels         - Set up the levels of a factor in a table
+%   getLevel                - Returns the factor level for specified row and column
+%   trimLevels              - Recompute level indices to keep only existing values
+%   reorderLevels           - Change the order the levels are stored
+%   combineFactors          - Aggregate two factors to create a new factor
 %   parseFactorFromRowNames - Create a factor table by parsing row names
+%   groupfun                - Aggregate table values according to levels of a group
 %   groupStats              - Compute basic statistics for each level of a group
 %   paragons                - Find paragon for each level of a group
 %
 %   Display groups
 %   kmeans                  - K-means clustering of the data table
 %   scatterGroup            - Scatter plot individuals grouped by classes
+%   scatterGroup3d          - Scatter plot individuals grouped by classes
 %   plotGroups              - Display data ordererd by their group levels
 %   plotGroupMeans          - One-line description here, please.
 %   plotGroupRows           - Plot data table rows with different style by group
@@ -131,12 +138,17 @@
 %
 %   Utility functions
 %   addColumn               - Add a new column to the data table
+%   addRow                  - Add a new row to the data table
+%   apply                   - Apply the given function to each element of the table
 %   bsxfun                  - Binary Singleton Expansion Function for Table
 %   unique                  - Returns unique values in data tables
+%   concatFiles             - Concatenate a list of files containing tables into new a file
+%   printLatex              - Print content of this table as a latex tabular
 
 
 %   Deprecated
 %   groupStatsOld           - GROUPSTATS Compute descriptive stats for each level of a factor column
 
 %   Not yet integrated
-%   groupfun                - Aggregate table values according to levels of a group
+%   getValue                - Returns the value for the given row and column
+%   numel                   - Overload default behaviour for the numel function
