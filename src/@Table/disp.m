@@ -30,9 +30,9 @@ isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 maxWidth = get(0, 'CommandWindowSize');
 maxWidth = maxWidth(1);
 
-if isLoose
-    fprintf('\n');
-end
+% if isLoose
+%     fprintf('\n');
+% end
 
 % get table size
 nRows = rowNumber(this);
