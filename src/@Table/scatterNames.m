@@ -37,7 +37,7 @@ interpreter = 'none';
 %% Input controls 
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 if length(varargin) < 3
     error('Should be called with at least 3 arguments');

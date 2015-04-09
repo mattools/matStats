@@ -1,11 +1,8 @@
-function n = numel(this, varargin)
+function n = numel(varargin)
 %NUMEL Overload default behaviour for the numel function
 %
-%   Thie trick is necessary for being consistent with subsasgn.
-%   output = numel(input)
-%
-%   Example
-%   numel(this)
+%   Returns always 1. This trick is necessary for being consistent with
+%   subsasgn. 
 %
 %   See also
 %   subsref, subsasgn

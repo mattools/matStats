@@ -67,7 +67,7 @@ if ~isempty(varargin)
     end
 end
 
-axes(ax); %#ok<MAXES>
+axes(ax); 
 hold on;
 
 if isempty(varargin)

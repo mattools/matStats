@@ -1,4 +1,4 @@
-function varargout = histogram(this, var, varargin)
+function histogram(this, var, varargin)
 %HISTOGRAM Histogram plot of a column in a data table
 %
 %   TABLE.histogram(COLNAME)
@@ -38,7 +38,3 @@ if ~isempty(this.name)
     title(this.name);
 end
 
-% % eventually returns handle to graphics
-% if nargout > 0
-%     varargout = {h};
-% end

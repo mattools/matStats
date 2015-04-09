@@ -48,7 +48,7 @@ if size(group, 2) > 1
 end
 
 % extract group infos
-[groupIndices levels label] = parseGroupInfos(group);
+[groupIndices, levels, label] = parseGroupInfos(group);
 nLevels = length(levels);
 
 % memory allocation

@@ -72,7 +72,7 @@ if nRows > 0 && nCols > 0
                 colText = strjust(char(colLevels2(var + 1)));
             else
                 % factor levels given as char array
-                colLevels2 = strvcat('Unknown', colLevels); %#ok<VCAT>
+                colLevels2 = char('Unknown', colLevels); %#ok<VCAT>
                 colText = strjust(colLevels2(var + 1, :));
             end
             

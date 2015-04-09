@@ -55,7 +55,7 @@ function tab = read(fileName, varargin)
 
 % if no file name is provided, open a dialog to choose a file
 if nargin < 1
-    [fileName path] = uigetfile(...
+    [fileName, path] = uigetfile(...
         {...
             '*.txt;*.TXT',  'Text Files (*.txt)'; ...
             '*.*',  'All Files (*.*)'}, ...
@@ -81,7 +81,7 @@ if f == -1
 end
 
 % keep filename into data structure
-[path name] = fileparts(fileName); %#ok<ASGLU>
+[path, name] = fileparts(fileName); %#ok<ASGLU>
 
 % create empty data table
 tab = Table();
@@ -249,7 +249,7 @@ for i = 1:nc
             tab.data(:, i)  = num;
         else
             % if there are unconverted values, changes to factor levels
-            [levels I num]  = unique(col); %#ok<ASGLU>
+            [levels, I, num]  = unique(col); %#ok<ASGLU>
             tab.data(:, i)  = num;
             tab.levels{i}   = levels;
         end

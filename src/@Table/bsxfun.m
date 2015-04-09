@@ -19,7 +19,7 @@ function res = bsxfun(fun, this, that)
 % Created: 2012-08-01,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-[data1 data2 parent] = parseInputCouple(this, that);
+[data1, data2, parent] = parseInputCouple(this, that);
 
 % error checking
 if hasFactors(parent)

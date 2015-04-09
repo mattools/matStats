@@ -35,7 +35,7 @@ function varargout = boxplot(varargin)
 
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
@@ -54,7 +54,7 @@ if ~isempty(varargin)
     
     if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
         grouping = true;
-        [group levels groupLabel] = parseGroupInfos(var1);
+        [group, levels, groupLabel] = parseGroupInfos(var1);
 %         group = levels(group);
         
         varargin(1) = [];

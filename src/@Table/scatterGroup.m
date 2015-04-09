@@ -122,7 +122,7 @@ end
 %% Initialisations
 
 % extraction of groups indices and labels from input table
-[groupIndices groupLabels, groupNames] = parseGroupInfos(group);
+[groupIndices, groupLabels, groupNames] = parseGroupInfos(group);
 
 % number of groups
 nGroups = length(groupLabels);

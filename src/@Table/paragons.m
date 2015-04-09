@@ -1,4 +1,4 @@
-function [res inds] = paragons(this, group)
+function [res, inds] = paragons(this, group)
 %PARAGONS Find paragon for each level of a group
 %
 %   PARS = paragons(TAB, G)
@@ -24,7 +24,7 @@ function [res inds] = paragons(this, group)
 % Created: 2012-07-13,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-[indices levelNames label] = parseGroupInfos(group);
+[indices, levelNames, label] = parseGroupInfos(group);
 
 nGroups = length(levelNames);
 

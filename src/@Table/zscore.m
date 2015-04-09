@@ -1,4 +1,4 @@
-function [res mu sigma] = zscore(this, varargin)
+function [res, mu, sigma] = zscore(this, varargin)
 %ZSCORE Standardized z-score
 %
 %   Z = zscore(TAB)

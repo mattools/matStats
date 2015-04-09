@@ -16,7 +16,7 @@ function varargout = plotGroupErrorBars(data, group, varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % extraction of groups indices and labels from input table
-[groupIndices levelNames groupLabel] = parseGroupInfos(group);  %#ok<ASGLU,NASGU>
+[groupIndices, levelNames, groupLabel] = parseGroupInfos(group);  %#ok<ASGLU>
 nLevels = length(levelNames);
 
 % default error function is standard deviation

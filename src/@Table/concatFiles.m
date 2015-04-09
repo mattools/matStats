@@ -22,7 +22,7 @@ function varargout = concatFiles(inputFiles, outputFile, varargin)
 
 % if input is given as a pattern, compute the list of names
 if ischar(inputFiles)
-    [path baseName] = fileparts(inputFiles); %#ok<NASGU>
+    [path, baseName] = fileparts(inputFiles); %#ok<ASGLU>
     list = dir(inputFiles);
     
     nFiles = length(list);

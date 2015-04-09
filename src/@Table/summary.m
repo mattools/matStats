@@ -7,7 +7,12 @@ function summary(this)
 %   several statistics are computed and displayed. If the column is a
 %   factor, the number of occurences of each factor level is given.
 %
+%   Example
+%     % display summary of Iris data table
+%     tab = Table.read('fisherIris.txt');
+%     summary(tab)
 %
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
@@ -30,7 +35,7 @@ statNames = {'Min', '1st Qu.', 'Median', 'Mean', '3rd Qu.', 'Max'};
 nStats = length(statNames);
 
 % number of rows used for display (7 stats).
-nDisplayRows = 8;
+nDisplayRows = nStats + 1;
 
 if isLoose
     fprintf('\n');
@@ -111,7 +116,7 @@ if nRows > 0 && nCols > 0
         colText = char(statCells);
              
         % add the name of the colum
-        colText = strjust(strvcat(colName, colText)); %#ok<VCAT>
+        colText = strjust(strvcat(colName, colText));
         
         % If this new variable will extend the display past the right margin
         % width, display the output built up so far, and then restart for

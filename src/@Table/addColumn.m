@@ -40,8 +40,8 @@ else
     % column is a factor
     if ischar(colData)
         % Factor are given as a char array
-        [levels pos indices] = unique(strtrim(colData), 'rows');
-        [pos2 inds] = sort(pos); %#ok<ASGLU>
+        [levels, pos, indices] = unique(strtrim(colData), 'rows');
+        [pos2, inds] = sort(pos); %#ok<ASGLU>
         
         % transform unique strings to cell array of factor levels
         levels = strtrim(cellstr(levels(inds,:)));
@@ -55,7 +55,7 @@ else
         
     elseif iscell(colData)
         % Factor are given as a cell array
-        [levels pos indices] = unique(strtrim(colData));  %#ok<ASGLU>
+        [levels, pos, indices] = unique(strtrim(colData));  %#ok<ASGLU>
         numData = indices;
         this.levels{nCols + 1} = levels;
         

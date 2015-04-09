@@ -1,4 +1,4 @@
-function [res I] = sortrows(this, varargin)
+function [res, I] = sortrows(this, varargin)
 %SORTROWS Sort entries of data table according to row names
 %
 %   TAB2 = sortrows(TAB)
@@ -22,10 +22,10 @@ function [res I] = sortrows(this, varargin)
 
 % determines row order
 if isempty(varargin)
-    [dum I] = sortrows(this.rowNames); %#ok<ASGLU>
+    [dum, I] = sortrows(this.rowNames); %#ok<ASGLU>
 else
     ind = columnIndex(this, varargin{1});
-    [dum I] = sortrows(this.data(:, ind)); %#ok<ASGLU>
+    [dum, I] = sortrows(this.data(:, ind)); %#ok<ASGLU>
 end
 
 % transform data

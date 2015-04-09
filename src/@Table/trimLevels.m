@@ -45,7 +45,7 @@ for i = 1:size(this, 2)
     levels = this.levels{i};
     
     % find unique indices. New indices are given by J
-    [uniqueInds I J] = unique(inds0); %#ok<ASGLU>
+    [uniqueInds, I, J] = unique(inds0); %#ok<ASGLU>
 
     % store result in the new table
     res.data(:,i) = J;

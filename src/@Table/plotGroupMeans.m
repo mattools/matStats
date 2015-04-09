@@ -18,7 +18,7 @@ function varargout = plotGroupMeans(data, group, varargin)
 ax = gca;
 
 % extraction of groups indices and labels from input table
-[groupIndices levelNames groupLabel] = parseGroupInfos(group); %#ok<ASGLU>
+[groupIndices, levelNames, groupLabel] = parseGroupInfos(group); %#ok<ASGLU>
 nLevels = length(levelNames);
 
 means = groupStats(data, group);

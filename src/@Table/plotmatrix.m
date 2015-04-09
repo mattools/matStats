@@ -3,7 +3,7 @@ function varargout = plotmatrix(this, varargin)
 %
 %   plotmatrix(TAB)
 %
-%   [H AX hBigAx P] = plotmatrix(TAB)
+%   [H, AX, hBigAx, P] = plotmatrix(TAB)
 %
 %   Example
 %     % Display histograms and joint histograms of Iris values
@@ -13,6 +13,7 @@ function varargout = plotmatrix(this, varargin)
 %   See also
 %     hist
 %
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
@@ -20,7 +21,7 @@ function varargout = plotmatrix(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % call classical plotmatrix function
-[H AX BigAx P Pax] = plotmatrix(this.data);
+[H, AX, BigAx, P, Pax] = plotmatrix(this.data);
 
 % also display column names as labels
 nCols = size(this, 2);

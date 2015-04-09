@@ -26,7 +26,7 @@ function varargout = plotGroupRows(varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % determines whether an axis handle is given as argument
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % assumes first input argument is the current table
 this = varargin{1};

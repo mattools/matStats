@@ -1,4 +1,4 @@
-function [res I J] = unique(this, varargin)
+function [res, I, J] = unique(this, varargin)
 %UNIQUE Returns unique values in data tables
 %
 %   UN = unique(TAB)
@@ -31,7 +31,7 @@ function [res I J] = unique(this, varargin)
 % in case of table with no factor column, simply returns the unique data
 % values.
 if ~hasFactors(this)
-    [res I J] = unique(this.data, varargin{:});
+    [res, I, J] = unique(this.data, varargin{:});
     return;
 end
 
@@ -45,7 +45,7 @@ end
 format = '%s=%s';
 
 % compute unique group of factors
-[res I J] = unique(this.data, 'rows');
+[res, I, J] = unique(this.data, 'rows');
 nRows = size(res, 1);
 
 % allocate memory
