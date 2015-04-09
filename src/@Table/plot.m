@@ -28,7 +28,7 @@ function varargout = plot(varargin)
 %% Process input arguments
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
 this = varargin{1};

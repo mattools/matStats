@@ -40,7 +40,7 @@ for i = 1:nGroups
     
     % find which individual of current group is the closest to the group
     % centroid
-    [dum ind] = min(sum(bsxfun(@minus, tabi, centre).^2, 2)); %#ok<ASGLU>
+    [dum, ind] = min(sum(bsxfun(@minus, tabi, centre).^2, 2)); %#ok<ASGLU>
     
     % compute index relative to initial array
     inds(i) = inds_i(ind);

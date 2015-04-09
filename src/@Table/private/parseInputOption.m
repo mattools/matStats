@@ -1,4 +1,4 @@
-function [value varList] = parseInputOption(name, varList, varargin)
+function [value, varList] = parseInputOption(name, varList, varargin)
 %PARSEINPUTOPTION Extract the value of an option in varargin list
 %
 %   Usage:

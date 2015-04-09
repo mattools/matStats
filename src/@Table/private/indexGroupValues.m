@@ -1,4 +1,4 @@
-function [groupIndices groupNames] = indexGroupValues(group)
+function [groupIndices, groupNames] = indexGroupValues(group)
 %INDEXGROUPVALUES  Return indices and names of group in a variable
 %
 %   output = indexGroupValues(input)
@@ -20,7 +20,7 @@ warning('Table:deprecated', ...
 
 if isnumeric(group)
     % group can be given as a numeric column vector
-    [groupNames pos groupIndices] = unique(group); %#ok<ASGLU>
+    [groupNames, pos, groupIndices] = unique(group); %#ok<ASGLU>
     
 elseif isa(group, 'Table')
     % group can be a table, possibly with factor
@@ -30,15 +30,15 @@ elseif isa(group, 'Table')
     
     if isFactor(group, 1)
         levels = group.levels{1};
-        [groupNames pos groupIndices] = unique(levels(group.data)); %#ok<ASGLU>
+        [groupNames, pos, groupIndices] = unique(levels(group.data)); %#ok<ASGLU>
         
     else
-        [groupNames pos groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
+        [groupNames, pos, groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
     end
     
 elseif iscell(group)
     % group can also be a cell array of strings
-    [groupNames pos groupIndices] = unique(group); %#ok<ASGLU>
+    [groupNames, pos, groupIndices] = unique(group); %#ok<ASGLU>
     
 end
 

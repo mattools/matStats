@@ -1,4 +1,4 @@
-function [ax this varargin] = parseAxisAndTable(varargin)
+function [ax, this, varargin] = parseAxisAndTable(varargin)
 %PARSEAXISANDTABLE Parse handle to axis and to the first table object
 %
 %   [AX VARARGIN] = parseAxisAndTable(...)

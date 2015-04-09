@@ -1,7 +1,7 @@
-function [this that parent names1 names2] = parseInputCouple(this, that, varargin)
-%PARSEINPUTCOUPLE  One-line description here, please.
+function [this, that, parent, names1, names2] = parseInputCouple(this, that, varargin)
+%PARSEINPUTCOUPLE Ensures that input have Table type, and get their names
 %
-%   [DATA1 DATA2 PARENT NAMES1 NAMES2] = parseInputCouple(THIS, THAT)
+%   [DATA1, DATA2, PARENT, NAMES1, NAMES2] = parseInputCouple(THIS, THAT)
 %
 %   ... = parseInputCouple(THIS, THAT, INPUTNAME1, INPUTNAME2)
 %   Specifies input names from parent function.

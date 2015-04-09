@@ -20,7 +20,7 @@ function varargout = plotGroups(data, group, varargin)
 
 ax = gca;
 
-[groupIndices levelNames groupLabel] = parseGroupInfos(group);
+[groupIndices, levelNames, groupLabel] = parseGroupInfos(group);
 nLevels = length(levelNames);
 
 titleString = '';

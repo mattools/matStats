@@ -72,7 +72,7 @@ nColors = size(groupColors, 1);
 
 
 % extraction of groups indices and labels from input table
-[groupIndices groupLabels, groupNames] = parseGroupInfos(group);
+[groupIndices, groupLabels, groupNames] = parseGroupInfos(group);
 groupLabels = formatLevelLabels(groupLabels, groupNames); 
 
 groupNames = groupLabels;
