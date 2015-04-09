@@ -27,7 +27,7 @@ elseif ischar(rowName)
     if strcmp(rowName, ':')
         indRow = 1:length(this.rowNames);
     else
-        indRow = strmatch(rowName, this.rowNames', 'exact');
+        indRow = find(strcmp(rowName, this.rowNames'));
     end
     
     if isempty(indRow)>0
@@ -40,7 +40,7 @@ elseif iscell(rowName)
     indRow = zeros(N, 1);
     names = this.rowNames;
     for i = 1:N
-        ind = strmatch(rowName{i}, names, 'exact');
+        ind = find(strcmp(rowName{i}, names));
         if isempty(ind)
             error(errorMsg, rowName{i});
         end

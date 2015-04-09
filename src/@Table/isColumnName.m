@@ -28,7 +28,7 @@ elseif ischar(colName)
     n = size(colName, 1);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(strmatch(colName(i,:), this.colNames, 'exact'));
+        b(i) = ~isempty(find(strcmp(colName(i,:), this.colNames), 1));
     end
    
 elseif iscell(colName)
@@ -36,7 +36,7 @@ elseif iscell(colName)
     n = length(colName);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(strmatch(colName{i}, this.colNames, 'exact'));
+        b(i) = ~isempty(find(strcmp(colName{i}, this.colNames), 1));
     end
     
 else

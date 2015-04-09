@@ -63,7 +63,7 @@ if nRows > 0 && nCols > 0
                     
         else
             % data are factors -> identify level names
-            % Get levels of current factor, and add an 'unassigned' level
+            % Get levels of current factor, and add an 'Unknown' level name
             % in case of index 0
             colLevels = this.levels{iCol};
             if iscell(colLevels)
@@ -72,7 +72,7 @@ if nRows > 0 && nCols > 0
                 colText = strjust(char(colLevels2(var + 1)));
             else
                 % factor levels given as char array
-                colLevels2 = char('Unknown', colLevels); %#ok<VCAT>
+                colLevels2 = char('Unknown', colLevels);
                 colText = strjust(colLevels2(var + 1, :));
             end
             
@@ -92,7 +92,7 @@ if nRows > 0 && nCols > 0
         if isempty(name)
             name = ' ';
         end
-        colText = strjust(strvcat(name, colText)); %#ok<VCAT>
+        colText = strjust(char(name, colText));
         
         
         % If this new variable will extend the display past the right margin

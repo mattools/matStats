@@ -87,7 +87,7 @@ elseif strcmp(type, '()')
             end
             
             % use index of specified level as value
-            value = strmatch(value, colLevels);
+            value = find(strcmp(value, colLevels));
         end
         
         % Assign the new value

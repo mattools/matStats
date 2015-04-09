@@ -31,7 +31,7 @@ elseif ischar(colName)
     if strcmp(colName, ':')
         indCol = 1:length(this.colNames);
     else
-        indCol = strmatch(colName, this.colNames, 'exact');
+        indCol = find(strcmp(colName, this.colNames));
     end
     
     if isempty(indCol)>0
@@ -44,7 +44,7 @@ elseif iscell(colName)
     indCol = zeros(N, 1);
     names = this.colNames; 
     for i = 1:N
-        ind = strmatch(colName{i}, names, 'exact');
+        ind = find(strcmp(colName{i}, names));
         if isempty(ind)
             error(errorMsg, colName{i});
         end

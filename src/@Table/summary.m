@@ -116,7 +116,7 @@ if nRows > 0 && nCols > 0
         colText = char(statCells);
              
         % add the name of the colum
-        colText = strjust(strvcat(colName, colText));
+        colText = strjust(char(colName, colText));
         
         % If this new variable will extend the display past the right margin
         % width, display the output built up so far, and then restart for

@@ -65,7 +65,7 @@ for i = 1:length(varargin)
             % update level indices
             count = 0;
             for k = 1:length(levels2)
-                indL = strmatch(levels2{k}, levels0, 'exact');
+                indL = find(strcmp(levels2{k}, levels0));
                 inds = var.data(:, indCol) == k;
                 if isempty(indL)
                     count = count + 1;
