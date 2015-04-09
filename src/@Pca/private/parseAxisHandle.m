@@ -1,4 +1,4 @@
-function [ax varargin] = parseAxisHandle(varargin)
+function [ax, varargin] = parseAxisHandle(varargin)
 %PARSEAXISHANDLE Parse handle to axis, or return current axis
 %
 %   [ax varargin] = parseAxisHandle(varargin{:})

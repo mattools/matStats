@@ -187,7 +187,7 @@ methods
         
 
         % compute PCA results
-        [m sc ld ev] = computePCA(data, scale);
+        [m, sc, ld, ev] = computePCA(data, scale);
         
         % keep results
         this.scaled         = scale;

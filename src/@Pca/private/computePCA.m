@@ -1,4 +1,4 @@
-function [means sc ld ev] = computePCA(this, scale)
+function [means, sc, ld, ev] = computePCA(this, scale)
 %COMPUTEPCA  Compute PCA on input data table
 %
 %   output = computePCA(input)

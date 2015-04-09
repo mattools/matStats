@@ -19,7 +19,7 @@ function varargout = loadingPlot(varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
 this = varargin{1};

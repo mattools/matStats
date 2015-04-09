@@ -17,7 +17,7 @@ function varargout = correlationCircle(varargin)
 
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
 this = varargin{1};
@@ -89,7 +89,7 @@ end
 % setup display
 hold on;
 plot(ax, x, y, '.');
-axes(ax); %#ok<MAXES>
+axes(ax); 
 makeCircleAxis(ax);
 
 % create legends

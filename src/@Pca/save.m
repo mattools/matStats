@@ -1,4 +1,4 @@
-function varargout = save(this, baseName)
+function save(this, baseName)
 %SAVE Save the result of the PCA into several files
 %
 %   output = save(input)
@@ -20,7 +20,7 @@ if nargin < 2
     baseName = [this.tableName '-pca'];
 end
 
-[path name] = fileparts(baseName);
+[path, name] = fileparts(baseName);
 baseName = fullfile(path, name);
 
 
