@@ -31,6 +31,7 @@ else
     % extract factor level for each row
     levels = parent.levels{1};
     levels = levels(dat1);
+    levels = levels(:);
     
     % compare factor levels with second argument
     if ischar(dat2)
@@ -46,3 +47,6 @@ newColNames = strcat(names1, '~=', names2);
 res = Table.create(newData, ...
     'parent', parent, ...
     'colNames', newColNames);
+
+% clear levels
+res.levels = cell(1, size(res, 2));

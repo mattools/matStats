@@ -17,7 +17,6 @@ function res = eq(this, that)
 
 [dat1, dat2, parent, names1, names2] = parseInputCouple(this, that, inputname(1), inputname(2));
 
-% error checking
 if ~hasFactors(parent)
     % compute new data, with numeric data
     newData = bsxfun(@eq, dat1, dat2);
