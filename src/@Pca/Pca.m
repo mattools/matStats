@@ -276,8 +276,7 @@ methods
         npc = size(this.scores.data, 2);
         
         % Scree plot of the PCA
-        h1 = figure;
-        screePlot(this, axesProperties{:});
+        h1 = screePlot(this, axesProperties{:});
         
         % individuals in plane PC1-PC2
         h2 = figure;
