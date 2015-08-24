@@ -12,10 +12,10 @@ classdef Anova < handle
 %
 %   See also
 %   anovan, multcompare
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@nantes.inra.fr
 % Created: 2012-10-07,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -44,7 +44,7 @@ methods
         end
 
         % copy constructor
-        if isa(data, 'Pca')
+        if isa(data, 'Anova')
             this.tableName  = data.tableName;
             this.p = data.p;
             this.table = data.table;
