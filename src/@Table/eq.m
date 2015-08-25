@@ -7,8 +7,8 @@ function res = eq(this, that)
 %   eq
 %
 %   See also
-%
-%
+%   ne
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
