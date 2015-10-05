@@ -193,10 +193,14 @@ for i = 1:nGroups
             % do nothing more...
             
         case 'convexhull'
-            inds2   = convhull(xdata(inds), ydata(inds));
-            hl(i)   = plot(xdata(inds(inds2)), ydata(inds(inds2)), ...
-                'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
-                'color', groupColors(i,:), varargin{:});
+            if length(inds) > 2
+                inds2   = convhull(xdata(inds), ydata(inds));
+                hl(i)   = plot(xdata(inds(inds2)), ydata(inds(inds2)), ...
+                    'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
+                    'color', groupColors(i,:), varargin{:});
+            else
+                hl(i) = 0;
+            end
             
         case 'ellipse'
             center  = mean([xdata(inds) ydata(inds)]);
