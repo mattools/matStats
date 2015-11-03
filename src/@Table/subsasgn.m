@@ -95,14 +95,14 @@ elseif strcmp(type, '()')
         
         % if right-hand side is empty, need to update other data as well
         if isempty(value)
-            if strcmp(sub1, ':')
+            if ischar(sub1) && strcmp(sub1, ':')
                 % remove some columns
                 this.colNames(sub2) = [];
                 if ~isempty(this.levels)
                     this.levels(sub2) = [];
                 end
                 
-            elseif strcmp(sub2, ':') 
+            elseif ischar(sub2) && strcmp(sub2, ':') 
                 % remove some rows
                 this.rowNames(sub1) = [];
                 
