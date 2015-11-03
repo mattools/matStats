@@ -55,7 +55,7 @@ if hasFactors(this)
     
 end
 
-data2 = [this.rowNames data2];
+data2 = [this.rowNames(:) data2];
 
 % ht = uitable(f, ...
 %     'Units', 'normalized', ...
