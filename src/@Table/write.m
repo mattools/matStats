@@ -240,9 +240,9 @@ else
         
         % write current row
         if writeRowNames
-            fprintf(f, sprintf(format, this.rowNames{i}, data{:}));
+            fprintf(f, format, this.rowNames{i}, data{:});
         else
-            fprintf(f, sprintf(format, data{:}));
+            fprintf(f, format, data{:});
         end
     end
 end
