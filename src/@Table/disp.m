@@ -68,7 +68,7 @@ if nRows > 0 && nCols > 0
             colLevels = this.levels{iCol};
             if iscell(colLevels)
                 % factor levels given as cell array of strings
-                colLevels2 = [{'Unknown'} ; colLevels];
+                colLevels2 = [{'Unknown'} ; colLevels(:)];
                 colText = strjust(char(colLevels2(var + 1)));
             else
                 % factor levels given as char array

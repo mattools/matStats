@@ -28,17 +28,23 @@ function setFactorLevels(this, colName, levels)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@nantes.inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
+% identify column index from first argument
 indCol = columnIndex(this, colName);
 
+% ensures list of levels is a (column) cell array
+if ischar(levels)
+    levels = cellstr(levels);
+end
+levels = levels(:);
 this.levels{indCol} = levels;
 
 % check there is enough level names
-nVals = length(unique(this.data(:, indCol)));
 nLevels = length(levels);
+nVals = length(unique(this.data(:, indCol)));
 if nVals > nLevels
     warning('Table:setFactorLevels',...
         'The number of unique values is greater than the number of levels');
