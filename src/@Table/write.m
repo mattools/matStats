@@ -217,11 +217,11 @@ if ~writeLevels
     % write data as numeric
     if writeRowNames
         for i = 1:nRows
-            fprintf(f, sprintf(format, this.rowNames{i}, this.data(i, :)));
+            fprintf(f, format, this.rowNames{i}, this.data(i, :));
         end
     else
         for i = 1:nRows
-            fprintf(f, sprintf(format, this.data(i, :)));
+            fprintf(f, format, this.data(i, :));
         end
     end
     

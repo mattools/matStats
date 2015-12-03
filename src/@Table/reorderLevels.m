@@ -12,7 +12,7 @@ function res = reorderLevels(this, newOrder)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
