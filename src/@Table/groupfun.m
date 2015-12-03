@@ -27,20 +27,31 @@ function res = groupfun(this, name, op, rowNames)
 %   Specifies the names of the rows in the new table.
 %
 %   Example
+%     % Display mean values of each feature, grouped by Species
 %     iris = Table.read('fisherIris');
-%     groupfun(iris(:,1:4), iris('class'), @mean)
+%     groupfun(iris(:,1:4), iris('Species'), @mean)
 %     ans = 
-%                             sepalLength    sepalWidth    petalLength    petalWidth
-%             class=Setosa          5.006         3.418          1.464         0.244
-%         class=Versicolor          5.936          2.77           4.26         1.326
-%          class=Virginica          6.588         2.974          5.552         2.026
+%                               SepalLength    SepalWidth    PetalLength    PetalWidth
+%     Species=Setosa                  5.006         3.428          1.462         0.246
+%     Species=Versicolor              5.936          2.77           4.26         1.326
+%     Species=Virginica               6.588         2.974          5.552         2.026
+%
+%     % The same, but choose different row names
+%     newNames = {'Setosa-mean', 'Versicolor-mean', 'Virginica-mean'};
+%     groupfun(iris(:,1:4), iris('Species'), @mean, newNames)
+%     ans = 
+%                            SepalLength    SepalWidth    PetalLength    PetalWidth
+%     Setosa-mean                  5.006         3.428          1.462         0.246
+%     Versicolor-mean              5.936          2.77           4.26         1.326
+%     Virginica-mean               6.588         2.974          5.552         2.026
 %
 %   See also
-%     groupStats
+%     aggregate
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@nantes.inra.fr
 % Created: 2008-02-11,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2008 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
 

@@ -2,18 +2,17 @@ function varargout = bar(varargin)
 %BAR  Bar plot of the table data
 %
 %   bar(TAB)
-%   Simple wrapper to the native bar function, that also display
+%   Simple wrapper to the native bar function, that also displays
 %   appropriate labels.
-%   Note: the table is transposed before display.
 %
 %   Example
 %     iris = Table.read('fisherIris.txt');
 %     res = groupStats(iris(:,1:4), iris(:,5), @mean);
-%     bar(res)
+%     bar(res')
 %
 %   See also
-%
-%
+%     barweb
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@grignon.inra.fr
@@ -23,13 +22,13 @@ function varargout = bar(varargin)
 ind = cellfun('isclass', varargin, 'Table');
 
 tab = varargin{ind};
-varargin{ind} = tab.data';
+varargin{ind} = tab.data;
 
 h = bar(varargin{:});
 
-set(gca, 'XTickLabel', tab.colNames);
+set(gca, 'XTickLabel', tab.rowNames);
 if size(tab, 1) > 1
-    legend(tab.rowNames);
+    legend(tab.colNames);
 end
 
 if nargout > 0
