@@ -110,6 +110,11 @@ end
 
 %% Prepare reading data
 
+% eventually skip some lines
+for i = 1:options.skipLines
+    fgetl(f);
+end
+
 % read the first data line
 line = fgetl(f);
 
@@ -268,6 +273,7 @@ options.whiteSpaces     = ' \b\t';
 options.delim           = options.whiteSpaces;
 options.header          = true; % true if the file contains a header
 options.needParse       = false;% true if each line need to be explicitely parsed
+options.skipLines       = 0;    % the number of lines to skip before reading
 
 % process each couple of argument, identifies the options, and set up the
 % corresponding value in the result structure
@@ -300,6 +306,9 @@ while length(varargin)>1
             
         case 'needparse'
             options.needParse = varargin{2};
+            
+        case 'skiplines'
+            options.skipLines = varargin{2};
             
         otherwise
             error('Table:read', ['unknown parameter: ' varargin{1}]);
