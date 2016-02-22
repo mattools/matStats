@@ -193,7 +193,7 @@ properties
     
 end
 
-%% Declaration of static classes
+%% Declaration of static methods
 methods (Static)
     tab = create(varargin)
     tab = read(fileName, varargin)
@@ -225,7 +225,6 @@ methods
     %   See Also
     %   Table/create
     %
-
 
         % ---------
         % Analyse the first argument, if present

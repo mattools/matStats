@@ -1,8 +1,13 @@
 function varargout = scatterGroup(this, varargin)
 %SCATTERGROUP Scatter plot individuals grouped by classes
 %
+%   Syntax
 %   scatterGroup(VAR1, VAR2, GROUP)
+%   scatterGroup(TAB, VAR1, VAR2, VARCLASS)
+%   scatterGroup(..., PNAME, PVALUE)
 %
+%   Description
+%   scatterGroup(VAR1, VAR2, GROUP)
 %   VAR1 is either the index or the name of the column used for x-coord
 %   VAR2 is either the index or the name of the column used for y-coord
 %   GROUP is a vector with the same number of elements as the number of
@@ -53,9 +58,10 @@ function varargout = scatterGroup(this, varargin)
 %   See also
 %   scatter, scatterNames
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@nantes.inra.fr
 % Created: 2012-03-08,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2007 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
  
