@@ -23,7 +23,7 @@ function res = trimLevels(this)
 %           2
 %
 %   See also
-%     isFactor, setFactorLevels, setAsFactor
+%     isFactor, setFactorLevels, setAsFactor, mergeFactorLevels
 %
 % ------
 % Author: David Legland
