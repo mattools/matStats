@@ -131,11 +131,24 @@ C1  = C1{1};
 n   = length(C1);
 nc  = n;
 
-% if first variable is explicitely called 'name', use it for row names
+% Try to automatically detect the column containing row names
 if options.rowNamesIndex == -1
+    % if first variable is explicitely called 'name', use it for row names
     if strcmp(tab.colNames{1}, 'name') || strcmp(tab.colNames{1}, 'nom')
         options.rowNamesIndex = 1;
     end
+end
+
+% if column containing row names is given as string, identifies its index
+if ischar(options.rowNamesIndex)
+    ind = find(strcmp(options.rowNamesIndex, tab.colNames));
+    if isempty(ind)
+        error(['Could not identify row names column from label: ' options.rowNamesIndex]);
+    end
+    if length(ind) > 1
+        error(['Multiple column names with label: ' options.rowNamesIndex]);
+    end
+    options.rowNamesIndex = ind;
 end
 
 if options.rowNamesIndex > 0
