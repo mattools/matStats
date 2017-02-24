@@ -90,12 +90,17 @@ tab = Table();
 tab.name = name;
 tab.fileName = fileName;
 
-if strcmp(options.delim, options.whiteSpaces)
-    delimOptions = {};
-else
+if any(options.delim == options.whiteSpaces)
+    % if separator is space or tab, allow multiple separators to be treated
+    % as only one
     delimOptions = {...
         'Delimiter', options.delim, ...
         'MultipleDelimsAsOne', true};
+else
+    % otherwise, two separators correspond to distinct columns
+    delimOptions = {...
+        'Delimiter', options.delim, ...
+        'MultipleDelimsAsOne', false};
 end
  
 
@@ -199,7 +204,8 @@ fclose(f);
 
 % concatenate first line with the rest 
 for i = 1:length(C)
-    C{i} = [C1{i} ; C{i}];
+    C{i} = [C1(i) ; C{i}];
+%     C{i} = [C1{i} ; C{i}];
 end
 
 % number of rows
