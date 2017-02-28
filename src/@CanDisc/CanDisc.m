@@ -49,16 +49,13 @@ classdef CanDisc < handle
 %   Example
 %     % Principal component Analysis of Fisher's iris
 %     iris = Table.read('fisherIris');
-%     res = CanDisc(iris(:,1:4));
+%     res = CanDisc(iris(:,1:4), iris(:,5));
 %
-%     % Principal component Analysis on Decathlon data
-%     tab = Table.read('decathlon');
-%     resPca = CanDisc(tab(:,1:10));
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-09-28,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -174,7 +171,7 @@ methods
         
 
         % compute CanDisc results
-        [can ld ev st] = computeCDA(data, group);
+        [can, ld, ev, st] = computeCDA(data, group);
         
         % keep results
         this.tableName      = data.name;

@@ -1,4 +1,4 @@
-function [canon eigenVectors eigenValues stats] = computeCDA(tab, group)
+function [canon, eigenVectors, eigenValues, stats] = computeCDA(tab, group)
 %CDA Canonical Discriminant analysis
 %
 %   CAN = cda(DATA, GROUP)
@@ -11,7 +11,7 @@ function [canon eigenVectors eigenValues stats] = computeCDA(tab, group)
 %
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-07-29,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -24,7 +24,7 @@ nInds = size(data, 1);
 nVars = size(data, 2);
 
 % group number
-[uniGroups tmp groupIndices] = unique(group.data); %#ok<ASGLU>
+[uniGroups, tmp, groupIndices] = unique(group.data); %#ok<ASGLU>
 nGroups = length(uniGroups);
 
 % recenter data
@@ -85,7 +85,7 @@ var_w = ssd_w / nInds;
 ev = diag(ev);
 
 % on classe dans l'ordre decroissant des valeurs propres
-[ev order] = sort(ev, 'descend');
+[ev, order] = sort(ev, 'descend');
 v = v(:, order);
 
 % Normalisation of eigenVectors to have rotation matrix
