@@ -43,10 +43,10 @@ function tab = read(fileName, varargin)
 %   See also
 %     write, concatFiles, textscan
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -181,6 +181,7 @@ tab.levels = cell(1, nc);
 % determines which columns are numeric
 numeric = isfinite(str2double(C1));
 
+% forces the column containing row names to be read as string
 if options.rowNamesIndex > 0
     numeric(options.rowNamesIndex) = false;
 end
@@ -217,8 +218,11 @@ fclose(f);
 
 % concatenate first line with the rest 
 for i = 1:length(C)
-    C{i} = [C1(i) ; C{i}];
-%     C{i} = [C1{i} ; C{i}];
+    if numeric(i)
+        C{i} = [C1{i} ; C{i}];
+    else
+        C{i} = [C1(i) ; C{i}];
+    end
 end
 
 % number of rows
