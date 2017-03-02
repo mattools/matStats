@@ -1,4 +1,4 @@
-function test_suite = test_horzcat(varargin) %#ok<STOUT>
+function test_suite = test_horzcat(varargin) 
 %test_horzcat  One-line description here, please.
 %
 %   output = test_horzcat(input)
@@ -15,8 +15,7 @@ function test_suite = test_horzcat(varargin) %#ok<STOUT>
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testTwoTables %#ok<*DEFNU>
 

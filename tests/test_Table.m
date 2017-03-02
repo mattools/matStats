@@ -1,4 +1,4 @@
-function test_suite = testTable(varargin)
+function test_suite = test_Table(varargin)
 %TESTTABLE  One-line description here, please.
 %
 %   output = testTable(input)
@@ -16,7 +16,7 @@ function test_suite = testTable(varargin)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testCreateFromArray %#ok<*DEFNU>
 
