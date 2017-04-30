@@ -1,4 +1,4 @@
-function test_suite = test_transpose(varargin) %#ok<STOUT>
+function test_suite = test_transpose(varargin) 
 %test_transpose  One-line description here, please.
 %
 %   output = test_transpose(input)
@@ -16,7 +16,7 @@ function test_suite = test_transpose(varargin) %#ok<STOUT>
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testFunctionCall %#ok<*DEFNU>
 

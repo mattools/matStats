@@ -1,4 +1,4 @@
-function test_suite = test_read(varargin) %#ok<STOUT>
+function test_suite = test_read(varargin)
 %TEST_READ  One-line description here, please.
 %   output = test_read(input)
 %
@@ -14,7 +14,7 @@ function test_suite = test_read(varargin) %#ok<STOUT>
 % Created: 2009-07-01,    using Matlab 7.7.0.471 (R2008b)
 % Copyright 2009 INRA - Cepia Software Platform.
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testReadNumeric %#ok<*DEFNU>
 tab = Table.read(fullfile('files', 'file1.txt'));

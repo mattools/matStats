@@ -5,6 +5,10 @@ function varargout = barweb(values, errors, varargin)
 %   Simple wrapper to the barweb contribution, that also displays
 %   appropriate labels.
 %
+%   barweb(..., 'legendLocation', LOC)
+%   Specifies the location of the legend. See legend for details.
+%
+%
 %   Example
 %     iris = Table.read('fisherIris.txt');
 %     meanIris = groupStats(iris(:,1:4), iris(:,5), @mean);
@@ -16,7 +20,7 @@ function varargout = barweb(values, errors, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -24,6 +28,7 @@ function varargout = barweb(values, errors, varargin)
 
 % default settings
 width = 1;
+legendLocation = 'NorthEast';
 
 % eventually extract bar width as first non-char argument
 if ~isempty(varargin)
@@ -39,6 +44,8 @@ while length(varargin) > 1
     switch lower(paramName)
         case 'barwidth'
             width = varargin{2};
+        case 'legendlocation'
+            legendLocation = varargin{2};
         otherwise
             error(['Unknown parameter name: ' paramName]);
     end
@@ -98,7 +105,7 @@ end
 
 xlim([0.5 numGroups-change_axis+0.5]);
 
-handles.legend = legend(values.colNames);
+handles.legend = legend(values.colNames, 'Location', legendLocation);
 
 % restore hold state of current figure
 if ~holdStatus

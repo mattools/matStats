@@ -1,4 +1,4 @@
-function test_suite = test_subsasgn(varargin) %#ok<STOUT>
+function test_suite = test_subsasgn(varargin)
 %TEST_SUBSASGN  Test case for the file subsasgn
 %
 %   Test case for the file subsasgn
@@ -15,7 +15,7 @@ function test_suite = test_subsasgn(varargin) %#ok<STOUT>
 % Created: 2013-10-03,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function test_Simple %#ok<*DEFNU>
 % Test call of function without argument

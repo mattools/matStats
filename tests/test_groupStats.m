@@ -1,4 +1,4 @@
-function test_suite = test_groupStats(varargin) %#ok<STOUT>
+function test_suite = test_groupStats(varargin)
 %TEST_GROUPSTATS  Test case for the file groupStats
 %
 %   Test case for the file groupStats
@@ -15,7 +15,7 @@ function test_suite = test_groupStats(varargin) %#ok<STOUT>
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function test_Iris %#ok<*DEFNU>
 % Test call of function without argument
@@ -32,7 +32,7 @@ function test_SeveralOutputs
 
 iris = Table.read('fisherIris.txt');
 stats = {@mean, @std, @numel};
-[res1 res2 res3] = groupStats(iris(:, 1:4), iris('Species'), stats);
+[res1, res2, res3] = groupStats(iris(:, 1:4), iris('Species'), stats);
 
 exp = [3 4];
 assertElementsAlmostEqual(exp, size(res1));

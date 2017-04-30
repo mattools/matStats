@@ -1,4 +1,4 @@
-function test_suite = test_plotRows(varargin) %#ok<STOUT>
+function test_suite = test_plotRows(varargin)
 %TEST_PLOTROWS  Test case for the file plotRows
 %
 %   Test case for the file plotRows
@@ -15,7 +15,7 @@ function test_suite = test_plotRows(varargin) %#ok<STOUT>
 % Created: 2012-02-01,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function test_Simple %#ok<*DEFNU>
 dat = ones(5, 15);
