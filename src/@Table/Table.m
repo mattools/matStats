@@ -251,6 +251,52 @@ methods
             this.data = varargin{1};
             varargin(1) = [];
             
+        elseif iscell(varargin{1})
+            % create table from cell array -> assume factor columns
+            disp('create table from cell array');
+            
+            % extract data
+            cellArray = varargin{1};
+            varargin(1) = [];
+
+            % determine dimension of input array
+            if iscell(cellArray{1})
+                % specify an array of columns, each cell containing a
+                % column
+                nc = size(cellArray, 2);
+                nr = length(cellArray{1});
+            else
+                % only one column is specified
+                nc = 1;
+                nr = length(cellArray);
+                % force the cell array encapsulation of the column
+                cellArray = {cellArray};
+            end
+
+            % format data table
+            this.data = zeros(nr, nc);
+
+            % fill up each column
+            for iCol = 1:nc
+                % current column
+                col = cellArray{iCol};
+
+                % convert to numeric
+                num = str2double(col);
+
+                indNan = strcmpi(col, 'na') | strcmpi(col, 'nan');
+
+                % choose to store data as numeric values or as factors levels
+                if sum(isnan(num(~indNan))) == 0
+                    % all data are numeric
+                    this.data(:, iCol)  = num;
+                else
+                    % if there are unconverted values, changes to factor levels
+                    [levels, I, num]  = unique(col); %#ok<ASGLU>
+                    this.data(:, iCol)  = num;
+                    this.levels{iCol}   = levels;
+                end
+            end
         end
  
         
