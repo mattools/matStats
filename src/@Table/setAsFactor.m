@@ -49,6 +49,12 @@ for i = 1:length(ind)
         continue;
     end
     
+    % special case of empty arrays
+    if size(this.data, 1) == 0
+        this.levels{indi} = {};
+        continue;
+    end
+    
     % extract unique values
     [levels, I, J] = unique(this.data(:, indi)); %#ok<ASGLU>
     

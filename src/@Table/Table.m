@@ -292,6 +292,7 @@ methods
 
             % format data table
             this.data = zeros(nr, nc);
+            this.levels = cell(1, nc);
 
             % fill up each column
             for iCol = 1:nc

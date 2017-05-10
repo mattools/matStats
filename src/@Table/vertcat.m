@@ -59,8 +59,18 @@ for i = 1:length(varargin)
         indFactCol = find(isFactor(this, 1:nCols) | isFactor(var, 1:nCols));
         for j = 1:length(indFactCol)
             indCol = indFactCol(j);
+
+            % get list of levels in first table
             levels0 = this.levels{indCol};
+            if isempty(levels0)
+                levels0 = {};
+            end
+            
+            % get list of levels in second table
             levels2 = var.levels{indCol};
+            if isempty(levels2)
+                levels2 = {};
+            end
 
             % update level indices
             count = 0;
