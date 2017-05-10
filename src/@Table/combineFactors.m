@@ -14,9 +14,9 @@ function res = combineFactors(this, varargin)
 %     % create a table with two different group values
 %     TAB = Table([1 1; 1 2; 1 1; 1 2; 2 3; 2 4; 2 3], {'group1', 'group2'});
 %     TAB.setAsFactor([1 2]);
-%     % combien the two factor columns
-%     RES = combineFactors(TAB, 1:2)
-%         RES = 
+%     % combine the two factor columns
+%     COMBI = combineFactors(TAB(:, [1 2]))
+%         COMBI = 
 %                  group1*group2
 %         1                  1*1
 %         2                  1*2
@@ -26,7 +26,7 @@ function res = combineFactors(this, varargin)
 %         6                  2*4
 %         7                  2*3
 %     % show the unique levels of the resulting factor
-%     RES.levels{1}
+%     COMBI.levels{1}
 %         ans = 
 %             '1*1'
 %             '1*2'
@@ -38,7 +38,7 @@ function res = combineFactors(this, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-04-26,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 

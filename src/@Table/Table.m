@@ -252,8 +252,10 @@ methods
             varargin(1) = [];
             
         elseif iscell(varargin{1})
-            % create table from cell array -> assume factor columns
-            disp('create table from cell array');
+            % create table from cell array.
+            % The cell array can be either a N-by-P cell array of N rows
+            % and P columns, or a cell array of columns, each columns being
+            % stored as a cell array.
             
             % extract data
             cellArray = varargin{1};
@@ -265,12 +267,27 @@ methods
                 % column
                 nc = size(cellArray, 2);
                 nr = length(cellArray{1});
-            else
+            elseif size(cellArray, 2) == 1
                 % only one column is specified
                 nc = 1;
                 nr = length(cellArray);
                 % force the cell array encapsulation of the column
                 cellArray = {cellArray};
+            else
+                % data specified as cell array of elements
+                nc = size(cellArray, 2);
+                nr = size(cellArray, 1);
+                
+                % convert cell array to array of columns
+                tmp = cellArray;
+                cellArray = cell(1, nc);
+                for iCol = 1:nc
+                    column = cell(nr, 1);
+                    for iRow = 1:nr
+                        column{iRow} = tmp{iRow, iCol};
+                    end
+                    cellArray{iCol} = column;
+                end
             end
 
             % format data table
@@ -387,7 +404,7 @@ methods
        
             
         % ---------
-        % create default values for other fields if they're not initialised
+        % create default values for other fields if they were not initialised
 
         % size if the data table            
         nr = size(this.data, 1);

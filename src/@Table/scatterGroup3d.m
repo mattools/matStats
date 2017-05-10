@@ -32,9 +32,10 @@ function varargout = scatterGroup3d(this, varargin)
 %   See also
 %   scatter, scatterNames
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-03-08,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2012 INRA Cepia Software Platform
  
@@ -60,7 +61,7 @@ if size(this.data, 2) == 1
     
     var2 = varargin{2};
     zdata = var2.data(:, 1);
-%     nameZ = var2.colNames{1};
+    nameZ = var2.colNames{1};
     
     group = varargin{3};
     varargin(1:3) = [];
@@ -114,7 +115,7 @@ fillMarkers = false(nGroups, 1);
 %% Parse input arguments
 
 % kind of decoration for the graph
-envelope = 'convexhull';
+envelope = 'none';
 % ind = find(strcmp(varargin, 'envelope'));
 % if ~isempty(ind)
 %     envelope = varargin{ind+1};
@@ -211,9 +212,13 @@ end
 % add plot annotations
 xlabel(nameX);
 ylabel(nameY);
+zlabel(nameZ);
 if ~isempty(this.name)
     title(this.name, 'Interpreter', 'none');
 end
+
+% add some perspective
+view(3);
 
 % Legend of the graph
 if keepGroupName
