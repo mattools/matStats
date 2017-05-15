@@ -12,10 +12,12 @@ function summary(this)
 %     tab = Table.read('fisherIris.txt');
 %     summary(tab)
 %
+%   See also
+%     info
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-04-19,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
