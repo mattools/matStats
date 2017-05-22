@@ -1,5 +1,5 @@
 function varargout = scatterGroup3d(this, varargin)
-%SCATTERGROUP Scatter plot individuals grouped by classes
+%SCATTERGROUP3D Scatter plot individuals grouped by classes
 %
 %   scatterGroup3d(VAR1, VAR2, VAR3, GROUP)
 %
@@ -256,3 +256,4 @@ function marks = generateMarkers(n)
 % the basic set of marks
 marks = {'+', 'o', '*', 'x', 's', 'd', '^', 'v', '<', '>', 'p', 'h'};
 marks = marks(mod((1:n)-1, length(marks)) + 1)';
+

@@ -14,11 +14,67 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   tab.plot(COLNAME);
 %   tab.scatter(COLUMN1, COLUMN2);
 %
-%   Table Methods:
 %   Table creation
 %   Table                   - Class for data table with named rows and columns
 %   create                  - Create a new data table
 %
+%   Basic statistical analyses
+%   info                    - Display short summary of a data table
+%   summary                 - Display a summary of the data in the table
+%   stats                   - Compute basic descriptive statistics on data table columns
+%   aggregate               - Group table rows according to unique values in a vector or column
+%   corrcoef                - Correlation coefficients of table data
+%   cov                     - Covariance matrix of the data table
+%   zscore                  - Standardized z-score
+%   geomean                 - Compute geometrical mean of table columns
+%   ttest2                  - Two-sample t-test
+%
+%   Plot and display
+%   disp                    - Display the content of a data table, with row and column names
+%   show                    - Display the content of the table in a new figure
+%   plot                    - Plot the content of a column
+%   errorbar                - Overload the errorbar function to manage data tables
+%   histogram               - Histogram plot of a column in a data table
+%   scatter                 - Scatter plot of table data
+%   scatterNames            - Scatter names according to two variables
+%   surf                    - Surfacic representation of the data stored in a Table
+%   hist                    - Histogram plot of a column in a data table
+%   boxplot                 - Box plot of a data table
+%   violinPlot              - Plot distribution of data in a table
+%   bar                     - Bar plot of the table data
+%   barweb                  - Bar plot of the table data with error bars ("WEB")
+%   plotmatrix              - Overload plotmatrix function to display column names
+%   scatterLabels           - Scatter labels according to 2 variables
+%   scatterPlot             - Scatter plot of two columns in a table
+%   correlationCircles      - Represent correlation matrix using colored circles
+%   plotRows                - Plot all the rows of the data table
+%
+%   Factors Managment
+%   setAsFactor             - Set the given column as a factor
+%   isFactor                - Check if a column is treated as a factor
+%   hasFactors              - Check if the table has column(s) representing factor(s)
+%   clearFactors            - Replace all factor columns by numeric columns
+%   factorLevels            - List of the levels for a given factor
+%   setFactorLevels         - Set up the levels of a factor in a table
+%   getLevel                - Returns the factor level for specified row and column
+%   trimLevels              - Recompute level indices to keep only existing values
+%   reorderLevels           - Change the order the levels are stored
+%   combineFactors          - Aggregate two factors to create a new factor
+%   mergeFactorLevels       - Merge several levels of a factor
+%   parseFactorFromRowNames - Create a factor table by parsing row names
+%   strcmp                  - Compare factor levels with a string
+%   groupfun                - Aggregate table values according to levels of a group
+%   groupStats              - Compute basic statistics for each level of a group
+%   paragons                - Find paragon for each level of a group
+%
+%   Display groups
+%   kmeans                  - K-means clustering of the data table
+%   scatterGroup            - Scatter plot individuals grouped by classes
+%   scatterGroup3d          - Scatter plot individuals grouped by classes
+%   plotGroups              - Display data ordererd by their group levels
+%   plotGroupMeans          - One-line description here, please.
+%   plotGroupRows           - Plot data table rows with different style by group
+%   plotGroupErrorBars      - One-line description here, please.
 %   Basic functions
 %   columnIndex             - Index of a column from its name
 %   isColumnName            - Check if the table contains a column with the given name
@@ -32,11 +88,21 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   read                    - Read a datatable file
 %   write                   - Write a datatable into a file
 %
+%   Utility functions
+%   addColumn               - Add a new column to the data table
+%   addRow                  - Add a new row to the data table
+%   apply                   - Apply the given function to each element of the table
+%   bsxfun                  - Binary Singleton Expansion Function for Table
+%   unique                  - Returns unique values in data tables
+%   concatFiles             - Concatenate a list of files containing tables into new a file
+%   printLatex              - Print content of this table as a latex tabular
+%
 %   Array manipulation
 %   size                    - Size of a data table
 %   length                  - Number of rows in the table.
 %   horzcat                 - Concatenate tables horizontally
 %   vertcat                 - Concatenate tables vertically
+%   interleave              - Interleave the rows of two data tables
 %   transpose               - Transpose a data table and intervert names of row and columns
 %   ctranspose              - Simple wrapper to transpose function to comply with ' syntax
 %   end                     - Determine last index when accessing a table
@@ -91,75 +157,12 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   xor                     - Overload the xor operator for Table objects
 %   ismember                - Override the ismember function
 %   find                    - Find non zero elements in the table
-%
-%   Basic statistical analyses
-%   summary                 - Display a summary of the data in the table
-%   stats                   - Compute basic descriptive statistics on data table columns
-%   aggregate               - Group table rows according to unique values in a vector or column
-%   corrcoef                - Correlation coefficients of table data
-%   cov                     - Covariance matrix of the data table
-%   zscore                  - Standardized z-score
-%   geomean                 - Compute geometrical mean of table columns
-%   ttest2                  - Two-sample t-test
-%
-%   Plot and display
-%   disp                    - Display the content of a data table, with row and column names
-%   display                 - Display the content of a data table
-%   show                    - Display the content of the table in a new figure
-%   plot                    - Plot the content of a column
-%   errorbar                - Overload the errorbar function to manage data tables
-%   histogram               - Histogram plot of a column in a data table
-%   scatter                 - Scatter plot of table data
-%   scatterNames            - Scatter names according to two variables
-%   surf                    - Surfacic representation of the data stored in a Table
-%   hist                    - Histogram plot of a column in a data table
-%   boxplot                 - Box plot of a data table
-%   violinPlot              - Plot distribution of data in a table
-%   bar                     - Bar plot of the table data
-%   plotmatrix              - Overload plotmatrix function to display column names
-%   scatterLabels           - Scatter labels according to 2 variables
-%   scatterPlot             - Scatter plot of two columns in a table
-%   correlationCircles      - Represent correlation matrix using colored circles
-%   plotRows                - Plot all the rows of the data table
-%
-%   Factors
-%   setAsFactor             - Set the given column as a factor
-%   isFactor                - Check if a column is treated as a factor
-%   hasFactors              - Check if the table has column(s) representing factor(s)
-%   clearFactors            - Replace all factor columns by numeric columns
-%   factorLevels            - List of the levels for a given factor
-%   setFactorLevels         - Set up the levels of a factor in a table
-%   getLevel                - Returns the factor level for specified row and column
-%   trimLevels              - Recompute level indices to keep only existing values
-%   reorderLevels           - Change the order the levels are stored
-%   combineFactors          - Aggregate two factors to create a new factor
-%   parseFactorFromRowNames - Create a factor table by parsing row names
-%   groupfun                - Aggregate table values according to levels of a group
-%   groupStats              - Compute basic statistics for each level of a group
-%   paragons                - Find paragon for each level of a group
-%
-%   Display groups
-%   kmeans                  - K-means clustering of the data table
-%   scatterGroup            - Scatter plot individuals grouped by classes
-%   scatterGroup3d          - Scatter plot individuals grouped by classes
-%   plotGroups              - Display data ordererd by their group levels
-%   plotGroupMeans          - One-line description here, please.
-%   plotGroupRows           - Plot data table rows with different style by group
-%   plotGroupErrorBars      - One-line description here, please.
-%
-%   Utility functions
-%   addColumn               - Add a new column to the data table
-%   addRow                  - Add a new row to the data table
-%   apply                   - Apply the given function to each element of the table
-%   bsxfun                  - Binary Singleton Expansion Function for Table
-%   unique                  - Returns unique values in data tables
-%   concatFiles             - Concatenate a list of files containing tables into new a file
-%   printLatex              - Print content of this table as a latex tabular
+%   logical                 - Convert to logical array
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 

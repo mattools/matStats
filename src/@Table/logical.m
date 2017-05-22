@@ -1,5 +1,5 @@
 function tf = logical(this)
-%LOGIC Convert to logical array
+%LOGICAL Convert to logical array
 %
 %   TF = logic(TAB)
 %
@@ -13,7 +13,7 @@ function tf = logical(this)
  
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2015-08-24,    using Matlab 8.5.0.197613 (R2015a)
 % Copyright 2015 INRA - Cepia Software Platform.
 
