@@ -1,6 +1,8 @@
 function res = groupfun(this, name, op, rowNames)
 %GROUPFUN Aggregate table values according to levels of a group
 %
+%   WARNING: groupfun function is deprecated, use 'aggregate' instead.
+%
 %   TAB2 = groupfun(TAB, GROUP, OP)
 %   GROUP is a column vector with as many elements as the number of rows
 %   in the table, and OP is a mathematical operation which computes a value
@@ -55,6 +57,8 @@ function res = groupfun(this, name, op, rowNames)
 % Created: 2008-02-11,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2008 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
 
+warning('matStat:table:deprecated', ...
+    'groupfun function is deprecated, use "aggregate" instead');
 
 %% Process input arguments
 
