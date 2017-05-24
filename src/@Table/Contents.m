@@ -92,6 +92,7 @@
 %   length                  - Number of rows in the table.
 %   horzcat                 - Concatenate tables horizontally
 %   vertcat                 - Concatenate tables vertically
+%   reshape                 - Reshape a data table
 %   interleave              - Interleave the rows of two data tables
 %   transpose               - Transpose a data table and intervert names of row and columns
 %   ctranspose              - Simple wrapper to transpose function to comply with ' syntax
