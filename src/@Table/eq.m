@@ -7,7 +7,7 @@ function res = eq(this, that)
 %   eq
 %
 %   See also
-%   ne
+%   ne, ismember
 
 % ------
 % Author: David Legland

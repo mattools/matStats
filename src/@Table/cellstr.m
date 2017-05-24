@@ -3,7 +3,8 @@ function res = cellstr(this)
 %
 %   C = cellstr(TAB)
 %   Converts the data table TAB into a cell array of strings. The resulting
-%   array has the same size as the original table.
+%   array has the same size as the original table. The row and columns
+%   names are not included in the resulting array.
 %
 %   Example
 %     % convert iris table
@@ -16,11 +17,12 @@ function res = cellstr(this)
 %         '4.6'    '3.1'    '1.5'    '0.2'    'Setosa'
 %
 %   See also
-%   disp
+%   disp, ismember, find
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 

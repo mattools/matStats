@@ -7,6 +7,7 @@ function res = ismember(this, values)
 %   are member of the specified value(s).
 %
 %   Example
+%     % find items with specified numerical values
 %     tab = Table(magic(3));
 %     ismember(tab, [1 2 3])
 %     ans = 
@@ -14,17 +15,49 @@ function res = ismember(this, values)
 %         1    0    1    0
 %         2    1    0    0
 %         3    0    0    1
-
 %
+%     % compare factor levels with cell array of strings
+%     iris = Table.read('fisherIris.txt');
+%     res = ismember(iris('Species'), {'Versicolor', 'Virginica'});
+%     [iris(48:53, 'Species') res(48:53, :)]
+%     ans = 
+%                     Species    ismember(Species,vals)
+%        48            Setosa                         0
+%        49            Setosa                         0
+%        50            Setosa                         0
+%        51        Versicolor                         1
+%        52        Versicolor                         1
+%        53        Versicolor                         1
+% 
 %   See also
-%     find
+%     find, cellstr, eq, ne
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-12-07,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-dat = ismember(this.data, values);
+if isnumeric(values)
+    % simple case: no factor
+    dat = ismember(this.data, values);
+    res = Table(dat, 'parent', this);
 
-res = Table(dat, 'parent', this);
+else
+    % can compare levels of a single factor column. 
+    % need to convert to cell array of levels.
+    
+    % ensure single column
+    if size(this, 2) > 1
+        error('can process cell array with only one column');
+    end
+    
+    % use ismember on the corresponding cell array
+    cells = cellstr(this);
+    
+    % create resulting array
+    res = Table(ismember(cells, values));
+    res.colNames = {sprintf('ismember(%s,vals)', this.colNames{1})};
+    res.rowNames = this.rowNames;
+end
