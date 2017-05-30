@@ -1,10 +1,10 @@
 function lines = coefficients(this)
-%coefficients Display mean values of anova coefficients in a figure
+%COEFFICIENTS Display mean values of anova coefficients in a figure
 %
 %   coefficients(ANOVA)
 %   Opens a new figure to display result of an anova.
 %
-%   coefficients(ANOVA)
+%   COEFFS = coefficients(ANOVA)
 %   Return the results in a cell array of lines.
 %
 %   Example
@@ -12,10 +12,10 @@ function lines = coefficients(this)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-11,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
