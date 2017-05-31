@@ -44,7 +44,7 @@ scatterGroup(tab('PetalLength'), tab('PetalWidth'), tab('Species'), ...
     'LegendLocation', 'NorthWest');
 
 % Compute the mean of each group
-disp(groupfun(tab(:,1:4), tab('Species'), @mean));
+disp(aggregate(tab(:,1:4), tab('Species'), @mean));
 
 
 %% Principal Component Analysis
