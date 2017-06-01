@@ -257,38 +257,40 @@ methods
             
         elseif iscell(varargin{1})
             % create table from cell array.
-            % The cell array can be either a N-by-P cell array of N rows
-            % and P columns, or a cell array of columns, each columns being
-            % stored as a cell array.
+            % The cell array can be either:
+            % * a N-by-P cell array of N rows and P columns, 
+            % * a cell array of columns, each column being stored as an
+            %   array. 
             
             % extract data
             cellArray = varargin{1};
             varargin(1) = [];
 
             % determine dimension of input array
-            if iscell(cellArray{1})
-                % specify an array of columns, each cell containing a
-                % column
+            if size(cellArray, 1) == 1
+                % first argument is either a column in a cell, or a cell
+                % array containing the columns.
                 nc = size(cellArray, 2);
-                nr = length(cellArray{1});
-            elseif size(cellArray, 2) == 1
-                % only one column is specified
-                nc = 1;
-                nr = length(cellArray);
-                % force the cell array encapsulation of the column
-                cellArray = {cellArray};
+                if nc == 1
+                    % only one column is specified
+                    % -> force the cell array encapsulation of the column
+                    cellArray = {cellArray};
+                end
+                
+                nr = size(cellArray{1}, 1);
+                
             else
                 % data specified as cell array of elements
                 nc = size(cellArray, 2);
                 nr = size(cellArray, 1);
                 
-                % convert cell array to array of columns
-                tmp = cellArray;
+                % convert 2D cell array to array of columns
+                baseArray = cellArray;
                 cellArray = cell(1, nc);
                 for iCol = 1:nc
                     column = cell(nr, 1);
                     for iRow = 1:nr
-                        column{iRow} = tmp{iRow, iCol};
+                        column{iRow} = baseArray{iRow, iCol};
                     end
                     cellArray{iCol} = column;
                 end
@@ -301,19 +303,19 @@ methods
             % fill up each column
             for iCol = 1:nc
                 % current column
+                % assume a numeric, char, or cell array as column vector
                 col = cellArray{iCol};
-
-                % convert to numeric
-                num = str2double(col);
-
-                indNan = strcmpi(col, 'na') | strcmpi(col, 'nan');
-
-                % choose to store data as numeric values or as factors levels
-                if sum(isnan(num(~indNan))) == 0
+                
+                if isnumeric(col)
                     % all data are numeric
-                    this.data(:, iCol)  = num;
+                    this.data(:, iCol)  = col;
                 else
-                    % if there are unconverted values, changes to factor levels
+                    % convert char arrays to cell arrays
+                    if ischar(col)
+                        col = strtrim(cellstr(col));
+                    end
+                    
+                    % character or cell array are used as factors
                     [levels, I, num]  = unique(col); %#ok<ASGLU>
                     this.data(:, iCol)  = num;
                     this.levels{iCol}   = levels;

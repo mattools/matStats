@@ -18,7 +18,7 @@ function test_suite = test_Table(varargin)
 
 test_suite = buildFunctionHandleTestSuite(localfunctions);
 
-function testCreateFromArray %#ok<*DEFNU>
+function testCreateFromNumericalArray %#ok<*DEFNU>
 
 array = randi(10, [10 4]);
 tab = Table(array);
@@ -29,6 +29,39 @@ assertTrue(isa(tab, 'Table'));
 tab(2, 3) = 10;
 assertEqual(10, tab(2, 3).data);
 
+function testCreateFromCellArray_singleColumn
+
+cellArray = {'A'; 'B'; 'C'};
+
+tab = Table(cellArray);
+
+assertTrue(isa(tab, 'Table'));
+assertEqual(3, size(tab, 1));
+assertEqual(1, size(tab, 2));
+
+function testCreateFromCellArray_TwoColumns
+
+cellArray = {{'A'; 'B'; 'C'}, [1; 2; 3]};
+
+tab = Table(cellArray);
+
+assertTrue(isa(tab, 'Table'));
+assertEqual(3, size(tab, 1));
+assertEqual(2, size(tab, 2));
+assertTrue(strcmp('A', getLevel(tab, 1, 1)));
+assertEqual(3, getValue(tab, 3, 2));
+
+function testCreateFromCellArray_carsmall
+
+set = load('carsmall');
+
+tab = Table({set.Origin, set.MPG, set.Cylinders, set.Displacement});
+
+assertTrue(isa(tab, 'Table'));
+assertEqual(100, size(tab, 1));
+assertEqual(4, size(tab, 2));
+assertTrue(strcmp('USA', getLevel(tab, 1, 1)));
+assertEqual(302, getValue(tab, 5, 4));
 
 function testCreateSetColNames
 
