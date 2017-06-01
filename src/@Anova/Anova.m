@@ -23,7 +23,10 @@ classdef Anova < handle
 %% Properties
 properties
     % the name of the original data table
-    tableName;
+    tableName = '';
+    
+    % the name of the variable (name of the first column of the table)
+    varName = '';
     
     p;
     table;
@@ -46,23 +49,23 @@ methods
         % copy constructor
         if isa(data, 'Anova')
             this.tableName  = data.tableName;
+            this.varName    = data.varName;
             this.p = data.p;
             this.table = data.table;
             this.stats = data.stats;
             this.terms = data.terms;
-
         end
-        
-        %% Parse input arguments
-             
+
         % extract input data
         if isa(data, 'Table')
             dataValues = data.data;
             this.tableName = data.name;
+            this.varName = data.colNames{1};
             
         else
             % if data are numeric, assumes groups is Table object
             dataValues = data;
+            this.varName = inputname(1);
         end
         
         % extract group values
