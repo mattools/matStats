@@ -4,7 +4,7 @@ function varargout = kmeans(this, k, varargin)
 %   GROUPS = kmeans(TAB, K)
 %   Computes homogenenous groups in the input data table using the k-means
 %   algorithm. 
-%   Simply a wrapper to the 'kmeans' function from statistics toolbox.
+%   Simply a wrapper to the 'kmeans' function from the statistics toolbox.
 %
 %
 %   Example
@@ -13,11 +13,11 @@ function varargout = kmeans(this, k, varargin)
 %     scatterGroup(iris(:,3), iris(:,4), res);
 %
 %   See also
-%
-%
+%     scatterGroup, aggregate
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-11-15,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -25,8 +25,8 @@ function varargout = kmeans(this, k, varargin)
 %% Input checks
 
 % check presence of stats toolbox
-if isempty(strfind(path, [fullfile('toolbox', 'stats') ';']))
-    error('Requires the statistcs toolbox');
+if isempty(strfind(path, fullfile('toolbox', 'stats')))
+    error('Requires the statistics toolbox');
 end
 
 % pre-process input arguments to transform to double whe required
