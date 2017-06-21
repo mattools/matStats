@@ -20,10 +20,15 @@ function violinPlot(varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-01-29,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
+
+%% Process input arguments
+
+% default color for lines
+lineColor = 'k';
 
 % Extract the axis handle to draw in
 [ax, varargin] = parseAxisHandle(varargin{:});
@@ -32,6 +37,14 @@ function violinPlot(varargin)
 indThis = cellfun('isclass', varargin, 'Table');
 this = varargin{indThis(1)};
 varargin(indThis(1)) = [];
+
+% setup the fill color
+if isempty(varargin)
+    varargin = {'c'};
+end
+
+
+%% Determine grouping option
 
 % default: box plot of each column
 data = this.data;
@@ -67,12 +80,12 @@ if ~isempty(varargin)
     end
 end
 
+
+%% Start display
+
+% set the current axis as active
 axes(ax); 
 hold on;
-
-if isempty(varargin)
-    varargin = {'c'};
-end
 
 if grouping
     % compute and plot density of each group/level
@@ -83,8 +96,8 @@ if grouping
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});
-        plot(i+f, xf);
-        plot(i-f, xf);
+        plot(i+f, xf, 'color', lineColor);
+        plot(i-f, xf, 'color', lineColor);
     end
     
     % compute full name of the groups when several factors are specified
@@ -109,8 +122,8 @@ else
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});
-        plot(i+f, xf);
-        plot(i-f, xf);
+        plot(i+f, xf, 'color', lineColor);
+        plot(i-f, xf, 'color', lineColor);
     end
     
     xlim([0 nCols+1]);
