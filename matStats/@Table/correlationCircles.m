@@ -1,7 +1,14 @@
 function h = correlationCircles(this, varargin)
 %CORRELATIONCIRCLES Represent correlation matrix using colored circles
 %
-%   output = correlationCircles(input)
+%   correlationCircles(TAB)
+%   Represents the correlations between all pairs of quantitative variables
+%   in a data table as a collection of colored circles. Such representation
+%   may also be known as 'correlogram'.
+%
+%   Red colors correpond to positive correlation, whereas blur colors
+%   correspond to negative correlations. The size of the circle is also
+%   related to the intensity of the correlation.
 %
 %   Example
 %     % Simple example on iris
@@ -14,11 +21,16 @@ function h = correlationCircles(this, varargin)
 %     correlationCircles(tab)
 %
 %   See also
-%   corrcoef
+%   corrcoef, plotmatrix
 %
+%   References
+%   It is inspired by the contribution of Taiyun Wei for R:
+%   http://weitaiyun.blogspot.fr/2009/04/visulization-of-correlation-matrix2.html 
+%
+
 % ------
-% Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% Author: David Legland, based on plotmatrix code
+% e-mail: david.legland@inra.fr
 % Created: 2012-07-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -35,10 +47,10 @@ cmap = jet(256);
 
 % Create the main axis containing all small axes
 cax = gca;
-BigAx = newplot(cax);
-fig = ancestor(BigAx, 'figure');
-holdState = ishold(BigAx);
-set(BigAx, ...
+refAxis = newplot(cax);
+fig = ancestor(refAxis, 'figure');
+holdState = ishold(refAxis);
+set(refAxis, ...
     'Visible', 'off', ...
     'xlim', [-1 1], ...
     'ylim', [-1 1], ...
@@ -46,7 +58,7 @@ set(BigAx, ...
     'PlotBoxAspectRatio', [1 1 1], ...
     'color', 'none');
 
-pos = get(BigAx, 'Position');
+pos = get(refAxis, 'Position');
 
 % size of sub-plots
 width   = pos(3) / (nRows+1);
@@ -56,22 +68,22 @@ height  = pos(4) / (nCols+1);
 space = .02;
 pos(1:2) = pos(1:2) + space * [width height];
 
-BigAxHV = get(BigAx, 'HandleVisibility');
-BigAxParent = get(BigAx, 'Parent');
+BigAxHV = get(refAxis, 'HandleVisibility');
+BigAxParent = get(refAxis, 'Parent');
 
 % pre-compute data for drawing circles
 t = linspace(0, 2*pi, 100)';
 cx = cos(t);
 cy = sin(t);
 
-% iterate over all cells
+% iterate over all axis cells
 for i = nRows:-1:1
     for j = nCols:-1:1
         
         % compute the position within the main figure
         axPos = [...
-            pos(1) + (j-1+1) * width  ...
-            pos(2) + (nRows-i-1) * height ...
+            pos(1) + j * width  ...
+            pos(2) + (nRows-i) * height ...
             width * (1-space) ...
             height * (1-space)];
         
@@ -100,22 +112,22 @@ for i = nRows:-1:1
     end
 end
 
-
+% setup labels for x and y axes
 set(ax(:), 'xticklabel', '')
 set(ax(:), 'yticklabel', '')
-set(BigAx, ...
+set(refAxis, ...
     'userdata', ax, ...
     'tag', 'PlotMatrixBigAx');
 set(ax, 'tag', 'PlotMatrixCorrelationCirclesAx');
 
-% Make BigAx the CurrentAxes
-set(fig, 'CurrentAx', BigAx)
-if ~holdState,
+% make refAxis the current axis handle
+set(fig, 'CurrentAx', refAxis)
+if ~holdState
     set(fig, 'NextPlot', 'replace')
 end
 
-% Also set Title and X/YLabel visibility to 'on' and strings to empty
-textHandles = [get(BigAx,'Title'); get(BigAx,'XLabel'); get(BigAx,'YLabel')]; 
+% also set visibility of text widgets to 'on' and strings to empty
+textHandles = [get(refAxis, 'Title'); get(refAxis, 'XLabel'); get(refAxis, 'YLabel')]; 
 set(textHandles, 'String', '', 'Visible', 'on')
 
 % display labels on the left and on the top of the circle array
