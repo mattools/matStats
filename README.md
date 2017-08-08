@@ -1,5 +1,5 @@
 # matStats
-Data Analysis Tools for Matlab based on a data table class
+Data Exploration and Analysis Toolbox for Matlab based on a data table class
 
 This package contains:
 * a "Table" class for processing and exploration of numerical and categorical variables. 
