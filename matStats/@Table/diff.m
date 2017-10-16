@@ -13,7 +13,7 @@ function res = diff(this, varargin)
 %         149   4
 %
 %   See also
-%     sum
+%     cumsum, sum, minus
  
 % ------
 % Author: David Legland
