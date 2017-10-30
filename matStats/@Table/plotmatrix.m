@@ -37,13 +37,13 @@ end
 % Update histogram data
 nRows = size(this, 1);
 nBins = min(nRows / 10, 100);
-props = {'Vertices', 'Faces', 'FaceVertexCData'};
+% props = {'Vertices', 'Faces', 'FaceVertexCData'};
 for i = 1:nCols
     hf = figure;
     hist(this.data(:, i), nBins);
     
-    hh = get(gca, 'Children');
-    set(P(i), props, get(hh, props));
+%     hh = get(gca, 'Children');
+%     set(P(i), props, get(hh, props));
     close(hf);
 end
 
