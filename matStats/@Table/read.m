@@ -18,7 +18,10 @@ function tab = read(fileName, varargin)
 %       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
 %   'decathlon'     results of sportive tournament, described in:
 %       http://factominer.free.fr/classical-methods/analyse-en-composantes-principales.html
-%
+%   'wine'          results of a chemical analysis of wines grown in the
+%       same region in Italy but derived from three different cultivars.
+%       The dataset is described here:
+%       http://archive.ics.uci.edu/ml/datasets/Wine
 %
 %   TABLE = Table.read(..., PARAM, VALUE);
 %   Can specifiy parameters when reading the file. Available parameters
