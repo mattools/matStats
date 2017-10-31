@@ -52,7 +52,7 @@ end
 
 % Set up parent figure
 hFig = get(ax, 'Parent');
-str = sprintf('CDA Scores - CC%d vs CC%d', cc1, cc2);
+str = sprintf('LDA Scores - CC%d vs CC%d', cc1, cc2);
 set(hFig, 'Name', str, 'NumberTitle', 'off');
 
 % setup axis

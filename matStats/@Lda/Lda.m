@@ -133,51 +133,9 @@ methods
             data.name = inputname(1);
         end
         
-        
-        %% Parse input arguments
-        
-        if mod(length(varargin), 2) > 0
-            error('Should specify options as parameter name-value pairs');
-        end
-        
-        nObs  = size(data, 1);
-        nVars = size(data, 2);
-        
-        % other options
-        display         = true;
-        showObsNames    = nObs  < 200;
-        showVarNames    = nVars < 50;
-        saveFiguresFlag = false;
-        dirFigures      = pwd;
-        saveResultsFlag = false;
-        dirResults      = pwd;
-        axesProperties  = {};
-
-        while length(varargin) > 1
-            paramName = varargin{1};
-            switch lower(paramName)
-                case 'display'
-                    display = parseBoolean(varargin{2});
-                case 'saveresults'
-                    saveResultsFlag = parseBoolean(varargin{2});
-                case 'resultsdir'
-                    dirResults = varargin{2};
-                case 'savefigures'
-                    saveFiguresFlag = parseBoolean(varargin{2});
-                case 'figuresdir'
-                    dirFigures = varargin{2};
-                case 'showobsnames'
-                    showObsNames = parseBoolean(varargin{2});
-                case 'showvarnames'
-                    showVarNames = parseBoolean(varargin{2});
-                case 'axesproperties'
-                    axesProperties = varargin{2};
-                otherwise
-                    error(['Unknown parameter name: ' paramName]);
-            end
-            
-            varargin(1:2) = [];
-        end
+        % Parse input arguments
+        options = createDefaultOptions(data);
+        options = parseInputArguments(options, varargin{:});
         
         % store model information
         this.tableName      = data.name;
@@ -187,30 +145,75 @@ methods
         computeLDA(this, data);
         
         % save results
-        if saveResultsFlag
-            saveResults(this, dirResults);
+        if options.saveResultsFlag
+            saveResults(this, options.dirResults);
         end
         
         % display results
-        if display
-            handles = displayResults(this, showObsNames, showVarNames, axesProperties);
-            if saveFiguresFlag
-                saveFigures(this, handles, dirFigures);
+        if options.display
+            handles = displayResults(this, options);
+            if options.saveFiguresFlag
+                saveFigures(this, handles, options.dirFigures);
             end
         end
-        
-        function b = parseBoolean(string)
-            if islogical(string)
-                b = string;
-            elseif ischar(string)
-                b = sum(strcmpi(string, {'true', 'on'})) > 0;
-            elseif isnumeric(string)
-                b = string ~= 0;
-            end
+    
+        function options = createDefaultOptions(data)
+            % Compute default options, some of them depending on data set size
+            options.display         = true;
+            options.showObsNames    = size(data, 1)  < 200;
+            options.showVarNames    = size(data, 2) < 50;
+            options.saveFiguresFlag = false;
+            options.dirFigures      = pwd;
+            options.saveResultsFlag = false;
+            options.dirResults      = pwd;
+            options.axesProperties  = {};
         end
         
+        function options = parseInputArguments(options, varargin)
+            % Parse input arguments and populate an "options" structure
+            
+            if mod(length(varargin), 2) > 0
+                error('Should specify options as parameter name-value pairs');
+            end
+            
+            while length(varargin) > 1
+                paramName = varargin{1};
+                switch lower(paramName)
+                    case 'display'
+                        options.display = parseBoolean(varargin{2});
+                    case 'saveresults'
+                        options.saveResultsFlag = parseBoolean(varargin{2});
+                    case 'resultsdir'
+                        options.dirResults = varargin{2};
+                    case 'savefigures'
+                        options.saveFiguresFlag = parseBoolean(varargin{2});
+                    case 'figuresdir'
+                        options.dirFigures = varargin{2};
+                    case 'showobsnames'
+                        options.showObsNames = parseBoolean(varargin{2});
+                    case 'showvarnames'
+                        options.showVarNames = parseBoolean(varargin{2});
+                    case 'axesproperties'
+                        options.axesProperties = varargin{2};
+                    otherwise
+                        error(['Unknown parameter name: ' paramName]);
+                end
+                
+                varargin(1:2) = [];
+            end
+            
+            function b = parseBoolean(string)
+                if islogical(string)
+                    b = string;
+                elseif ischar(string)
+                    b = sum(strcmpi(string, {'true', 'on'})) > 0;
+                elseif isnumeric(string)
+                    b = string ~= 0;
+                end
+            end
+        end
     end % end of main constructor
-
+    
 end % end constructors
 
 %% Computation Methods
@@ -327,7 +330,7 @@ methods (Access = private)
 end
 
 %% Methods
-methods
+methods (Access = private)
     
     function saveResults(this, dirResults)
         % Save 3 result files corresponding to Scores, loadings and eigen values
@@ -346,39 +349,38 @@ methods
     end
 
     
-    function handles = displayResults(this, showObsNames, showVarNames, ...
-            axesProperties)
+    function handles = displayResults(this, options)
         % Display results of Lda
         
         % number of canonical components to display
         npc = size(this.scores.data, 2);
         
         % Scree plot of the Lda
-        handles.screePlot = screePlot(this, axesProperties{:});
+        handles.screePlot = screePlot(this, options.axesProperties{:});
         
         % individuals in plane CC1-CC2
         if npc >= 2
             handles.scorePlot12 = figure;
-            scorePlot(this, 1, 2, 'showNames', showObsNames, axesProperties{:});
+            scorePlot(this, 1, 2, 'showNames', options.showObsNames, options.axesProperties{:});
         end
         
         % individuals in plane CC3-CC4
         if npc >= 4
             handles.scorePlot34 = figure;
-            scorePlot(this, 3, 4, 'showNames', showObsNames, axesProperties{:});
+            scorePlot(this, 3, 4, 'showNames', options.showObsNames, options.axesProperties{:});
         end
         
         
         % loading plots CC1-CC2
         if npc >= 2
             handles.loadingsPlot12 = figure;
-            loadingPlot(this, 1, 2, 'showNames', showVarNames, axesProperties{:});
+            loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
         end
         
         % loading plots CC3-CC4
         if npc >= 4
             handles.loadingsPlot34 = figure;
-            loadingPlot(this, 3, 4, 'showNames', showVarNames, axesProperties{:});
+            loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
         end
     end
     
