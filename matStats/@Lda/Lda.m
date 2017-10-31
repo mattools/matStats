@@ -351,6 +351,14 @@ methods (Access = private)
     
     function handles = displayResults(this, options)
         % Display results of Lda
+        %
+        % Returns a structure with fields corresponding to figure handles:
+        % * screePlot
+        % * scorePlot12
+        % * scorePlot34
+        % * loadingsPlot12
+        % * loadingsPlot34
+        
         
         % number of canonical components to display
         npc = size(this.scores.data, 2);

@@ -58,7 +58,7 @@ classdef Pca < handle
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-09-28,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -137,54 +137,9 @@ methods
         % analysis options
         scale           = true;
         
-        nObs  = size(data, 1);
-        nVars = size(data, 2);
-        
-        % other options
-        display         = true;
-        showObsNames    = nObs  < 200;
-        showVarNames    = nVars < 50;
-        saveFiguresFlag = false;
-        dirFigures      = pwd;
-        saveResultsFlag = false;
-        dirResults      = pwd;
-        axesProperties  = {};
-
-        while length(varargin) > 1
-            paramName = varargin{1};
-            switch lower(paramName)
-                case 'scale'
-                    if varargin{2} ~= 0 && varargin{2} ~= 1
-                        error('Scale parameter must be logical');
-                    end
-                    scale = varargin{2};
-                case 'display'
-                    display = parseBoolean(varargin{2});
-                case 'saveresults'
-                    saveResultsFlag = parseBoolean(varargin{2});
-                case 'resultsdir'
-                    dirResults = varargin{2};
-                case 'savefigures'
-                    saveFiguresFlag = parseBoolean(varargin{2});
-                case 'figuresdir'
-                    dirFigures = varargin{2};
-                case 'showobsnames'
-                    showObsNames = parseBoolean(varargin{2});
-                case 'showvarnames'
-                    showVarNames = parseBoolean(varargin{2});
-                case 'axesproperties'
-                    axesProperties = varargin{2};
-                otherwise
-                    error(['Unknown parameter name: ' paramName]);
-            end
-            
-            varargin(1:2) = [];
-        end
-        
-        if ischar(display)
-            display = strcmpi(display, 'on');
-        end
-        
+        % Parse input arguments
+        options = createDefaultOptions(data);
+        options = parseInputArguments(options, varargin{:});
 
         % compute PCA results
         [m, sc, ld, ev] = computePCA(data, scale);
@@ -197,59 +152,97 @@ methods
         this.loadings       = ld;
         this.eigenValues    = ev;
         
-        
-        
         % save results
-        if saveResultsFlag
-            savePcaResults(this, dirResults);
+        if options.saveResultsFlag
+            savePcaResults(this, options.dirResults);
         end
         
         % display results
-        if display
-            hFigs = displayPcaResults(this, showObsNames, showVarNames, axesProperties);
+        if options.display
+            handles = displayPcaResults(this, options);
             
-            if saveFiguresFlag
-                saveFigures(this, hFigs, dirFigures);
+            if options.saveFiguresFlag
+                saveFigures(this, handles, options.dirFigures);
             end
         end
         
         % display correlation circle
-        if display && scale
-            h = displayCorrelationCircle(this, axesProperties{:});
+        if options.display && scale
+            h = displayCorrelationCircle(this, options.axesProperties{:});
             
-            if saveFiguresFlag
+            if options.saveFiguresFlag
                 fileName = sprintf('%s-pca.cc12.png', this.tableName);
-                print(h(1), fullfile(dirFigures, fileName), '-dpng');
+                print(h(1), fullfile(options.dirFigures, fileName), '-dpng');
                 
                 if ishandle(h(2))
                     fileName = sprintf('%s-pca.cc34.png', this.tableName);
-                    print(h(2), fullfile(dirFigures, fileName), '-dpng');
+                    print(h(2), fullfile(options.dirFigures, fileName), '-dpng');
                 end
             end
         end
 
-        
-        function b = parseBoolean(string)
-            if islogical(string)
-                b = string;
-            elseif ischar(string)
-                b = sum(strcmpi(string, {'true', 'on'})) > 0;
-            elseif isnumeric(string)
-                b = string ~= 0;
-            end
+        function options = createDefaultOptions(data)
+            % Compute default options, some of them depending on data set size
+            options.display         = true;
+            options.showObsNames    = size(data, 1)  < 200;
+            options.showVarNames    = size(data, 2) < 50;
+            options.saveFiguresFlag = false;
+            options.dirFigures      = pwd;
+            options.saveResultsFlag = false;
+            options.dirResults      = pwd;
+            options.axesProperties  = {};
         end
         
+        function options = parseInputArguments(options, varargin)
+            % Parse input arguments and populate an "options" structure
+            
+            if mod(length(varargin), 2) > 0
+                error('Should specify options as parameter name-value pairs');
+            end
+            
+            while length(varargin) > 1
+                paramName = varargin{1};
+                switch lower(paramName)
+                    case 'display'
+                        options.display = parseBoolean(varargin{2});
+                    case 'saveresults'
+                        options.saveResultsFlag = parseBoolean(varargin{2});
+                    case 'resultsdir'
+                        options.dirResults = varargin{2};
+                    case 'savefigures'
+                        options.saveFiguresFlag = parseBoolean(varargin{2});
+                    case 'figuresdir'
+                        options.dirFigures = varargin{2};
+                    case 'showobsnames'
+                        options.showObsNames = parseBoolean(varargin{2});
+                    case 'showvarnames'
+                        options.showVarNames = parseBoolean(varargin{2});
+                    case 'axesproperties'
+                        options.axesProperties = varargin{2};
+                    otherwise
+                        error(['Unknown parameter name: ' paramName]);
+                end
+                
+                varargin(1:2) = [];
+            end
+            
+            function b = parseBoolean(string)
+                if islogical(string)
+                    b = string;
+                elseif ischar(string)
+                    b = sum(strcmpi(string, {'true', 'on'})) > 0;
+                elseif isnumeric(string)
+                    b = string ~= 0;
+                end
+            end
+        end
     end % end of main constructor
 
 end % end constructors
 
 
-%% Methods
-methods
-    function b = isScaled(this)
-        b = this.scaled;
-    end
-    
+%% Private Methods (used at contruction)
+methods (Access = private)
     
     function savePcaResults(this, dirResults)
         % Save 3 result files corresponding to Scores, loadings and eigen values
@@ -268,64 +261,72 @@ methods
     end
 
     
-    function h = displayPcaResults(this, showObsNames, showVarNames, ...
-            axesProperties)
+    function handles = displayPcaResults(this, options)
         % Display results of PCA
+        %
+        % Returns a structure with fields corresponding to figure handles:
+        % * screePlot
+        % * scorePlot12
+        % * scorePlot34
+        % * loadingsPlot12
+        % * loadingsPlot34
         
         % number of principal components to display
         npc = size(this.scores.data, 2);
         
         % Scree plot of the PCA
-        h1 = screePlot(this, axesProperties{:});
-        
+        handles.screePlot = screePlot(this, options.axesProperties{:});
+       
         % individuals in plane PC1-PC2
-        h2 = figure;
-        scorePlot(this, 1, 2, 'showNames', showObsNames, axesProperties{:});
-
-        % individuals in plane PC3-PC4
-        if npc >= 4
-            h3 = figure;
-            scorePlot(this, 3, 4, 'showNames', showObsNames, axesProperties{:});
-        else
-            h3 = -1;
+        if npc >= 2
+            handles.scorePlot12 = figure;
+            scorePlot(this, 1, 2, 'showNames', options.showObsNames, options.axesProperties{:});
         end
         
+        % individuals in plane PC3-PC4
+        if npc >= 4
+            handles.scorePlot34 = figure;
+            scorePlot(this, 3, 4, 'showNames', options.showObsNames, options.axesProperties{:});
+        end
         
         % loading plots PC1-PC2
-        h4 = figure;
-        loadingPlot(this, 1, 2, 'showNames', showVarNames, axesProperties{:});
+        if npc >= 2
+            handles.loadingsPlot = figure;
+            loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
+        end
         
         % loading plots PC3-PC4
         if npc >= 4
-            h5 = figure;
-            loadingPlot(this, 3, 4, 'showNames', showVarNames, axesProperties{:});
+            handles.loadingsPlot = figure;
+            loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
         end
-        
-        % return handle array to figures
-        h = [h1 h2 h3 h4 h5];
     end
     
-    function saveFigures(this, hFigs, dirFigs)
+    function saveFigures(this, handles, dirFigs)
         
         baseName = this.tableName;
         
         fileName = sprintf('%s-pca.ev.png', baseName);
-        print(hFigs(1), fullfile(dirFigs, fileName), '-dpng');
+        print(handles.screePlot, fullfile(dirFigs, fileName), '-dpng');
         
-        fileName = sprintf('%s-pca.sc12.png', baseName);
-        print(hFigs(2), fullfile(dirFigs, fileName), '-dpng');
-        
-        if ishandle(hFigs(3))
-            fileName = sprintf('%s-pca.sc34.png', baseName);
-            print(hFigs(3), fullfile(dirFigs, fileName), '-dpng');
+        if ismember(handles, 'scorePlot12')
+            fileName = sprintf('%s-pca.sc12.png', baseName);
+            print(handles.scorePlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        fileName = sprintf('%s-pca.ld12.png', baseName);
-        print(hFigs(4), fullfile(dirFigs, fileName), '-dpng');
+        if ismember(handles, 'scorePlot34')
+            fileName = sprintf('%s-pca.sc34.png', baseName);
+            print(handles.scorePlot34, fullfile(dirFigs, fileName), '-dpng');
+        end
         
-        if ishandle(hFigs(5))
+        if ismember(handles, 'loadingsPlot12')
+            fileName = sprintf('%s-pca.ld12.png', baseName);
+            print(handles.loadingsPlot12, fullfile(dirFigs, fileName), '-dpng');
+        end
+        
+        if ismember(handles, 'loadingsPlot34')
             fileName = sprintf('%s-pca.ld34.png', baseName);
-            print(hFigs(5), fullfile(dirFigs, fileName), '-dpng');
+            print(handles.loadingsPlot34, fullfile(dirFigs, fileName), '-dpng');
         end
     end
     
@@ -364,7 +365,12 @@ methods
 
 end % end methods
 
+%% General methods
 methods
+    function b = isScaled(this)
+        b = this.scaled;
+    end
+    
     function disp(this)
         
         if this.scaled
@@ -380,7 +386,6 @@ methods
         disp(['       scores: ' sprintf('<%dx%d Table>', size(this.scores))]);
         disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.loadings))]);
         disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
-        
     end
 end
 
