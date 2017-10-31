@@ -8,9 +8,15 @@
 %   Table                   - Class for data table with named rows and columns
 %   create                  - Create a new data table
 %
-%   Basic statistical analyses
+%   Table display and information
 %   info                    - Display short summary of a data table
 %   summary                 - Display a summary of the data in the table
+%   disp                    - Display the content of a data table, with row and column names
+%   show                    - Display the content of the table in a new figure
+%   head                    - Show the first rows of a data table
+%   tail                    - Show the last rows of a data table
+%
+%   Basic statistical analyses
 %   stats                   - Compute basic descriptive statistics on data table columns
 %   aggregate               - Group table rows according to unique values in a vector or column
 %   corrcoef                - Correlation coefficients of table data
@@ -20,8 +26,6 @@
 %   ttest2                  - Two-sample t-test
 %
 %   Plot and display
-%   disp                    - Display the content of a data table, with row and column names
-%   show                    - Display the content of the table in a new figure
 %   plot                    - Plot the content of a column
 %   errorbar                - Overload the errorbar function to manage data tables
 %   histogram               - Histogram plot of a column in a data table
@@ -79,6 +83,7 @@
 %   write                   - Write a datatable into a file
 %
 %   Utility functions
+%   getValue                - Returns the value for the given row and column
 %   addColumn               - Add a new column to the data table
 %   addRow                  - Add a new row to the data table
 %   apply                   - Apply the given function to each element of the table
@@ -134,6 +139,8 @@
 %   var                     - Put the variance of each column in a new table
 %   sum                     - Put the sum of each column in a new table
 %   times                   - Overload the times operator for Table objects
+%   cumsum                  - Cumulative sum of columns
+%   diff                    - Derivative approximation by finite differences
 %
 %   Binary functions
 %   ge                      - Overload the ge operator for Table objects
@@ -157,5 +164,5 @@
 
 %   Not yet integrated
 
-%   getValue                - Returns the value for the given row and column
 %   numel                   - Overload default behaviour for the numel function
+
