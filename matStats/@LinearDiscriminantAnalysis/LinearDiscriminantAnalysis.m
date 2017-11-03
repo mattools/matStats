@@ -1,17 +1,17 @@
-classdef Lda < handle
-%LDA  Performs a Fisher's Linear Discriminant Analysis
+classdef LinearDiscriminantAnalysis < handle
+%LINEARDISCRIMINANTANALYSIS Performs a Fisher's Linear Discriminant Analysis
 %
-%   RES = Lda(TAB, GROUP);
+%   RES = LinearDiscriminantAnalysis(TAB, GROUP);
 %   Performs Linear Discriminant Analysis (LDA) of the data table TAB
 %   with N rows and P columns, with Q groups specified in the table GROUP.
-%   Returns the result in a new instance of Lda class with the following
-%   fields: 
+%   Returns the result in a new instance of LinearDiscriminantAnalysis
+%   class with the following fields: 
 %     scores        the new coordinates of individuals, as N-by-P array
-%     loadings      the loadinds (or coefficients) of Lda, as P-by-P array
+%     loadings      the loadinds (or coefficients) of LinearDiscriminantAnalysis, as P-by-P array
 %     eigenValues   values of inertia, inertia percent and cumulated inertia
 %     means         the mean value of each column of original data array
 %   
-%   res = Lda(TAB, GROUP, PARAM, VALUE);
+%   res = LinearDiscriminantAnalysis(TAB, GROUP, PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
 %   Available options are: 
 %
@@ -46,9 +46,10 @@ classdef Lda < handle
 %   Example
 %     % Principal component Analysis of Fisher's iris
 %     iris = Table.read('fisherIris');
-%     iris_lda = Lda(iris(:,1:4), iris('Species'));
+%     iris_lda = LinearDiscriminantAnalysis(iris(:,1:4), iris('Species'));
 %
-%
+%   See also
+%     manova1 (statistics toolbox), Pca
 
 % ------
 % Author: David Legland
@@ -96,16 +97,16 @@ end % end properties
 
 %% Constructor
 methods
-    function this = Lda(data, group, varargin)
-        % Constructor for Lda class
+    function this = LinearDiscriminantAnalysis(data, group, varargin)
+        % Constructor for LinearDiscriminantAnalysis class
 
         % avoid empty constructor
         if nargin == 0
-            error('Lda requires at least one input argument');
+            error('LinearDiscriminantAnalysis requires at least one input argument');
         end
         
         % copy constructor
-        if isa(data, 'Lda')
+        if isa(data, 'LinearDiscriminantAnalysis')
             % copy the name
             this.tableName      = data.tableName;
             
@@ -141,7 +142,7 @@ methods
         this.tableName      = data.name;
         this.group          = group;
 
-        % compute Lda results
+        % compute LinearDiscriminantAnalysis results
         computeLDA(this, data);
         
         % save results
@@ -350,7 +351,7 @@ methods (Access = private)
 
     
     function handles = displayResults(this, options)
-        % Display results of Lda
+        % Display results of LinearDiscriminantAnalysis
         %
         % Returns a structure with fields corresponding to figure handles:
         % * screePlot
@@ -363,7 +364,7 @@ methods (Access = private)
         % number of canonical components to display
         npc = size(this.scores.data, 2);
         
-        % Scree plot of the Lda
+        % Scree plot of the LinearDiscriminantAnalysis
         handles.screePlot = screePlot(this, options.axesProperties{:});
         
         % individuals in plane CC1-CC2
@@ -432,7 +433,7 @@ methods
         disp(['       scores: ' sprintf('<%dx%d Table>', size(this.scores))]);
         disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.loadings))]);
         disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
-        disp('Type ''properties(Lda)'' to see all properties');
+        disp('Type ''properties(LinearDiscriminantAnalysis)'' to see all properties');
     end
 end
 
