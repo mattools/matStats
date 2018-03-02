@@ -8,10 +8,10 @@ function test_suite = test_Table(varargin)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -82,4 +82,32 @@ array = randi(10, [10 4]);
 
 tab = Table(array, 'rowNames', names);
 assertEqual(names, tab.rowNames);
+
+
+function testCreate_ColumnList
+% creates a table from several named variables.
+% The column names should be set automatically.
+
+t = [0 1 2 3]';
+xt = [10 20 30 40]';
+yt = [12 8 10 14]';
+
+tab = Table(t, xt, yt);
+assertEqual([4 3], size(tab));
+assertEqual('xt', tab.colNames{2});
+
+
+function testCreate_ColumnList_WithRowNames
+% creates a table from several named variables.
+% The column names should be set automatically.
+
+t = [0 1 2 3]';
+xt = [10 20 30 40]';
+yt = [12 8 10 14]';
+rowNames = {'row1', 'row2','row3', 'row4'}';
+
+tab = Table(t, xt, yt, 'rowNames', rowNames);
+assertEqual([4 3], size(tab));
+assertEqual('xt', tab.colNames{2});
+assertEqual('row3', tab.rowNames{3});
 

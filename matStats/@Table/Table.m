@@ -230,18 +230,24 @@ methods
     %   Table/create
     %
 
-        % ---------
-        % Analyse the first argument, if present
-        
+        % special case of empty constructor
         if nargin == 0
             % empty constructor
             this.data = [];
             this.rowNames = {};
             this.colNames = {};
-            
-        elseif isa(varargin{1}, 'Table')
+            this.levels = {};
+            return;
+        end
+        
+        
+        % ---------
+        % Extract the data of the table
+        
+        var1 = varargin{1};
+        if isa(var1, 'Table')
             % copy constructor
-            tab = varargin{1};
+            tab = var1;
             this.data = tab.data;
             this.rowNames   = tab.rowNames;
             this.colNames   = tab.colNames;
@@ -249,13 +255,71 @@ methods
             this.name       = tab.name;
             
             varargin(1) = [];
+
+        elseif (isnumeric(var1) || islogical(var1) || iscell(var1)) && size(var1, 2) == 1 && size(var1, 1) > 1 
+            % Each column is specified as a single column, with either
+            % numeric or cell type
             
-        elseif isnumeric(varargin{1}) || islogical(varargin{1})
+            % number of rows
+            nRows = size(var1, 1);
+            
+            % determine the number of columns, by keeping all input args
+            % with same size as first input arg.
+            nCols = 1;
+            for i = 2:length(varargin) 
+                var = varargin{i};
+                if (~ischar(var) && size(var, 2) ~= 1) || size(var, 1) ~= nRows
+                    break;
+                end
+                nCols = nCols + 1;
+            end
+
+            % format data table
+            this.data = zeros(nRows, nCols);
+            this.levels = cell(1, nCols);
+            
+            % fill up each column
+            for iCol = 1:nCols
+                % current column
+                % assume a numeric, char, or cell array as column vector
+                col = varargin{iCol};
+                
+                if isnumeric(col)
+                    % all data are numeric
+                    this.data(:, iCol)  = col;
+                else
+                    % convert char arrays to cell arrays
+                    if ischar(col)
+                        col = strtrim(cellstr(col));
+                    end
+                    
+                    % character or cell array are used as factors
+                    [levels, I, num]  = unique(col); %#ok<ASGLU>
+                    this.data(:, iCol)  = num;
+                    this.levels{iCol}   = levels;
+                end
+            end
+            
+            % remove processed input args.
+            varargin(1:nCols) = [];
+            
+            % default column names
+            this.colNames = strtrim(cellstr(num2str((1:nCols)')))';
+            
+            % populates the column names from input arguments
+            for iCol = 1:nCols
+                name = inputname(iCol);
+                if ~isempty(name)
+                    this.colNames{iCol} = name;
+                end
+            end
+            
+        elseif isnumeric(var1) || islogical(var1)
             % If first argument is numeric, assume this is data array
-            this.data = varargin{1};
+            this.data = var1;
             varargin(1) = [];
             
-        elseif iscell(varargin{1})
+        elseif iscell(var1)
             % create table from cell array.
             % The cell array can be either:
             % * a N-by-P cell array of N rows and P columns, 
@@ -263,7 +327,7 @@ methods
             %   array. 
             
             % extract data
-            cellArray = varargin{1};
+            cellArray = var1;
             varargin(1) = [];
 
             % determine dimension of input array
@@ -381,17 +445,23 @@ methods
             
             % switch
             if strcmp(param, 'rownames')
+                if ischar(value)
+                    value = strtrim(cellstr(value));
+                end
                 if length(value) ~= size(this.data,1)
                      error('Number of row names does not match row number');
                 end
-                this.rowNames = value;
+               this.rowNames = value;
                     
             elseif strcmp(param, 'colnames')
+                if ischar(value)
+                    value = strtrim(cellstr(value))';
+                end
                 if length(value) ~= size(this.data,2)
-                     error('Number of column names does not match column number');
+                    error('Number of column names does not match column number');
                 end
                 this.colNames = value;
-
+                
             elseif strcmp(param, 'levels')
                 if length(value) ~= size(this.data,2)
                      error('Number of level does not match column number');
