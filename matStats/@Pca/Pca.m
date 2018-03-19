@@ -134,18 +134,18 @@ methods
             error('Should specify options as parameter name-value pairs');
         end
         
-        % analysis options
-        scale           = true;
-        
         % Parse input arguments
         options = createDefaultOptions(data);
         options = parseInputArguments(options, varargin{:});
 
+        % analysis options
+        scale               = options.scale;
+        this.scaled         = scale;
+        
         % compute PCA results
         [m, sc, ld, ev] = computePCA(data, scale);
         
         % keep results
-        this.scaled         = scale;
         this.tableName      = data.name;
         this.means          = m;
         this.scores         = sc;
@@ -183,6 +183,7 @@ methods
 
         function options = createDefaultOptions(data)
             % Compute default options, some of them depending on data set size
+            options.scale           = true;
             options.display         = true;
             options.showObsNames    = size(data, 1)  < 200;
             options.showVarNames    = size(data, 2) < 50;
@@ -203,6 +204,8 @@ methods
             while length(varargin) > 1
                 paramName = varargin{1};
                 switch lower(paramName)
+                    case 'scale'
+                        options.scale = parseBoolean(varargin{2});
                     case 'display'
                         options.display = parseBoolean(varargin{2});
                     case 'saveresults'
