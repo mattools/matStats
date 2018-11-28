@@ -284,7 +284,7 @@ methods
                 % assume a numeric, char, or cell array as column vector
                 col = varargin{iCol};
                 
-                if isnumeric(col)
+                if isnumeric(col) || islogical(col)
                     % all data are numeric
                     this.data(:, iCol)  = col;
                 else
@@ -370,7 +370,7 @@ methods
                 % assume a numeric, char, or cell array as column vector
                 col = cellArray{iCol};
                 
-                if isnumeric(col)
+                if isnumeric(col) || islogical(col)
                     % all data are numeric
                     this.data(:, iCol)  = col;
                 else
