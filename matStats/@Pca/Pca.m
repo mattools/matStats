@@ -312,22 +312,22 @@ methods (Access = private)
         fileName = sprintf('%s-pca.ev.png', baseName);
         print(handles.screePlot, fullfile(dirFigs, fileName), '-dpng');
         
-        if ismember(handles, 'scorePlot12')
+        if isfield(handles, 'scorePlot12')
             fileName = sprintf('%s-pca.sc12.png', baseName);
             print(handles.scorePlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if ismember(handles, 'scorePlot34')
+        if isfield(handles, 'scorePlot34')
             fileName = sprintf('%s-pca.sc34.png', baseName);
             print(handles.scorePlot34, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if ismember(handles, 'loadingsPlot12')
+        if isfield(handles, 'loadingsPlot12')
             fileName = sprintf('%s-pca.ld12.png', baseName);
             print(handles.loadingsPlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if ismember(handles, 'loadingsPlot34')
+        if isfield(handles, 'loadingsPlot34')
             fileName = sprintf('%s-pca.ld34.png', baseName);
             print(handles.loadingsPlot34, fullfile(dirFigs, fileName), '-dpng');
         end
