@@ -70,7 +70,7 @@ for s = 1:nStats
     % apply operation on each column
     for i = 1:nLevels
         inds = groupIndices == i;
-        for j = 1:size(data, 2);
+        for j = 1:size(data, 2)
             newData(i, j) = feval(op, data(inds, j));
         end
     end
