@@ -38,11 +38,6 @@ indThis = cellfun('isclass', varargin, 'Table');
 this = varargin{indThis(1)};
 varargin(indThis(1)) = [];
 
-% setup the fill color
-if isempty(varargin)
-    varargin = {'c'};
-end
-
 
 %% Determine grouping option
 
@@ -78,6 +73,12 @@ if ~isempty(varargin)
         groupLabel = this.colNames(indGroup(1));
 
     end
+end
+
+
+% setup the fill color
+if isempty(varargin)
+    varargin = {'c'};
 end
 
 
