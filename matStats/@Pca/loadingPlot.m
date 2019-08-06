@@ -10,11 +10,12 @@ function varargout = loadingPlot(varargin)
 %   loadingPlot
 %
 %   See also
-%       correlationCircle
+%       scorePlot, correlationCircle
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -34,14 +35,13 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
     varargin(1:2) = [];
 end
 
-
 nc = size(this.scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component number should be less than variable number');
 end
 
 % extract display options
-showNames = true;
+showNames = nc < 50;
 for i = 1:2:(length(varargin)-1)
     if strcmpi('showNames', varargin{i})
         showNames = varargin{i+1};

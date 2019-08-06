@@ -12,9 +12,10 @@ function varargout = scorePlot(varargin)
 %   See also
 %   loadingPlot, correlationCircle
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -41,7 +42,7 @@ if cp1 > nc || cp2 > nc
 end
 
 % extract display options
-showNames = true;
+showNames = size(this.scores, 1) < 200;
 for i = 1:2:(length(varargin)-1)
     if strcmpi('showNames', varargin{i})
         showNames = varargin{i+1};

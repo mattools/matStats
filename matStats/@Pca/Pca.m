@@ -185,7 +185,7 @@ methods
             % Compute default options, some of them depending on data set size
             options.scale           = true;
             options.display         = true;
-            options.showObsNames    = size(data, 1)  < 200;
+            options.showObsNames    = size(data, 1) < 200;
             options.showVarNames    = size(data, 2) < 50;
             options.saveFiguresFlag = false;
             options.dirFigures      = pwd;
