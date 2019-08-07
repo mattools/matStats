@@ -17,10 +17,10 @@ function varargout = errorbar(varargin)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-04-22,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -28,7 +28,7 @@ function varargout = errorbar(varargin)
 for i = 1:length(varargin)
     var = varargin{i};
     if isa(var, 'Table')
-        varargin{i} = var.data;
+        varargin{i} = var.Data;
     end
 end
 

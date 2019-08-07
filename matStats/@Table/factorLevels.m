@@ -27,16 +27,17 @@ function levels = factorLevels(this, colName)
 %   See also
 %     hasFactors, isFactor, trimLevels
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
 if nargin < 2
     % assumes data table has only one column
-    if size(this.data, 2) ~= 1
+    if size(this.Data, 2) ~= 1
         error('Require either a column name, or a single column table');
     end
     
@@ -46,9 +47,9 @@ else
     indFactor = columnIndex(this, colName);
 end
 
-if isempty(this.levels{indFactor})
-    error('Column "%s" is not a factor', this.colNames{indFactor});
+if isempty(this.Levels{indFactor})
+    error('Column "%s" is not a factor', this.ColNames{indFactor});
 end
 
 % extract levels
-levels = this.levels{indFactor};
+levels = this.Levels{indFactor};

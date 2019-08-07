@@ -21,19 +21,20 @@ function varargout = show(this)
 %   See also
 %     display, uitable
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-03-18,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
 % extract table infos
-nr = size(this.data, 1);
-nc = size(this.data, 2);
+nr = size(this.Data, 1);
+nc = size(this.Data, 2);
 
 % create figure name
-figName = sprintf('%s (%d-by-%d Data Table)', this.name, nr, nc);
+figName = sprintf('%s (%d-by-%d Data Table)', this.Name, nr, nc);
 
 % Create parent figure
 f = figure(...
@@ -43,19 +44,19 @@ f = figure(...
     'HandleVisibility', 'Callback');
 
 % convert numerical data to cell array
-data2 = num2cell(this.data);
+data2 = num2cell(this.Data);
     
 % if data table has factors, need to convert factor levels
 % hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
 if hasFactors(this)
-    indLevels = find(~cellfun(@isnumeric, this.levels));
+    indLevels = find(~cellfun(@isnumeric, this.Levels));
     for i = indLevels
-        data2(:,i) = this.levels{i}(this.data(:, i));
+        data2(:,i) = this.Levels{i}(this.Data(:, i));
     end
     
 end
 
-data2 = [this.rowNames(:) data2];
+data2 = [this.RowNames(:) data2];
 
 % ht = uitable(f, ...
 %     'Units', 'normalized', ...
@@ -67,7 +68,7 @@ ht = uitable(f, ...
     'Units', 'normalized', ...
     'Position', [0 0 1 1], ...
     'Data', data2,...
-    'ColumnName', [{'Name'} this.colNames]);
+    'ColumnName', [{'Name'} this.ColNames]);
 
 % return handle to table if requested
 if nargout > 0

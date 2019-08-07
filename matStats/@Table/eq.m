@@ -7,11 +7,11 @@ function res = eq(this, that)
 %   eq
 %
 %   See also
-%   ne, ismember
+%     ne, ismember
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -29,7 +29,7 @@ else
     end
     
     % extract factor level for each row
-    levels = parent.levels{1};
+    levels = parent.Levels{1};
     levels = levels(dat1);
     levels = levels(:);
     
@@ -49,4 +49,4 @@ res = Table.create(newData, ...
     'colNames', newColNames);
 
 % clear levels
-res.levels = cell(1, size(res, 2));
+res.Levels = cell(1, size(res, 2));

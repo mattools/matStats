@@ -50,12 +50,12 @@ function write(this, fileName, varargin)
 %
 %
 %   See also
-%     read
+%     read, printLatex
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -102,8 +102,8 @@ end
 %% Compute the formatting string
 
 % number of row and columns
-nRows = size(this.data, 1);
-nCols = size(this.data, 2);
+nRows = size(this.Data, 1);
+nCols = size(this.Data, 2);
 
 % compute default format string for writing data, if not given as argument
 if isempty(format)
@@ -113,7 +113,7 @@ end
 % check which columns are factors, and update format string accordingly
 if writeLevels
     % first check that table has a valid number of levels
-    nLevels = length(this.levels);
+    nLevels = length(this.Levels);
     if nLevels == 0 && nLevels ~= nCols
         error('Table:write', ...
             'Number of levels in table should match number of columns');
@@ -140,7 +140,7 @@ if writeLevels
         
         % compute max length of level names
         n = -1;
-        levels = this.levels{inds(i)}; 
+        levels = this.Levels{inds(i)}; 
         for j = 1:length(levels)
             n = max(n, length(levels{j}));
         end
@@ -180,7 +180,7 @@ if nTokens ~= nCols + 1
 %     for i = 1:nRows
 %         len = max(len, length(this.rowNames{i}));
 %     end
-    len = max(cellfun(@length, this.rowNames));
+    len = max(cellfun(@length, this.RowNames));
     format = ['%-' int2str(len) 's ' format];
 end
 
@@ -205,7 +205,7 @@ if writeHeader
 
     % write the names of the columns, separated by spaces
     for i = 1:nCols
-        str = [str headerSep this.colNames{i}]; %#ok<AGROW>
+        str = [str headerSep this.ColNames{i}]; %#ok<AGROW>
     end
 
     str = [str '\n'];
@@ -217,11 +217,11 @@ if ~writeLevels
     % write data as numeric
     if writeRowNames
         for i = 1:nRows
-            fprintf(f, format, this.rowNames{i}, this.data(i, :));
+            fprintf(f, format, this.RowNames{i}, this.Data(i, :));
         end
     else
         for i = 1:nRows
-            fprintf(f, format, this.data(i, :));
+            fprintf(f, format, this.Data(i, :));
         end
     end
     
@@ -231,16 +231,16 @@ else
     for i = 1:nRows
         % fill up levels
         for j = 1:length(inds)
-            data{inds(j)} = this.levels{inds(j)}{this.data(i, inds(j))};
+            data{inds(j)} = this.Levels{inds(j)}{this.Data(i, inds(j))};
         end
         % fill up numeric values
         if sum(~isFactorFlag) > 0
-            data(~isFactorFlag) = num2cell(this.data(i, ~isFactorFlag));
+            data(~isFactorFlag) = num2cell(this.Data(i, ~isFactorFlag));
         end
         
         % write current row
         if writeRowNames
-            fprintf(f, format, this.rowNames{i}, data{:});
+            fprintf(f, format, this.RowNames{i}, data{:});
         else
             fprintf(f, format, data{:});
         end

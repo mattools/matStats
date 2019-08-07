@@ -18,11 +18,12 @@ function res = mean(this, varargin)
 %         mean         5.8433         3.054         3.7587        1.1987
 %
 %   See also
-%   median, std, var
+%     median, std, var
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -37,8 +38,8 @@ if ~isempty(varargin)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Mean of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Mean of ' this.Name];
 end
 
 if dim == 1
@@ -48,8 +49,8 @@ if dim == 1
         'name', newName);
     
 else
-    res = Table.create(mean(this.data, 2), ...
-        'rowNames', this.rowNames, ...
+    res = Table.create(mean(this.Data, 2), ...
+        'rowNames', this.RowNames, ...
         'colNames', {'mean'}, ...
         'name', newName);
     

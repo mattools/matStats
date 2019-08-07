@@ -13,6 +13,7 @@ function res = sum(this, varargin)
 %
 %   See also
 %     mean, plus
+%
 
 % ------
 % Author: David Legland
@@ -28,13 +29,13 @@ end
 
 % compute name for result
 newName = '';
-if ~isempty(this.name)
-    newName = ['Sum of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Sum of ' this.Name];
 end
 
 % create result table
-res = Table.create(sum(this.data, 1), ...
+res = Table.create(sum(this.Data, 1), ...
     'rowNames', {'sum'}, ...
-    'colNames', this.colNames, ...
+    'colNames', this.ColNames, ...
     'name', newName);
     

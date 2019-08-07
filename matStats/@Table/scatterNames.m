@@ -19,11 +19,12 @@ function varargout = scatterNames(varargin)
 %     scatterNames(iris('PetalLength'), iris('SepalWidth'));
 %
 %   See also
-%   scatter, scatterGroup
+%     scatter, scatterGroup, plot, text
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-07-12,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -52,13 +53,13 @@ varargin(1) = [];
 if size(this, 2) == 1
     % If input table has only one column, second argument must contain 
     % y-coords
-    xData = this.data;
+    xData = this.Data;
     var2 = varargin{2};
-    yData = var2.data(:, 1);
+    yData = var2.Data(:, 1);
     varargin(1) = [];
     
-    xlabelText = this.colNames{1};
-    ylabelText = var2.colNames{1};
+    xlabelText = this.ColNames{1};
+    ylabelText = var2.ColNames{1};
     
 else
     % If input table has more than one column, second and third arguments
@@ -67,13 +68,13 @@ else
     indy = columnIndex(this, varargin{2});
     varargin(1:2) = [];
 
-    xData = this.data(:,indx);
-    yData = this.data(:,indy);
+    xData = this.Cata(:,indx);
+    yData = this.Cata(:,indy);
     
-    labels = this.rowNames;
+    labels = this.RowNames;
     
-    xlabelText = this.colNames{indx};
-    ylabelText = this.colNames{indy};
+    xlabelText = this.ColNames{indx};
+    ylabelText = this.ColNames{indy};
 end
 
 
@@ -121,8 +122,8 @@ h = text(xData, yData, labels, 'Parent', ax, 'FontSize', fontSize, options{:});
 xlabel(xlabelText);
 ylabel(ylabelText);
 
-if ~isempty(this.name)
-    title(this.name, 'Interpreter', interpreter);
+if ~isempty(this.Name)
+    title(this.Name, 'Interpreter', interpreter);
 end
 
 

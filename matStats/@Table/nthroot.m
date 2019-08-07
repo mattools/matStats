@@ -9,11 +9,12 @@ function res = nthroot(this, n)
 %   nthroot
 %
 %   See also
+%     mpower, sqrt
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -23,13 +24,13 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['nthroot of ' this.name];
+if ~isempty(this.Name)
+    newName = ['nthroot of ' this.Name];
 end
 
-newColNames = strcat('nthroot', this.colNames);
+newColNames = strcat('nthroot', this.ColNames);
 
-res = Table.create(nthroot(this.data, n), ...
+res = Table.create(nthroot(this.Data, n), ...
     'parent', this, ...
     'name', newName, ...
     'colNames', newColNames);

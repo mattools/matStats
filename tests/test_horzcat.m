@@ -26,4 +26,4 @@ array2 = randi(10, [10 3]);
 tab2 = Table(array2);
 
 res = [tab1 tab2];
-assertEqual([10 7], size(res.data));
+assertEqual([10 7], size(res.Data));

@@ -23,8 +23,9 @@ function res = tail(this, k)
 %     150            5.9             3            5.1           1.8    Virginica
 %
 %   See also
-%     tail, disp, subsref
- 
+%     head, disp, subsref
+%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@inra.fr

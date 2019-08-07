@@ -18,9 +18,10 @@ function res = isFactor(this, colName)
 %   See also
 %     setAsFactor, trimLevels
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -33,7 +34,7 @@ res = false(1, length(ind));
 
 % check if input column
 for i = 1:length(ind)
-    if ind(i) <= length(this.levels)
-        res(i) = ~isempty(this.levels{ind(i)});
+    if ind(i) <= length(this.Levels)
+        res(i) = ~isempty(this.Levels{ind(i)});
     end
 end

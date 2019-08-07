@@ -26,12 +26,12 @@ function [res, mu, sigma] = zscore(this, varargin)
 %          std               1               1               1              1
 %
 %   See also
-%   mean, std
+%     mean, std, var
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-07-12,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -48,6 +48,6 @@ sigma = std(this, flag);
 % number of 
 n = size(this, 1);
 
-% compute standardiser z-score
+% compute standardised z-score
 res = (this - repmat(mu, n, 1)) ./ repmat(sigma, n, 1);
-res.colNames = this.colNames;
+res.ColNames = this.ColNames;

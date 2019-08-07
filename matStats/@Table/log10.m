@@ -9,11 +9,12 @@ function res = log10(this)
 %   log10
 %
 %   See also
+%     log, log2, sqrt
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -23,13 +24,13 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['log10 of ' this.name];
+if ~isempty(this.Name)
+    newName = ['log10 of ' this.Name];
 end
 
-newColNames = strcat('log10', this.colNames);
+newColNames = strcat('log10', this.ColNames);
 
-res = Table.create(log10(this.data), ...
+res = Table.create(log10(this.Data), ...
     'parent', this, ...
     'name', newName, ...
     'colNames', newColNames);

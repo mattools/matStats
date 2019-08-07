@@ -27,7 +27,7 @@ assertTrue(isa(tab, 'Table'));
 
 % test subsref and subsasgn
 tab(2, 3) = 10;
-assertEqual(10, tab(2, 3).data);
+assertEqual(10, tab(2, 3).Data);
 
 function testCreateFromCellArray_singleColumn
 
@@ -69,10 +69,10 @@ names = strtrim(cellstr(num2str((1:4)', 'i%d')));
 array = randi(10, [10 4]);
 
 tab = Table(array, names);
-assertEqual(names, tab.colNames);
+assertEqual(names, tab.ColNames);
 
 tab = Table(array, 'colNames', names);
-assertEqual(names, tab.colNames);
+assertEqual(names, tab.ColNames);
 
 
 function testCreateSetRowNames
@@ -81,7 +81,7 @@ names = strtrim(cellstr(num2str((1:10)', 'i%d')));
 array = randi(10, [10 4]);
 
 tab = Table(array, 'rowNames', names);
-assertEqual(names, tab.rowNames);
+assertEqual(names, tab.RowNames);
 
 
 function testCreate_ColumnList
@@ -94,7 +94,7 @@ yt = [12 8 10 14]';
 
 tab = Table(t, xt, yt);
 assertEqual([4 3], size(tab));
-assertEqual('xt', tab.colNames{2});
+assertEqual('xt', tab.ColNames{2});
 
 
 function testCreate_ColumnList_WithRowNames
@@ -108,6 +108,6 @@ rowNames = {'row1', 'row2','row3', 'row4'}';
 
 tab = Table(t, xt, yt, 'rowNames', rowNames);
 assertEqual([4 3], size(tab));
-assertEqual('xt', tab.colNames{2});
-assertEqual('row3', tab.rowNames{3});
+assertEqual('xt', tab.ColNames{2});
+assertEqual('row3', tab.RowNames{3});
 

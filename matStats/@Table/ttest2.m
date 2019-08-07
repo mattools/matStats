@@ -17,11 +17,11 @@ function varargout = ttest2(tab1, tab2, varargin)
 %       5.7175e-062
 %
 %   See also
-%
+%     Anova
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-02-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -30,7 +30,7 @@ if isa(tab1, 'Table')
     if hasFactors(tab1)
         error('Can not compute TTEST2 for table with factors');
     end
-    data1 = tab1.data;
+    data1 = tab1.Data;
 else
     data1 = tab1;
 end
@@ -40,7 +40,7 @@ if isa(tab2, 'Table')
     if hasFactors(tab2)
         error('Can not compute TTEST2 for table with factors');
     end
-    data2 = tab2.data;
+    data2 = tab2.Data;
 else
     data2 = tab2;
 end

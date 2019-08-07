@@ -16,7 +16,7 @@ function row = getRow(this, rowName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % Parse index of row
-ind = this.rowIndex(rowName);
+ind = rowIndex(this, rowName);
 
 % extract data
-row = this.data(ind, :);
+row = this.Data(ind, :);

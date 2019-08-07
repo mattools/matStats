@@ -10,10 +10,10 @@ function res = abs(this)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -23,13 +23,13 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['abs of ' this.name];
+if ~isempty(this.Name)
+    newName = ['abs of ' this.Name];
 end
 
-newColNames = strcat('abs', this.colNames);
+newColNames = strcat('abs', this.ColNames);
 
-res = Table.create(abs(this.data), ...
+res = Table.create(abs(this.Data), ...
     'parent', this, ...
     'name', newName, ...
     'colNames', newColNames);

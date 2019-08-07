@@ -33,22 +33,22 @@ if ~isempty(varargin)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['geomean of ' this.name];
+if ~isempty(this.Name)
+    newName = ['geomean of ' this.Name];
 end
 
 if dim == 1
-    newData = exp(mean(log(this.data), 1));
+    newData = exp(mean(log(this.Data), 1));
     
     res = Table.create(newData, ...
         'rowNames', {'geomean'}, ...
-        'colNames', this.colNames, ...
+        'colNames', this.ColNames, ...
         'name', newName);
     
 else
-    newData = exp(mean(log(this.data), 2));
+    newData = exp(mean(log(this.Data), 2));
     res = Table.create(newData, ...
-        'rowNames', this.rowNames, ...
+        'rowNames', this.RowNames, ...
         'colNames', {'geomean'}, ...
         'name', newName);
     

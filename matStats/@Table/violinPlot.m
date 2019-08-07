@@ -42,8 +42,8 @@ varargin(indThis(1)) = [];
 %% Determine grouping option
 
 % default: box plot of each column
-data = this.data;
-indCols = 1:length(this.colNames);
+data = this.Data;
+indCols = 1:length(this.ColNames);
 
 % check grouping
 grouping = false;
@@ -64,13 +64,13 @@ if ~isempty(varargin)
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(this.levels{indGroup})
-            levels = this.levels{indGroup};
+        if ~isempty(this.Levels{indGroup})
+            levels = this.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(groupIndices(:)))));
         end
 
-        groupLabel = this.colNames(indGroup(1));
+        groupLabel = this.ColNames(indGroup(1));
 
     end
 end
@@ -111,7 +111,7 @@ if grouping
     
     % set xlabel by concatenating group names
     xlabel(concatLabels(groupLabel(1,:)));
-    ylabel(this.colNames(indCols(1)), 'interpreter', 'none');
+    ylabel(this.ColNames(indCols(1)), 'interpreter', 'none');
 
 else
     % Display violin plot of each column in table    
@@ -119,7 +119,7 @@ else
     nCols = size(this, 2);
     
     for i = 1:nCols
-        [f, xf] = ksdensity(this.data(:, i));
+        [f, xf] = ksdensity(this.Data(:, i));
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});
@@ -130,13 +130,13 @@ else
     xlim([0 nCols+1]);
     
     set(gca, 'xtick', 1:nCols);
-    set(gca, 'xticklabel', this.colNames);
+    set(gca, 'xticklabel', this.ColNames);
     
 end
 
 % decorate box plot
-if ~isempty(this.name)
-    title(this.name, 'interpreter', 'none');
+if ~isempty(this.Name)
+    title(this.Name, 'interpreter', 'none');
 end
 
 % if nargout > 0

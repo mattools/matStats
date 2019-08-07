@@ -40,8 +40,8 @@ end
 % create result array
 nRows = 2 * dim1(1);
 dim = [nRows, dim1(2)];
-res = Table(zeros(dim), this.colNames);
-res.levels = this.levels;
+res = Table(zeros(dim), this.ColNames);
+res.Levels = this.Levels;
 
 % check presence of factors
 if hasFactors(this) || hasFactors(that)
@@ -50,8 +50,8 @@ if hasFactors(this) || hasFactors(that)
 end
 
 % fill in with data
-res.data(1:2:nRows, :) = this.data;
-res.data(2:2:nRows, :) = that.data;
-res.rowNames(1:2:nRows) = this.rowNames;
-res.rowNames(2:2:nRows) = that.rowNames;
+res.Data(1:2:nRows, :) = this.Data;
+res.Data(2:2:nRows, :) = that.Data;
+res.RowNames(1:2:nRows) = this.RowNames;
+res.RowNames(2:2:nRows) = that.RowNames;
     

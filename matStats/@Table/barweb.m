@@ -74,7 +74,7 @@ if size(values,1) == 1
 %     change_axis = 1;
 end
 
-groupNames = values.rowNames;
+groupNames = values.RowNames;
 
 % number of groups
 numGroups = size(values, 1); 
@@ -89,14 +89,14 @@ handles.axis = gca;
 holdStatus = ishold;
 
 % First draw the bars, using native Matlab function
-handles.bars = bar(values.data, width); 
+handles.bars = bar(values.Data, width); 
 hold on;
 
 % draw error bars
 groupwidth = min(0.8, numBars/(numBars+1.5));
 for i = 1:numBars
     x = (1:numGroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*numBars);
-    handles.errors(i) = errorbar(x, values.data(:,i), errors.data(:,i), 'k', 'linestyle', 'none');
+    handles.errors(i) = errorbar(x, values.Data(:,i), errors.Data(:,i), 'k', 'linestyle', 'none');
 end
 
 if ~isempty(groupNames)
@@ -105,7 +105,7 @@ end
 
 xlim([0.5 numGroups-change_axis+0.5]);
 
-handles.legend = legend(values.colNames, 'Location', legendLocation);
+handles.legend = legend(values.ColNames, 'Location', legendLocation);
 
 % restore hold state of current figure
 if ~holdStatus

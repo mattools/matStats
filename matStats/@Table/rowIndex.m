@@ -1,17 +1,18 @@
 function indRow = rowIndex(this, rowName)
 %ROWINDEX  Index of a row from its name
 %
-%   IND = TABLE.rowIndex(ROWNAME)
+%   IND = rowIndex(TABLE, ROWNAME)
 %
 %   Example
 %   rowIndex
 %
 %   See also
+%     columnIndex
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -25,9 +26,9 @@ if isnumeric(rowName)
 elseif ischar(rowName)
     % parse row name
     if strcmp(rowName, ':')
-        indRow = 1:length(this.rowNames);
+        indRow = 1:length(this.RowNames);
     else
-        indRow = find(strcmp(rowName, this.rowNames'));
+        indRow = find(strcmp(rowName, this.RowNames'));
     end
     
     if isempty(indRow)>0
@@ -38,7 +39,7 @@ elseif iscell(rowName)
     % parse a cell array of row names
     N = length(rowName);
     indRow = zeros(N, 1);
-    names = this.rowNames;
+    names = this.RowNames;
     for i = 1:N
         ind = find(strcmp(rowName{i}, names));
         if isempty(ind)

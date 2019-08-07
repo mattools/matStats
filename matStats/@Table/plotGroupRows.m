@@ -17,11 +17,12 @@ function varargout = plotGroupRows(varargin)
 %   plotGroupRows
 %
 %   See also
-%     plotRows
+%     plotRows, plot
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-01-24,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -55,7 +56,7 @@ if isempty(xdata)
     xdata = 1:size(this, 2);
 
     % try to parse column names as input vectors
-    vals = str2num(char(this.colNames')); %#ok<ST2NM>
+    vals = str2num(char(this.ColNames')); %#ok<ST2NM>
     if length(vals) == size(this, 2)
         xdata = vals;
     end
@@ -88,7 +89,7 @@ for iGroup = 1:nGroups
     inds = groupIndices == iGroup;
     
     color = groupColors(mod(iGroup-1, nColors)+1, :);
-    hl = plot(ax, xdata, this.data(inds, :)', ...
+    hl = plot(ax, xdata, this.Data(inds, :)', ...
         'color', color, ...
         varargin{:});
     h(iGroup) = hl(1);

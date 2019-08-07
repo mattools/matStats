@@ -63,14 +63,14 @@ end
 
 %% Compute new groups as combination of input groups
 
-[nameIndices, pos, groupIndices] = unique(this.data, 'rows'); %#ok<ASGLU>
+[nameIndices, pos, groupIndices] = unique(this.Data, 'rows'); %#ok<ASGLU>
 
 levelNames = cell(size(nameIndices));
 for iGroup = 1:size(levelNames, 2)
     if isFactor(this, iGroup)
         % in case of factor, extract stored levels
         levelInds = unique(nameIndices(:,iGroup));
-        levels = this.levels{iGroup};
+        levels = this.Levels{iGroup};
         if length(levelInds) > length(levels)
             error('Not enough level names for factor data');
         end
@@ -108,7 +108,7 @@ if keepFactorNames
     format = '%s=%s';
     % iterate on the different factors
     for iGroup = 1:size(levelNames, 2)
-        groupLabel = this.colNames{iGroup};
+        groupLabel = this.ColNamess{iGroup};
 
         for iLevel = 1:size(levelNames, 1)
             levelName = levelNames{iLevel, iGroup};
@@ -138,9 +138,9 @@ end
 
 %% Create resulting data table
 
-colNames = {[this.colNames{1} '*' this.colNames{2}]};
+colNames = {[this.ColNamess{1} '*' this.ColNamess{2}]};
 
 res = Table(groupIndices, ...
     'colNames', colNames, ...
-    'rowNames', this.rowNames, ...
+    'rowNames', this.RowNames, ...
     'levels', {labels});

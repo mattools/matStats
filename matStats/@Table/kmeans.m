@@ -14,6 +14,7 @@ function varargout = kmeans(this, k, varargin)
 %
 %   See also
 %     scatterGroup, aggregate
+%
 
 % ------
 % Author: David Legland
@@ -32,7 +33,7 @@ end
 % pre-process input arguments to transform to double whe required
 for i = 1:length(varargin)
     if isa(varargin{i}, 'Table')
-        varargin{i} = varargin{i}.data;
+        varargin{i} = varargin{i}.Data;
     end
 end
 
@@ -41,7 +42,7 @@ end
 
 % call the kmeans function with adequate number of output arguments
 varargout = cell(max(nargout, 1), 1);
-[varargout{:}] = kmeans(this.data, k, varargin{:});
+[varargout{:}] = kmeans(this.Data, k, varargin{:});
 
 
 %% Encapsulate results in tables
@@ -51,16 +52,16 @@ groupNames = strtrim(cellstr(num2str((1:k)', 'class=%d')));
 
 % format the first ouput table
 colNames = {sprintf('kmeans%d', k)};
-varargout{1} = Table(varargout{1}, colNames, this.rowNames);
+varargout{1} = Table(varargout{1}, colNames, this.RowNames);
 
 % if second output was asked, transform it into a table
 if nargout > 1
-    varargout{2} = Table(varargout{2}, this.colNames, groupNames);
+    varargout{2} = Table(varargout{2}, this.ColNames, groupNames);
 end
 
 % if individual-to-centroid distance is asked, convert to table
 if nargout > 3
-    varargout{4} = Table(varargout{4}, groupNames, this.rowNames);
+    varargout{4} = Table(varargout{4}, groupNames, this.RowNames);
 end
 
 
@@ -69,7 +70,7 @@ end
 % if no output is asked, display a map of the result
 if nargout == 0
     if size(this, 2) > 1
-        this.scatterGroup(1, 2, varargout{1}, 1);
+        scatterGroup(this, 1, 2, varargout{1}, 1);
     end
     varargout = {};
 end

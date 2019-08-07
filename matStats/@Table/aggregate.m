@@ -105,12 +105,12 @@ if isnumeric(name) && length(name) == rowNumber(this)
 elseif isa(name, 'Table')
     % Second argument is a table containing factor levels
 %     [values truc] = indexGroupValues(name);
-    values = name.data(:, 1);
-    colName = name.colNames{1};
+    values = name.Data(:, 1);
+    colName = name.ColNames{1};
     cols    = 1:columnNumber(this);
     
     if isFactor(name, 1)
-        valueNames = name.levels{1};
+        valueNames = name.Levels{1};
     end
     
 else
@@ -119,12 +119,12 @@ else
     % 2 remove group column from original table
     
     % find index of the column, keep only the first one
-    ind = this.columnIndex(name);
+    ind = columnIndex(this, name);
     ind = ind(1);
     
     % extract column to process
-    values = this.data(:, ind);
-    colName = this.colNames{ind};
+    values = this.Data(:, ind);
+    colName = this.ColNames{ind};
     
     % indices of other columns
     cols = 1:columnNumber(this);
@@ -178,5 +178,5 @@ if isempty(rowNames)
 end
 
 % create result dataTable
-res = Table(res, 'colNames', this.colNames(cols), 'rowNames', rowNames);
+res = Table(res, 'colNames', this.ColNames(cols), 'rowNames', rowNames);
 

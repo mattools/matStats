@@ -21,9 +21,9 @@ function hist(this, varargin)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-if size(this.data, 2) == 1
+if size(this.Data, 2) == 1
     % if table has only one column, use it for histogram
-    data = this.data;
+    data = this.Data;
     
 else
     % Otherwise, need to specify the index or name of column
@@ -36,23 +36,23 @@ else
     % extract index of column to display
     var = varargin{1};
     varargin(1) = [];
-    ind = this.columnIndex(var);
+    ind = columnIndex(this, var);
     if isempty(ind) > 0
         error(['input table does not contain column named "' var '"']);
     end
 
     % extract column data
     ind = ind(1);
-    data = this.data(:, ind);
+    data = this.Data(:, ind);
     
 end
 
 % histogram of the selected column
-hist(data, varargin{:});
-xlabel(this.colNames{1});
+histogram(data, varargin{:});
+xlabel(this.ColNames{1});
 
-if ~isempty(this.name)
-    title(this.name);
+if ~isempty(this.Name)
+    title(this.Name);
 end
 
 % % eventually returns handle to graphics

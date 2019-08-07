@@ -7,26 +7,27 @@ function res = min(this, varargin)
 %   min
 %
 %   See also
+%     max, mean
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
+if hasFactors(this)
     error('Can not compute min for table with factors');
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Min of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Min of ' this.Name];
 end
 
-res = Table.create(min(this.data, [], 1), ...
+res = Table.create(min(this.Data, [], 1), ...
     'rowNames', {'min'}, ...
-    'colNames', this.colNames, ...
+    'colNames', this.ColNames, ...
     'name', newName);
     

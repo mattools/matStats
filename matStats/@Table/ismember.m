@@ -41,7 +41,7 @@ function res = ismember(this, values)
 
 if isnumeric(values)
     % simple case: no factor
-    dat = ismember(this.data, values);
+    dat = ismember(this.Data, values);
     res = Table(dat, 'parent', this);
 
 else
@@ -58,6 +58,6 @@ else
     
     % create resulting array
     res = Table(ismember(cells, values));
-    res.colNames = {sprintf('ismember(%s,vals)', this.colNames{1})};
-    res.rowNames = this.rowNames;
+    res.ColNames = {sprintf('ismember(%s,vals)', this.ColNames{1})};
+    res.RowNames = this.RowNames;
 end

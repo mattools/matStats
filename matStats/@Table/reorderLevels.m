@@ -7,15 +7,15 @@ function res = reorderLevels(this, newOrder)
 %     tab = Table.read('fisherIris.txt');
 %     species = tab('Species');
 %     sp2 = reorderLevels(species, [3 2 1]);
-%     species.levels{1}
-%     sp2.levels{1}
+%     species.Levels{1}
+%     sp2.Levels{1}
 %
 %   See also
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-04-24,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -28,20 +28,20 @@ if ~isFactor(this, 1)
 end
 
 % check correspondence of tables
-nLevels = length(this.levels{1});
+nLevels = length(this.Levels{1});
 if length(newOrder) ~= nLevels
     error('Length of new indices does not match the number of levels');
 end
 
 % compute the vector of new indices
-data = zeros(size(this.data));
+data = zeros(size(this.Data));
 for i = 1:length(newOrder)
-    data(this.data == newOrder(i)) = i;
+    data(this.Data == newOrder(i)) = i;
 end
 
 % reorder the levels
-levels = {this.levels{1}(newOrder)};
+levels = {this.Levels{1}(newOrder)};
 
 % create result data table
-res = Table(data, this.colNames, this.rowNames, ...
+res = Table(data, this.ColNames, this.RowNames, ...
     'levels', levels);

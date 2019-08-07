@@ -9,10 +9,10 @@ function res = parseFactorFromRowNames(this, pos1, len, factorName)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-11-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -25,7 +25,7 @@ end
 pos2 = pos1 + len - 1;
 
 % extract factor levels
-names = strjust(char(this.rowNames), 'left');
+names = strjust(char(this.RowNames), 'left');
 if size(names, 2) < pos2
     error('Table:parseFactorFromRowNames', ...
         'row names array do not have enough characters');
@@ -38,7 +38,7 @@ levels = cellstr(levels)';
 
 % create result table
 res = Table.create(indices, ...
-    'rowNames', this.rowNames, ...
+    'rowNames', this.RowNames, ...
     'colNames', {factorName}, ...
     'levels', {levels}, ...
-    'name', this.name);
+    'name', this.Name);

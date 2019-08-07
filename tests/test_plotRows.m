@@ -22,7 +22,7 @@ dat = ones(5, 15);
 tab = Table.create(dat);
 
 figure(1);
-tab.plotRows();
+plotRows(tab);
 close(1);
 
 figure(1);
@@ -35,7 +35,7 @@ tab = Table.create(dat);
 
 figure(1);
 ax = gca;
-tab.plotRows(ax);
+plotRows(ax, tab);
 close(1);
 
 figure(1);

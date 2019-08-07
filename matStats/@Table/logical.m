@@ -17,4 +17,4 @@ function tf = logical(this)
 % Created: 2015-08-24,    using Matlab 8.5.0.197613 (R2015a)
 % Copyright 2015 INRA - Cepia Software Platform.
 
-tf = this.data ~= 0;
+tf = this.Data ~= 0;

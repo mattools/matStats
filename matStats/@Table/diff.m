@@ -46,14 +46,14 @@ end
 
 
 %% process input data
-newData = diff(this.data, n, dim);
+newData = diff(this.Data, n, dim);
 
 
 %% format output table
 if dim == 1
-    rowNames = strcat('(', this.rowNames(2:end), ')-(', this.rowNames(1:end-1), ')');
-    res = Table(newData, this.colNames, rowNames);
+    rowNames = strcat('(', this.RowNames(2:end), ')-(', this.RowNames(1:end-1), ')');
+    res = Table(newData, this.ColNames, rowNames);
 else
-    colNames = strcat('(', this.colNames(2:end)', ')-(', this.colNames(1:end-1)', ')')';
-    res = Table(newData, colNames, this.rowNames);
+    colNames = strcat('(', this.ColNames(2:end)', ')-(', this.ColNames(1:end-1)', ')')';
+    res = Table(newData, colNames, this.RowNames);
 end

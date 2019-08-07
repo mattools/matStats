@@ -24,12 +24,12 @@ if ~hasFactors(parent)
 else
     % Case of factor data table
     if size(parent, 2) > 1
-        error('Table:eq:FactorColumnForbidden', ...
+        error('Table:ne:FactorColumnForbidden', ...
             'If table is factor, it should have only one column');
     end
     
     % extract factor level for each row
-    levels = parent.levels{1};
+    levels = parent.Levels{1};
     levels = levels(dat1);
     levels = levels(:);
     
@@ -49,4 +49,4 @@ res = Table.create(newData, ...
     'colNames', newColNames);
 
 % clear levels
-res.levels = cell(1, size(res, 2));
+res.Levels = cell(1, size(res, 2));

@@ -56,12 +56,12 @@ function varargout = scatterGroup(this, varargin)
 %     scatterGroup(tab(:,3), tab(:,4), tab('Species'), 'envelope', 'ellipse')
 %
 %   See also
-%   scatter, scatterNames
+%     scatter, scatterNames, scatterGroup3d
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-03-08,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2007 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
  
@@ -70,7 +70,7 @@ function varargout = scatterGroup(this, varargin)
 
 %% Extract main data
 
-if size(this.data, 2) == 1
+if size(this.Data, 2) == 1
     % Data are given as separate arrays
     
     if nargin < 3 || ~isa(varargin{1}, 'Table')
@@ -78,12 +78,12 @@ if size(this.data, 2) == 1
             'Second argument must be another table');
     end
     
-    xdata = this.data(:, 1);
-    nameX = this.colNames{1};
+    xdata = this.Data(:, 1);
+    nameX = this.ColNames{1};
     
     var1 = varargin{1};
-    ydata = var1.data(:, 1);
-    nameY = var1.colNames{1};
+    ydata = var1.Data(:, 1);
+    nameY = var1.ColNames{1};
     
     group = varargin{2};
     varargin(1:2) = [];
@@ -97,25 +97,25 @@ else
     
     % index of first column
     var1 = varargin{1};
-    indx = this.columnIndex(var1);
-    xdata = this.data(:, indx(1));
-    nameX = this.colNames{indx(1)};
+    indx = columnIndex(this, var1);
+    xdata = this.Data(:, indx(1));
+    nameX = this.ColNames{indx(1)};
 
     % index of second column
     var2 = varargin{2};
-    indy = this.columnIndex(var2);
-    ydata = this.data(:, indy(1));
-    nameY = this.colNames{indy(1)};
+    indy = columnIndex(this, var2);
+    ydata = this.Data(:, indy(1));
+    nameY = this.ColNames{indy(1)};
     
     var3 = varargin{3};
     if isa(var3, 'Table')
-        group = var3.data;
-        levels = var3.levels{1};
+        group = var3.Data;
+        levels = var3.Levels{1};
     else
         % index of third column
-        indG = this.columnIndex(var3);
-        group = this.data(:, indG(1));
-        levels = this.levels{indG(1)};
+        indG = columnIndex(this, var3);
+        group = this.Data(:, indG(1));
+        levels = this.Levels{indG(1)};
     end
     if ~isempty(levels)
         group = levels(group);
@@ -146,7 +146,7 @@ fillMarkers = false(nGroups, 1);
 envelope = 'convexhull';
 
 % should we keep the name of the group in the legend ?
-keepGroupName = ~isempty(this.colNames{1});
+keepGroupName = ~isempty(this.ColNames{1});
 
 % parse input options
 options = {};
@@ -232,8 +232,8 @@ end
 % add plot annotations
 xlabel(nameX);
 ylabel(nameY);
-if ~isempty(this.name)
-    title(this.name, 'Interpreter', 'none');
+if ~isempty(this.Name)
+    title(this.Name, 'Interpreter', 'none');
 end
 
 % Legend of the graph

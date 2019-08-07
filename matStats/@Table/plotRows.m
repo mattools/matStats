@@ -7,11 +7,12 @@ function varargout = plotRows(varargin)
 %   plotRows
 %
 %   See also
+%     plot
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-11-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -42,8 +43,8 @@ xAxisLabel = '';
 % compute xdata, either from ydata, or from first input argument
 if ~isempty(tabX)
     if isa(tabX, 'Table')
-        xData = tabX.data(:, 1);
-        xAxisLabel = tabX.colNames{1};
+        xData = tabX.Data(:, 1);
+        xAxisLabel = tabX.ColNames{1};
     else
         % x data is given as numerical array
         xData = tabX;
@@ -56,7 +57,7 @@ if ~isempty(tabX)
     
 else
     % try to parse column names of input table
-    vals = str2num(char(tabY.colNames')); %#ok<ST2NM>
+    vals = str2num(char(tabY.ColNames')); %#ok<ST2NM>
     if length(vals) == size(tabY, 2)
         xData = vals;
     end
@@ -83,11 +84,11 @@ end
 
 if isempty(xData)
     % plot(Y)
-    h = plot(ax, tabY.data', varargin{:});
+    h = plot(ax, tabY.Data', varargin{:});
     
 else
     % plot(X, Y)
-    h = plot(ax, xData, tabY.data', varargin{:});
+    h = plot(ax, xData, tabY.Data', varargin{:});
     
     if ~isempty(xAxisLabel)
         xlabel(xAxisLabel);
@@ -96,16 +97,16 @@ end
 
 
 % title is the name of the table
-if ~isempty(tabY.name)
-    title(tabY.name, 'Interpreter', 'none');
+if ~isempty(tabY.Name)
+    title(tabY.Name, 'Interpreter', 'none');
 end
 
-if min(size(tabY.data)) > 1 && showLegend
+if min(size(tabY.Data)) > 1 && showLegend
     % When several curves are drawn, display a legend
-    legend(tabY.rowNames, 'Location', legendLocation);
+    legend(tabY.RowNames, 'Location', legendLocation);
 else
     % otherwise, use only the first column or row as ylabel
-    ylabel(tabY.rowNames{1});
+    ylabel(tabY.RowNames{1});
 end
 
 

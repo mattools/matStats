@@ -94,9 +94,9 @@ for i = nRows:-1:1
             'parent', BigAxParent);
         
         % color and radius of current correlation circle
-        indColor = min(floor((cc.data(i,j) + 1) * 128) + 1, 256);
+        indColor = min(floor((cc.Data(i,j) + 1) * 128) + 1, 256);
         color = cmap(indColor, :);
-        r = abs(cc.data(i, j));
+        r = abs(cc.Data(i, j));
         
         % fill a disc
         hh(i,j) = fill(cx*r, cy*r, color);

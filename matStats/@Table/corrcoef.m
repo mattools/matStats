@@ -39,19 +39,19 @@ function res = corrcoef(this, varargin)
 
 if nargin == 1
     % compute correlation coefficient of each couple of variables
-    data = corrcoef(this.data);
-    res = Table(data, 'rowNames', this.colNames, 'colNames', this.colNames);
+    data = corrcoef(this.Data);
+    res = Table(data, 'rowNames', this.ColNames, 'colNames', this.ColNames);
 
 else
     % compute only one correlation coefficient
     data2 = varargin{1};
     if isa(data2, 'Table')
-        data2 = data2.data;
+        data2 = data2.Data;
     end
     
     data1 = this;
     if isa(data1, 'Table')
-        data1 = data1.data;
+        data1 = data1.Data;
     end
     
     % correlation coefficient matrix

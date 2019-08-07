@@ -46,6 +46,7 @@ function  varargout = subsref(this, subs)
 %
 %   See also
 %     subsasgn, end, getValue, getLevel
+%
 
 % ------
 % Author: David Legland
@@ -123,7 +124,7 @@ elseif strcmp(type, '()')
         % compute result, that can be either a new table, or a set of
         % values (in case of linear indexing)
         if length(s1.subs) == 1
-            tab = subsref(this.data, s1);
+            tab = subsref(this.Data, s1);
         else
             tab = subsref(this, s1);
         end
@@ -146,7 +147,7 @@ elseif strcmp(type, '()')
         if ischar(sub2) || iscell(sub2)
             if strcmp(sub2, ':')
                 % transform into numerical indices
-                s1.subs{2} = 1:size(this.data, 2);
+                s1.subs{2} = 1:size(this.Data, 2);
                 
             else
                 % parse the name of the column
@@ -156,13 +157,13 @@ elseif strcmp(type, '()')
         end
         
         % name of the new table
-        newName = this.name;
+        newName = this.Name;
         
         % extract corresponding data
-        tab = Table(this.data(s1.subs{:}), ...
-            'rowNames', this.rowNames(s1.subs{1}), ...
-            'colNames', this.colNames(s1.subs{2}), ...
-            'levels', this.levels(s1.subs{2}), ...
+        tab = Table(this.Data(s1.subs{:}), ...
+            'rowNames', this.RowNames(s1.subs{1}), ...
+            'colNames', this.ColNames(s1.subs{2}), ...
+            'levels', this.Levels(s1.subs{2}), ...
             'name', newName);
         
     else
@@ -214,7 +215,7 @@ else
         if ischar(sub2) || iscell(sub2)
             if strcmp(sub2, ':')
                 % transform into numerical indices
-                s1.subs{2} = 1:size(this.data, 2);
+                s1.subs{2} = 1:size(this.Data, 2);
                 
             else
                 % parse the name of the column
@@ -231,7 +232,7 @@ else
     % data directly
     
     % extract corresponding data, and transform into a cell array
-    tab = num2cell(this.data(s1.subs{:}));
+    tab = num2cell(this.Data(s1.subs{:}));
     
     % compute index of columns containing factors
     colInds = s1.subs{2};
@@ -241,13 +242,13 @@ else
     for iFact = 1:length(inds2)
         % get levels for current column
         iCol = colInds(inds2((iFact)));
-        colLevels = this.levels{iCol};
+        colLevels = this.Levels{iCol};
         
         % add a default level in case of uninitialized value
         colLevels2 = [{'Unknown'} ; colLevels];
         
         % convert indices to level names, and put into result array
-        levelIndices = this.data(s1.subs{1}, iCol);
+        levelIndices = this.Data(s1.subs{1}, iCol);
         tab(:,inds2(iFact)) = colLevels2(levelIndices + 1);
     end
 end

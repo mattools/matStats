@@ -7,20 +7,20 @@ function res = horzcat(this, varargin)
 %   horzcat
 %
 %   See also
-%
-%
+%     vertcat
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 if isa(this, 'Table')
-    data = this.data;
+    data = this.Data;
     parent = this;
-    colNames = this.colNames;
-    levels = this.levels;
-    name = this.name;
+    colNames = this.ColNames;
+    levels = this.Levels;
+    name = this.Name;
     
 else
     data = this;
@@ -35,10 +35,10 @@ for i = 1:length(varargin)
     var = varargin{i};
     
     if isa(var, 'Table')
-        data = [data var.data]; %#ok<AGROW>
-        colNames = [colNames var.colNames]; %#ok<AGROW>
-        levels = [levels var.levels]; %#ok<AGROW>
-        name = strcat(name, '+', var.name);
+        data = [data var.Data]; %#ok<AGROW>
+        colNames = [colNames var.ColNames]; %#ok<AGROW>
+        levels = [levels var.Levels]; %#ok<AGROW>
+        name = strcat(name, '+', var.Name);
         
     else
         data = [data var]; %#ok<AGROW>
@@ -54,6 +54,6 @@ end
 res = Table.create(data, ...
     'parent', parent, ...
     'colNames', colNames, ...
-    'rowNames', this.rowNames, ...
+    'rowNames', this.RowNames, ...
     'levels', levels, ...
     'name', name);

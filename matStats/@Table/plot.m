@@ -16,11 +16,12 @@ function varargout = plot(varargin)
 %   Example
 %
 %   See also
+%     plotRows
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -54,11 +55,11 @@ xTickLabels = {};
 
 if ~isempty(tabX)
     if isa(tabX, 'Table')
-        xData = tabX.data(:, 1);
+        xData = tabX.Data(:, 1);
         
-        xAxisLabel = tabX.colNames{1};
+        xAxisLabel = tabX.ColNames{1};
         if isFactor(tabX, 1)
-            xTickLabels = tabX.levels{1};
+            xTickLabels = tabX.Levels{1};
         end
     else
         xData = tabX;
@@ -70,14 +71,14 @@ end
 
 if isempty(tabX)
     % plot(Y)
-    h = plot(ax, tabY.data, varargin{:});
+    h = plot(ax, tabY.Data, varargin{:});
     
 %     % setup x-axis limits
 %     set(gca, 'xlim', [1 size(tabY.data, 1)]);
     
 else
     % plot(X, Y)
-    h = plot(ax, xData, tabY.data, varargin{:});
+    h = plot(ax, xData, tabY.Data, varargin{:});
     
 %     % setup x-axis limits
 %     set(gca, 'xlim', [min(xData) max(xData)]);
@@ -98,19 +99,19 @@ end
 %% Graph decoration
 
 % title is the name of the table
-if ~isempty(tabY.name)
-    title(tabY.name, 'Interpreter', 'none');
+if ~isempty(tabY.Name)
+    title(tabY.Name, 'Interpreter', 'none');
 end
 
-if min(size(tabY.data)) > 1
+if min(size(tabY.Data)) > 1
     % When several curves are drawn, display a legend
-    legend(tabY.colNames);
+    legend(tabY.ColNames);
 else
     % otherwise, use only the first column or row as ylabel
     if size(tabY, 2) == 1
-        label = tabY.colNames{1};
+        label = tabY.ColNames{1};
     else
-        label = tabY.rowNames{1};
+        label = tabY.RowNames{1};
     end
     ylabel(label);
 end

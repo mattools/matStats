@@ -19,10 +19,11 @@ function res = concatLabels(labels, varargin)
 %
 %   See also
 %      formatLevelLabels
- 
+%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2014-07-25,    using Matlab 8.3.0.532 (R2014a)
 % Copyright 2014 INRA - Cepia Software Platform.
 

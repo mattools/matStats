@@ -13,7 +13,8 @@ function summary(this)
 %     summary(tab)
 %
 %   See also
-%     info
+%     info, head
+%
 
 % ------
 % Author: David Legland
@@ -22,8 +23,8 @@ function summary(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % size of table
-nRows = size(this.data, 1);
-nCols = size(this.data, 2);
+nRows = size(this.Data, 1);
+nCols = size(this.Data, 2);
 
 % number of text columns we can display
 maxWidth = get(0, 'CommandWindowSize');
@@ -53,12 +54,12 @@ if nRows > 0 && nCols > 0
     
     % iterate on columns
     for iCol = 1:nCols
-        colName = this.colNames{iCol};
-        values  = this.data(:, iCol);
+        colName = this.ColNames{iCol};
+        values  = this.Data(:, iCol);
 
         statCells = repmat({''}, nDisplayRows, 1);
              
-        if ~this.isFactor(iCol)
+        if ~isFactor(this, iCol)
              % data are numeric -> compute summary statistics
              [vmin, vmax, vmedian, vmean, vq1, vq3] = summaryStatistics(values);
              summaryStats = [...
@@ -89,7 +90,7 @@ if nRows > 0 && nCols > 0
             % data are factors -> display level count
             
             % number of levels
-            nbLevels = length(this.levels{iCol});
+            nbLevels = length(this.Levels{iCol});
             
             % Count occurences number of each level
             h = zeros(nbLevels, 1);
@@ -98,13 +99,13 @@ if nRows > 0 && nCols > 0
             end
             
             % number of characters of the lengthest level name
-            nChar = max(cellfun(@length, this.levels{iCol}));
+            nChar = max(cellfun(@length, this.Levels{iCol}));
             pattern = ['%-' num2str(nChar+1) 's %d'];
             
             % display the count of each factor level
             for i = 1:min(nbLevels, nDisplayRows)
                 statCells{i} = sprintf(pattern, ...
-                    [this.levels{iCol}{i} ':'], h(i));
+                    [this.Levels{iCol}{i} ':'], h(i));
             end
             
             % eventually displays the number of other levels

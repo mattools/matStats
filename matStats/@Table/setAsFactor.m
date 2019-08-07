@@ -30,7 +30,7 @@ function setAsFactor(this, colName, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -43,25 +43,25 @@ for i = 1:length(ind)
     indi = ind(i);
     
     % if factors are already set, show warning and switch to next column
-    if ~isempty(this.levels{indi})
+    if ~isempty(this.Levels{indi})
         warning('Table:setAsFactor:AlreadySetFactor', ...
-            'Column "%s" is already set as factor', this.colNames{indi});
+            'Column "%s" is already set as factor', this.ColNames{indi});
         continue;
     end
     
     % special case of empty arrays
-    if size(this.data, 1) == 0
-        this.levels{indi} = {};
+    if size(this.Data, 1) == 0
+        this.Levels{indi} = {};
         continue;
     end
     
     % extract unique values
-    [levels, I, J] = unique(this.data(:, indi)); %#ok<ASGLU>
+    [levels, I, J] = unique(this.Data(:, indi)); %#ok<ASGLU>
     
     % convert to cell array of strings
     levels = strtrim(cellstr(num2str(unique(levels))));
     
     % set up levels of data tables
-    this.levels{indi} = levels;
-    this.data(:, indi) = J;
+    this.Levels{indi} = levels;
+    this.Data(:, indi) = J;
 end

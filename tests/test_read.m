@@ -18,17 +18,17 @@ test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testReadNumeric %#ok<*DEFNU>
 tab = Table.read(fullfile('files', 'file1.txt'));
-assertTrue(length(tab.colNames)==2);
-assertTrue(length(tab.rowNames)==6);
-assertTrue(size(tab.data, 1)==6);
-assertTrue(size(tab.data, 2)==2);
+assertTrue(length(tab.ColNames)==2);
+assertTrue(length(tab.RowNames)==6);
+assertTrue(size(tab.Data, 1)==6);
+assertTrue(size(tab.Data, 2)==2);
 
 function testReadFactors
 tab = Table.read(fullfile('files', 'fileWithText.txt'));
-assertTrue(length(tab.colNames)==2);
-assertTrue(length(tab.rowNames)==6);
-assertTrue(size(tab.data, 1)==6);
-assertTrue(size(tab.data, 2)==2);
+assertTrue(length(tab.ColNames)==2);
+assertTrue(length(tab.RowNames)==6);
+assertTrue(size(tab.Data, 1)==6);
+assertTrue(size(tab.Data, 2)==2);
 
 % assertFalse(isempty(tab.l{1}));
 % assertTrue(isempty(tab.l{2}));
@@ -49,10 +49,10 @@ function testReadWithDelimiterSC
 
 tab = Table.read(fullfile('files', 'file1-delimSC.txt'), 'Delimiter', ';');
 
-assertEqual(2, length(tab.colNames));
-assertEqual(6, length(tab.rowNames));
-assertEqual(6, size(tab.data, 1));
-assertEqual(2, size(tab.data, 2));
+assertEqual(2, length(tab.ColNames));
+assertEqual(6, length(tab.RowNames));
+assertEqual(6, size(tab.Data, 1));
+assertEqual(2, size(tab.Data, 2));
 
 function testReadFleaBeetles
 

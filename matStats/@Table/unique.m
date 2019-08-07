@@ -20,18 +20,19 @@ function [res, I, J] = unique(this, varargin)
 % 
 %
 %   See also
+%     find
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-01-29,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 % in case of table with no factor column, simply returns the unique data
 % values.
 if ~hasFactors(this)
-    [res, I, J] = unique(this.data, varargin{:});
+    [res, I, J] = unique(this.Data, varargin{:});
     return;
 end
 
@@ -45,7 +46,7 @@ end
 format = '%s=%s';
 
 % compute unique group of factors
-[res, I, J] = unique(this.data, 'rows');
+[res, I, J] = unique(this.Data, 'rows');
 nRows = size(res, 1);
 
 % allocate memory
@@ -59,14 +60,14 @@ for iRow = 1:nRows
     for iCol = 1:size(this, 2)
         
         % get level for each column as string
-        levels = this.levels{iCol};
+        levels = this.Levels{iCol};
         level = levels{res(iRow, iCol)};
         if isnumeric(level)
             level = num2str(level);
         end
         
         % concatenate col name and level name
-        label = sprintf(format, this.colNames{iCol}, level);
+        label = sprintf(format, this.ColNames{iCol}, level);
         strings{iCol} = label;
     end
     
@@ -79,5 +80,5 @@ for iRow = 1:nRows
 end
 
 % create the new result table
-res = Table(res, this.colNames, rowNames);
-res.levels = this.levels;
+res = Table(res, this.ColNames, rowNames);
+res.Levels = this.Levels;

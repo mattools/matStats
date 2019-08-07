@@ -11,10 +11,10 @@ function [this, that, parent, names1, names2] = parseInputCouple(this, that, var
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-03,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -22,8 +22,8 @@ function [this, that, parent, names1, names2] = parseInputCouple(this, that, var
 % extract info from first input
 if isa(this, 'Table')
     parent = this;
-    names1 = this.colNames;
-    this = this.data;
+    names1 = this.ColNames;
+    this = this.Data;
 else
     parent = that;
     
@@ -42,8 +42,8 @@ end
 
 % extract info from second input
 if isa(that, 'Table')
-    names2 = that.colNames;
-    that = that.data;
+    names2 = that.ColNames;
+    that = that.Data;
 else
     if isscalar(that)
         names2 = num2str(that);

@@ -11,24 +11,24 @@ function varargout = plotmatrix(this, varargin)
 %     plotmatrix(iris(:, 1:4));
 %
 %   See also
-%     hist
+%     histogram
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-09-08,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % call classical plotmatrix function
-[H, AX, BigAx, P, Pax] = plotmatrix(this.data);
+[H, AX, BigAx, P, Pax] = plotmatrix(this.Data);
 
 % also display column names as labels
 nCols = size(this, 2);
 for i = 1:nCols
-    xlabel(AX(nCols, i), this.colNames{i}, ...
+    xlabel(AX(nCols, i), this.ColNames{i}, ...
         'Visible', 'On', 'FontSize', 12);
-    ylabel(AX(i, 1), this.colNames{i}, ...
+    ylabel(AX(i, 1), this.ColNames{i}, ...
         'Visible', 'On', 'FontSize', 12, 'Rotation', 0, ...
         'VerticalAlignment', 'Middle', 'HorizontalAlignment', 'Right');
 end
@@ -40,7 +40,7 @@ nBins = min(nRows / 10, 100);
 % props = {'Vertices', 'Faces', 'FaceVertexCData'};
 for i = 1:nCols
     hf = figure;
-    hist(this.data(:, i), nBins);
+    histogram(this.Data(:, i), nBins);
     
 %     hh = get(gca, 'Children');
 %     set(P(i), props, get(hh, props));

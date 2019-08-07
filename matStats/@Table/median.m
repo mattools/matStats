@@ -13,28 +13,29 @@ function res = median(this, varargin)
 %         median            5.8             3           4.35           1.3
 %
 %   See also
-%   mean, std
+%     mean, std
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
 % check conditions
 if hasFactors(this)
-    error('Can not compute mean for table with factors');
+    error('Can not compute median for table with factors');
 end
 
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Median of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Median of ' this.Name];
 end
 
-res = Table.create(median(this.data, 1), ...
+res = Table.create(median(this.Data, 1), ...
     'rowNames', {'median'}, ...
-    'colNames', this.colNames, ...
+    'colNames', this.ColNames, ...
     'name', newName);
     

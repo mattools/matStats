@@ -20,14 +20,14 @@ function varargout = find(this, varargin)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-12-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 nv = max(nargout, 1);
 varargout = cell(1, nv);
 
-[varargout{:}] = find(this.data, varargin{:});
+[varargout{:}] = find(this.Data, varargin{:});

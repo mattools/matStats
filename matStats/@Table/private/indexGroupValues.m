@@ -29,11 +29,11 @@ elseif isa(group, 'Table')
     end
     
     if isFactor(group, 1)
-        levels = group.levels{1};
-        [groupNames, pos, groupIndices] = unique(levels(group.data)); %#ok<ASGLU>
+        levels = group.Levels{1};
+        [groupNames, pos, groupIndices] = unique(levels(group.Data)); %#ok<ASGLU>
         
     else
-        [groupNames, pos, groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
+        [groupNames, pos, groupIndices] = unique(group.Data, 'rows'); %#ok<ASGLU>
     end
     
 elseif iscell(group)

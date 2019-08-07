@@ -12,10 +12,11 @@ function this = mergeFactorLevels(this, colName, levelsToMerge, varargin)
 %
 %   See also
 %      setFactorLevels, trimLevels
- 
+%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2016-06-22,    using Matlab 8.6.0.267246 (R2015b)
 % Copyright 2016 INRA - Cepia Software Platform.
 
@@ -23,7 +24,7 @@ function this = mergeFactorLevels(this, colName, levelsToMerge, varargin)
 indCol = columnIndex(this, colName);
 
 % levels of the factor
-colLevels = this.levels{indCol};
+colLevels = this.Levels{indCol};
 levelToMergeInds = find(ismember(colLevels, levelsToMerge));
 refLevelInd = levelToMergeInds(1);
 
@@ -35,18 +36,18 @@ else
 end
 
 % change level index of concerned rows
-rowInds = ismember(this.data(:, indCol), levelToMergeInds);
-this.data(rowInds, indCol) = refLevelInd;
+rowInds = ismember(this.Data(:, indCol), levelToMergeInds);
+this.Data(rowInds, indCol) = refLevelInd;
 
 % update list of levels
 colLevels{refLevelInd} = newName;
 
 % trim levels
-inds0 = this.data(:, indCol);
+inds0 = this.Data(:, indCol);
 
 % find unique indices. New indices are given by J
 [uniqueInds, I, J] = unique(inds0); %#ok<ASGLU>
 
 % update result within table
-this.data(:, indCol) = J;
-this.levels{indCol} = colLevels(uniqueInds);
+this.Data(:, indCol) = J;
+this.Levels{indCol} = colLevels(uniqueInds);

@@ -30,7 +30,7 @@ function varargout = scatterGroup3d(this, varargin)
 %
 %
 %   See also
-%   scatter, scatterNames
+%     scatter, scatterNames
 %
 
 % ------
@@ -44,7 +44,7 @@ function varargout = scatterGroup3d(this, varargin)
 
 %% Extract main data
 
-if size(this.data, 2) == 1
+if size(this.Data, 2) == 1
     % Data are given as separate arrays
     
     if nargin < 4 || ~isa(varargin{1}, 'Table')
@@ -52,16 +52,16 @@ if size(this.data, 2) == 1
             'Second argument must be another table');
     end
     
-    xdata = this.data(:, 1);
-    nameX = this.colNames{1};
+    xdata = this.Data(:, 1);
+    nameX = this.ColNames{1};
     
     var1 = varargin{1};
-    ydata = var1.data(:, 1);
-    nameY = var1.colNames{1};
+    ydata = var1.Data(:, 1);
+    nameY = var1.ColNames{1};
     
     var2 = varargin{2};
-    zdata = var2.data(:, 1);
-    nameZ = var2.colNames{1};
+    zdata = var2.Data(:, 1);
+    nameZ = var2.ColNames{1};
     
     group = varargin{3};
     varargin(1:3) = [];

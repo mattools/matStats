@@ -9,11 +9,12 @@ function res = not(this)
 %   not
 %
 %   See also
-%   eq, ne
+%     eq, ne
+%
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -23,13 +24,13 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['not of ' this.name];
+if ~isempty(this.Name)
+    newName = ['not of ' this.Name];
 end
 
-newColNames = strcat('not', this.colNames);
+newColNames = strcat('not', this.ColNames);
 
-res = Table.create(not(this.data), ...
+res = Table.create(not(this.Data), ...
     'parent', this, ...
     'name', newName, ...
     'colNames', newColNames);

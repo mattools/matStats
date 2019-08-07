@@ -15,11 +15,12 @@ function varargout = scatterLabels(this, var1, var2, labels, varargin)
 %   scatterLabels
 %
 %   See also
-%   scatterNames
+%     scatterNames, scatterPlot
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -27,19 +28,19 @@ function varargout = scatterLabels(this, var1, var2, labels, varargin)
 %% Process input arguments
 
 % index of first column
-ind1 = this.columnIndex(var1);
-col1 = this.data(:, ind1(1));
+ind1 = this.ColumnIndex(var1);
+col1 = this.Data(:, ind1(1));
 
 % index of second column
-ind2 = this.columnIndex(var2);
-col2 = this.data(:, ind2(1));
+ind2 = this.ColumnIndex(var2);
+col2 = this.Data(:, ind2(1));
 
 % default values for options
 fontSize = 8;
 interpreter = 'none';
 
-xlabelText = this.colNames{ind1};
-ylabelText = this.colNames{ind2};
+xlabelText = this.ColNames{ind1};
+ylabelText = this.ColNames{ind2};
 
 % parse optional arguments
 options = {};
@@ -67,14 +68,14 @@ end
 
 % if labels is the name of a column, interpret it
 if size(labels, 1)==1 && ischar(labels)
-    indLabels = this.columnIndex(var2);
-    labels = this.data(:, indLabels(1));
+    indLabels = this.ColumnIndex(var2);
+    labels = this.Data(:, indLabels(1));
 end
 
 % labels can also be the index of a column
 if length(labels)==1 && isnumeric(labels)
-    indLabels = this.columnIndex(var2);
-    labels = this.data(:, indLabels(1));
+    indLabels = this.ColumnIndex(var2);
+    labels = this.Data(:, indLabels(1));
 end
 
 % ensure labels are given as text
@@ -93,8 +94,8 @@ h = text(col1, col2, labels, 'FontSize', fontSize, options{:});
 xlabel(xlabelText);
 ylabel(ylabelText);
 
-if ~isempty(this.name)
-    title(this.name, 'Interpreter', interpreter);
+if ~isempty(this.Name)
+    title(this.Name, 'Interpreter', interpreter);
 end
 
 % eventually returns handle to graphics

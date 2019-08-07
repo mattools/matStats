@@ -10,9 +10,10 @@ function printLatex(this, varargin)
 %   See also
 %     display
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-08-29,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -33,7 +34,7 @@ fprintf(fid, '\\begin{tabular}{ }\n');
 
 fprintf(fid, 'name');
 for iCol = 1:nCols
-    fprintf(fid, [' & ' this.colNames{iCol}]);
+    fprintf(fid, [' & ' this.ColNames{iCol}]);
 end
 fprintf(fid, ' \\\\ \n');
 
@@ -42,7 +43,7 @@ fprintf(fid, '\\hline\n');
 for iRow = 1:nRows
     
     % print first item
-    fprintf(fid, '%s', this.rowNames{iRow});
+    fprintf(fid, '%s', this.RowNames{iRow});
 
     % print all remaining items
     for iCol = 1:nCols
@@ -63,11 +64,11 @@ fprintf(fid,'\\end{tabular}\n');
     function entry = formatEntry(iRow, iCol)
         % Formating function that returns a clean string
         if isFactor(this, iCol)
-            ind = this.data(iRow, iCol);
-            level = this.levels{iCol}{ind};
+            ind = this.Data(iRow, iCol);
+            level = this.Levels{iCol}{ind};
             entry = level;
         else
-            entry = sprintf('%g', this.data(iRow, iCol));
+            entry = sprintf('%g', this.Data(iRow, iCol));
         end
     end
 end

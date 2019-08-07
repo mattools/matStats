@@ -10,11 +10,12 @@ function res = repmat(this, M, N)
 %   repmat
 %
 %   See also
+%     reshape
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-07-11,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -32,11 +33,11 @@ if nargin == 2
 end
 
 res = Table(...
-    repmat(this.data, M, N), ...
-    'colNames', repmat(this.colNames, 1, N), ...
-    'rowNames', repmat(this.rowNames, M, 1), ...
+    repmat(this.Data, M, N), ...
+    'colNames', repmat(this.ColNames, 1, N), ...
+    'rowNames', repmat(this.RowNames, M, 1), ...
     'name', this.name);
 
 if hasFactors(this)
-    res.levels = repmat(this.levels, 1, N);
+    res.Levels = repmat(this.Levels, 1, N);
 end

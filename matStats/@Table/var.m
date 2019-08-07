@@ -7,26 +7,27 @@ function res = var(this, varargin)
 %   var
 %
 %   See also
+%     std, mean
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if sum(isFactor(this, 1:size(this.data, 2))) > 0
+if hasFactors(this)
     error('Can not compute var for table with factors');
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Var of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Var of ' this.Name];
 end
 
-res = Table.create(var(this.data, 1), ...
+res = Table.create(var(this.Data, 1), ...
     'rowNames', {'var'}, ...
-    'colNames', this.colNames, ...
+    'colNames', this.ColNames, ...
     'name', newName);
     

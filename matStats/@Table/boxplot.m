@@ -27,9 +27,10 @@ function varargout = boxplot(varargin)
 %   See also
 %     violinPlot
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -43,8 +44,8 @@ this = varargin{indThis(1)};
 varargin(indThis(1)) = [];
 
 % default: box plot of each column
-data = this.data;
-indCols = 1:length(this.colNames);
+data = this.Data;
+indCols = 1:length(this.ColNames);
 
 
 % check grouping
@@ -61,19 +62,19 @@ if ~isempty(varargin)
         
     elseif sum(isColumnName(this, var1)) > 0
         indGroup = columnIndex(this, varargin{1});
-        group = this.data(:, indGroup);
+        group = this.Data(:, indGroup);
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(this.levels{indGroup})
-            levels = this.levels{indGroup};
+        if ~isempty(this.Levels{indGroup})
+            levels = this.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(group(:)))));
         end
         
 %         [B I J] = unique(group); %#ok<ASGLU>
 %         group = levels(J);
-        groupLabel = this.colNames(indGroup(1));
+        groupLabel = this.ColNames(indGroup(1));
 
     end
 end
@@ -83,7 +84,7 @@ end
 if ~grouping
     % Box plot of (selected) columns, without grouping
     h = boxplot(ax, data, ...
-        'labels', this.colNames(indCols), ...
+        'labels', this.ColNames(indCols), ...
         varargin{:});
     
 else
@@ -94,13 +95,13 @@ else
     
     % labels
     xlabel(groupLabel, 'interpreter', 'none');
-    ylabel(this.colNames(indCols(1)), 'interpreter', 'none');
+    ylabel(this.ColNames(indCols(1)), 'interpreter', 'none');
 
 end
 
 % decorate box plot
-if ~isempty(this.name)
-    title(this.name, 'interpreter', 'none');
+if ~isempty(this.Name)
+    title(this.Name, 'interpreter', 'none');
 end
 
 

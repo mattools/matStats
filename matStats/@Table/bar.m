@@ -22,7 +22,7 @@ function varargout = bar(varargin)
 % replaces table by its data
 ind = cellfun('isclass', varargin, 'Table');
 tab = varargin{ind};
-varargin{ind} = tab.data;
+varargin{ind} = tab.Data;
 
 % parse legend location info
 legendLocation = 'NorthEast';
@@ -36,9 +36,9 @@ end
 h = bar(varargin{:});
 
 % format figure
-set(gca, 'XTickLabel', tab.rowNames);
+set(gca, 'XTickLabel', tab.RowNames);
 if size(tab, 1) > 1
-    legend(tab.colNames, 'Location', legendLocation);
+    legend(tab.ColNames, 'Location', legendLocation);
 end
 
 % return handle

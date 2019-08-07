@@ -9,11 +9,11 @@ function res = exp(this)
 %   exp
 %
 %   See also
-%
-%
+%     log, sqrt
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -23,13 +23,13 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Exp of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Exp of ' this.Name];
 end
 
-newColNames = strcat('exp', this.colNames);
+newColNames = strcat('exp', this.ColNames);
 
-res = Table.create(exp(this.data), ...
+res = Table.create(exp(this.Data), ...
     'parent', this, ...
     'name', newName, ...
     'colNames', newColNames);

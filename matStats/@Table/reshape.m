@@ -4,14 +4,16 @@ function res = reshape(this, newDim, varargin)
 %   RES = reshape(TAB, [M N])
 %   RES = reshape(TAB, M, N)
 %   returns the M-by-N data table whose elements are taken columnwise from
-%   the data table TAB. An error results TAB does not have M*N elements.
+%   the data table TAB. An error results when TAB does not have M*N
+%   elements. 
 %
 %   Example
 %     reshape
 %
 %   See also
 %     size
- 
+%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@inra.fr
@@ -46,12 +48,12 @@ end
 
 % create result data table
 res = Table(zeros(newDim));
-res.data(:) = this.data(:);
+res.Data(:) = this.Data(:);
 
 % setup meta data if needed
 if ~isempty(colNames)
-    res.colNames = colNames;
+    res.ColNames = colNames;
 end
 if ~isempty(rowNames)
-    res.rowNames = rowNames;
+    res.RowNames = rowNames;
 end

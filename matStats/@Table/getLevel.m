@@ -22,7 +22,7 @@ function level = getLevel(this, row, col)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-10-03,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -34,14 +34,14 @@ if length(col) ~= 1
 end
 
 % extract levels for the selected column
-if length(this.levels) < col || isempty(this.levels{col})
+if length(this.Levels) < col || isempty(this.Levels{col})
     error('Table:getLevel:NotAFactor', ...
         'Selected column is not a factor');
 end
-levels = this.levels{col};
+levels = this.Levels{col};
 
 row = rowIndex(this, row);
-inds = this.data(row, col);
+inds = this.Data(row, col);
 
 if length(row) == 1
     level = levels{inds};

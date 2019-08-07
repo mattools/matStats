@@ -22,10 +22,10 @@ function testFunctionCall %#ok<*DEFNU>
 
 tab = Table.read(fullfile('files', 'file1.txt'));
 
-tab2 = tab.transpose();
+tab2 = transpose(tab);
 
-assertEqual(tab.rowNumber(), tab2.columnNumber());
-assertEqual(tab.columnNumber(), tab2.rowNumber());
+assertEqual(rowNumber(tab), columnNumber(tab2));
+assertEqual(columnNumber(tab), rowNumber(tab2));
 
 function testSingleQuote %#ok<*DEFNU>
 
@@ -33,6 +33,6 @@ tab = Table.read(fullfile('files', 'file1.txt'));
 
 tab2 = tab';
 
-assertEqual(tab.rowNumber(), tab2.columnNumber());
-assertEqual(tab.columnNumber(), tab2.rowNumber());
+assertEqual(rowNumber(tab), columnNumber(tab2));
+assertEqual(columnNumber(tab), rowNumber(tab2));
 

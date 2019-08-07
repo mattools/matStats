@@ -12,10 +12,10 @@ function indCol = columnIndex(this, colName)
 %       IND = columnIndex(TAB, NAME);
 %       IND = columnIndex(TAB, columnIndex(TAB, columnIndex(TAB, NAME)));
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -29,9 +29,9 @@ if isnumeric(colName)
 elseif ischar(colName)
     % parse column name
     if strcmp(colName, ':')
-        indCol = 1:length(this.colNames);
+        indCol = 1:length(this.ColNames);
     else
-        indCol = find(strcmp(colName, this.colNames));
+        indCol = find(strcmp(colName, this.ColNames));
     end
     
     if isempty(indCol)>0
@@ -42,7 +42,7 @@ elseif iscell(colName)
     % parse a cell array of column names
     N = length(colName);
     indCol = zeros(N, 1);
-    names = this.colNames; 
+    names = this.ColNames; 
     for i = 1:N
         ind = find(strcmp(colName{i}, names));
         if isempty(ind)

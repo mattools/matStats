@@ -31,18 +31,19 @@ function tab = stats(this, varargin)
 %   stats
 %
 %   See also
+%     mean, var, std, min, max
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-04-19,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 %% process input data
 
 % number of vars
-nCols   = size(this.data, 2);
+nCols   = size(this.Data, 2);
 
 % default statistics to compute
 statNames = {'min', 'median', 'mean', 'max', 'std'};
@@ -73,12 +74,12 @@ res(:) = NaN;
 for c = 1:nCols
     
     % does not process factor columns
-    if ~isempty(this.levels{c})
+    if ~isempty(this.Levels{c})
         continue;
     end
     
     % extract current column
-    col = this.data(:, c);
+    col = this.Data(:, c);
     
     % remove NaN values
     col = col(~isnan(col));
@@ -138,11 +139,11 @@ end
 %% format result as data table
 
 % create the table
-tab = Table(res, 'colNames', this.colNames, 'rowNames', statNames');
+tab = Table(res, 'colNames', this.ColNames, 'rowNames', statNames');
 
 % compute name of the table
-if ~isempty(this.name)
-    tab.name = [this.name '-Stats'];
+if ~isempty(this.Name)
+    tab.Name = [this.Name '-Stats'];
 else
-    tab.name = 'stats';
+    tab.Name = 'stats';
 end

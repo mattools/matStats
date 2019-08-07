@@ -13,20 +13,20 @@ function [res, I] = sortrows(this, varargin)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-01-10,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % determines row order
 if isempty(varargin)
-    [dum, I] = sortrows(this.rowNames); %#ok<ASGLU>
+    [dum, I] = sortrows(this.RowNames); %#ok<ASGLU>
 else
     ind = columnIndex(this, varargin{1});
-    [dum, I] = sortrows(this.data(:, ind)); %#ok<ASGLU>
+    [dum, I] = sortrows(this.Data(:, ind)); %#ok<ASGLU>
 end
 
 % transform data
-res = Table(this.data(I,:), 'rowNames', this.rowNames(I), 'parent', this);
+res = Table(this.Data(I,:), 'rowNames', this.RowNames(I), 'parent', this);

@@ -27,7 +27,7 @@ assertTrue(isa(tab, 'Table'));
 
 % test subsref and subsasgn
 tab(2, 3) = 10;
-assertEqual(10, tab(2, 3).data);
+assertEqual(10, tab(2, 3).Data);
 
 
 function testCreateFromStruct

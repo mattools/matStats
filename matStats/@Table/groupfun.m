@@ -53,9 +53,9 @@ function res = groupfun(this, name, op, rowNames)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2008-02-11,    using Matlab 7.4.0.287 (R2007a)
-% Copyright 2008 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
+% Copyright 2008 INRA
 
 warning('matStat:table:deprecated', ...
     'groupfun function is deprecated, use "aggregate" instead');
@@ -83,13 +83,12 @@ if isnumeric(name) && length(name) == rowNumber(this)
     
 elseif isa(name, 'Table')
     % Second argument is a table containing factor levels
-%     [values truc] = indexGroupValues(name);
-    values = name.data(:, 1);
-    colName = name.colNames{1};
+    values = name.Data(:, 1);
+    colName = name.ColNames{1};
     cols    = 1:columnNumber(this);
     
     if isFactor(name, 1)
-        valueNames = name.levels{1};
+        valueNames = name.Levels{1};
     end
     
 else
@@ -98,12 +97,12 @@ else
     % 2 remove group column from original table
     
     % find index of the column, keep only the first one
-    ind = this.columnIndex(name);
+    ind = columnIndex(this, name);
     ind = ind(1);
     
     % extract column to process
-    values = this.data(:, ind);
-    colName = this.colNames{ind};
+    values = this.Data(:, ind);
+    colName = this.ColNames{ind};
     
     % indices of other columns
     cols = 1:columnNumber(this);

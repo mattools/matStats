@@ -7,11 +7,12 @@ function res = strcmp(this, that)
 %   eq
 %
 %   See also
-%   eq, ne
+%     eq, ne
+%
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2015-08-24,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2015 INRA - Cepia Software Platform.
 
@@ -31,7 +32,7 @@ if ~hasFactors(parent)
 end
 
 % extract factor level for each row
-levels = parent.levels{1};
+levels = parent.Levels{1};
 levels = levels(dat1);
 levels = levels(:);
 
@@ -51,4 +52,4 @@ res = Table.create(newData, ...
     'colNames', newColNames);
 
 % clear levels
-res.levels = cell(1, size(res, 2));
+res.Levels = cell(1, size(res, 2));

@@ -7,11 +7,12 @@ function res = gt(this, that)
 %   gt
 %
 %   See also
+%     eq, le, lt, ge
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 

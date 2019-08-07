@@ -16,11 +16,12 @@ function [res, inds] = paragons(this, group)
 %     end
 %
 %   See also
-%   groupStats
+%     groupStats, aggregate
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-07-13,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -28,12 +29,12 @@ function [res, inds] = paragons(this, group)
 
 nGroups = length(levelNames);
 
-res = Table(zeros([nGroups size(this, 2)]), 'colNames', this.colNames);
+res = Table(zeros([nGroups size(this, 2)]), 'colNames', this.ColNames);
 inds = zeros(nGroups, 1);
 
 for i = 1:nGroups
     % data for current level
-    tabi = this.data(indices == i, :);
+    tabi = this.Data(indices == i, :);
     
     inds_i = find(indices == i);
     centre = mean(tabi);
@@ -45,7 +46,7 @@ for i = 1:nGroups
     % compute index relative to initial array
     inds(i) = inds_i(ind);
 
-    res.data(i,:) = this.data(inds(i), :);
-    res.rowNames{i} = [label{1} '=' levelNames{i}];
+    res.Data(i,:) = this.Data(inds(i), :);
+    res.RowNames{i} = [label{1} '=' levelNames{i}];
 end
 

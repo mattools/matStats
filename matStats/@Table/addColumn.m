@@ -8,23 +8,23 @@ function addColumn(this, colData, colName)
 %   addColumn
 %
 %   See also
-%
-%
+%     addRow, horzcat
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-26,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % current data size
-nRows = size(this.data, 1);
-nCols = size(this.data, 2);
+nRows = size(this.Data, 1);
+nCols = size(this.Data, 2);
 
 % update column names
 if nargin < 3
     colName = '';
 end
-this.colNames{nCols + 1} = colName;
+this.ColNames{nCols + 1} = colName;
 
 % ensure valid values for new column
 if nargin == 2
@@ -45,7 +45,7 @@ else
         
         % transform unique strings to cell array of factor levels
         levels = strtrim(cellstr(levels(inds,:)));
-        this.levels{nCols + 1} = levels;
+        this.Levels{nCols + 1} = levels;
         
         % compute corresponding numeric data (level indices)
         numData = zeros(size(indices));
@@ -57,7 +57,7 @@ else
         % Factor are given as a cell array
         [levels, pos, indices] = unique(strtrim(colData));  %#ok<ASGLU>
         numData = indices;
-        this.levels{nCols + 1} = levels;
+        this.Levels{nCols + 1} = levels;
         
     else
         error(['Column factor have an unknown type: ' class(colData)]);
@@ -70,5 +70,5 @@ if length(colData) ~= nRows
 end
 
 % concatenate data
-this.data = [this.data numData(:)];
+this.Data = [this.Data numData(:)];
     

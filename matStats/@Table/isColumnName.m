@@ -10,17 +10,17 @@ function b = isColumnName(this, colName)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % check index of column
 if isnumeric(colName)
     % input argument is already an index
-    n = length(this.colNames);
+    n = length(this.ColNames);
     b = colName > 0 & colName <= n;
     
 elseif ischar(colName)
@@ -28,7 +28,7 @@ elseif ischar(colName)
     n = size(colName, 1);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(find(strcmp(colName(i,:), this.colNames), 1));
+        b(i) = ~isempty(find(strcmp(colName(i,:), this.ColNames), 1));
     end
    
 elseif iscell(colName)
@@ -36,7 +36,7 @@ elseif iscell(colName)
     n = length(colName);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(find(strcmp(colName{i}, this.colNames), 1));
+        b(i) = ~isempty(find(strcmp(colName{i}, this.ColNames), 1));
     end
     
 else

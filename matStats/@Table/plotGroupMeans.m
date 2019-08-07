@@ -7,11 +7,11 @@ function varargout = plotGroupMeans(data, group, varargin)
 %   plotGroupMeans
 %
 %   See also
-%
-%
+%     plot, aggregate
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-04-22,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -23,7 +23,7 @@ nLevels = length(levelNames);
 
 means = groupStats(data, group);
 
-h = plot(ax, 1:nLevels, means.data, varargin{:});
+h = plot(ax, 1:nLevels, means.Data, varargin{:});
 xlim([0 nLevels+1]); 
 
 set(gca, 'xtick', 1:nLevels);
@@ -34,7 +34,7 @@ ylabel('');
 
 titleString = '';
 if isa(data, 'Table')
-    titleString = data.colNames{1};
+    titleString = data.ColNames{1};
 end
 title(titleString);
 

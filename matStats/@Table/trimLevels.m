@@ -25,9 +25,10 @@ function res = trimLevels(this)
 %   See also
 %     isFactor, setFactorLevels, setAsFactor, mergeFactorLevels
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-07-19,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -41,14 +42,14 @@ for i = 1:size(this, 2)
     end
     
     % extract factor column data
-    inds0 = this.data(:, i);
-    levels = this.levels{i};
+    inds0 = this.Data(:, i);
+    levels = this.Levels{i};
     
     % find unique indices. New indices are given by J
     [uniqueInds, I, J] = unique(inds0); %#ok<ASGLU>
 
     % store result in the new table
-    res.data(:,i) = J;
-    res.levels{i} = levels(uniqueInds);
+    res.Data(:,i) = J;
+    res.Levels{i} = levels(uniqueInds);
 end
 

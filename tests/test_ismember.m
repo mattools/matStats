@@ -23,5 +23,5 @@ tab = Table(magic(3));
 res = ismember(tab, [1 2 3]);
 exp = logical([0 1 0; 1 0 0;0 0 1]);
 
-assertEqual(exp, res.data);
+assertEqual(exp, res.Data);
 

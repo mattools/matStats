@@ -10,18 +10,18 @@ function res = apply(this, fun, varargin)
 %     mean(res)
 %
 %   See also
-%
-%
+%     aggregate
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-07-30,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
-res = zeros(size(this.data));
+res = zeros(size(this.Data));
 
-for i = 1:numel(this.data)
-    res(i) = fun(this.data(i));
+for i = 1:numel(this.Data)
+    res(i) = fun(this.Data(i));
 end
 
-res = Table(res, this.colNames, this.rowNames);
+res = Table(res, this.ColNames, this.RowNames);

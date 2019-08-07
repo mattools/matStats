@@ -90,8 +90,8 @@ end
 tab = Table();
 
 % setup names
-tab.name = name;
-tab.fileName = fileName;
+tab.Name = name;
+tab.FileName = fileName;
 
 if any(options.delim == options.whiteSpaces)
     % if separator is space or tab, allow multiple separators to be treated
@@ -112,7 +112,7 @@ end
 % Read the first line, which contains the name of each column
 if options.header
     names = textscan(fgetl(f), '%s', delimOptions{:});
-    tab.colNames = names{1}(:)';
+    tab.ColNames = names{1}(:)';
 end
 
 
@@ -137,14 +137,14 @@ nc  = n;
 % Try to automatically detect the column containing row names
 if options.rowNamesIndex == -1
     % if first variable is explicitely called 'name', use it for row names
-    if strcmp(tab.colNames{1}, 'name') || strcmp(tab.colNames{1}, 'nom')
+    if strcmp(tab.ColNames{1}, 'name') || strcmp(tab.ColNames{1}, 'nom')
         options.rowNamesIndex = 1;
     end
 end
 
 % if column containing row names is given as string, identifies its index
 if ischar(options.rowNamesIndex)
-    ind = find(strcmp(options.rowNamesIndex, tab.colNames));
+    ind = find(strcmp(options.rowNamesIndex, tab.ColNames));
     if isempty(ind)
         error(['Could not identify row names column from label: ' options.rowNamesIndex]);
     end
@@ -159,14 +159,14 @@ if options.rowNamesIndex > 0
     nc  = n - 1;
 
     % check column names have appropriate number
-    if length(tab.colNames) > nc
-        tab.colNames(options.rowNamesIndex) = [];
+    if length(tab.ColNames) > nc
+        tab.ColNames(options.rowNamesIndex) = [];
     end
     
 else
     % no colum is secified for row names, but row names may still be
     % present. So we check number of columns in header and in first line
-    if options.header && n > length(tab.colNames)
+    if options.header && n > length(tab.ColNames)
         options.rowNamesIndex = 1;
         nc = n - 1;
     end
@@ -174,12 +174,12 @@ end
 
 
 % ensure table has valid column names
-if isempty(tab.colNames)
-     tab.colNames = strtrim(cellstr(num2str((1:nc)'))');
+if isempty(tab.ColNames)
+     tab.ColNames = strtrim(cellstr(num2str((1:nc)'))');
 end
 
 % init levels
-tab.levels = cell(1, nc);
+tab.Levels = cell(1, nc);
 
 % determines which columns are numeric
 numeric = isfinite(str2double(C1));
@@ -234,7 +234,7 @@ nr  = length(C{1});
 % determination of row name labels
 if options.rowNamesIndex > 0
     % row names are given in one of the columns
-    tab.rowNames = C{options.rowNamesIndex};
+    tab.RowNames = C{options.rowNamesIndex};
     
     % update remaining data
     C(options.rowNamesIndex) = [];
@@ -242,16 +242,16 @@ if options.rowNamesIndex > 0
     
 elseif ~isempty(options.rowNames)
     % row names are given by the user 
-    tab.rowNames = options.rowNames;
+    tab.RowNames = options.rowNames;
     
 else
     % default row names are indices converted to cell array of chars
-    tab.rowNames = strtrim(cellstr(num2str((1:nr)')));
+    tab.RowNames = strtrim(cellstr(num2str((1:nr)')));
     
 end
 
 % format data table
-tab.data = zeros(nr, nc);
+tab.Data = zeros(nr, nc);
 
 
 %% Format data
@@ -260,7 +260,7 @@ tab.data = zeros(nr, nc);
 for i = 1:nc
     
     if numeric(i) && ~options.needParse
-        tab.data(:, i) = C{i};
+        tab.Data(:, i) = C{i};
         
     else
         % current column
@@ -277,12 +277,12 @@ for i = 1:nc
         % choose to store data as numeric values or as factors levels
         if sum(isnan(num(~indNan))) == 0
             % all data are numeric
-            tab.data(:, i)  = num;
+            tab.Data(:, i)  = num;
         else
             % if there are unconverted values, changes to factor levels
             [levels, I, num]  = unique(col); %#ok<ASGLU>
-            tab.data(:, i)  = num;
-            tab.levels{i}   = levels;
+            tab.Data(:, i)  = num;
+            tab.Levels{i}   = levels;
         end
     end
 end

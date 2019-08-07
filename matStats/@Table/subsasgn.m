@@ -6,11 +6,12 @@ function varargout = subsasgn(this, subs, value)
 %   subsasgn
 %
 %   See also
-%   subsref, end
+%     subsref, end
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -38,7 +39,7 @@ elseif strcmp(type, '()')
         if isa(value, 'Table')
             value = value.data;
         end
-        this.data(s1.subs{1}) = value;
+        this.Data(s1.subs{1}) = value;
 
     elseif ns == 2
         % two indices: fill up with given value
@@ -70,7 +71,7 @@ elseif strcmp(type, '()')
         
         % if right-hand arg is char, then it is a factor level
         if ischar(value)
-            colLevels = this.levels{sub2};
+            colLevels = this.Levels{sub2};
             if ~ismember(value, colLevels)
                 % Add the new level to the list of current levels
                 warning('Table:subsasgn:UnknownLevel', ...
@@ -83,7 +84,7 @@ elseif strcmp(type, '()')
                 
                 % Add the new level to the list of levels for this column
                 colLevels(length(colLevels)+1, 1) = {value};
-                this.levels{sub2} = colLevels;
+                this.Levels{sub2} = colLevels;
             end
             
             % use index of specified level as value
@@ -91,20 +92,20 @@ elseif strcmp(type, '()')
         end
         
         % Assign the new value
-        this.data(s1.subs{:}) = value;
+        this.Data(s1.subs{:}) = value;
         
         % if right-hand side is empty, need to update other data as well
         if isempty(value)
             if ischar(sub1) && strcmp(sub1, ':')
                 % remove some columns
-                this.colNames(sub2) = [];
-                if ~isempty(this.levels)
-                    this.levels(sub2) = [];
+                this.ColNames(sub2) = [];
+                if ~isempty(this.Levels)
+                    this.Levels(sub2) = [];
                 end
                 
             elseif ischar(sub2) && strcmp(sub2, ':') 
                 % remove some rows
-                this.rowNames(sub1) = [];
+                this.RowNames(sub1) = [];
                 
             else
                 error('Illegal table modification');

@@ -33,11 +33,11 @@ res = cell(dim);
 for c = 1:dim(2)
     if isFactor(this, c)
         % create a column containing level names
-        levels = this.levels{c};
-        res(:, c) = levels(this.data(:, c));
+        levels = this.Levels{c};
+        res(:, c) = levels(this.Data(:, c));
     else
         % simply convert numeric values
-        res(:, c) = strtrim(cellstr(num2str(this.data(:, c))));
+        res(:, c) = strtrim(cellstr(num2str(this.Data(:, c))));
     end
     
 end

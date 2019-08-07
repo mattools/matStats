@@ -15,16 +15,20 @@ function varargout = size(this, varargin)
 %   table.
 %
 %   Example
-%   size
+%     tab = Table.read('fisherIris.txt');
+%     size(tab)
+%     ans =
+%        150     5
 %
 %   See also
-%   rowNumber, columnNumber
+%     rowNumber, columnNumber
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-04-15,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 varargout = cell(1, max(nargout, 1));
-[varargout{:}] = size(this.data, varargin{:});    
+[varargout{:}] = size(this.Data, varargin{:});    

@@ -87,8 +87,8 @@ if isstruct(data)
         
         % create data table
         tab = Table(dat);
-        tab.colNames = names;
-        tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+        tab.ColNames = names;
+        tab.RowNames = strtrim(cellstr(num2str((1:nRows)')))';
         
     else
         % only one struct
@@ -147,9 +147,9 @@ if isstruct(data)
         
         % create data table
         tab = Table(dat);
-        tab.colNames = names;
-        tab.rowNames = strtrim(cellstr(num2str((1:nRows)')))';
-        tab.levels = levels;
+        tab.ColNames = names;
+        tab.RowNames = strtrim(cellstr(num2str((1:nRows)')))';
+        tab.Levels = levels;
     end
     
 elseif iscell(data)

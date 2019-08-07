@@ -13,11 +13,12 @@ function res = std(this, varargin)
 %         std        0.82807       0.43359         1.7644       0.76316
 %
 %   See also
-%   var, mean
+%     var, mean
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -28,12 +29,12 @@ if hasFactors(this)
 end
 
 newName = '';
-if ~isempty(this.name)
-    newName = ['Std of ' this.name];
+if ~isempty(this.Name)
+    newName = ['Std of ' this.Name];
 end
 
-res = Table.create(std(this.data, 0, 1), ...
+res = Table.create(std(this.Data, 0, 1), ...
     'rowNames', {'std'}, ...
-    'colNames', this.colNames, ...
+    'colNames', this.ColNames, ...
     'name', newName);
     

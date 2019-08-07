@@ -20,12 +20,12 @@ function varargout = groupStats(data, group, stats, varargin)
 %
 %
 %   See also
-%   aggregate, groupfun
+%     aggregate, groupfun
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-10,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -59,7 +59,7 @@ newData = zeros(nLevels, size(data, 2));
 this = [];
 if isa(data, 'Table')
     this = data;
-    data = data.data;
+    data = data.Data;
 end
 
 varargout = cell(1, nStats);

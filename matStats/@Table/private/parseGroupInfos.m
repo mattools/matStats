@@ -39,10 +39,10 @@ function [groupIndices, levelNames, labels] = parseGroupInfos(group)
 %
 %   See also
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-02-01,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -64,14 +64,14 @@ elseif iscell(group)
 elseif isa(group, 'Table')
     % group can be a table, possibly with factor
 
-    [groupValues, pos, groupIndices] = unique(group.data, 'rows'); %#ok<ASGLU>
+    [groupValues, pos, groupIndices] = unique(group.Data, 'rows'); %#ok<ASGLU>
 
     levelNames = cell(size(groupValues));
     for iGroup = 1:size(levelNames, 2)
         if isFactor(group, iGroup)
             % in case of factor, extract stored level values
             levelValues = unique(groupValues(:,iGroup));
-            levelLabels = group.levels{iGroup};
+            levelLabels = group.Levels{iGroup};
             if length(levelValues) > length(levelLabels)
                 error('Not enough level names for factor data');
             end
@@ -109,6 +109,6 @@ elseif isa(group, 'Table')
         
     end
     
-    labels = group.colNames;
+    labels = group.ColNames;
     
 end

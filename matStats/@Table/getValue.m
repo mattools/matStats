@@ -14,7 +14,7 @@ function val = getValue(this, row, col)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-10-03,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -23,4 +23,4 @@ row = rowIndex(this, row);
 col = columnIndex(this, col);
 
 % return selected value(s)
-val = this.data(row, col);
+val = this.Data(row, col);

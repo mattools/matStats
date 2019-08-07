@@ -25,7 +25,8 @@ function res = head(this, k)
 %
 %   See also
 %     tail, disp, subsref
- 
+%
+
 % ------
 % Author: David Legland
 % e-mail: david.legland@inra.fr

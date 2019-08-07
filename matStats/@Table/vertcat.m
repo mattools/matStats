@@ -13,7 +13,7 @@ function res = vertcat(this, varargin)
 %   vertcat
 %
 %   See also
-%   horzcat, cat, interleave, aggregate
+%     horzcat, cat, interleave, aggregate
 %
 
 % ------
@@ -24,10 +24,10 @@ function res = vertcat(this, varargin)
 
 % detect which argument is table object
 if isa(this, 'Table')
-    data = this.data;
-    rowNames = this.rowNames;
-    name = this.name;
-    nCols = size(this.data, 2);
+    data = this.Data;
+    rowNames = this.RowNames;
+    name = this.Name;
+    nCols = size(this.Data, 2);
     
 else
     data = this;
@@ -41,8 +41,8 @@ end
 colNames = cell(1, nCols);
 levels = cell(1, nCols);
 if isa(this, 'Table')
-    colNames = this.colNames;
-    levels = this.levels;
+    colNames = this.ColNames;
+    levels = this.Levels;
 end
 
 % iterate over
@@ -50,25 +50,25 @@ for i = 1:length(varargin)
     var = varargin{i};
     
     if isa(var, 'Table')
-        if size(var.data, 2) ~= nCols
+        if size(var.Data, 2) ~= nCols
             error('Table:vertcat:wrongsize', ...
                 'Input tables must have the same number of columns');
         end
         
-        data2 = var.data;
+        data2 = var.Data;
         % in case of factor columns, merge the existing factor levels
         indFactCol = find(isFactor(this, 1:nCols) | isFactor(var, 1:nCols));
         for j = 1:length(indFactCol)
             indCol = indFactCol(j);
 
             % get list of levels in first table
-            levels0 = this.levels{indCol};
+            levels0 = this.Levels{indCol};
             if isempty(levels0)
                 levels0 = {};
             end
             
             % get list of levels in second table
-            levels2 = var.levels{indCol};
+            levels2 = var.Levels{indCol};
             if isempty(levels2)
                 levels2 = {};
             end
@@ -77,7 +77,7 @@ for i = 1:length(varargin)
             count = 0;
             for k = 1:length(levels2)
                 indL = find(strcmp(levels2{k}, levels0));
-                inds = var.data(:, indCol) == k;
+                inds = var.Data(:, indCol) == k;
                 if isempty(indL)
                     count = count + 1;
                     data2(inds, indCol) = length(levels0) + count;
@@ -92,15 +92,15 @@ for i = 1:length(varargin)
         end
         
         % if some levels are more numerous, keep the most numerous ones
-        inds = find(cellfun(@length, var.levels) > cellfun(@length, levels));
+        inds = find(cellfun(@length, var.Levels) > cellfun(@length, levels));
         for j = 1:length(inds)
-            levels{inds(j)} = var.levels{inds(j)};
+            levels{inds(j)} = var.Levels{inds(j)};
         end
         
         
         data = [data ; data2]; %#ok<AGROW>
-        rowNames = [rowNames(:) ; var.rowNames(:)];
-        name = strcat(name, '+', var.name);
+        rowNames = [rowNames(:) ; var.RowNames(:)];
+        name = strcat(name, '+', var.Name);
         
     else
         if size(var, 2) ~= nCols

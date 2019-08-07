@@ -19,9 +19,10 @@ function res = cov(this)
 %   See also
 %   std, var, corrcoef
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-01-10,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -30,6 +31,6 @@ if hasFactors(this)
     error('Can not compute mean for table with factors');
 end
 
-data = cov(this.data);
+data = cov(this.Data);
 
-res = Table(data, 'rowNames', this.colNames, 'colNames', this.colNames);
+res = Table(data, 'rowNames', this.ColNames, 'colNames', this.ColNames);
