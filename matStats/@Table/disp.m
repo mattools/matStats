@@ -7,7 +7,8 @@ function disp(this)
 %   disp
 %
 %   See also
-%       display, show, head, tail
+%     display, show, head, tail
+%
 
 % ------
 % Author: David Legland
@@ -46,18 +47,18 @@ if nRows > 0 && nCols > 0
     colPad = repmat(' ', nRows + 1, 4);
     
     % init row names
-    if ~isempty(this.rowNames)
-        txtArray = strjust([colPad char([{' '}; this.rowNames(:)])], 'left');
+    if ~isempty(this.RowNames)
+        txtArray = strjust([colPad char([{' '}; this.RowNames(:)])], 'left');
     else
         txtArray = char(zeros(nRows + 1, 0));
     end
 
     % iterate on columns
     for iCol = 1:nCols
-        name = this.colNames{iCol};
-        var  = this.data(:, iCol);
+        name = this.ColNames{iCol};
+        var  = this.Data(:, iCol);
          
-        if ~this.isFactor(iCol)
+        if ~isFactor(this, iCol)
             % data are numeric -> convert to character array
             colText = num2str(var);
                     
@@ -65,7 +66,7 @@ if nRows > 0 && nCols > 0
             % data are factors -> identify level names
             % Get levels of current factor, and add an 'Unknown' level name
             % in case of index 0
-            colLevels = this.levels{iCol};
+            colLevels = this.Levels{iCol};
             if iscell(colLevels)
                 % factor levels given as cell array of strings
                 colLevels2 = [{'Unknown'} ; colLevels(:)];
@@ -108,7 +109,7 @@ if nRows > 0 && nCols > 0
             end
             
             if ~isempty(this.rowNames)
-                txtArray = strjust([colPad char([{' '}; this.rowNames(:)])]);
+                txtArray = strjust([colPad char([{' '}; this.RowNames(:)])]);
             else
                 txtArray = char(zeros(nRows + 1, 0));
             end

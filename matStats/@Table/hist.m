@@ -1,6 +1,9 @@
 function hist(this, varargin)
 %HIST Histogram plot of a column in a data table
 %
+%   Deprecated, use 'histogram' instead.
+%
+%
 %   hist(TAB)
 %   Displays histogram of table object TAB, that is assumed to contains
 %   only one column.
@@ -12,7 +15,7 @@ function hist(this, varargin)
 %     hist(iris('SepalLength'), 20);
 %
 %   See also
-%     plotmatrix
+%     histogram
 %
 
 % ------
@@ -20,6 +23,9 @@ function hist(this, varargin)
 % e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
+
+warning('Table:deprecated', ...
+    'function hist is obsolete, use ''histogram'' instead');
 
 if size(this.Data, 2) == 1
     % if table has only one column, use it for histogram
