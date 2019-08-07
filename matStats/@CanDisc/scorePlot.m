@@ -10,16 +10,17 @@ function varargout = scorePlot(varargin)
 %   scorePlot
 %
 %   See also
-%   loadingPlot, correlationCircle
+%     loadingPlot, correlationCircle
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % Extract the axis handle to draw in
-[ax varargin] = parseAxisHandle(varargin{:});
+[ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
 this = varargin{1};
@@ -35,7 +36,7 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 % input argument control
-nc = size(this.scores, 2);
+nc = size(this.Scores, 2);
 if cc1 > nc || cc2 > nc
     error('Component number should be less than variable number');
 end
@@ -61,13 +62,13 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.scores(:, cc1);
-y = this.scores(:, cc2);
-scatterGroup(x, y, this.group);
+x = this.Scores(:, cc1);
+y = this.Scores(:, cc2);
+scatterGroup(x, y, this.Group);
 
 % display either names or dots
 if showNames
-    text(x.data, y.data, this.scores.rowNames, ...
+    text(x.Data, y.Data, this.Scores.RowNames, ...
     'HorizontalAlignment', 'Center', ...
     'VerticalAlignment', 'Bottom', ...
     'color', 'k', 'fontsize', 8, varargin{:});

@@ -7,11 +7,12 @@ function varargout = correlationCircle(varargin)
 %   correlationCircle
 %
 %   See also
+%     loadingPlot, scorePlot
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -33,7 +34,7 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 
-nc = size(this.scores, 2);
+nc = size(this.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component index should be less than variable number');
 end
@@ -60,28 +61,29 @@ if ~isempty(varargin)
     set(ax, varargin{:});
 end
 
-name = this.tableName;
-values = this.eigenValues.data;
+name = this.TableName;
+values = this.EigenValues.Data;
 
-% Create the correlation table
-nv = size(this.scores, 2);
+% Create the correlation matrix
+nv = size(this.Scores, 2);
 correl = zeros(nv, nv);
 for i = 1:nv
-    correl(:,i) = sqrt(values(i)) * this.loadings(1:nv,i).data;
+    correl(:,i) = sqrt(values(i)) * this.Loadings(1:nv,i).Data;
 end
 
+% create Table instance
 correl = Table.create(correl, ...
-    'rowNames', this.loadings.rowNames(1:nv), ...
-    'name', name, ...
-    'colNames', this.loadings.colNames);
+    'RowNames', this.Loadings.RowNames(1:nv), ...
+    'Name', name, ...
+    'ColNames', this.Loadings.ColNames);
 
 % score coordinates
-x = correl(:, cp1).data;
-y = correl(:, cp2).data;
+x = correl(:, cp1).Data;
+y = correl(:, cp2).Data;
 
 % display either names or dots
 if showNames
-    drawText(ax, x, y, correl.rowNames, ...
+    drawText(ax, x, y, correl.RowNames, ...
         'HorizontalAlignment', 'Center', ...
         'VerticalAlignment', 'Bottom');
 end

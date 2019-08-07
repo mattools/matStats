@@ -10,7 +10,7 @@ function plotCoefficients(this, factorName)
 %     plotCoefficients(res, 'Species');
 %     
 %   See also
-%     showCoefficients
+%     coefficients, showCoefficients
 %
  
 % ------
@@ -26,11 +26,11 @@ nLevels = size(coeffs, 1);
 
 % plot as curve
 figure;
-plot(1:nLevels, coeffs.data);
+plot(1:nLevels, coeffs.Data);
 xlim([0 nLevels+1]);
 
 % annotate the graph
 xlabel(factorName);
 set(gca, 'xtick', 1:nLevels);
-set(gca, 'xticklabel', coeffs.rowNames);
+set(gca, 'xticklabel', coeffs.RowNames);
 

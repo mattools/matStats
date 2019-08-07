@@ -7,17 +7,18 @@ function save(this, baseName)
 %   save
 %
 %   See also
+%     Pca
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-08,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 
 if nargin < 2
-    baseName = [this.tableName '-pca'];
+    baseName = [this.TableName '-pca'];
 end
 
 [path, name] = fileparts(baseName);
@@ -30,8 +31,12 @@ f = fopen([baseName '.txt'], 'wt');
 fprintf(f, 'Result of Principal Component Analysis\n');
 fprintf(f, '\n');
 
-fprintf(f, 'Original data file:  %s\n', this.tableName);
-if this.scaled, str = 'yes'; else str = 'no'; end
+fprintf(f, 'Original data file:  %s\n', this.TableName);
+if this.Scaled
+    str = 'yes'; 
+else
+    str = 'no'; 
+end
 fprintf(f, 'Data scaling: %s\n', str);
 
 fprintf(f, '\n');
@@ -49,12 +54,12 @@ fclose(f);
 
 % save score array (coordinates of individuals in new basis)
 fileName = [baseName '.scores.txt'];
-write(this.scores, fileName);
+write(this.Scores, fileName);
 
 % save loadings array (corodinates of variable in new basis)
 fileName = [baseName '.loadings.txt'];
-write(this.loadings, fileName);
+write(this.Loadings, fileName);
 
 % save eigen values array
 fileName = [baseName '.values.txt'];
-write(this.eigenValues, fileName);
+write(this.EigenValues, fileName);

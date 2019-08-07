@@ -33,34 +33,34 @@ if iscell(factorName) && length(factorName) > 1
     error('Can process only one factor');
 end
 
-if ~strcmp(this.stats.varnames, factorName)
+if ~strcmp(this.Stats.varnames, factorName)
     error(['Could not identify the factor: ' factorName]);
 end
 
 % index of the factor in the list of ANOVA factors
-indFactor = find(strcmp(this.stats.varnames, factorName));
+indFactor = find(strcmp(this.Stats.varnames, factorName));
 
 % levels of the factor (for populating results table)
-levels = this.stats.grpnames{indFactor};
-nLevels = this.stats.nlevels(indFactor);
+levels = this.Stats.grpnames{indFactor};
+nLevels = this.Stats.nlevels(indFactor);
 
 
 %% Compute coefficient for each level
 
 % get global effect of the anova
-intercept = this.stats.coeffs(1);
+intercept = this.Stats.coeffs(1);
 
 % number of terms before the terms of the current factor
-coeffOffset = sum(this.stats.termcols(1:indFactor));
+coeffOffset = sum(this.Stats.termcols(1:indFactor));
 
-coeffs = Table(zeros(nLevels, 1), {this.varName});
+coeffs = Table(zeros(nLevels, 1), {this.VarName});
 
 for i = 1:nLevels
     % inedx of coefficient in the coefficient matrix
     indCoeff = coeffOffset + i;
     
-    coeffs(i) = intercept + this.stats.coeffs(indCoeff);
+    coeffs(i) = intercept + this.Stats.coeffs(indCoeff);
     
-    coeffs.rowNames{i} = levels{i};
+    coeffs.RowNames{i} = levels{i};
 end
 

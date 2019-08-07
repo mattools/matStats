@@ -10,11 +10,12 @@ function biplot(this, varargin)
 %   biplot
 %
 %   See also
+%     scorePlot, loadingPlot
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-11-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -40,9 +41,9 @@ else
 end
 
 % calls the native biplot function with appropriate legends
-biplot(this.loadings(:, inds).data, ...
-    'Scores', this.scores(:, inds).data,...
-    'VarLabels', this.loadings.rowNames);
+biplot(this.Loadings(:, inds).Data, ...
+    'Scores', this.Scores(:, inds).Data,...
+    'VarLabels', this.Loadings.RowNames);
 
 grid off;
 

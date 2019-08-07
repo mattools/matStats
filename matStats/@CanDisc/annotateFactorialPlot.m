@@ -16,10 +16,10 @@ function annotateFactorialPlot(this, ax, cc1, cc2)
 % Copyright 2012 INRA - Cepia Software Platform.
 % create legends
 
-vl1 = this.eigenValues(cc1, 2).data;
-vl2 = this.eigenValues(cc2, 2).data;
+vl1 = this.EigenValues(cc1, 2).Data;
+vl2 = this.EigenValues(cc2, 2).Data;
 
 xlabel(ax, sprintf('Canonical Axis %d (%5.2f %%)', cc1, vl1));
 ylabel(ax, sprintf('Canonical Axis %d (%5.2f %%)', cc2, vl2));
 
-title(ax, this.tableName, 'interpreter', 'none');
+title(ax, this.TableName, 'interpreter', 'none');

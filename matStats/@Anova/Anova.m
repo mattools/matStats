@@ -15,7 +15,7 @@ classdef Anova < handle
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-07,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -23,15 +23,15 @@ classdef Anova < handle
 %% Properties
 properties
     % the name of the original data table
-    tableName = '';
+    TableName = '';
     
     % the name of the variable (name of the first column of the table)
-    varName = '';
+    VarName = '';
     
-    p;
-    table;
-    stats;
-    terms;
+    PValues;
+    Table;
+    Stats;
+    Terms;
     
 end % end properties
 
@@ -48,39 +48,39 @@ methods
 
         % copy constructor
         if isa(data, 'Anova')
-            this.tableName  = data.tableName;
-            this.varName    = data.varName;
-            this.p = data.p;
-            this.table = data.table;
-            this.stats = data.stats;
-            this.terms = data.terms;
+            this.TableName  = data.TableName;
+            this.VarName    = data.VarName;
+            this.PValues    = data.PValues;
+            this.TableName  = data.TableName;
+            this.Stats      = data.Stats;
+            this.Terms      = data.Terms;
         end
 
         % extract input data
         if isa(data, 'Table')
-            dataValues = data.data;
-            this.tableName = data.name;
-            this.varName = data.colNames{1};
+            dataValues = data.Data;
+            this.TableName = data.Name;
+            this.VarName = data.ColNames{1};
             
         else
             % if data are numeric, assumes groups is Table object
             dataValues = data;
-            this.varName = inputname(1);
+            this.VarName = inputname(1);
         end
         
         % extract group values
         groupNames = {};
         if isa(groups, 'Table')
-            groupNames = groups.colNames;
+            groupNames = groups.ColNames;
             
             % create a new groupValues populated with level names
             nGroups = columnNumber(groups);
             groupValues = cell(1, nGroups);
             for i = 1:nGroups
-                vals = groups.data(:, i);
+                vals = groups.Data(:, i);
                 if isFactor(groups, i)
                     % use cell array of strings for this group
-                    levelNames = groups.levels{i};
+                    levelNames = groups.Levels{i};
                     groupValues{i} = levelNames(vals);
                     
                 else
@@ -96,7 +96,7 @@ methods
         end
         
         % call the function from statistic toolbox with appropriate parameters
-        [this.p, this.table, this.stats, this.terms] = ...
+        [this.PValues, this.TableName, this.Stats, this.Terms] = ...
             anovan(dataValues, groupValues, ...
             'varnames', groupNames, ...
             varargin{:});

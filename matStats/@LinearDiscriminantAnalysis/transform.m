@@ -18,17 +18,17 @@ function res = transform(this, data)
 
 
 % name of new columns
-nDims = size(this.loadings, 2);
+nDims = size(this.Loadings, 2);
 varNames = strtrim(cellstr(num2str((1:nDims)', 'cc%d')));
 
 % compute new name
 name = 'Can. Coords';
-if ~isempty(this.tableName)
-    name = sprintf('Can. Coords of %s', this.tableName);
+if ~isempty(this.TableName)
+    name = sprintf('Can. Coords of %s', this.TableName);
 end
 
 % Table object for canonical coordinates
-res = Table.create(data.data * this.loadings.data, ...
-    'rowNames', data.rowNames, ...
+res = Table.create(data.Data * this.Loadings.data, ...
+    'rowNames', data.RowNames, ...
     'colNames', varNames, ...
     'name', name);

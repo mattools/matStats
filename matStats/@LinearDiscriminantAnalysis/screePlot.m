@@ -30,9 +30,9 @@ this = varargin{1};
 varargin(1) = [];
 
 % extract data
-name    = this.tableName;
-coord   = this.scores.data;
-values  = this.eigenValues.data;
+name    = this.TableName;
+coord   = this.Scores.data;
+values  = this.EigenValues.data;
 
 % distribution of the first eigen values
 hFig = get(ax, 'Parent');

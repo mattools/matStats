@@ -1,25 +1,28 @@
 function [means, sc, ld, ev] = computePCA(this, scale)
 %COMPUTEPCA  Compute PCA on input data table
 %
-%   output = computePCA(input)
+%   RES = computePCA(TABLE, SCALE)
+%   TABLE is an instance of Table class. SCALE is a boolean value
+%   indicating whether each coumn should be rescaled or not.
 %
 %   Example
 %   computePCA
 %
 %   See also
+%    Pca
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 %% Pre-processing
 
 % recenter data (remove mean)
-means = mean(this.data, 1);
-cData = bsxfun(@minus, this.data, means);
+means = mean(this.Data, 1);
+cData = bsxfun(@minus, this.Data, means);
 
 % optional scaling of data (divide each column by standard deviation)
 if scale
@@ -82,44 +85,44 @@ eigenValues(:, 3) = cumsum(eigenValues(:,2));   % cumulated inertia
 %% Create result data tables
 
 % name of new columns
-nCols = size(this.data, 2);
+nCols = size(this.Data, 2);
 if transpose
-    nCols = size(this.data, 1);
+    nCols = size(this.Data, 1);
 end
 varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')));
 
 % Table object for new coordinates
-if ~isempty(this.name)
-    name = sprintf('Scores of %s', this.name);
+if ~isempty(this.Name)
+    name = sprintf('Scores of %s', this.Name);
 else
     name = 'Scores';
 end
 sc = Table.create(coord, ...
-    'rowNames', this.rowNames, ...
-    'colNames', varNames, ...
-    'name', name);
+    'RowNames', this.RowNames, ...
+    'ColNames', varNames, ...
+    'Name', name);
 
 % Table object for loadings
-if ~isempty(this.name)
-    name = sprintf('Loadings of %s', this.name);
+if ~isempty(this.Name)
+    name = sprintf('Loadings of %s', this.Name);
 else
     name = 'Loadings';
 end
 ld = Table.create(eigenVectors, ...
-    'rowNames', this.colNames, ...
-    'colNames', varNames, ...
-    'name', name);
+    'RowNames', this.ColNames, ...
+    'ColNames', varNames, ...
+    'Name', name);
 
 % Table object for eigen values
-if ~isempty(this.name)
-    name = sprintf('Eigen values of %s', this.name);
+if ~isempty(this.Name)
+    name = sprintf('Eigen values of %s', this.Name);
 else
     name = 'Eigen values';
 end
 ev = Table.create(eigenValues, ...
-    'rowNames', varNames, ...
-    'name', name, ...
-    'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
+    'RowNames', varNames, ...
+    'Name', name, ...
+    'ColNames', {'EigenValues', 'Inertia', 'Cumulated'});
 
 
 

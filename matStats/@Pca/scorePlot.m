@@ -36,13 +36,13 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 % input argument control
-nc = size(this.scores, 2);
+nc = size(this.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component number should be less than variable number');
 end
 
 % extract display options
-showNames = size(this.scores, 1) < 200;
+showNames = size(this.Scores, 1) < 200;
 for i = 1:2:(length(varargin)-1)
     if strcmpi('showNames', varargin{i})
         showNames = varargin{i+1};
@@ -62,12 +62,12 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.scores(:, cp1).data;
-y = this.scores(:, cp2).data;
+x = this.Scores(:, cp1).Data;
+y = this.Scores(:, cp2).Data;
 
 % display either names or dots
 if showNames
-    drawText(ax, x, y, this.scores.rowNames);
+    drawText(ax, x, y, this.Scores.RowNames);
 else
     plot(ax, x, y, '.k');
 end

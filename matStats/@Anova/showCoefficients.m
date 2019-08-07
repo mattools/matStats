@@ -21,7 +21,7 @@ function lines = showCoefficients(this)
 % Created: 2011-08-11,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-stats = this.stats;
+stats = this.Stats;
 nCoefs = length(stats.coeffnames);
 
 nChars = max(cellfun(@length, stats.coeffnames));

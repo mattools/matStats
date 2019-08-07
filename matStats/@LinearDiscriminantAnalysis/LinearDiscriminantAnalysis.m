@@ -6,13 +6,13 @@ classdef LinearDiscriminantAnalysis < handle
 %   with N rows and P columns, with Q groups specified in the table GROUP.
 %   Returns the result in a new instance of LinearDiscriminantAnalysis
 %   class with the following fields: 
-%     scores        the new coordinates of individuals, as N-by-P array
-%     loadings      the loadinds (or coefficients) of LinearDiscriminantAnalysis, as P-by-P array
-%     eigenValues   values of inertia, inertia percent and cumulated inertia
-%     means         the mean value of each column of original data array
+%     Scores        the new coordinates of individuals, as N-by-P array
+%     Loadings      the loadinds (or coefficients) of LinearDiscriminantAnalysis, as P-by-P array
+%     EigenValues   values of inertia, inertia percent and cumulated inertia
+%     Means         the mean value of each column of original data array
 %   
 %   res = LinearDiscriminantAnalysis(TAB, GROUP, PARAM, VALUE);
-%   Specified some processing options using parameter name-value pairs.
+%   Specifies some processing options using parameter name-value pairs.
 %   Available options are: 
 %
 %   'display'   {'on'} or 'off',  specifies if figures should be displayed
@@ -50,6 +50,7 @@ classdef LinearDiscriminantAnalysis < handle
 %
 %   See also
 %     manova1 (statistics toolbox), Pca
+%
 
 % ------
 % Author: David Legland
@@ -61,37 +62,38 @@ classdef LinearDiscriminantAnalysis < handle
 %% Properties
 properties
     % The name of the input table
-    tableName;
+    TableName;
     
     % group associated to each observation
-    group;
+    Group;
 
     % the mean value of each variable
     % (used for projecting new observations)
-    means;
+    Means;
     
     % the total sum of squared differences (P-by-P)
-    ssd_t;
+    SSD_T;
     
     % the sum of squared differences between groups (P-by-P)
-    ssd_b;
+    SSD_B;
     
     % the sum of squared differences within groups (P-by-P)
-    ssd_w;
+    SSD_W;
 
     % Table of coordinates of each individual in new coordinate system
     % N-by-(Q-1) (Q: Number of classes/groups)
-    scores;
+    Scores;
     
     % Table of coordinates of each variable in the new coordinate system
     % P-by-(Q-1)
-    loadings;
+    Loadings;
     
     % The array of eigen values, inertia, and cumulated inertia
     % NC-by-3 
-    eigenValues;
+    EigenValues;
 
-    stats;
+    Stats;
+    
 end % end properties
 
 
@@ -108,13 +110,13 @@ methods
         % copy constructor
         if isa(data, 'LinearDiscriminantAnalysis')
             % copy the name
-            this.tableName      = data.tableName;
+            this.TableName      = data.TableName;
             
             % deep copy of related tables
-            this.scores         = Table(data.group);
-            this.scores         = Table(data.scores);
-            this.loadings       = Table(data.loadings);
-            this.eigenValues    = Table(data.eigenValues);
+            this.Group          = Table(data.Group);
+            this.Scores         = Table(data.Scores);
+            this.Loadings       = Table(data.Loadings);
+            this.EigenValues    = Table(data.EigenValues);
             return;
         end
         
@@ -129,18 +131,17 @@ methods
             group = Table(group);
         end
         
-        % ensure data table has a valid name
-        if isempty(data.name)
-            data.name = inputname(1);
-        end
-        
         % Parse input arguments
         options = createDefaultOptions(data);
         options = parseInputArguments(options, varargin{:});
         
         % store model information
-        this.tableName      = data.name;
-        this.group          = group;
+        tableName = data.Name;
+        if isempty(tableName)
+            tableName = inputname(1);
+        end
+        this.TableName      = tableName;
+        this.Group          = group;
 
         % compute LinearDiscriminantAnalysis results
         computeLDA(this, data);
@@ -223,17 +224,17 @@ methods (Access = private)
         % Compute the variance matrices, and the transformed data
 
         % size of data table
-        data = tab.data;
+        data = tab.Data;
         nInds = size(data, 1);
         nVars = size(data, 2);
         
         % number of group / classes
-        [uniGroups, tmp, groupIndices] = unique(this.group.data); %#ok<ASGLU>
+        [uniGroups, tmp, groupIndices] = unique(this.Group.Data); %#ok<ASGLU>
         nGroups = length(uniGroups);
         
         % recenter data
-        this.means = mean(data);
-        data = bsxfun(@minus, data, this.means);
+        this.Means = mean(data);
+        data = bsxfun(@minus, data, this.Means);
         
         % find the maximal dimension
         nDims = min(nGroups-1, nVars);
@@ -241,17 +242,17 @@ methods (Access = private)
         %% Compute the matrices of the problem
         
         % sum of squared differences (total)
-        this.ssd_t = data' * data;
+        this.SSD_T = data' * data;
         
         % initialize arrays for computing group means
         groupCounts = zeros(nGroups, 1);
         groupMeans = zeros(nGroups, nVars);
         
         % initialize the "between groups" sum of squared differences
-        this.ssd_b = zeros(nVars, nVars);
+        this.SSD_B = zeros(nVars, nVars);
         
         % initialize the "within groups" sum of squared differences
-        this.ssd_w = zeros(nVars, nVars);
+        this.SSD_W = zeros(nVars, nVars);
         
         % Compute matrices by iterating over groups
         for i = 1:nGroups
@@ -261,13 +262,13 @@ methods (Access = private)
             % compute groupe mean
             mu_i = mean(data(inds, :));
             groupMeans(i,:) = mu_i;
-            this.ssd_b = this.ssd_b + (mu_i' * mu_i) * groupCounts(i);
+            this.SSD_B = this.SSD_B + (mu_i' * mu_i) * groupCounts(i);
             
             % group data centered on group mean
             gdata = bsxfun(@minus, data(inds,:), mu_i);
             
             % update residual sum of square differences (within groups)
-            this.ssd_w = this.ssd_w + gdata' * gdata;
+            this.SSD_W = this.SSD_W + gdata' * gdata;
         end
 
         
@@ -275,11 +276,11 @@ methods (Access = private)
         
         % Compute first eigen vectors
         % (function "manova1" uses a more complicated algorithm, 
-        [v, ev] = eigs(this.ssd_b, this.ssd_w, nDims, 'largestabs');
+        [v, ev] = eigs(this.SSD_B, this.SSD_W, nDims, 'largestabs');
         ev = diag(ev);
 
         % Re-scale eigenvectors to ensure the within-group variance is 1
-        vs = diag(v' * this.ssd_w * v)' ./ (nInds - nGroups);
+        vs = diag(v' * this.SSD_W * v)' ./ (nInds - nGroups);
         vs(vs<=0) = 1;
         v = v ./ repmat(sqrt(vs), size(v,1), 1);
 
@@ -290,23 +291,23 @@ methods (Access = private)
         varNames = strtrim(cellstr(num2str((1:nDims)', 'cc%d')));
         
         % Table object for canonical coordinates
-        if ~isempty(tab.name)
-            name = sprintf('Can. Coords of %s', tab.name);
+        if ~isempty(tab.Name)
+            name = sprintf('Can. Coords of %s', tab.Name);
         else
             name = 'Can. Coords';
         end
-        this.scores = Table.create(data * v(:,1:nDims), ...
-            'rowNames', tab.rowNames, ...
+        this.Scores = Table.create(data * v(:,1:nDims), ...
+            'rowNames', tab.RowNames, ...
             'colNames', varNames, ...
             'name', name);
         
         % Table object for eigen vectors
-        if ~isempty(tab.name)
-            name = sprintf('Loadings of %s', tab.name);
+        if ~isempty(tab.Name)
+            name = sprintf('Loadings of %s', tab.Name);
         else
             name = 'Loadings';
         end
-        this.loadings = Table.create(v(:,1:nDims), ...
+        this.Loadings = Table.create(v(:,1:nDims), ...
             'rowNames', tab.colNames, ...
             'colNames', varNames, ...
             'name', name);
@@ -323,7 +324,7 @@ methods (Access = private)
         else
             name = 'Eigen values';
         end
-        this.eigenValues = Table.create(eigenVals, ...
+        this.EigenValues = Table.create(eigenVals, ...
             'rowNames', varNames, ...
             'name', name, ...
             'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
@@ -337,16 +338,16 @@ methods (Access = private)
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
         % save score array (coordinates of individuals in new basis)
-        fileName = sprintf('%s-cda.scores.txt', this.tableName);
-        write(this.scores, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.scores.txt', this.TableName);
+        write(this.Scores, fullfile(dirResults, fileName));
         
         % save loadings array (corodinates of variable in new basis)
-        fileName = sprintf('%s-cda.loadings.txt', this.tableName);
-        write(this.loadings, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.loadings.txt', this.TableName);
+        write(this.Loadings, fullfile(dirResults, fileName));
         
         % save eigen values array
-        fileName = sprintf('%s-cda.values.txt', this.tableName);
-        write(this.eigenValues, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.values.txt', this.TableName);
+        write(this.EigenValues, fullfile(dirResults, fileName));
     end
 
     
@@ -362,7 +363,7 @@ methods (Access = private)
         
         
         % number of canonical components to display
-        npc = size(this.scores.data, 2);
+        npc = size(this.Scores.data, 2);
         
         % Scree plot of the LinearDiscriminantAnalysis
         handles.screePlot = screePlot(this, options.axesProperties{:});
@@ -382,20 +383,20 @@ methods (Access = private)
         
         % loading plots CC1-CC2
         if npc >= 2
-            handles.loadingsPlot12 = figure;
+            handles.LoadingsPlot12 = figure;
             loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
         end
         
         % loading plots CC3-CC4
         if npc >= 4
-            handles.loadingsPlot34 = figure;
+            handles.LoadingsPlot34 = figure;
             loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
         end
     end
     
     function saveFigures(this, handles, dirFigs)
         
-        baseName = this.tableName;
+        baseName = this.TableName;
         
         fileName = sprintf('%s-lda.ev.png', baseName);
         if ismember(handles, 'screePlot')
@@ -414,12 +415,12 @@ methods (Access = private)
 
         if ismember(handles, 'loadingsPlot12')
             fileName = sprintf('%s-lda.ld12.png', baseName);
-            print(handles.loadingsPlot12, fullfile(dirFigs, fileName));
+            print(handles.LoadingsPlot12, fullfile(dirFigs, fileName));
         end
         
         if ismember(handles, 'loadingsPlot34')
             fileName = sprintf('%s-lda.ld34.png', baseName);
-            print(handles.loadingsPlot34, fullfile(dirFigs, fileName));
+            print(handles.LoadingsPlot34, fullfile(dirFigs, fileName));
         end
     end
 end % end methods
@@ -429,10 +430,10 @@ methods
         % Display a short summary about analysis result
         
         disp('Linear Discriminant Analysis Result');
-        disp(['   Input data: ' this.tableName]);
-        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
+        disp(['   Input data: ' this.TableName]);
+        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.Scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.Loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.EigenValues))]);
         disp('Type ''properties(LinearDiscriminantAnalysis)'' to see all properties');
     end
 end

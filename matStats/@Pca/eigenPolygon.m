@@ -7,11 +7,12 @@ function poly = eigenPolygon(this, index, coef, varargin)
 %   eigenPolygon
 %
 %   See also
+%     Pca, eigenCurve
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-12-19,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -26,9 +27,9 @@ end
 % lambda = var(this.scores(:,index).data);
 
 % compute eigen vector with appropriate coeff
-ld = this.loadings(:, index).data';
-lambda = this.eigenValues(index, 1).data;
-values = this.means + coef * sqrt(lambda) * ld;
+ld = this.Loadings(:, index).Data';
+lambda = this.EigenValues(index, 1).Data;
+values = this.Means + coef * sqrt(lambda) * ld;
 
 % resulting polygon
 poly = rowToPolygon(values, method);

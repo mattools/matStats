@@ -14,19 +14,20 @@ function varargout = screePlot(this, varargin)
 %     screePlot(resPca, 'FontSize', 14);
 %
 %   See also
-%   Pca
+%     Pca, scorePlot
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2013-02-27,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 
 % extract data
-name    = this.tableName;
-coord   = this.scores.data;
-values  = this.eigenValues.data;
+name    = this.TableName;
+coord   = this.Scores.Data;
+values  = this.EigenValues.Data;
 
 % distribution of the first 10 eigen values
 h = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');

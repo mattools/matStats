@@ -66,26 +66,26 @@ classdef Pca < handle
 %% Properties
 properties
     % The name of the input table
-    tableName;
+    TableName;
     
     % A boolean flag indicating whether the input table is scaled or not
-    scaled;
+    Scaled;
     
     % the mean value of each variable. 1-by-NV
-    means;
+    Means;
 
     % Table of coordinates of each individual in new coordinate system
     % NI-by-NC (NC: Number of components)
-    scores;
+    Scores;
     
     % Table of coordinates of each variable in the new coordinate system
     % NV-by-NC
-    loadings;
+    Loadings;
     
     % The array of eigen values, inertia, and cumulated inertia
     % NC-by-3 
 
-    eigenValues;
+    EigenValues;
     
     % indsup;
     % varsup;
@@ -104,13 +104,13 @@ methods
         
         % copy constructor
         if isa(data, 'Pca')
-            this.tableName      = data.tableName;
-            this.scaled         = data.scaled;
+            this.TableName      = data.TableName;
+            this.Scaled         = data.Scaled;
 
-            this.means          = data.means;
-            this.scores         = Table(data.scores);
-            this.loadings       = Table(data.loadings);
-            this.eigenValues    = Table(data.eigenValues);
+            this.Means          = data.Means;
+            this.Scores         = Table(data.Scores);
+            this.Loadings       = Table(data.Loadings);
+            this.EigenValues    = Table(data.EigenValues);
             return;
         end
         
@@ -123,8 +123,8 @@ methods
         end
         
         % ensure data table has a valid name
-        if isempty(data.name)
-            data.name = inputname(1);
+        if isempty(data.Name)
+            data.Name = inputname(1);
         end
         
         
@@ -140,17 +140,17 @@ methods
 
         % analysis options
         scale               = options.scale;
-        this.scaled         = scale;
+        this.Scaled         = scale;
         
         % compute PCA results
         [m, sc, ld, ev] = computePCA(data, scale);
         
         % keep results
-        this.tableName      = data.name;
-        this.means          = m;
-        this.scores         = sc;
-        this.loadings       = ld;
-        this.eigenValues    = ev;
+        this.TableName      = data.Name;
+        this.Means          = m;
+        this.Scores         = sc;
+        this.Loadings       = ld;
+        this.EigenValues    = ev;
         
         % save results
         if options.saveResultsFlag
@@ -171,11 +171,11 @@ methods
             h = displayCorrelationCircle(this, options.axesProperties{:});
             
             if options.saveFiguresFlag
-                fileName = sprintf('%s-pca.cc12.png', this.tableName);
+                fileName = sprintf('%s-pca.cc12.png', this.TableName);
                 print(h(1), fullfile(options.dirFigures, fileName), '-dpng');
                 
                 if ishandle(h(2))
-                    fileName = sprintf('%s-pca.cc34.png', this.tableName);
+                    fileName = sprintf('%s-pca.cc34.png', this.TableName);
                     print(h(2), fullfile(options.dirFigures, fileName), '-dpng');
                 end
             end
@@ -251,16 +251,16 @@ methods (Access = private)
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
         % save score array (coordinates of individuals in new basis)
-        fileName = sprintf('%s-pca.scores.txt', this.tableName);
-        write(this.scores, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.Scores.txt', this.TableName);
+        write(this.Scores, fullfile(dirResults, fileName));
         
         % save loadings array (corodinates of variable in new basis)
-        fileName = sprintf('%s-pca.loadings.txt', this.tableName);
-        write(this.loadings, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.Loadings.txt', this.TableName);
+        write(this.Loadings, fullfile(dirResults, fileName));
         
         % save eigen values array
-        fileName = sprintf('%s-pca.values.txt', this.tableName);
-        write(this.eigenValues, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.values.txt', this.TableName);
+        write(this.EigenValues, fullfile(dirResults, fileName));
     end
 
     
@@ -275,7 +275,7 @@ methods (Access = private)
         % * loadingsPlot34
         
         % number of principal components to display
-        npc = size(this.scores.data, 2);
+        npc = size(this.Scores.Data, 2);
         
         % Scree plot of the PCA
         handles.screePlot = screePlot(this, options.axesProperties{:});
@@ -294,20 +294,20 @@ methods (Access = private)
         
         % loading plots PC1-PC2
         if npc >= 2
-            handles.loadingsPlot = figure;
+            handles.loadingsPlot12 = figure;
             loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
         end
         
         % loading plots PC3-PC4
         if npc >= 4
-            handles.loadingsPlot = figure;
+            handles.loadingsPlot34 = figure;
             loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
         end
     end
     
     function saveFigures(this, handles, dirFigs)
         
-        baseName = this.tableName;
+        baseName = this.TableName;
         
         fileName = sprintf('%s-pca.ev.png', baseName);
         print(handles.screePlot, fullfile(dirFigs, fileName), '-dpng');
@@ -324,31 +324,31 @@ methods (Access = private)
         
         if isfield(handles, 'loadingsPlot12')
             fileName = sprintf('%s-pca.ld12.png', baseName);
-            print(handles.loadingsPlot12, fullfile(dirFigs, fileName), '-dpng');
+            print(handles.LoadingsPlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
         if isfield(handles, 'loadingsPlot34')
             fileName = sprintf('%s-pca.ld34.png', baseName);
-            print(handles.loadingsPlot34, fullfile(dirFigs, fileName), '-dpng');
+            print(handles.LoadingsPlot34, fullfile(dirFigs, fileName), '-dpng');
         end
     end
     
 
     function h = displayCorrelationCircle(this, varargin)
         
-        name = this.tableName;
-        values = this.eigenValues.data;
+        name = this.TableName;
+        values = this.EigenValues.Data;
         
-        nv = size(this.scores, 2);
+        nv = size(this.Scores, 2);
         correl = zeros(nv, nv);
         for i = 1:nv
-            correl(:,i) = sqrt(values(i)) * this.loadings.data(1:nv,i);
+            correl(:,i) = sqrt(values(i)) * this.Loadings.Data(1:nv,i);
         end
 
         correl = Table.create(correl, ...
-            'rowNames', this.loadings.rowNames(1:nv), ...
-            'name', name, ...
-            'colNames', this.loadings.colNames);
+            'RowNames', this.Loadings.RowNames(1:nv), ...
+            'Name', name, ...
+            'ColNames', this.Loadings.ColNames);
         
         % correlation plot PC1-PC2
         h1 = figure;
@@ -371,24 +371,24 @@ end % end methods
 %% General methods
 methods
     function b = isScaled(this)
-        b = this.scaled;
+        b = this.Scaled;
     end
     
     function disp(this)
         
-        if this.scaled
+        if this.Scaled
             scaleString = 'true';
         else
             scaleString = 'false';
         end
         
         disp('Principal Component Analysis Result');
-        disp(['   Input data: ' this.tableName]);
+        disp(['   Input data: ' this.TableName]);
         disp(['       scaled: ' scaleString]);
-        disp(['        means: ' sprintf('<%dx%d double>', size(this.means))]);
-        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
+        disp(['        means: ' sprintf('<%dx%d double>', size(this.Means))]);
+        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.Scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.Loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.EigenValues))]);
     end
 end
 

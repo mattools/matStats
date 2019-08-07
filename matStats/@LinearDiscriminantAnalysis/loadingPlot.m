@@ -35,7 +35,7 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 
-nc = size(this.scores, 2);
+nc = size(this.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component number should be less than variable number');
 end
@@ -61,12 +61,12 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.loadings(:, cp1).data;
-y = this.loadings(:, cp2).data;
+x = this.Loadings(:, cp1).Data;
+y = this.Loadings(:, cp2).Data;
 
 % display either names or dots
 if showNames
-    drawText(ax, x, y, this.loadings.rowNames);
+    drawText(ax, x, y, this.Loadings.RowNames);
 else
     plot(ax, x, y, '.k');
 end

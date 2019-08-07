@@ -5,10 +5,10 @@ classdef CanDisc < handle
 %   Performs Canonical Discriminant Analysis (CDA) of the data table TAB
 %   with N rows and P columns, and returns the result in a new instance of
 %   CanDisc class with following fields:
-% %     scores        the new coordinates of individuals, as N-by-P array
-% %     loadings      the loadinds (or coefficients) of CanDisc, as P-by-P array
-% %     eigenValues   values of inertia, inertia percent and cumulated inertia
-% %     means         the mean value of each column of original data array
+% %     Scores        the new coordinates of individuals, as N-by-P array
+% %     Loadings      the loadinds (or coefficients) of CanDisc, as P-by-P array
+% %     EigenValues   values of inertia, inertia percent and cumulated inertia
+% %     Means         the mean value of each column of original data array
 %   
 %   res = CanDisc(TAB, PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
@@ -63,24 +63,24 @@ classdef CanDisc < handle
 %% Properties
 properties
     % The name of the input table
-    tableName;
+    TableName;
     
     % group associated to each observation
-    group;
+    Group;
 
     % Table of coordinates of each individual in new coordinate system
     % NI-by-NC (NC: Number of components)
-    scores;
+    Scores;
     
     % Table of coordinates of each variable in the new coordinate system
     % NV-by-NC
-    loadings;
+    Loadings;
     
     % The array of eigen values, inertia, and cumulated inertia
     % NC-by-3 
-    eigenValues;
+    EigenValues;
 
-    stats;
+    Stats;
 end % end properties
 
 
@@ -115,8 +115,8 @@ methods
         end
         
         % ensure data table has a valid name
-        if isempty(data.name)
-            data.name = inputname(1);
+        if isempty(data.Name)
+            data.Name = inputname(1);
         end
         
         
@@ -174,12 +174,12 @@ methods
         [can, ld, ev, st] = computeCDA(data, group);
         
         % keep results
-        this.tableName      = data.name;
-        this.scores         = can;
-        this.loadings       = ld;
-        this.eigenValues    = ev;
-        this.stats          = st;
-        this.group          = group;
+        this.TableName      = data.Name;
+        this.Scores         = can;
+        this.Loadings       = ld;
+        this.EigenValues    = ev;
+        this.Stats          = st;
+        this.Group          = group;
         
         
         
@@ -235,15 +235,15 @@ methods
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
         % save score array (coordinates of individuals in new basis)
-        fileName = sprintf('%s-cda.scores.txt', this.tableName);
+        fileName = sprintf('%s-cda.scores.txt', this.TableName);
         write(this.scores, fullfile(dirResults, fileName));
         
         % save loadings array (corodinates of variable in new basis)
-        fileName = sprintf('%s-cda.loadings.txt', this.tableName);
+        fileName = sprintf('%s-cda.loadings.txt', this.TableName);
         write(this.loadings, fullfile(dirResults, fileName));
         
         % save eigen values array
-        fileName = sprintf('%s-cda.values.txt', this.tableName);
+        fileName = sprintf('%s-cda.values.txt', this.TableName);
         write(this.eigenValues, fullfile(dirResults, fileName));
     end
 
@@ -253,7 +253,7 @@ methods
         % Display results of CanDisc
         
         % number of canonical components to display
-        npc = size(this.scores.data, 2);
+        npc = size(this.Scores.Data, 2);
         
         % Scree plot of the CanDisc
         h1 = figure;
@@ -289,7 +289,7 @@ methods
     
     function saveFigures(this, hFigs, dirFigs)
         
-        baseName = this.tableName;
+        baseName = this.TableName;
         
         fileName = sprintf('%s-cda.ev.png', baseName);
         print(hFigs(1), fullfile(dirFigs, fileName));
@@ -351,10 +351,10 @@ methods
         % Display a short summary about analysis result
         
         disp('Canonical Discriminant Analysis Result');
-        disp(['   Input data: ' this.tableName]);
-        disp([' Canon Coords: ' sprintf('<%dx%d Table>', size(this.scores))]);
-        disp(['       result: ' sprintf('<%dx%d Table>', size(this.loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.eigenValues))]);
+        disp(['   Input data: ' this.TableName]);
+        disp([' Canon Coords: ' sprintf('<%dx%d Table>', size(this.Scores))]);
+        disp(['       result: ' sprintf('<%dx%d Table>', size(this.Loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.EigenValues))]);
         
     end
 end

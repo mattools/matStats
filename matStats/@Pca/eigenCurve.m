@@ -7,11 +7,12 @@ function curve = eigenCurve(this, index, coef, varargin)
 %   eigenCurve
 %
 %   See also
+%     eigenPolygon
 %
-%
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2012-12-19,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -21,7 +22,7 @@ if nargin < 3
 end
 
 % compute eigen vector with appropriate coeff
-ld = this.loadings(:, index).data';
-lambda = this.eigenValues(index, 1).data;
-curve = this.means + coef * sqrt(lambda) * ld;
+ld = this.Loadings(:, index).Data';
+lambda = this.EigenValues(index, 1).Data;
+curve = this.Means + coef * sqrt(lambda) * ld;
 
