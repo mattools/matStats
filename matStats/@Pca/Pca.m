@@ -1,4 +1,4 @@
-classdef Pca < handle
+classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Pca < handle
 %PCA  Performs a Principal Components Analysis
 %
 %   RES = Pca(TAB);
