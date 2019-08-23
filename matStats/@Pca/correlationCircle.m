@@ -1,5 +1,5 @@
 function varargout = correlationCircle(varargin)
-%CORRELATIONCIRCLE Plot correlation circle in a factorial plane
+% Plot correlation circle in a factorial plane.
 %
 %   output = correlationCircle(input)
 %
@@ -21,7 +21,7 @@ function varargout = correlationCircle(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % get factorial axes
@@ -34,7 +34,7 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 
-nc = size(this.Scores, 2);
+nc = size(obj.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component index should be less than variable number');
 end
@@ -61,21 +61,21 @@ if ~isempty(varargin)
     set(ax, varargin{:});
 end
 
-name = this.TableName;
-values = this.EigenValues.Data;
+name = obj.TableName;
+values = obj.EigenValues.Data;
 
 % Create the correlation matrix
-nv = size(this.Scores, 2);
+nv = size(obj.Scores, 2);
 correl = zeros(nv, nv);
 for i = 1:nv
-    correl(:,i) = sqrt(values(i)) * this.Loadings(1:nv,i).Data;
+    correl(:,i) = sqrt(values(i)) * obj.Loadings(1:nv,i).Data;
 end
 
 % create Table instance
 correl = Table.create(correl, ...
-    'RowNames', this.Loadings.RowNames(1:nv), ...
+    'RowNames', obj.Loadings.RowNames(1:nv), ...
     'Name', name, ...
-    'ColNames', this.Loadings.ColNames);
+    'ColNames', obj.Loadings.ColNames);
 
 % score coordinates
 x = correl(:, cp1).Data;
@@ -95,7 +95,7 @@ axes(ax);
 makeCircleAxis(ax);
 
 % create legends
-annotateFactorialPlot(this, ax, cp1, cp2);
+annotateFactorialPlot(obj, ax, cp1, cp2);
 
 if nargout > 0
     varargout = {hFig};

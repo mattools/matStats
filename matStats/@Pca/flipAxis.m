@@ -1,5 +1,5 @@
-function res = flipAxis(this, index)
-%FLIPAXIS Reverse coordinates in one of the axes
+function res = flipAxis(obj, index)
+% Reverse coordinates in one of the axes.
 %
 %   PCA2 = flipAxis(PCA, IND)
 %
@@ -16,7 +16,7 @@ function res = flipAxis(this, index)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % first make a copy constructor
-res = Pca(this);
+res = Pca(obj);
 
 % reverse the score array
 res.Scores.Data(:, index) = -res.Scores.Data(:, index);

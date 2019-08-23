@@ -1,5 +1,5 @@
-function curve = eigenCurve(this, index, coef, varargin)
-%EIGENCURVE Eigen curve representing variation on a given axis
+function curve = eigenCurve(obj, index, coef, varargin)
+% Eigen curve representing variation on a given axis.
 %
 %   CURVE = eigenCurve(PCA, INDEX, COEF)
 %
@@ -22,7 +22,7 @@ if nargin < 3
 end
 
 % compute eigen vector with appropriate coeff
-ld = this.Loadings(:, index).Data';
-lambda = this.EigenValues(index, 1).Data;
-curve = this.Means + coef * sqrt(lambda) * ld;
+ld = obj.Loadings(:, index).Data';
+lambda = obj.EigenValues(index, 1).Data;
+curve = obj.Means + coef * sqrt(lambda) * ld;
 

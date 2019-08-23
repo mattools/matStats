@@ -1,5 +1,5 @@
-function poly = eigenPolygon(this, index, coef, varargin)
-%EIGENPOLYGON Eigen polygon representing variation on a given axis
+function poly = eigenPolygon(obj, index, coef, varargin)
+% Eigen polygon representing variation on a given axis.
 %
 %   POLY = eigenPolygon(PCA, INDEX, COEF)
 %
@@ -24,12 +24,12 @@ if nargin < 3
     coef = 2;
 end
 
-% lambda = var(this.scores(:,index).data);
+% lambda = var(obj.scores(:,index).data);
 
 % compute eigen vector with appropriate coeff
-ld = this.Loadings(:, index).Data';
-lambda = this.EigenValues(index, 1).Data;
-values = this.Means + coef * sqrt(lambda) * ld;
+ld = obj.Loadings(:, index).Data';
+lambda = obj.EigenValues(index, 1).Data;
+values = obj.Means + coef * sqrt(lambda) * ld;
 
 % resulting polygon
 poly = rowToPolygon(values, method);

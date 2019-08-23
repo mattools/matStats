@@ -1,5 +1,5 @@
 function varargout = scorePlot(varargin)
-%SCOREPLOT Plot individuals in a factorial plane
+% Plot individuals in a factorial plane.
 %
 %   scorePlot(PCA, I, J)
 %
@@ -10,7 +10,7 @@ function varargout = scorePlot(varargin)
 %   scorePlot
 %
 %   See also
-%   loadingPlot, correlationCircle
+%     loadingPlot, correlationCircle
 %
 
 % ------
@@ -23,7 +23,7 @@ function varargout = scorePlot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % get factorial axes
@@ -36,13 +36,13 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 % input argument control
-nc = size(this.Scores, 2);
+nc = size(obj.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component number should be less than variable number');
 end
 
 % extract display options
-showNames = size(this.Scores, 1) < 200;
+showNames = size(obj.Scores, 1) < 200;
 for i = 1:2:(length(varargin)-1)
     if strcmpi('showNames', varargin{i})
         showNames = varargin{i+1};
@@ -62,18 +62,18 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.Scores(:, cp1).Data;
-y = this.Scores(:, cp2).Data;
+x = obj.Scores(:, cp1).Data;
+y = obj.Scores(:, cp2).Data;
 
 % display either names or dots
 if showNames
-    drawText(ax, x, y, this.Scores.RowNames);
+    drawText(ax, x, y, obj.Scores.RowNames);
 else
     plot(ax, x, y, '.k');
 end
 
 % create legends
-annotateFactorialPlot(this, ax, cp1, cp2);
+annotateFactorialPlot(obj, ax, cp1, cp2);
 
 if nargout > 0
     varargout = {hFig};

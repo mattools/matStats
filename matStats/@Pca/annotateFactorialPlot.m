@@ -1,5 +1,5 @@
-function annotateFactorialPlot(this, ax, cp1, cp2)
-%ANNOTATEFACTORIALPLOT Create labels and title of a factorial plot
+function annotateFactorialPlot(obj, ax, cp1, cp2)
+% Create labels and title of a factorial plot.
 %
 %   output = annotateFactorialPlot(input)
 %
@@ -17,10 +17,10 @@ function annotateFactorialPlot(this, ax, cp1, cp2)
 % Copyright 2012 INRA - Cepia Software Platform.
 % create legends
 
-vl1 = this.EigenValues(cp1, 2).Data;
-vl2 = this.EigenValues(cp2, 2).Data;
+vl1 = obj.EigenValues(cp1, 2).Data;
+vl2 = obj.EigenValues(cp2, 2).Data;
 
 xlabel(ax, sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
 ylabel(ax, sprintf('Principal component %d (%5.2f %%)', cp2, vl2));
 
-title(ax, this.TableName, 'interpreter', 'none');
+title(ax, obj.TableName, 'interpreter', 'none');

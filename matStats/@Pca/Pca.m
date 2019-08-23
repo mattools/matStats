@@ -1,14 +1,14 @@
 classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Pca < handle
-%PCA  Performs a Principal Components Analysis
+% Performs a Principal Components Analysis.
 %
 %   RES = Pca(TAB);
 %   Performs Principal Components Analysis (PCA) of the data table TAB with
 %   N rows and P columns, and returns the result in a new instance of Pca
 %   class with following fields:
-%     scores        the new coordinates of individuals, as N-by-P array
-%     loadings      the loadinds (or coefficients) of PCA, as P-by-P array
-%     eigenValues   values of inertia, inertia percent and cumulated inertia
-%     means         the mean value of each column of original data array
+%     Scores        the new coordinates of individuals, as N-by-P array
+%     Loadings      the loadinds (or coefficients) of PCA, as P-by-P array
+%     EigenValues   values of inertia, inertia percent and cumulated inertia
+%     Means         the mean value of each column of original data array
 %   
 %   res = Pca(TAB, PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
@@ -71,8 +71,11 @@ properties
     % A boolean flag indicating whether the input table is scaled or not
     Scaled;
     
-    % the mean value of each variable. 1-by-NV
+    % the mean value of each variable. 1-by-NV.
     Means;
+
+    % the scaling applied to each variable. 1-by-NV.
+    Scalings;
 
     % Table of coordinates of each individual in new coordinate system
     % NI-by-NC (NC: Number of components)
@@ -94,7 +97,7 @@ end % end properties
 
 %% Constructor
 methods
-    function this = Pca(data, varargin)
+    function obj = Pca(data, varargin)
         % Constructor for Pca class
 
         % avoid empty constructor
@@ -104,13 +107,13 @@ methods
         
         % copy constructor
         if isa(data, 'Pca')
-            this.TableName      = data.TableName;
-            this.Scaled         = data.Scaled;
+            obj.TableName      = data.TableName;
+            obj.Scaled         = data.Scaled;
 
-            this.Means          = data.Means;
-            this.Scores         = Table(data.Scores);
-            this.Loadings       = Table(data.Loadings);
-            this.EigenValues    = Table(data.EigenValues);
+            obj.Means          = data.Means;
+            obj.Scores         = Table(data.Scores);
+            obj.Loadings       = Table(data.Loadings);
+            obj.EigenValues    = Table(data.EigenValues);
             return;
         end
         
@@ -139,59 +142,60 @@ methods
         options = parseInputArguments(options, varargin{:});
 
         % analysis options
-        scale               = options.scale;
-        this.Scaled         = scale;
+        scale               = options.Scale;
+        obj.Scaled          = scale;
         
         % compute PCA results
-        [m, sc, ld, ev] = computePCA(data, scale);
+        [m, sc, ld, ev, sigma] = computePCA(data, scale);
         
         % keep results
-        this.TableName      = data.Name;
-        this.Means          = m;
-        this.Scores         = sc;
-        this.Loadings       = ld;
-        this.EigenValues    = ev;
+        obj.TableName   = data.Name;
+        obj.Means       = m;
+        obj.Scalings    = sigma;
+        obj.Scores      = sc;
+        obj.Loadings    = ld;
+        obj.EigenValues = ev;
         
         % save results
-        if options.saveResultsFlag
-            savePcaResults(this, options.dirResults);
+        if options.SaveResultsFlag
+            savePcaResults(obj, options.DirResults);
         end
         
         % display results
-        if options.display
-            handles = displayPcaResults(this, options);
+        if options.Display
+            handles = displayPcaResults(obj, options);
             
-            if options.saveFiguresFlag
-                saveFigures(this, handles, options.dirFigures);
+            if options.SaveFiguresFlag
+                saveFigures(obj, handles, options.DirFigures);
             end
         end
         
         % display correlation circle
-        if options.display && scale
-            h = displayCorrelationCircle(this, options.axesProperties{:});
+        if options.Display && scale
+            h = displayCorrelationCircle(obj, options.AxesProperties{:});
             
-            if options.saveFiguresFlag
-                fileName = sprintf('%s-pca.cc12.png', this.TableName);
-                print(h(1), fullfile(options.dirFigures, fileName), '-dpng');
+            if options.SaveFiguresFlag
+                fileName = sprintf('%s-pca.cc12.png', obj.TableName);
+                print(h(1), fullfile(options.DirFigures, fileName), '-dpng');
                 
                 if ishandle(h(2))
-                    fileName = sprintf('%s-pca.cc34.png', this.TableName);
-                    print(h(2), fullfile(options.dirFigures, fileName), '-dpng');
+                    fileName = sprintf('%s-pca.cc34.png', obj.TableName);
+                    print(h(2), fullfile(options.DirFigures, fileName), '-dpng');
                 end
             end
         end
 
         function options = createDefaultOptions(data)
             % Compute default options, some of them depending on data set size
-            options.scale           = true;
-            options.display         = true;
-            options.showObsNames    = size(data, 1) < 200;
-            options.showVarNames    = size(data, 2) < 50;
-            options.saveFiguresFlag = false;
-            options.dirFigures      = pwd;
-            options.saveResultsFlag = false;
-            options.dirResults      = pwd;
-            options.axesProperties  = {};
+            options.Scale           = true;
+            options.Display         = true;
+            options.ShowObsNames    = size(data, 1) < 200;
+            options.ShowVarNames    = size(data, 2) < 50;
+            options.SaveFiguresFlag = false;
+            options.DirFigures      = pwd;
+            options.SaveResultsFlag = false;
+            options.DirResults      = pwd;
+            options.AxesProperties  = {};
         end
         
         function options = parseInputArguments(options, varargin)
@@ -205,23 +209,23 @@ methods
                 paramName = varargin{1};
                 switch lower(paramName)
                     case 'scale'
-                        options.scale = parseBoolean(varargin{2});
+                        options.Scale = parseBoolean(varargin{2});
                     case 'display'
-                        options.display = parseBoolean(varargin{2});
+                        options.Display = parseBoolean(varargin{2});
                     case 'saveresults'
-                        options.saveResultsFlag = parseBoolean(varargin{2});
+                        options.SaveResultsFlag = parseBoolean(varargin{2});
                     case 'resultsdir'
-                        options.dirResults = varargin{2};
+                        options.DirResults = varargin{2};
                     case 'savefigures'
-                        options.saveFiguresFlag = parseBoolean(varargin{2});
+                        options.SaveFiguresFlag = parseBoolean(varargin{2});
                     case 'figuresdir'
-                        options.dirFigures = varargin{2};
+                        options.DirFigures = varargin{2};
                     case 'showobsnames'
-                        options.showObsNames = parseBoolean(varargin{2});
+                        options.ShowObsNames = parseBoolean(varargin{2});
                     case 'showvarnames'
-                        options.showVarNames = parseBoolean(varargin{2});
+                        options.ShowVarNames = parseBoolean(varargin{2});
                     case 'axesproperties'
-                        options.axesProperties = varargin{2};
+                        options.AxesProperties = varargin{2};
                     otherwise
                         error(['Unknown parameter name: ' paramName]);
                 end
@@ -247,24 +251,24 @@ end % end constructors
 %% Private Methods (used at contruction)
 methods (Access = private)
     
-    function savePcaResults(this, dirResults)
+    function savePcaResults(obj, dirResults)
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
         % save score array (coordinates of individuals in new basis)
-        fileName = sprintf('%s-pca.Scores.txt', this.TableName);
-        write(this.Scores, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.Scores.txt', obj.TableName);
+        write(obj.Scores, fullfile(dirResults, fileName));
         
         % save loadings array (corodinates of variable in new basis)
-        fileName = sprintf('%s-pca.Loadings.txt', this.TableName);
-        write(this.Loadings, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.Loadings.txt', obj.TableName);
+        write(obj.Loadings, fullfile(dirResults, fileName));
         
         % save eigen values array
-        fileName = sprintf('%s-pca.values.txt', this.TableName);
-        write(this.EigenValues, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-pca.values.txt', obj.TableName);
+        write(obj.EigenValues, fullfile(dirResults, fileName));
     end
 
     
-    function handles = displayPcaResults(this, options)
+    function handles = displayPcaResults(obj, options)
         % Display results of PCA
         %
         % Returns a structure with fields corresponding to figure handles:
@@ -275,51 +279,51 @@ methods (Access = private)
         % * loadingsPlot34
         
         % number of principal components to display
-        npc = size(this.Scores.Data, 2);
+        npc = size(obj.Scores.Data, 2);
         
         % Scree plot of the PCA
-        handles.screePlot = screePlot(this, options.axesProperties{:});
+        handles.ScreePlot = screePlot(obj, options.AxesProperties{:});
        
         % individuals in plane PC1-PC2
         if npc >= 2
-            handles.scorePlot12 = figure;
-            scorePlot(this, 1, 2, 'showNames', options.showObsNames, options.axesProperties{:});
+            handles.ScorePlot12 = figure;
+            scorePlot(obj, 1, 2, 'showNames', options.ShowObsNames, options.AxesProperties{:});
         end
         
         % individuals in plane PC3-PC4
         if npc >= 4
-            handles.scorePlot34 = figure;
-            scorePlot(this, 3, 4, 'showNames', options.showObsNames, options.axesProperties{:});
+            handles.ScorePlot34 = figure;
+            scorePlot(obj, 3, 4, 'showNames', options.ShowObsNames, options.AxesProperties{:});
         end
         
         % loading plots PC1-PC2
         if npc >= 2
             handles.loadingsPlot12 = figure;
-            loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
+            loadingPlot(obj, 1, 2, 'showNames', options.ShowVarNames, options.AxesProperties{:});
         end
         
         % loading plots PC3-PC4
         if npc >= 4
             handles.loadingsPlot34 = figure;
-            loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
+            loadingPlot(obj, 3, 4, 'showNames', options.ShowVarNames, options.AxesProperties{:});
         end
     end
     
-    function saveFigures(this, handles, dirFigs)
+    function saveFigures(obj, handles, dirFigs)
         
-        baseName = this.TableName;
+        baseName = obj.TableName;
         
         fileName = sprintf('%s-pca.ev.png', baseName);
-        print(handles.screePlot, fullfile(dirFigs, fileName), '-dpng');
+        print(handles.ScreePlot, fullfile(dirFigs, fileName), '-dpng');
         
         if isfield(handles, 'scorePlot12')
             fileName = sprintf('%s-pca.sc12.png', baseName);
-            print(handles.scorePlot12, fullfile(dirFigs, fileName), '-dpng');
+            print(handles.ScorePlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
         if isfield(handles, 'scorePlot34')
             fileName = sprintf('%s-pca.sc34.png', baseName);
-            print(handles.scorePlot34, fullfile(dirFigs, fileName), '-dpng');
+            print(handles.ScorePlot34, fullfile(dirFigs, fileName), '-dpng');
         end
         
         if isfield(handles, 'loadingsPlot12')
@@ -334,30 +338,30 @@ methods (Access = private)
     end
     
 
-    function h = displayCorrelationCircle(this, varargin)
+    function h = displayCorrelationCircle(obj, varargin)
         
-        name = this.TableName;
-        values = this.EigenValues.Data;
+        name = obj.TableName;
+        values = obj.EigenValues.Data;
         
-        nv = size(this.Scores, 2);
+        nv = size(obj.Scores, 2);
         correl = zeros(nv, nv);
         for i = 1:nv
-            correl(:,i) = sqrt(values(i)) * this.Loadings.Data(1:nv,i);
+            correl(:,i) = sqrt(values(i)) * obj.Loadings.Data(1:nv,i);
         end
 
         correl = Table.create(correl, ...
-            'RowNames', this.Loadings.RowNames(1:nv), ...
+            'RowNames', obj.Loadings.RowNames(1:nv), ...
             'Name', name, ...
-            'ColNames', this.Loadings.ColNames);
+            'ColNames', obj.Loadings.ColNames);
         
         % correlation plot PC1-PC2
         h1 = figure;
-        correlationCircle(this, 1, 2, varargin{:});
+        correlationCircle(obj, 1, 2, varargin{:});
         
         % correlation plot PC3-PC4
         if size(correl, 2) >= 4
             h2 = figure;
-            correlationCircle(this, 3, 4, varargin{:});            
+            correlationCircle(obj, 3, 4, varargin{:});            
         else
             h2 = -1;
         end
@@ -370,25 +374,25 @@ end % end methods
 
 %% General methods
 methods
-    function b = isScaled(this)
-        b = this.Scaled;
+    function b = isScaled(obj)
+        b = obj.Scaled;
     end
     
-    function disp(this)
+    function disp(obj)
         
-        if this.Scaled
+        if obj.Scaled
             scaleString = 'true';
         else
             scaleString = 'false';
         end
         
         disp('Principal Component Analysis Result');
-        disp(['   Input data: ' this.TableName]);
+        disp(['   Input data: ' obj.TableName]);
         disp(['       scaled: ' scaleString]);
-        disp(['        means: ' sprintf('<%dx%d double>', size(this.Means))]);
-        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.Scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.Loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.EigenValues))]);
+        disp(['        means: ' sprintf('<%dx%d double>', size(obj.Means))]);
+        disp(['       scores: ' sprintf('<%dx%d Table>', size(obj.Scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d Table>', size(obj.Loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(obj.EigenValues))]);
     end
 end
 

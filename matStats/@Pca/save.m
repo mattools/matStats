@@ -1,5 +1,5 @@
-function save(this, baseName)
-%SAVE Save the result of the PCA into several files
+function save(obj, baseName)
+% Save the result of the PCA into several files.
 %
 %   output = save(input)
 %
@@ -18,7 +18,7 @@ function save(this, baseName)
 
 
 if nargin < 2
-    baseName = [this.TableName '-pca'];
+    baseName = [obj.TableName '-pca'];
 end
 
 [path, name] = fileparts(baseName);
@@ -31,8 +31,8 @@ f = fopen([baseName '.txt'], 'wt');
 fprintf(f, 'Result of Principal Component Analysis\n');
 fprintf(f, '\n');
 
-fprintf(f, 'Original data file:  %s\n', this.TableName);
-if this.Scaled
+fprintf(f, 'Original data file:  %s\n', obj.TableName);
+if obj.Scaled
     str = 'yes'; 
 else
     str = 'no'; 
@@ -54,12 +54,12 @@ fclose(f);
 
 % save score array (coordinates of individuals in new basis)
 fileName = [baseName '.scores.txt'];
-write(this.Scores, fileName);
+write(obj.Scores, fileName);
 
 % save loadings array (corodinates of variable in new basis)
 fileName = [baseName '.loadings.txt'];
-write(this.Loadings, fileName);
+write(obj.Loadings, fileName);
 
 % save eigen values array
 fileName = [baseName '.values.txt'];
-write(this.EigenValues, fileName);
+write(obj.EigenValues, fileName);

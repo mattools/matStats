@@ -1,5 +1,5 @@
-function varargout = screePlot(this, varargin)
-%SCREEPLOT  Display the scree plot of the PCA result
+function varargout = screePlot(obj, varargin)
+% Display the scree plot of the PCA result.
 %
 %   screePlot(PCA)
 %   Display the scree plot of the PCA object in a new figure.
@@ -25,9 +25,9 @@ function varargout = screePlot(this, varargin)
 
 
 % extract data
-name    = this.TableName;
-coord   = this.Scores.Data;
-values  = this.EigenValues.Data;
+name    = obj.TableName;
+coord   = obj.Scores.Data;
+values  = obj.EigenValues.Data;
 
 % distribution of the first 10 eigen values
 h = figure('Name', 'PCA - Eigen Values', 'NumberTitle', 'off');

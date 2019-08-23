@@ -1,5 +1,5 @@
 function poly = rowToPolygon(row, varargin)
-%ROWTOPOLYGON  Create a polygon from a row vector
+% Create a polygon from a row vector.
 %
 %   POLY = rowToPolygon(ROW)
 %   Convert a 1-by-2*N row vector that concatenates all polygon vertex
@@ -23,9 +23,10 @@ function poly = rowToPolygon(row, varargin)
 %   See also
 %   polygons2d, polygonToRow
 %
+
 % ------
 % Author: David Legland
-% e-mail: david.legland@grignon.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2010-07-23,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 

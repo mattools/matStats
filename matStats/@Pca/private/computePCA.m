@@ -1,5 +1,5 @@
-function [means, sc, ld, ev] = computePCA(this, scale)
-%COMPUTEPCA  Compute PCA on input data table
+function [means, sc, ld, ev, sigma] = computePCA(obj, scale)
+% Compute PCA on input data table.
 %
 %   RES = computePCA(TABLE, SCALE)
 %   TABLE is an instance of Table class. SCALE is a boolean value
@@ -21,14 +21,16 @@ function [means, sc, ld, ev] = computePCA(this, scale)
 %% Pre-processing
 
 % recenter data (remove mean)
-means = mean(this.Data, 1);
-cData = bsxfun(@minus, this.Data, means);
+means = mean(obj.Data, 1);
+cData = bsxfun(@minus, obj.Data, means);
 
 % optional scaling of data (divide each column by standard deviation)
 if scale
     sigma   = sqrt(var(cData));
     sigma(sigma < 1e-10) = 1;
     cData   = cData * diag(1 ./ sigma);
+else
+    sigma = ones(1, size(cData, 2));
 end
 
 
@@ -85,37 +87,37 @@ eigenValues(:, 3) = cumsum(eigenValues(:,2));   % cumulated inertia
 %% Create result data tables
 
 % name of new columns
-nCols = size(this.Data, 2);
+nCols = size(obj.Data, 2);
 if transpose
-    nCols = size(this.Data, 1);
+    nCols = size(obj.Data, 1);
 end
 varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')));
 
 % Table object for new coordinates
-if ~isempty(this.Name)
-    name = sprintf('Scores of %s', this.Name);
+if ~isempty(obj.Name)
+    name = sprintf('Scores of %s', obj.Name);
 else
     name = 'Scores';
 end
 sc = Table.create(coord, ...
-    'RowNames', this.RowNames, ...
+    'RowNames', obj.RowNames, ...
     'ColNames', varNames, ...
     'Name', name);
 
 % Table object for loadings
-if ~isempty(this.Name)
-    name = sprintf('Loadings of %s', this.Name);
+if ~isempty(obj.Name)
+    name = sprintf('Loadings of %s', obj.Name);
 else
     name = 'Loadings';
 end
 ld = Table.create(eigenVectors, ...
-    'RowNames', this.ColNames, ...
+    'RowNames', obj.ColNames, ...
     'ColNames', varNames, ...
     'Name', name);
 
 % Table object for eigen values
-if ~isempty(this.Name)
-    name = sprintf('Eigen values of %s', this.Name);
+if ~isempty(obj.Name)
+    name = sprintf('Eigen values of %s', obj.Name);
 else
     name = 'Eigen values';
 end

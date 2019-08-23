@@ -1,5 +1,5 @@
 function [hc, hl1, hl2] = makeCircleAxis(varargin)
-%MAKECIRCLEAXIS  Draw a circle and format display
+% Draw a circle and format display.
 %
 %   output = makeCircleAxis(input)
 %

@@ -1,5 +1,5 @@
-function biplot(this, varargin)
-%BIPLOT Biplot of a Principal Component Analysis
+function biplot(obj, varargin)
+% Biplot of a Principal Component Analysis.
 %
 %   biplot(PCA, CPI, CPJ)
 %   biplot(PCA, CPI, CPJ, CPK)
@@ -41,11 +41,11 @@ else
 end
 
 % calls the native biplot function with appropriate legends
-biplot(this.Loadings(:, inds).Data, ...
-    'Scores', this.Scores(:, inds).Data,...
-    'VarLabels', this.Loadings.RowNames);
+biplot(obj.Loadings(:, inds).Data, ...
+    'Scores', obj.Scores(:, inds).Data,...
+    'VarLabels', obj.Loadings.RowNames);
 
 grid off;
 
 % create legends
-annotateFactorialPlot(this, inds(1), inds(2));
+annotateFactorialPlot(obj, inds(1), inds(2));

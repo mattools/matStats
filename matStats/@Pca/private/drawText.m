@@ -1,5 +1,5 @@
 function ht = drawText(ax, x, y, labels, varargin)
-%DRAWTEXT Display text with specific formating
+% Display text with specific formating.
 %
 %   drawText(AX, X, Y, LABELS)
 %   HT = drawText(AX, X, Y, LABELS)

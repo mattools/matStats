@@ -1,5 +1,5 @@
-function varargout = influencePlot(this, varargin)
-%INFLUENCEPLOT  One-line description here, please.
+function varargout = influencePlot(obj, varargin)
+% Display influence plot of a PCA result.
 %
 %   output = influencePlot(input)
 %
@@ -16,10 +16,10 @@ function varargout = influencePlot(this, varargin)
 % Created: 2012-10-08,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-n = size(this.Scores, 1);
+n = size(obj.Scores, 1);
 
-xi = sqrt(sum(this.Scores.Data .^ 2, 2));
-yi = min(abs(this.Scores.Data), [], 2);
+xi = sqrt(sum(obj.Scores.Data .^ 2, 2));
+yi = min(abs(obj.Scores.Data), [], 2);
 
 % prepare figure
 figure;
@@ -31,13 +31,13 @@ end
 plot(xi, yi, 'k.');
 hold on;
 if n < 200
-    drawText(xi, yi, this.Scores.RowNames);
+    drawText(xi, yi, obj.Scores.RowNames);
 end
 
 % annotate graph
 xlabel('Distance to origin');
 ylabel('Distance to axis');
-title([this.TableName ' - Influence plot']);
+title([obj.TableName ' - Influence plot']);
 
 % return graphic handle if needed
 if nargout > 0
