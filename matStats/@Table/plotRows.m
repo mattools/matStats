@@ -1,5 +1,5 @@
 function varargout = plotRows(varargin)
-%PLOTROWS Plot all the rows of the data table
+% Plot all the rows of the data table.
 %
 %   plotRows(TAB)
 %
@@ -16,21 +16,24 @@ function varargout = plotRows(varargin)
 % Created: 2011-11-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
+
+%% Parse input arguments
+
 % determines whether an axis handle is given as argument
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % assumes first input argument is the current table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % default tables for plotting
 tabX = [];
-tabY = this;
+tabY = obj;
 
 % if two inputs are specified, setup the tabX variable
 if ~isempty(varargin)
     if isa(varargin{1}, 'Table')
-        tabX = this;
+        tabX = obj;
         tabY = varargin{1};
         varargin(1) = [];
     end
@@ -64,31 +67,35 @@ else
 end
 
 
-%% parse additional input arguments
+%% Parse additional input arguments
 
-showLegend = true;
-legendLocation = 'NorthEast';
-
-ind = find(strcmpi(varargin(1:2:end), 'legendLocation'));
-if ~isempty(ind)
-    legendLocation = varargin{2*ind};
-    varargin(2*ind-1:2*ind) = [];
-end
+% display legend only for small number of rows
+showLegend = size(obj, 1) < 20;
 ind = find(strcmpi(varargin(1:2:end), 'showLegend'));
 if ~isempty(ind)
     showLegend = varargin{2*ind};
     varargin(2*ind-1:2*ind) = [];
 end
 
+% display legend in top-right corner
+legendLocation = 'NorthEast';
+ind = find(strcmpi(varargin(1:2:end), 'legendLocation'));
+if ~isempty(ind)
+    legendLocation = varargin{2*ind};
+    varargin(2*ind-1:2*ind) = [];
+end
+
+
 %% Plot data
 
 if isempty(xData)
-    % plot(Y)
+    % plotRows(Y)
     h = plot(ax, tabY.Data', varargin{:});
     
 else
-    % plot(X, Y)
+    % plotRows(X, Y)
     h = plot(ax, xData, tabY.Data', varargin{:});
+    xlim(xData([1 end]));
     
     if ~isempty(xAxisLabel)
         xlabel(xAxisLabel);

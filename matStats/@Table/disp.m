@@ -108,7 +108,7 @@ if nRows > 0 && nCols > 0
                 fprintf('\n');
             end
             
-            if ~isempty(this.rowNames)
+            if ~isempty(this.RowNames)
                 txtArray = strjust([colPad char([{' '}; this.RowNames(:)])]);
             else
                 txtArray = char(zeros(nRows + 1, 0));
