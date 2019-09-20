@@ -127,7 +127,7 @@ methods
             set(hf, 'Units', 'normalized');
             
             leftPanel = uix.VBox('Parent', hf, ...
-                'Position', [.03 .03 .45 .94]);
+                'Position', [.03 .03 .35 .94]);
             
             % Setup figure background to the same color as widgets
             bgColor = get(leftPanel, 'BackgroundColor');
@@ -190,7 +190,7 @@ methods
             obj.Handles.EigenValuesTable = uitable(...
                 'Parent', hf', ...
                 'Units', 'normalized', ...
-                'Position', [.52 .03 .46 .94]);            
+                'Position', [.40 .03 .57 .94]);            
         end
         
         
