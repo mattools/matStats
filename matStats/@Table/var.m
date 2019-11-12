@@ -1,5 +1,5 @@
-function res = var(this, varargin)
-%VAR Put the variance of each column in a new table
+function res = var(obj, varargin)
+%VAR Put the variance of each column in a new table.
 %
 %   output = var(input)
 %
@@ -17,17 +17,17 @@ function res = var(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute var for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Var of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Var of ' obj.Name];
 end
 
-res = Table.create(var(this.Data, 1), ...
+res = Table.create(var(obj.Data, 1), ...
     'rowNames', {'var'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     

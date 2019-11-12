@@ -1,5 +1,5 @@
-function res = mean(this, varargin)
-%MEAN Compute the mean of table columns
+function res = mean(obj, varargin)
+%MEAN Compute the mean of table columns.
 %
 %   M = mean(TAB)
 %   Computes the mean of each column in the table. The result is a new
@@ -28,7 +28,7 @@ function res = mean(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % check conditions
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute mean for table with factors');
 end
 
@@ -38,19 +38,19 @@ if ~isempty(varargin)
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Mean of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Mean of ' obj.Name];
 end
 
 if dim == 1
-    res = Table.create(mean(this.data, 1), ...
+    res = Table.create(mean(obj.Data, 1), ...
         'rowNames', {'mean'}, ...
-        'colNames', this.colNames, ...
+        'colNames', obj.ColNames, ...
         'name', newName);
     
 else
-    res = Table.create(mean(this.Data, 2), ...
-        'rowNames', this.RowNames, ...
+    res = Table.create(mean(obj.Data, 2), ...
+        'rowNames', obj.RowNames, ...
         'colNames', {'mean'}, ...
         'name', newName);
     

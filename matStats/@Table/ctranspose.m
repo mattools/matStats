@@ -1,5 +1,5 @@
-function res = ctranspose(this)
-%CTRANSPOSE Simple wrapper to transpose function to comply with ' syntax
+function res = ctranspose(obj)
+%CTRANSPOSE Simple wrapper to transpose function to comply with ' syntax.
 %
 %   output = ctranspose(input)
 %
@@ -16,4 +16,4 @@ function res = ctranspose(this)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-res = transpose(this);
+res = transpose(obj);

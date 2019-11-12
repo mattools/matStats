@@ -1,5 +1,5 @@
-function res = std(this, varargin)
-%STD Put the std of each column in a new table
+function res = std(obj, varargin)
+%STD Put the std of each column in a new table.
 %
 %   RES = std(TAB)
 %   Computes the standard deviation of each column in the table, and put
@@ -24,17 +24,17 @@ function res = std(this, varargin)
 
 
 % check conditions
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute mean for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Std of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Std of ' obj.Name];
 end
 
-res = Table.create(std(this.Data, 0, 1), ...
+res = Table.create(std(obj.Data, 0, 1), ...
     'rowNames', {'std'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     
