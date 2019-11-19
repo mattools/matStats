@@ -1,5 +1,5 @@
 function res = var(obj, varargin)
-%VAR Put the variance of each column in a new table.
+%VAR Put the variance of each column in a new table
 %
 %   output = var(input)
 %

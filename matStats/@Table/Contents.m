@@ -41,7 +41,7 @@
 %   scatterLabels           - Scatter labels according to 2 variables
 %   scatterPlot             - Scatter plot of two columns in a table
 %   correlationCircles      - Represent correlation matrix using colored circles
-%   plotRows                - Plot all the rows of the data table
+%   plotRows                - Plot all the rows of the data table.
 %
 %   Factors Managment
 %   setAsFactor             - Set the given column as a factor
@@ -100,7 +100,7 @@
 %   reshape                 - Reshape a data table
 %   interleave              - Interleave the rows of two data tables
 %   transpose               - Transpose a data table and intervert names of row and columns
-%   ctranspose              - Simple wrapper to transpose function to comply with ' syntax
+%   ctranspose              - Simple wrapper to transpose function to comply with ' syntax.
 %   end                     - Determine last index when accessing a table
 %   subsasgn                - Overrides subsasgn function for Image objects
 %   subsref                 - Overrides subsref function for Table objects
@@ -121,7 +121,7 @@
 %   log10                   - Decimal logarithm of table values
 %   log2                    - Binary logarithm of table values
 %   max                     - Put the max of each column in a new table
-%   mean                    - Compute the mean of table columns
+%   mean                    - Compute the mean of table columns.
 %   median                  - Put the median of each column in a new table
 %   min                     - Put the min of each column in a new table
 %   minus                   - Overload the minus operator for Table objects

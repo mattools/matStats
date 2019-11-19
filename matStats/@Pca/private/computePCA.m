@@ -22,7 +22,7 @@ function [means, sc, ld, ev, sigma] = computePCA(obj, scale)
 
 % recenter data (remove mean)
 means = mean(obj.Data, 1);
-cData = bsxfun(@minus, obj.Data, means);
+cData = bsxfun(@minus, double(obj.Data), means);
 
 % optional scaling of data (divide each column by standard deviation)
 if scale

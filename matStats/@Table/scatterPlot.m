@@ -1,4 +1,4 @@
-function varargout = scatterPlot(this, var1, var2, varargin)
+function varargout = scatterPlot(obj, var1, var2, varargin)
 %SCATTERPLOT Scatter plot of two columns in a table
 %
 %   Note: deprecated, use scatter instead
@@ -29,12 +29,12 @@ warning('Table:scatterPlot:deprecated', ...
     'function "scatterPlot" is deprecated, use "scatter" instead');
 
 % index of first column
-ind1 = this.ColumnIndex(var1);
-col1 = this.Data(:, ind1(1));
+ind1 = columnIndex(obj, var1);
+col1 = obj.Data(:, ind1(1));
 
 % index of second column
-ind2 = this.ColumnIndex(var2);
-col2 = this.Data(:, ind2(1));
+ind2 = columnIndex(obj, var2);
+col2 = obj.Data(:, ind2(1));
 
 % check if drawing style is ok to plot points
 if isempty(varargin)
@@ -45,10 +45,10 @@ end
 h = plot(col1, col2, varargin{:});
 
 % add plot annotations
-xlabel(this.colNames{ind1});
-ylabel(this.colNames{ind2});
-if ~isempty(this.Name)
-    title(this.Name, 'Interpreter', 'none');
+xlabel(obj.ColNames{ind1});
+ylabel(obj.ColNames{ind2});
+if ~isempty(obj.Name)
+    title(obj.Name, 'Interpreter', 'none');
 end
 
 % eventually returns handle to graphics
