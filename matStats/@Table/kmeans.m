@@ -1,5 +1,5 @@
-function varargout = kmeans(this, k, varargin)
-%KMEANS K-means clustering of the data table
+function varargout = kmeans(obj, k, varargin)
+%KMEANS K-means clustering of the data table.
 %
 %   GROUPS = kmeans(TAB, K)
 %   Computes homogenenous groups in the input data table using the k-means
@@ -25,6 +25,11 @@ function varargout = kmeans(this, k, varargin)
 
 %% Input checks
 
+% check argument number
+if nargin < 2
+    error('Need to specify class number');
+end
+
 % check presence of stats toolbox
 if isempty(strfind(path, fullfile('toolbox', 'stats')))
     error('Requires the statistics toolbox');
@@ -42,7 +47,7 @@ end
 
 % call the kmeans function with adequate number of output arguments
 varargout = cell(max(nargout, 1), 1);
-[varargout{:}] = kmeans(this.Data, k, varargin{:});
+[varargout{:}] = kmeans(obj.Data, k, varargin{:});
 
 
 %% Encapsulate results in tables
@@ -52,16 +57,16 @@ groupNames = strtrim(cellstr(num2str((1:k)', 'class=%d')));
 
 % format the first ouput table
 colNames = {sprintf('kmeans%d', k)};
-varargout{1} = Table(varargout{1}, colNames, this.RowNames);
+varargout{1} = Table(varargout{1}, colNames, obj.RowNames);
 
 % if second output was asked, transform it into a table
 if nargout > 1
-    varargout{2} = Table(varargout{2}, this.ColNames, groupNames);
+    varargout{2} = Table(varargout{2}, obj.ColNames, groupNames);
 end
 
 % if individual-to-centroid distance is asked, convert to table
 if nargout > 3
-    varargout{4} = Table(varargout{4}, groupNames, this.RowNames);
+    varargout{4} = Table(varargout{4}, groupNames, obj.RowNames);
 end
 
 
@@ -69,8 +74,8 @@ end
 
 % if no output is asked, display a map of the result
 if nargout == 0
-    if size(this, 2) > 1
-        scatterGroup(this, 1, 2, varargout{1}, 1);
+    if size(obj, 2) > 1
+        scatterGroup(obj, 1, 2, varargout{1}, 1);
     end
     varargout = {};
 end

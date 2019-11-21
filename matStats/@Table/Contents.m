@@ -21,6 +21,7 @@
 %   aggregate               - Group table rows according to unique values in a vector or column
 %   corrcoef                - Correlation coefficients of table data
 %   cov                     - Covariance matrix of the data table
+%   crossTable              - Cross-Tabulation of two Tables.
 %   zscore                  - Standardized z-score
 %   geomean                 - Compute geometrical mean of table columns
 %   ttest2                  - Two-sample t-test
@@ -62,13 +63,14 @@
 %   paragons                - Find paragon for each level of a group
 %
 %   Display groups
-%   kmeans                  - K-means clustering of the data table
+%   kmeans                  - K-means clustering of the data table.
 %   scatterGroup            - Scatter plot individuals grouped by classes
 %   scatterGroup3d          - Scatter plot individuals grouped by classes
 %   plotGroups              - Display data ordererd by their group levels
 %   plotGroupMeans          - One-line description here, please.
 %   plotGroupRows           - Plot data table rows with different style by group
 %   plotGroupErrorBars      - One-line description here, please.
+%
 %   Basic functions
 %   columnIndex             - Index of a column from its name
 %   isColumnName            - Check if the table contains a column with the given name

@@ -1,7 +1,7 @@
 function [groupIndices, levelNames, labels] = parseGroupInfos(group)
 %PARSEGROUPINFOS Return indices and names of group in a variable
 %
-%   [INDICES LEVELS] = parseGroupInfos(GROUP)
+%   [INDICES, LEVELS] = parseGroupInfos(GROUP)
 %   Extract group indices and names from the input GROUP. The input GROUP
 %   can be either:
 %   * a cell array of values
@@ -19,13 +19,13 @@ function [groupIndices, levelNames, labels] = parseGroupInfos(group)
 %   factors, the number of levels is the product of the number of levels of
 %   each factor.
 %
-%   [INDICES LEVELS LABEL] = parseGroupInfos(GROUP)
+%   [INDICES, LEVELS, LABEL] = parseGroupInfos(GROUP)
 %   Also returns the label of the group, that correspond either to the
 %   variable name, or to the column name of the data table.
 %
 %
 %   Example
-%   [INDS LEVELS] = parseGroupInfos([2 3 2 5 3]')
+%   [INDS, LEVELS] = parseGroupInfos([2 3 2 5 3]')
 %   INDS = 
 %       1
 %       2
