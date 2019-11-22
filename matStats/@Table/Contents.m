@@ -79,6 +79,8 @@
 %   rowIndex                - Index of a row from its name
 %   rowNumber               - Number of rows in the table
 %   getRow                  - Extract row data of the table
+%   columnNames             - Return the names of the columns in table.
+%   rowNames                - Return the names of the rows in table.
 %
 %   File I/O
 %   read                    - Read a datatable file
@@ -167,4 +169,5 @@
 %   Not yet integrated
 
 %   numel                   - Overload default behaviour for the numel function
+
 
