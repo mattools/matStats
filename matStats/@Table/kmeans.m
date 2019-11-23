@@ -35,13 +35,19 @@ if isempty(strfind(path, fullfile('toolbox', 'stats')))
     error('Requires the statistics toolbox');
 end
 
-% pre-process input arguments to transform to double whe required
+% pre-process input arguments to transform to double when required
 for i = 1:length(varargin)
     if isa(varargin{i}, 'Table')
         varargin{i} = varargin{i}.Data;
     end
 end
 
+% get table name
+baseName = obj.Name;
+if isempty(baseName)
+    baseName = 'table';
+end
+    
 
 %% Compute k-means
 
@@ -55,13 +61,15 @@ varargout = cell(max(nargout, 1), 1);
 % compute name of the groups/classes
 groupNames = strtrim(cellstr(num2str((1:k)', 'class=%d')));
 
-% format the first ouput table
+% format the first output table
 colNames = {sprintf('kmeans%d', k)};
-varargout{1} = Table(varargout{1}, colNames, obj.RowNames);
+tabName = [baseName sprintf('_kmeans%d', k)];
+varargout{1} = Table(varargout{1}, colNames, obj.RowNames, 'name', tabName);
 
-% if second output was asked, transform it into a table
+% if centroid output was asked, transform it into a table
 if nargout > 1
-    varargout{2} = Table(varargout{2}, obj.ColNames, groupNames);
+    tabName = [baseName sprintf('_kmeans%d_centroids', k)];
+    varargout{2} = Table(varargout{2}, obj.ColNames, groupNames, 'name', tabName);
 end
 
 % if individual-to-centroid distance is asked, convert to table
