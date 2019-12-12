@@ -1,5 +1,5 @@
 function varargout = plotGroups(obj, group, varargin)
-% Display obj ordererd by their group levels.
+% Display table data ordered by their group levels.
 %
 %   plotGroups(DATA, GROUP)
 %   DATA should be one-dimensional.
@@ -10,7 +10,7 @@ function varargout = plotGroups(obj, group, varargin)
 %     plotGroups(iris('SepalLength'), iris('Species'), 'x')
 %
 %   See also
-%    plot
+%    plot, aggregate
 %
 
 % ------

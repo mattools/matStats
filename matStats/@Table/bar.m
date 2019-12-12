@@ -1,5 +1,5 @@
 function varargout = bar(varargin)
-%BAR  Bar plot of the objle data
+% Bar plot of the table data.
 %
 %   bar(TAB)
 %   Simple wrapper to the native "bar" function from Matlab, that also
@@ -11,7 +11,7 @@ function varargout = bar(varargin)
 %     bar(res')
 %
 %   See also
-%     barweb
+%     barweb, plot
 
 % ------
 % Author: David Legland
@@ -19,7 +19,7 @@ function varargout = bar(varargin)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-% replaces objle by its data
+% replaces table by its data
 ind = cellfun('isclass', varargin, 'Table');
 obj = varargin{ind};
 varargin{ind} = obj.Data;
