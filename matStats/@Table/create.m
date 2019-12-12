@@ -1,5 +1,5 @@
 function tab = create(data, varargin)
-%CREATE Create a new data table
+% Create a new data table.
 %
 %   TAB = Table.create(DATA)
 %   where DATA is a numeric array, creates a new data table initialized

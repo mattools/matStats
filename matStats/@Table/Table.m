@@ -170,22 +170,23 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 
 %% Declaration of class properties
 properties
-    % the name of the table
+    % The name of the table.
     Name;
     
-    % the name of the file used for initializing the Table
+    % The name of the file used for initializing the Table.
     FileName;
     
-    % inner data of the table, stored in a Nr-by-Nc array of double
+    % Inner data of the table, stored in a Nr-by-Nc array of double.
     Data;
     
-    % name of columns, stored in a 1-by-Nc cell array of strings
+    % Name of columns, stored in a 1-by-Nc cell array of strings.
     ColNames;
     
-    % name of rows, stored in a Nr-by-1 cell array of strings
+    % Name of rows, stored in a Nr-by-1 cell array of strings.
+    % Can be empty.
     RowNames;
 
-    % factor levels, stored in a 1-by-Nc cell array. Each cell can be one
+    % Factor levels, stored in a 1-by-Nc cell array. Each cell can be one
     % of the following:
     % * empty (column is not a factor), 
     % * a cell array of chars (column is a categorical factor), 
@@ -209,7 +210,7 @@ end
 methods
 
     function this = Table(varargin)
-    %Constructor for Table class
+    % Constructor for Table class
     %
     %   TAB = Table(DATA)
     %   where DATA is a numeric array, create a new data table from a
@@ -449,7 +450,7 @@ methods
                 if ischar(value)
                     value = strtrim(cellstr(value));
                 end
-                if length(value) ~= size(this.Data,1)
+                if length(value) ~= size(this.Data,1) && ~isempty(value)
                      error('Number of row names does not match row number');
                 end
                this.RowNames = value;
@@ -458,7 +459,7 @@ methods
                 if ischar(value)
                     value = strtrim(cellstr(value))';
                 end
-                if length(value) ~= size(this.Data,2)
+                if length(value) ~= size(this.Data,2) && ~isempty(value)
                     error('Number of column names does not match column number');
                 end
                 this.ColNames = value;
@@ -482,15 +483,11 @@ methods
        
             
         % ---------
-        % create default values for other fields if they were not initialised
+        % create default values for some fields if they were not initialised
 
         % size of the data table            
-        nr = size(this.Data, 1);
         nc = size(this.Data, 2);
         
-        if isempty(this.RowNames) && nr > 0
-            this.RowNames = strtrim(cellstr(num2str((1:nr)')));
-        end
         if isempty(this.ColNames) && nc > 0
             this.ColNames = strtrim(cellstr(num2str((1:nc)')))';
         end

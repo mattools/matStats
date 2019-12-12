@@ -1,10 +1,10 @@
 function  varargout = subsref(this, subs)
-%SUBSREF Overrides subsref function for Table objects
+% Overrides subsref function for Table objects.
 %
 %   RES = subsref(TAB, SUBS)
 %   TAB is a Table object and SUBS is a structure following subsref syntax,
 %   see Matlab's documentation for details. The result RES can be either
-%   another table (in case of paren indexing), or a cell array (in case of
+%   another table (in case of parens indexing), or a cell array (in case of
 %   curly braces indexing).
 %
 %   TAB2 = TAB(ROWS, COLS);
@@ -159,10 +159,19 @@ elseif strcmp(type, '()')
         % name of the new table
         newName = this.Name;
         
+        colNames = {};
+        if ~isempty(this.ColNames)
+            colNames = this.ColNames(s1.subs{2});
+        end
+        rowNames = {};
+        if ~isempty(this.RowNames)
+            rowNames = this.RowNames(s1.subs{1});
+        end
+        
         % extract corresponding data
         tab = Table(this.Data(s1.subs{:}), ...
-            'rowNames', this.RowNames(s1.subs{1}), ...
-            'colNames', this.ColNames(s1.subs{2}), ...
+            'colNames', colNames, ...
+            'rowNames', rowNames, ...
             'levels', this.Levels(s1.subs{2}), ...
             'name', newName);
         

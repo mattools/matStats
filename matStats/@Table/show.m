@@ -1,5 +1,5 @@
 function varargout = show(this)
-%SHOW Display the content of the table in a new figure
+%SHOW Display the content of the table in a new figure.
 %
 %   show(TABLE);
 %   Displays the content of the data table TABLE in a new figure, using a
@@ -56,19 +56,19 @@ if hasFactors(this)
     
 end
 
-data2 = [this.RowNames(:) data2];
+colNames = this.ColNames;
 
-% ht = uitable(f, ...
-%     'Units', 'normalized', ...
-%     'Position', [0 0 1 1], ...
-%     'Data', data2,...
-%     'ColumnName', this.colNames,...
-%     'RowName', this.rowNames);
+% manage row names if present
+if ~isempty(this.RowNames)
+    data2 = [this.RowNames(:) data2];
+    colNames = [{'Name'} this.ColNames];
+end
+
 ht = uitable(f, ...
     'Units', 'normalized', ...
     'Position', [0 0 1 1], ...
     'Data', data2,...
-    'ColumnName', [{'Name'} this.ColNames]);
+    'ColumnName', colNames);
 
 % return handle to table if requested
 if nargout > 0
