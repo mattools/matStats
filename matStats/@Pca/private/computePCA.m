@@ -91,7 +91,7 @@ nCols = size(obj.Data, 2);
 if transpose
     nCols = size(obj.Data, 1);
 end
-varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')));
+varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')))';
 
 % Table object for new coordinates
 if ~isempty(obj.Name)
@@ -122,7 +122,7 @@ else
     name = 'Eigen values';
 end
 ev = Table.create(eigenValues, ...
-    'RowNames', varNames, ...
+    'RowNames', varNames', ...
     'Name', name, ...
     'ColNames', {'EigenValues', 'Inertia', 'Cumulated'});
 
