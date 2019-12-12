@@ -1,5 +1,5 @@
-function varargout = size(this, varargin)
-%SIZE Size of a data table
+function varargout = size(obj, varargin)
+% Size of a data table.
 %
 %   S = size(TAB)
 %   S = TAB.size()
@@ -31,4 +31,4 @@ function varargout = size(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 varargout = cell(1, max(nargout, 1));
-[varargout{:}] = size(this.Data, varargin{:});    
+[varargout{:}] = size(obj.Data, varargin{:});    

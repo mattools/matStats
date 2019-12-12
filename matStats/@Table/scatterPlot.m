@@ -1,5 +1,5 @@
 function varargout = scatterPlot(obj, var1, var2, varargin)
-%SCATTERPLOT Scatter plot of two columns in a table
+% Scatter plot of two columns in a table.
 %
 %   Note: deprecated, use scatter instead
 %

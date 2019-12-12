@@ -1,7 +1,7 @@
-function res = or(this, that)
-%OR Overload the or operator for Table objects
+function res = or(obj1, obj2)
+% Overload the or operator for Table objects.
 %
-%   output = or(input)
+%   RES = or(TAB1, TAB2)
 %
 %   Example
 %   or
@@ -16,7 +16,7 @@ function res = or(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[this, that, parent, names1, names2] = parseInputCouple(this, that);
+[obj1, obj2, parent, names1, names2] = parseInputCouple(obj1, obj2);
 
 % error checking
 if hasFactors(parent)
@@ -24,11 +24,11 @@ if hasFactors(parent)
 end
 
 % compute new data
-newData = bsxfun(@or, this, that);
+newData = bsxfun(@or, obj1, obj2);
 
-newColNames = strcat(names1, '|', names2);
+colNames = strcat(names1, '|', names2);
 
 % create result array
 res = Table.create(newData, ...
     'parent', parent, ...
-    'colNames', newColNames);
+    'colNames', colNames);

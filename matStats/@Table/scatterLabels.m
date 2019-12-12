@@ -1,7 +1,7 @@
-function varargout = scatterLabels(this, var1, var2, labels, varargin)
-%SCATTERLABELS Scatter labels according to 2 variables
+function varargout = scatterLabels(obj, var1, var2, labels, varargin)
+% Scatter labels according to two variables.
 %
-%   Note: should consider scatterNames as a replacement for this function.
+%   Note: should consider scatterNames as a replacement for obj function.
 %
 %   scatterLabels(TAB, VAR1, VAR2, LABELS)
 %   where TABLE is a Table object, and VAR1 and VAR2 are either indices or
@@ -28,19 +28,19 @@ function varargout = scatterLabels(this, var1, var2, labels, varargin)
 %% Process input arguments
 
 % index of first column
-ind1 = this.ColumnIndex(var1);
-col1 = this.Data(:, ind1(1));
+ind1 = obj.ColumnIndex(var1);
+col1 = obj.Data(:, ind1(1));
 
 % index of second column
-ind2 = this.ColumnIndex(var2);
-col2 = this.Data(:, ind2(1));
+ind2 = obj.ColumnIndex(var2);
+col2 = obj.Data(:, ind2(1));
 
 % default values for options
 fontSize = 8;
 interpreter = 'none';
 
-xlabelText = this.ColNames{ind1};
-ylabelText = this.ColNames{ind2};
+xlabelText = obj.ColNames{ind1};
+ylabelText = obj.ColNames{ind2};
 
 % parse optional arguments
 options = {};
@@ -68,14 +68,14 @@ end
 
 % if labels is the name of a column, interpret it
 if size(labels, 1)==1 && ischar(labels)
-    indLabels = this.ColumnIndex(var2);
-    labels = this.Data(:, indLabels(1));
+    indLabels = obj.ColumnIndex(var2);
+    labels = obj.Data(:, indLabels(1));
 end
 
 % labels can also be the index of a column
 if length(labels)==1 && isnumeric(labels)
-    indLabels = this.ColumnIndex(var2);
-    labels = this.Data(:, indLabels(1));
+    indLabels = obj.ColumnIndex(var2);
+    labels = obj.Data(:, indLabels(1));
 end
 
 % ensure labels are given as text
@@ -94,8 +94,8 @@ h = text(col1, col2, labels, 'FontSize', fontSize, options{:});
 xlabel(xlabelText);
 ylabel(ylabelText);
 
-if ~isempty(this.Name)
-    title(this.Name, 'Interpreter', interpreter);
+if ~isempty(obj.Name)
+    title(obj.Name, 'Interpreter', interpreter);
 end
 
 % eventually returns handle to graphics

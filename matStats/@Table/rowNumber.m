@@ -1,5 +1,5 @@
-function n = rowNumber(this)
-%ROWNUMBER Number of rows in the table
+function n = rowNumber(obj)
+% Number of rows in the table.
 %
 %   IND = rowNumber(TABLE)
 %
@@ -19,4 +19,4 @@ function n = rowNumber(this)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-n = size(this.Data, 1);
+n = size(obj.Data, 1);

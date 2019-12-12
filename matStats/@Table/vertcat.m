@@ -1,5 +1,5 @@
-function res = vertcat(this, varargin)
-%VERTCAT Concatenate tables vertically
+function res = vertcat(obj, varargin)
+% Concatenate tables vertically.
 %
 %   RES = vertcat(TAB1, TAB2)
 %   RES = [TAB1 ; TAB2];
@@ -23,14 +23,14 @@ function res = vertcat(this, varargin)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 % detect which argument is table object
-if isa(this, 'Table')
-    data = this.Data;
-    rowNames = this.RowNames;
-    name = this.Name;
-    nCols = size(this.Data, 2);
+if isa(obj, 'Table')
+    data = obj.Data;
+    rowNames = obj.RowNames;
+    name = obj.Name;
+    nCols = size(obj.Data, 2);
     
 else
-    data = this;
+    data = obj;
     nCols = size(data, 2);
     rowNames = strtrim(cellstr(num2str((1:size(data, 1))')));
     name = 'NoName';
@@ -40,9 +40,9 @@ end
 % init levels array
 colNames = cell(1, nCols);
 levels = cell(1, nCols);
-if isa(this, 'Table')
-    colNames = this.ColNames;
-    levels = this.Levels;
+if isa(obj, 'Table')
+    colNames = obj.ColNames;
+    levels = obj.Levels;
 end
 
 % iterate over
@@ -57,12 +57,12 @@ for i = 1:length(varargin)
         
         data2 = var.Data;
         % in case of factor columns, merge the existing factor levels
-        indFactCol = find(isFactor(this, 1:nCols) | isFactor(var, 1:nCols));
+        indFactCol = find(isFactor(obj, 1:nCols) | isFactor(var, 1:nCols));
         for j = 1:length(indFactCol)
             indCol = indFactCol(j);
 
             % get list of levels in first table
-            levels0 = this.Levels{indCol};
+            levels0 = obj.Levels{indCol};
             if isempty(levels0)
                 levels0 = {};
             end

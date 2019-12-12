@@ -1,5 +1,5 @@
-function res = log(this)
-%LOG Logarithm of table values
+function res = log(obj)
+% Logarithm of table values.
 %
 %   RES = log(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -19,19 +19,19 @@ function res = log(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute log for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Log of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Log of ' obj.Name];
 end
 
-newColNames = strcat('log', this.ColNames);
+newColNames = strcat('log', obj.ColNames);
 
-res = Table.create(log(this.Data), ...
-    'parent', this, ...
+res = Table.create(log(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

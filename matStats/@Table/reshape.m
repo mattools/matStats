@@ -1,5 +1,5 @@
-function res = reshape(this, newDim, varargin)
-%RESHAPE Reshape a data table
+function res = reshape(obj, newDim, varargin)
+% Reshape a data table.
 %
 %   RES = reshape(TAB, [M N])
 %   RES = reshape(TAB, M, N)
@@ -30,7 +30,7 @@ if isscalar(newDim)
 end
 
 % check dimension of tables
-if prod(newDim) ~= prod(size(this)) %#ok<PSIZE>
+if prod(newDim) ~= prod(size(obj)) %#ok<PSIZE>
     error('new table must have the same number of elements');
 end
 
@@ -48,7 +48,7 @@ end
 
 % create result data table
 res = Table(zeros(newDim));
-res.Data(:) = this.Data(:);
+res.Data(:) = obj.Data(:);
 
 % setup meta data if needed
 if ~isempty(colNames)

@@ -1,7 +1,7 @@
-function res = ne(this, that)
-%NE  Overload the ne operator for Table objects
+function res = ne(obj1, obj2)
+% Overload the ne operator for Table objects.
 %
-%   output = ne(input)
+%   RES = ne(TAB1, TAB2)
 %
 %   Example
 %   ne
@@ -11,11 +11,11 @@ function res = ne(this, that)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@nantes.inra.fr
+% e-mail: david.legland@inra.fr
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[dat1, dat2, parent, names1, names2] = parseInputCouple(this, that, inputname(1), inputname(2));
+[dat1, dat2, parent, names1, names2] = parseInputCouple(obj1, obj2, inputname(1), inputname(2));
 
 if ~hasFactors(parent)
     % compute new data with numeric data

@@ -1,5 +1,5 @@
-function printLatex(this, varargin)
-%PRINTLATEX Print content of this table as a latex tabular
+function printLatex(obj, varargin)
+% Print content of this table as a latex tabular.
 %
 %   output = printLatex(input)
 %
@@ -21,8 +21,8 @@ function printLatex(this, varargin)
 fid = 1;
 
 % size of the table
-nRows = size(this, 1);
-nCols = size(this, 2);
+nRows = size(obj, 1);
+nCols = size(obj, 2);
 
 
 % Eventually writes document header
@@ -34,7 +34,7 @@ fprintf(fid, '\\begin{tabular}{ }\n');
 
 fprintf(fid, 'name');
 for iCol = 1:nCols
-    fprintf(fid, [' & ' this.ColNames{iCol}]);
+    fprintf(fid, [' & ' obj.ColNames{iCol}]);
 end
 fprintf(fid, ' \\\\ \n');
 
@@ -43,7 +43,7 @@ fprintf(fid, '\\hline\n');
 for iRow = 1:nRows
     
     % print first item
-    fprintf(fid, '%s', this.RowNames{iRow});
+    fprintf(fid, '%s', obj.RowNames{iRow});
 
     % print all remaining items
     for iCol = 1:nCols
@@ -63,12 +63,12 @@ fprintf(fid,'\\end{tabular}\n');
 
     function entry = formatEntry(iRow, iCol)
         % Formating function that returns a clean string
-        if isFactor(this, iCol)
-            ind = this.Data(iRow, iCol);
-            level = this.Levels{iCol}{ind};
+        if isFactor(obj, iCol)
+            ind = obj.Data(iRow, iCol);
+            level = obj.Levels{iCol}{ind};
             entry = level;
         else
-            entry = sprintf('%g', this.Data(iRow, iCol));
+            entry = sprintf('%g', obj.Data(iRow, iCol));
         end
     end
 end

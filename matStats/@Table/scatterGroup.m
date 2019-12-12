@@ -1,5 +1,5 @@
-function varargout = scatterGroup(this, varargin)
-%SCATTERGROUP Scatter plot individuals grouped by classes
+function varargout = scatterGroup(obj, varargin)
+% Scatter plot individuals grouped by classes.
 %
 %   Syntax
 %   scatterGroup(VAR1, VAR2, GROUP)
@@ -70,7 +70,7 @@ function varargout = scatterGroup(this, varargin)
 
 %% Extract main data
 
-if size(this.Data, 2) == 1
+if size(obj.Data, 2) == 1
     % Data are given as separate arrays
     
     if nargin < 3 || ~isa(varargin{1}, 'Table')
@@ -78,8 +78,8 @@ if size(this.Data, 2) == 1
             'Second argument must be another table');
     end
     
-    xdata = this.Data(:, 1);
-    nameX = this.ColNames{1};
+    xdata = obj.Data(:, 1);
+    nameX = obj.ColNames{1};
     
     var1 = varargin{1};
     ydata = var1.Data(:, 1);
@@ -97,15 +97,15 @@ else
     
     % index of first column
     var1 = varargin{1};
-    indx = columnIndex(this, var1);
-    xdata = this.Data(:, indx(1));
-    nameX = this.ColNames{indx(1)};
+    indx = columnIndex(obj, var1);
+    xdata = obj.Data(:, indx(1));
+    nameX = obj.ColNames{indx(1)};
 
     % index of second column
     var2 = varargin{2};
-    indy = columnIndex(this, var2);
-    ydata = this.Data(:, indy(1));
-    nameY = this.ColNames{indy(1)};
+    indy = columnIndex(obj, var2);
+    ydata = obj.Data(:, indy(1));
+    nameY = obj.ColNames{indy(1)};
     
     var3 = varargin{3};
     if isa(var3, 'Table')
@@ -113,9 +113,9 @@ else
         levels = var3.Levels{1};
     else
         % index of third column
-        indG = columnIndex(this, var3);
-        group = this.Data(:, indG(1));
-        levels = this.Levels{indG(1)};
+        indG = columnIndex(obj, var3);
+        group = obj.Data(:, indG(1));
+        levels = obj.Levels{indG(1)};
     end
     if ~isempty(levels)
         group = levels(group);
@@ -146,7 +146,7 @@ fillMarkers = false(nGroups, 1);
 envelope = 'convexhull';
 
 % should we keep the name of the group in the legend ?
-keepGroupName = ~isempty(this.ColNames{1});
+keepGroupName = ~isempty(obj.ColNames{1});
 
 % parse input options
 options = {};
@@ -232,8 +232,8 @@ end
 % add plot annotations
 xlabel(nameX);
 ylabel(nameY);
-if ~isempty(this.Name)
-    title(this.Name, 'Interpreter', 'none');
+if ~isempty(obj.Name)
+    title(obj.Name, 'Interpreter', 'none');
 end
 
 % Legend of the graph

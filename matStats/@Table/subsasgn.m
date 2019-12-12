@@ -1,5 +1,5 @@
-function varargout = subsasgn(this, subs, value)
-%SUBSASGN Overrides subsasgn function for Image objects
+function varargout = subsasgn(obj, subs, value)
+% Overrides subsasgn function for Image objects.
 %   output = subsasgn(input)
 %
 %   Example
@@ -24,9 +24,9 @@ if strcmp(type, '.')
     % if some output arguments are asked, use specific processing
     if nargout > 0
         varargout = cell(1);
-        varargout{1} = builtin('subsasgn', this, subs, value);    
+        varargout{1} = builtin('subsasgn', obj, subs, value);    
     else
-        builtin('subsasgn', this, subs, value);
+        builtin('subsasgn', obj, subs, value);
     end
     
 elseif strcmp(type, '()')
@@ -39,7 +39,7 @@ elseif strcmp(type, '()')
         if isa(value, 'Table')
             value = value.data;
         end
-        this.Data(s1.subs{1}) = value;
+        obj.Data(s1.subs{1}) = value;
 
     elseif ns == 2
         % two indices: fill up with given value
@@ -49,7 +49,7 @@ elseif strcmp(type, '()')
         if ischar(sub1) || iscell(sub1)
             if ~strcmp(sub1, ':') 
                 % parse the name of the row
-                sub1 = rowIndex(this, sub1)';
+                sub1 = rowIndex(obj, sub1)';
                 s1.subs{1} = sub1;
             end
         end
@@ -59,7 +59,7 @@ elseif strcmp(type, '()')
         if ischar(sub2) || iscell(sub2)
             if ~strcmp(sub2, ':')
                 % parse the name of the column
-                sub2 = columnIndex(this, sub2)';
+                sub2 = columnIndex(obj, sub2)';
                 s1.subs{2} = sub2;
             end
         end
@@ -71,7 +71,7 @@ elseif strcmp(type, '()')
         
         % if right-hand arg is char, then it is a factor level
         if ischar(value)
-            colLevels = this.Levels{sub2};
+            colLevels = obj.Levels{sub2};
             if ~ismember(value, colLevels)
                 % Add the new level to the list of current levels
                 warning('Table:subsasgn:UnknownLevel', ...
@@ -82,9 +82,9 @@ elseif strcmp(type, '()')
                     colLevels = {};
                 end
                 
-                % Add the new level to the list of levels for this column
+                % Add the new level to the list of levels for obj column
                 colLevels(length(colLevels)+1, 1) = {value};
-                this.Levels{sub2} = colLevels;
+                obj.Levels{sub2} = colLevels;
             end
             
             % use index of specified level as value
@@ -92,20 +92,20 @@ elseif strcmp(type, '()')
         end
         
         % Assign the new value
-        this.Data(s1.subs{:}) = value;
+        obj.Data(s1.subs{:}) = value;
         
         % if right-hand side is empty, need to update other data as well
         if isempty(value)
             if ischar(sub1) && strcmp(sub1, ':')
                 % remove some columns
-                this.ColNames(sub2) = [];
-                if ~isempty(this.Levels)
-                    this.Levels(sub2) = [];
+                obj.ColNames(sub2) = [];
+                if ~isempty(obj.Levels)
+                    obj.Levels(sub2) = [];
                 end
                 
             elseif ischar(sub2) && strcmp(sub2, ':') 
                 % remove some rows
-                this.RowNames(sub1) = [];
+                obj.RowNames(sub1) = [];
                 
             else
                 error('Illegal table modification');
@@ -121,5 +121,5 @@ else
 end
 
 if nargout > 0
-    varargout{1} = this;
+    varargout{1} = obj;
 end

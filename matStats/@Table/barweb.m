@@ -1,5 +1,5 @@
 function varargout = barweb(values, errors, varargin)
-%BARWEB  Bar plot of the table data with error bars ("WEB")
+% Bar plot of the table data with error bars ("WEB").
 %
 %   barweb(VALS, ERR)
 %   Simple wrapper to the barweb contribution, that also displays

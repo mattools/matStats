@@ -1,5 +1,5 @@
-function res = ismember(this, values)
-%ISMEMBER  Override the ismember function
+function res = ismember(obj, values)
+% Override the ismember function.
 %
 %   RES = ismember(TAB, VALS)
 %   Returns a data table with same number of rows and columns as the input
@@ -41,23 +41,23 @@ function res = ismember(this, values)
 
 if isnumeric(values)
     % simple case: no factor
-    dat = ismember(this.Data, values);
-    res = Table(dat, 'parent', this);
+    dat = ismember(obj.Data, values);
+    res = Table(dat, 'parent', obj);
 
 else
     % can compare levels of a single factor column. 
     % need to convert to cell array of levels.
     
     % ensure single column
-    if size(this, 2) > 1
+    if size(obj, 2) > 1
         error('can process cell array with only one column');
     end
     
     % use ismember on the corresponding cell array
-    cells = cellstr(this);
+    cells = cellstr(obj);
     
     % create resulting array
     res = Table(ismember(cells, values));
-    res.ColNames = {sprintf('ismember(%s,vals)', this.ColNames{1})};
-    res.RowNames = this.RowNames;
+    res.ColNames = {sprintf('ismember(%s,vals)', obj.ColNames{1})};
+    res.RowNames = obj.RowNames;
 end

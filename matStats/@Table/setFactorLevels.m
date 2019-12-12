@@ -1,5 +1,5 @@
-function setFactorLevels(this, colName, levels)
-%SETFACTORLEVELS Set up the levels of a factor in a table
+function setFactorLevels(obj, colName, levels)
+% Set up the levels of a factor in a table.
 %
 %   setFactorLevels(TAB, COLNAME, LEVELS)
 %   TAB is a Table object, and COLNAME is either a column name or index.
@@ -33,18 +33,18 @@ function setFactorLevels(this, colName, levels)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % identify column index from first argument
-indCol = columnIndex(this, colName);
+indCol = columnIndex(obj, colName);
 
 % ensures list of levels is a (column) cell array
 if ischar(levels)
     levels = cellstr(levels);
 end
 levels = levels(:);
-this.Levels{indCol} = levels;
+obj.Levels{indCol} = levels;
 
 % check there is enough level names
 nLevels = length(levels);
-nVals = length(unique(this.Data(:, indCol)));
+nVals = length(unique(obj.Data(:, indCol)));
 if nVals > nLevels
     warning('Table:setFactorLevels',...
         'The number of unique values is greater than the number of levels');

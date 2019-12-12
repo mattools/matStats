@@ -1,5 +1,5 @@
-function b = isColumnName(this, colName)
-%ISCOLUMNNAME Check if the table contains a column with the given name
+function b = isColumnName(obj, colName)
+%Check if the table contains a column with the given name.
 %
 %   B = isColumnName(TAB, COLNAME)
 %   Returns TRUE if the table TAB contains a column whose name is COLNAME,
@@ -20,7 +20,7 @@ function b = isColumnName(this, colName)
 % check index of column
 if isnumeric(colName)
     % input argument is already an index
-    n = length(this.ColNames);
+    n = length(obj.ColNames);
     b = colName > 0 & colName <= n;
     
 elseif ischar(colName)
@@ -28,7 +28,7 @@ elseif ischar(colName)
     n = size(colName, 1);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(find(strcmp(colName(i,:), this.ColNames), 1));
+        b(i) = ~isempty(find(strcmp(colName(i,:), obj.ColNames), 1));
     end
    
 elseif iscell(colName)
@@ -36,7 +36,7 @@ elseif iscell(colName)
     n = length(colName);
     b = false(n, 1);
     for i = 1:n
-        b(i) = ~isempty(find(strcmp(colName{i}, this.ColNames), 1));
+        b(i) = ~isempty(find(strcmp(colName{i}, obj.ColNames), 1));
     end
     
 else

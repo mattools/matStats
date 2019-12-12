@@ -1,5 +1,5 @@
 function varargout = scatterNames(varargin)
-%SCATTERNAMES  Scatter names according to two variables
+% Scatter names according to two variables.
 %
 %   scatterNames(T, COL1, COL2)
 %   Scatters row names of table T with respect to coordinates given by
@@ -44,37 +44,37 @@ if length(varargin) < 3
     error('Should be called with at least 3 arguments');
 end
 
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 
 %% Extract coordinates
 
-if size(this, 2) == 1
+if size(obj, 2) == 1
     % If input table has only one column, second argument must contain 
     % y-coords
-    xData = this.Data;
+    xData = obj.Data;
     var2 = varargin{2};
     yData = var2.Data(:, 1);
     varargin(1) = [];
     
-    xlabelText = this.ColNames{1};
+    xlabelText = obj.ColNames{1};
     ylabelText = var2.ColNames{1};
     
 else
     % If input table has more than one column, second and third arguments
     % must provide column names
-    indx = columnIndex(this, varargin{1});
-    indy = columnIndex(this, varargin{2});
+    indx = columnIndex(obj, varargin{1});
+    indy = columnIndex(obj, varargin{2});
     varargin(1:2) = [];
 
-    xData = this.Cata(:,indx);
-    yData = this.Cata(:,indy);
+    xData = obj.Cata(:,indx);
+    yData = obj.Cata(:,indy);
     
-    labels = this.RowNames;
+    labels = obj.RowNames;
     
-    xlabelText = this.ColNames{indx};
-    ylabelText = this.ColNames{indy};
+    xlabelText = obj.ColNames{indx};
+    ylabelText = obj.ColNames{indy};
 end
 
 
@@ -122,8 +122,8 @@ h = text(xData, yData, labels, 'Parent', ax, 'FontSize', fontSize, options{:});
 xlabel(xlabelText);
 ylabel(ylabelText);
 
-if ~isempty(this.Name)
-    title(this.Name, 'Interpreter', interpreter);
+if ~isempty(obj.Name)
+    title(obj.Name, 'Interpreter', interpreter);
 end
 
 

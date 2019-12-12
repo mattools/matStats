@@ -1,5 +1,5 @@
-function res = round(this)
-%ROUND Round values in the table
+function res = round(obj)
+% Round values in the table.
 %
 %   RES = round(TAB)
 %   Returns a new table with rounded values.
@@ -23,10 +23,10 @@ function res = round(this)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not round table with factors');
 end
 
-newData = round(this.Data);
+newData = round(obj.Data);
 
-res = Table(newData, 'parent', this);
+res = Table(newData, 'parent', obj);

@@ -1,5 +1,5 @@
 function res = repmat(this, M, N)
-%REPMAT Replicate and tile a data table
+% Replicate and tile a data table.
 %
 %   T2 = repmat(T, M, N)
 %   T2 = repmat(T, [M N])

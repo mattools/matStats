@@ -1,5 +1,5 @@
 function res = std(obj, varargin)
-%STD Put the std of each column in a new table
+% Put the std of each column in a new table.
 %
 %   RES = std(TAB)
 %   Computes the standard deviation of each column in the table, and put

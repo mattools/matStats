@@ -1,5 +1,5 @@
-function res = reorderLevels(this, newOrder)
-%REORDERLEVELS Change the order the levels are stored
+function res = reorderLevels(obj, newOrder)
+% Change the order the levels are stored.
 %
 %   TAB2 = reorderLevels(TAB, NEWORDER)
 %
@@ -20,28 +20,28 @@ function res = reorderLevels(this, newOrder)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 % Check validity of table
-if size(this, 2) ~= 1
+if size(obj, 2) ~= 1
     error('Requires a single column table');
 end
-if ~isFactor(this, 1)
+if ~isFactor(obj, 1)
     error('Requires a table with factor column');
 end
 
 % check correspondence of tables
-nLevels = length(this.Levels{1});
+nLevels = length(obj.Levels{1});
 if length(newOrder) ~= nLevels
     error('Length of new indices does not match the number of levels');
 end
 
 % compute the vector of new indices
-data = zeros(size(this.Data));
+data = zeros(size(obj.Data));
 for i = 1:length(newOrder)
-    data(this.Data == newOrder(i)) = i;
+    data(obj.Data == newOrder(i)) = i;
 end
 
 % reorder the levels
-levels = {this.Levels{1}(newOrder)};
+levels = {obj.Levels{1}(newOrder)};
 
 % create result data table
-res = Table(data, this.ColNames, this.RowNames, ...
+res = Table(data, obj.ColNames, obj.RowNames, ...
     'levels', levels);

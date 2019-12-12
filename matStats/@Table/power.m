@@ -1,5 +1,5 @@
-function res = power(this, arg)
-%POWER Overload the power operator for Table objects
+function res = power(obj, arg)
+% Overload the power operator for Table objects.
 %
 %   output = power(input)
 %
@@ -16,4 +16,4 @@ function res = power(this, arg)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-res = mpower(this, arg);
+res = mpower(obj, arg);

@@ -1,5 +1,5 @@
-function column = getColumn(this, colName)
-%GETCOLUMN Extract column data of the table
+function column = getColumn(obj, colName)
+% Extract column data of the table.
 %
 %   COL = getColumn(TABLE, COLNAME)
 %
@@ -20,7 +20,7 @@ function column = getColumn(this, colName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % Parse index of column
-ind = this.columnIndex(colName);
+ind = obj.columnIndex(colName);
 
 % extract data
-column = this.Data(:, ind);
+column = obj.Data(:, ind);

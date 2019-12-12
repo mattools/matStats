@@ -1,5 +1,5 @@
 function names = rowNames(obj)
-%ROWNAMES Return the names of the rows in table.
+% Return the names of the rows in table.
 %
 %   NAMES = rowNames(TAB)
 %

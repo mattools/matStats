@@ -1,5 +1,5 @@
-function res = flatten(this)
-%FLATTEN  Transform the data table into a single column table
+function res = flatten(obj)
+% Transform the data table into a single column table.
 %
 %   res = flatten(TAB)
 %   Transform the data table into a single column table
@@ -30,5 +30,5 @@ function res = flatten(this)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-data = this.Data';
+data = obj.Data';
 res = Table(data(:)); 

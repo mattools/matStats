@@ -1,5 +1,5 @@
-function tab = stats(this, varargin)
-%STATS Compute basic descriptive statistics on data table columns
+function tab = stats(obj, varargin)
+% Compute basic descriptive statistics on data table columns.
 %
 %   RES = TAB.stats(STAT_NAMES)
 %   RES = stats(TAB, STAT_NAMES)
@@ -43,7 +43,7 @@ function tab = stats(this, varargin)
 %% process input data
 
 % number of vars
-nCols   = size(this.Data, 2);
+nCols   = size(obj.Data, 2);
 
 % default statistics to compute
 statNames = {'min', 'median', 'mean', 'max', 'std'};
@@ -74,12 +74,12 @@ res(:) = NaN;
 for c = 1:nCols
     
     % does not process factor columns
-    if ~isempty(this.Levels{c})
+    if ~isempty(obj.Levels{c})
         continue;
     end
     
     % extract current column
-    col = this.Data(:, c);
+    col = obj.Data(:, c);
     
     % remove NaN values
     col = col(~isnan(col));
@@ -139,11 +139,11 @@ end
 %% format result as data table
 
 % create the table
-tab = Table(res, 'colNames', this.ColNames, 'rowNames', statNames');
+tab = Table(res, 'colNames', obj.ColNames, 'rowNames', statNames');
 
 % compute name of the table
-if ~isempty(this.Name)
-    tab.Name = [this.Name '-Stats'];
+if ~isempty(obj.Name)
+    tab.Name = [obj.Name '-Stats'];
 else
     tab.Name = 'stats';
 end

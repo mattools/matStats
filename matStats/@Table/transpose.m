@@ -1,5 +1,5 @@
-function res = transpose(this)
-%TRANSPOSE Transpose a data table and intervert names of row and columns
+function res = transpose(obj)
+% Transpose a data table and swap names of row and columns.
 %
 %   RES = transpose(TAB)
 %   Returns a new data with transposed data array, and swaped column and
@@ -19,9 +19,9 @@ function res = transpose(this)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 % create table with transposed data
-res = Table(this.Data', this.RowNames', this.ColNames');
+res = Table(obj.Data', obj.RowNames', obj.ColNames');
 
 % also add a small mark to the title
-if ~isempty(this.Name)
-    res.Name = [this.Name ''''];
+if ~isempty(obj.Name)
+    res.Name = [obj.Name ''''];
 end

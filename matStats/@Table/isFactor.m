@@ -1,5 +1,5 @@
-function res = isFactor(this, colName)
-%ISFACTOR Check if a column is treated as a factor
+function res = isFactor(obj, colName)
+% Check if a column is treated as a factor.
 %
 %   B = isFactor(TAB, COLNAME)
 %   Returns TRUE if the column specified by COLNAME in the table TAB is
@@ -26,7 +26,7 @@ function res = isFactor(this, colName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % extract index of column
-ind = columnIndex(this, colName);
+ind = columnIndex(obj, colName);
 
 % result is a row vector with the same number of columns as the number of
 % indices
@@ -34,7 +34,7 @@ res = false(1, length(ind));
 
 % check if input column
 for i = 1:length(ind)
-    if ind(i) <= length(this.Levels)
-        res(i) = ~isempty(this.Levels{ind(i)});
+    if ind(i) <= length(obj.Levels)
+        res(i) = ~isempty(obj.Levels{ind(i)});
     end
 end

@@ -1,5 +1,5 @@
 function varargout = bar(varargin)
-%BAR  Bar plot of the table data
+%BAR  Bar plot of the objle data
 %
 %   bar(TAB)
 %   Simple wrapper to the native "bar" function from Matlab, that also
@@ -19,10 +19,10 @@ function varargout = bar(varargin)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-% replaces table by its data
+% replaces objle by its data
 ind = cellfun('isclass', varargin, 'Table');
-tab = varargin{ind};
-varargin{ind} = tab.Data;
+obj = varargin{ind};
+varargin{ind} = obj.Data;
 
 % parse legend location info
 legendLocation = 'NorthEast';
@@ -36,9 +36,11 @@ end
 h = bar(varargin{:});
 
 % format figure
-set(gca, 'XTickLabel', tab.RowNames);
-if size(tab, 1) > 1
-    legend(tab.ColNames, 'Location', legendLocation);
+if ~isempty(obj.RowNames)
+    set(gca, 'XTickLabel', obj.RowNames);
+end
+if size(obj, 1) > 1
+    legend(obj.ColNames, 'Location', legendLocation);
 end
 
 % return handle

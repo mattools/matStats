@@ -1,5 +1,5 @@
 function varargout = boxplot(varargin)
-%BOXPLOT Box plot of a data table
+% Box plot of a data table.
 %
 %   boxplot(TAB)
 %   Displays boxplots of the columns in data table TAB.
@@ -40,12 +40,12 @@ function varargout = boxplot(varargin)
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
-this = varargin{indThis(1)};
+obj = varargin{indThis(1)};
 varargin(indThis(1)) = [];
 
 % default: box plot of each column
-data = this.Data;
-indCols = 1:length(this.ColNames);
+data = obj.Data;
+indCols = 1:length(obj.ColNames);
 
 
 % check grouping
@@ -53,28 +53,28 @@ grouping = false;
 if ~isempty(varargin)
     var1 = varargin{1};
     
-    if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
+    if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(obj, 1))
         grouping = true;
         [group, levels, groupLabel] = parseGroupInfos(var1);
 %         group = levels(group);
         
         varargin(1) = [];
         
-    elseif sum(isColumnName(this, var1)) > 0
-        indGroup = columnIndex(this, varargin{1});
-        group = this.Data(:, indGroup);
+    elseif sum(isColumnName(obj, var1)) > 0
+        indGroup = columnIndex(obj, varargin{1});
+        group = obj.Data(:, indGroup);
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(this.Levels{indGroup})
-            levels = this.Levels{indGroup};
+        if ~isempty(obj.Levels{indGroup})
+            levels = obj.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(group(:)))));
         end
         
 %         [B I J] = unique(group); %#ok<ASGLU>
 %         group = levels(J);
-        groupLabel = this.ColNames(indGroup(1));
+        groupLabel = obj.ColNames(indGroup(1));
 
     end
 end
@@ -84,7 +84,7 @@ end
 if ~grouping
     % Box plot of (selected) columns, without grouping
     h = boxplot(ax, data, ...
-        'labels', this.ColNames(indCols), ...
+        'labels', obj.ColNames(indCols), ...
         varargin{:});
     
 else
@@ -95,13 +95,13 @@ else
     
     % labels
     xlabel(groupLabel, 'interpreter', 'none');
-    ylabel(this.ColNames(indCols(1)), 'interpreter', 'none');
+    ylabel(obj.ColNames(indCols(1)), 'interpreter', 'none');
 
 end
 
 % decorate box plot
-if ~isempty(this.Name)
-    title(this.Name, 'interpreter', 'none');
+if ~isempty(obj.Name)
+    title(obj.Name, 'interpreter', 'none');
 end
 
 

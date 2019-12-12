@@ -1,5 +1,5 @@
-function row = getRow(this, rowName)
-%GETROW Extract row data of the table
+function row = getRow(obj, rowName)
+% Extract row data of the table.
 %
 %   output = getRow(input)
 %
@@ -16,7 +16,7 @@ function row = getRow(this, rowName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % Parse index of row
-ind = rowIndex(this, rowName);
+ind = rowIndex(obj, rowName);
 
 % extract data
-row = this.Data(ind, :);
+row = obj.Data(ind, :);

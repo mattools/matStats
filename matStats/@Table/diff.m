@@ -1,5 +1,5 @@
-function res = diff(this, varargin)
-%DIFF Derivative approximation by finite differences
+function res = diff(obj, varargin)
+% Derivative approximation by finite differences.
 %
 %   RES = diff(TAB)
 %   Computes the finite difference of each column in the input table TAB,
@@ -39,21 +39,21 @@ end
 
 %% Check validity
 
-if hasFactors(this)
+if hasFactors(obj)
     error('MatStats:diff:FactorColumn', ...
         'Can not process a table containing factors');
 end
 
 
 %% process input data
-newData = diff(this.Data, n, dim);
+newData = diff(obj.Data, n, dim);
 
 
 %% format output table
 if dim == 1
-    rowNames = strcat('(', this.RowNames(2:end), ')-(', this.RowNames(1:end-1), ')');
-    res = Table(newData, this.ColNames, rowNames);
+    rowNames = strcat('(', obj.RowNames(2:end), ')-(', obj.RowNames(1:end-1), ')');
+    res = Table(newData, obj.ColNames, rowNames);
 else
-    colNames = strcat('(', this.ColNames(2:end)', ')-(', this.ColNames(1:end-1)', ')')';
-    res = Table(newData, colNames, this.RowNames);
+    colNames = strcat('(', obj.ColNames(2:end)', ')-(', obj.ColNames(1:end-1)', ')')';
+    res = Table(newData, colNames, obj.RowNames);
 end

@@ -1,5 +1,5 @@
-function varargout = scatterGroup3d(this, varargin)
-%SCATTERGROUP3D Scatter plot individuals grouped by classes
+function varargout = scatterGroup3d(obj, varargin)
+% Scatter plot individuals grouped by classes.
 %
 %   scatterGroup3d(VAR1, VAR2, VAR3, GROUP)
 %
@@ -44,7 +44,7 @@ function varargout = scatterGroup3d(this, varargin)
 
 %% Extract main data
 
-if size(this.Data, 2) == 1
+if size(obj.Data, 2) == 1
     % Data are given as separate arrays
     
     if nargin < 4 || ~isa(varargin{1}, 'Table')
@@ -52,8 +52,8 @@ if size(this.Data, 2) == 1
             'Second argument must be another table');
     end
     
-    xdata = this.Data(:, 1);
-    nameX = this.ColNames{1};
+    xdata = obj.Data(:, 1);
+    nameX = obj.ColNames{1};
     
     var1 = varargin{1};
     ydata = var1.Data(:, 1);
@@ -75,23 +75,23 @@ if size(this.Data, 2) == 1
 %     
 %     % index of first column
 %     var1 = varargin{1};
-%     indx = this.columnIndex(var1);
-%     xdata = this.data(:, indx(1));
-%     nameX = this.colNames{indx(1)};
+%     indx = obj.columnIndex(var1);
+%     xdata = obj.data(:, indx(1));
+%     nameX = obj.colNames{indx(1)};
 % 
 %     % index of second column
 %     var2 = varargin{2};
-%     indy = this.columnIndex(var2);
-%     ydata = this.data(:, indy(1));
-%     nameY = this.colNames{indy(1)};
+%     indy = obj.columnIndex(var2);
+%     ydata = obj.data(:, indy(1));
+%     nameY = obj.colNames{indy(1)};
 %     
 %     var3 = varargin{3};
 %     if isa(var3, 'Table')
 %         group = var3.data;
 %     else
 %         % index of third column
-%         indG = this.columnIndex(var3);
-%         group = this.data(:, indG(1));
+%         indG = obj.columnIndex(var3);
+%         group = obj.data(:, indG(1));
 %     end    
 %     varargin(1:3) = [];
 end
@@ -123,7 +123,7 @@ envelope = 'none';
 % end
 
 % should we keep the name of the group in the legend ?
-keepGroupName = ~isempty(this.colNames{1});
+keepGroupName = ~isempty(obj.colNames{1});
 % ind = find(strcmp(varargin, 'keepGroupName'));
 % if ~isempty(ind)
 %     keepGroupName = varargin{ind+1};
@@ -213,8 +213,8 @@ end
 xlabel(nameX);
 ylabel(nameY);
 zlabel(nameZ);
-if ~isempty(this.name)
-    title(this.name, 'Interpreter', 'none');
+if ~isempty(obj.name)
+    title(obj.name, 'Interpreter', 'none');
 end
 
 % add some perspective

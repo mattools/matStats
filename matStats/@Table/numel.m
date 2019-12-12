@@ -1,5 +1,5 @@
 function n = numel(varargin)
-%NUMEL Overload default behaviour for the numel function
+% Overload default behaviour for the numel function.
 %
 %   Returns always 1. This trick is necessary for being consistent with
 %   subsasgn. 

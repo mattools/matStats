@@ -1,10 +1,10 @@
 function varargout = ttest2(tab1, tab2, varargin)
-%TTEST2  Two-sample t-test
+% Two-sample t-test.
 %
 %   H = ttest2(TAB1, TAB2)
-%   [H P] = ttest2(TAB1, TAB2)
+%   [H, P] = ttest2(TAB1, TAB2)
 %   Simple wrapper for the Matlab ttest2 function, that manages Table
-%   objects that contains only one column with quantitative data.
+%   objects containing only one column with quantitative data.
 %
 %   Example
 %     iris = Table.read('fisherIris.txt');

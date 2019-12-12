@@ -1,5 +1,5 @@
-function res = median(this, varargin)
-%MEDIAN Put the median of each column in a new table
+function res = median(obj, varargin)
+% Put the median of each column in a new table.
 %
 %   RES = median(TAB)
 %   Computes the median of each column in the table, and put the result in
@@ -24,18 +24,18 @@ function res = median(this, varargin)
 
 
 % check conditions
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute median for table with factors');
 end
 
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Median of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Median of ' obj.Name];
 end
 
-res = Table.create(median(this.Data, 1), ...
+res = Table.create(median(obj.Data, 1), ...
     'rowNames', {'median'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     

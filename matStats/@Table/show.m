@@ -1,4 +1,4 @@
-function varargout = show(this)
+function varargout = show(obj)
 %SHOW Display the content of the table in a new figure.
 %
 %   show(TABLE);
@@ -30,11 +30,11 @@ function varargout = show(this)
 
 
 % extract table infos
-nr = size(this.Data, 1);
-nc = size(this.Data, 2);
+nr = size(obj.Data, 1);
+nc = size(obj.Data, 2);
 
 % create figure name
-figName = sprintf('%s (%d-by-%d Data Table)', this.Name, nr, nc);
+figName = sprintf('%s (%d-by-%d Data Table)', obj.Name, nr, nc);
 
 % Create parent figure
 f = figure(...
@@ -44,24 +44,24 @@ f = figure(...
     'HandleVisibility', 'Callback');
 
 % convert numerical data to cell array
-data2 = num2cell(this.Data);
+data2 = num2cell(obj.Data);
     
 % if data table has factors, need to convert factor levels
-% hasLevels = sum(~cellfun(@isnumeric, this.levels)) > 0;
-if hasFactors(this)
-    indLevels = find(~cellfun(@isnumeric, this.Levels));
+% hasLevels = sum(~cellfun(@isnumeric, obj.levels)) > 0;
+if hasFactors(obj)
+    indLevels = find(~cellfun(@isnumeric, obj.Levels));
     for i = indLevels
-        data2(:,i) = this.Levels{i}(this.Data(:, i));
+        data2(:,i) = obj.Levels{i}(obj.Data(:, i));
     end
     
 end
 
-colNames = this.ColNames;
+colNames = obj.ColNames;
 
 % manage row names if present
-if ~isempty(this.RowNames)
-    data2 = [this.RowNames(:) data2];
-    colNames = [{'Name'} this.ColNames];
+if ~isempty(obj.RowNames)
+    data2 = [obj.RowNames(:) data2];
+    colNames = [{'Name'} obj.ColNames];
 end
 
 ht = uitable(f, ...

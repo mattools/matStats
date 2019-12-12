@@ -1,7 +1,8 @@
-function res = times(this, arg)
-%TIMES  Overload the times operator for Table objects
+function res = times(obj, arg)
+% Overload the times operator for Table objects.
 %
-%   output = mtimes(input)
+%   RES = TAB1 .* TAB2;
+%   RES = times(TAB1, TAB2);
 %
 %   Example
 %   times
@@ -16,4 +17,4 @@ function res = times(this, arg)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-res = mtimes(this, arg);
+res = mtimes(obj, arg);

@@ -1,5 +1,5 @@
-function res = groupfun(this, name, op, rowNames)
-%GROUPFUN Aggregate table values according to levels of a group
+function res = groupfun(obj, name, op, rowNames)
+% Aggregate table values according to levels of a group.
 %
 %   WARNING: groupfun function is deprecated, use 'aggregate' instead.
 %
@@ -19,7 +19,7 @@ function res = groupfun(this, name, op, rowNames)
 %   
 %   TAB2 = groupfun(TAB, COLNAME, OP)
 %   TAB2 = groupfun(TAB, COLINDEX, OP)
-%   Uses one of the columns in the table as a basis for VALUES. In this
+%   Uses one of the columns in the table as a basis for VALUES. In obj
 %   case, the resulting table has one column left as the original table,
 %   and rows are labeled using a composition of COLNAME and the unique
 %   values in the column.
@@ -74,18 +74,18 @@ end
 % the name of each unique value
 valueNames = {};
 
-if isnumeric(name) && length(name) == rowNumber(this)
+if isnumeric(name) && length(name) == rowNumber(obj)
     % Second argument is a list of values with same length as the number of
     % rows in the input table
     values  = name;
-    cols    = 1:columnNumber(this);
+    cols    = 1:columnNumber(obj);
     colName = '';
     
 elseif isa(name, 'Table')
     % Second argument is a table containing factor levels
     values = name.Data(:, 1);
     colName = name.ColNames{1};
-    cols    = 1:columnNumber(this);
+    cols    = 1:columnNumber(obj);
     
     if isFactor(name, 1)
         valueNames = name.Levels{1};
@@ -97,15 +97,15 @@ else
     % 2 remove group column from original table
     
     % find index of the column, keep only the first one
-    ind = columnIndex(this, name);
+    ind = columnIndex(obj, name);
     ind = ind(1);
     
     % extract column to process
-    values = this.Data(:, ind);
-    colName = this.ColNames{ind};
+    values = obj.Data(:, ind);
+    colName = obj.ColNames{ind};
     
     % indices of other columns
-    cols = 1:columnNumber(this);
+    cols = 1:columnNumber(obj);
     cols(ind) = [];
 end
 
@@ -131,7 +131,7 @@ res = zeros(length(uniVals), nCols);
 for i = 1:nValues
     inds = values == uniVals(i);
     for j = 1:nCols
-        res(i, j) = feval(op, this.data(inds, cols(j)));
+        res(i, j) = feval(op, obj.data(inds, cols(j)));
     end    
 end
 
@@ -150,5 +150,5 @@ if isempty(rowNames)
 end
 
 % create result dataTable
-res = Table(res, 'colNames', this.colNames(cols), 'rowNames', rowNames);
+res = Table(res, 'colNames', obj.colNames(cols), 'rowNames', rowNames);
 

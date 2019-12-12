@@ -1,5 +1,5 @@
-function indCol = columnIndex(this, colName)
-%COLUMNINDEX Index of a column from its name
+function indCol = columnIndex(obj, colName)
+% Index of a column from its name.
 %
 %   IND = columnIndex(TAB, COLNAME)
 %   Returns the index of the column whose name is COLNAME. If COLNAME is a
@@ -29,9 +29,9 @@ if isnumeric(colName)
 elseif ischar(colName)
     % parse column name
     if strcmp(colName, ':')
-        indCol = 1:length(this.ColNames);
+        indCol = 1:length(obj.ColNames);
     else
-        indCol = find(strcmp(colName, this.ColNames));
+        indCol = find(strcmp(colName, obj.ColNames));
     end
     
     if isempty(indCol)>0
@@ -42,7 +42,7 @@ elseif iscell(colName)
     % parse a cell array of column names
     N = length(colName);
     indCol = zeros(N, 1);
-    names = this.ColNames; 
+    names = obj.ColNames; 
     for i = 1:N
         ind = find(strcmp(colName{i}, names));
         if isempty(ind)

@@ -1,5 +1,5 @@
 function tab = read(fileName, varargin)
-%READ Read a datatable file
+% Read a file containing table data.
 %
 %   TABLE = Table.read(FILENAME);
 %   Where FILENAME is the name of the file to read, returns a new data

@@ -1,5 +1,5 @@
 function varargout = plotGroupRows(varargin)
-%PLOTGROUPROWS Plot data table rows with different style by group
+% Plot data table rows with different style by group.
 %
 %   plotGroupRows(TAB, GROUP)
 %   Plots the rows of the data table TAB, with different color depending on
@@ -30,7 +30,7 @@ function varargout = plotGroupRows(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % assumes first input argument is the current table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % extract the group
@@ -44,8 +44,8 @@ if ~isempty(varargin)
     var = varargin{1};
     if ~ischar(var)
         % 'shift' variables
-        xdata   = this;
-        this    = group;
+        xdata   = obj;
+        obj    = group;
         group   = var;
     end
 end
@@ -53,11 +53,11 @@ end
 % compute xdata if it was not defined
 if isempty(xdata)
     % default xdata is a linear vector between 1 and nCols
-    xdata = 1:size(this, 2);
+    xdata = 1:size(obj, 2);
 
     % try to parse column names as input vectors
-    vals = str2num(char(this.ColNames')); %#ok<ST2NM>
-    if length(vals) == size(this, 2)
+    vals = str2num(char(obj.ColNames')); %#ok<ST2NM>
+    if length(vals) == size(obj, 2)
         xdata = vals;
     end
 
@@ -89,7 +89,7 @@ for iGroup = 1:nGroups
     inds = groupIndices == iGroup;
     
     color = groupColors(mod(iGroup-1, nColors)+1, :);
-    hl = plot(ax, xdata, this.Data(inds, :)', ...
+    hl = plot(ax, xdata, obj.Data(inds, :)', ...
         'color', color, ...
         varargin{:});
     h(iGroup) = hl(1);

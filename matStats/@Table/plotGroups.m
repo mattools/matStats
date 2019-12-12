@@ -1,5 +1,5 @@
-function varargout = plotGroups(data, group, varargin)
-%PLOTGROUPS Display data ordererd by their group levels
+function varargout = plotGroups(obj, group, varargin)
+% Display obj ordererd by their group levels.
 %
 %   plotGroups(DATA, GROUP)
 %   DATA should be one-dimensional.
@@ -25,9 +25,11 @@ ax = gca;
 nLevels = length(levelNames);
 
 titleString = '';
-if isa(data, 'Table')
-    titleString = data.ColNames{1};
-    data = data.Data;
+if isa(obj, 'Table')
+    titleString = obj.ColNames{1};
+    data = obj.Data;
+else
+    data = obj;
 end
 
 h = plot(ax, groupIndices, data, varargin{:});

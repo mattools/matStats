@@ -148,7 +148,6 @@ if isstruct(data)
         % create data table
         tab = Table(dat);
         tab.ColNames = names;
-        tab.RowNames = strtrim(cellstr(num2str((1:nRows)')))';
         tab.Levels = levels;
     end
     

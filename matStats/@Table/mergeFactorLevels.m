@@ -1,5 +1,5 @@
-function this = mergeFactorLevels(this, colName, levelsToMerge, varargin)
-%MERGEFACTORLEVELS Merge several levels of a factor
+function obj = mergeFactorLevels(obj, colName, levelsToMerge, varargin)
+% Merge several levels of a factor.
 %
 %   mergeFactorLevels(TAB, COLNAME, LEVELS, NEWNAME)
 %   TAB:        the Table object
@@ -21,10 +21,10 @@ function this = mergeFactorLevels(this, colName, levelsToMerge, varargin)
 % Copyright 2016 INRA - Cepia Software Platform.
 
 % index of current column
-indCol = columnIndex(this, colName);
+indCol = columnIndex(obj, colName);
 
 % levels of the factor
-colLevels = this.Levels{indCol};
+colLevels = obj.Levels{indCol};
 levelToMergeInds = find(ismember(colLevels, levelsToMerge));
 refLevelInd = levelToMergeInds(1);
 
@@ -36,18 +36,18 @@ else
 end
 
 % change level index of concerned rows
-rowInds = ismember(this.Data(:, indCol), levelToMergeInds);
-this.Data(rowInds, indCol) = refLevelInd;
+rowInds = ismember(obj.Data(:, indCol), levelToMergeInds);
+obj.Data(rowInds, indCol) = refLevelInd;
 
 % update list of levels
 colLevels{refLevelInd} = newName;
 
 % trim levels
-inds0 = this.Data(:, indCol);
+inds0 = obj.Data(:, indCol);
 
 % find unique indices. New indices are given by J
 [uniqueInds, I, J] = unique(inds0); %#ok<ASGLU>
 
 % update result within table
-this.Data(:, indCol) = J;
-this.Levels{indCol} = colLevels(uniqueInds);
+obj.Data(:, indCol) = J;
+obj.Levels{indCol} = colLevels(uniqueInds);

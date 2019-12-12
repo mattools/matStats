@@ -1,5 +1,5 @@
 function varargout = plotGroupErrorBars(data, group, varargin)
-%PLOTGROUPERRORBARS  One-line description here, please.
+% Plot error bars for each group.
 %
 %   output = plotGroupErrorBars(input)
 %

@@ -1,5 +1,5 @@
-function write(this, fileName, varargin)
-%WRITE Write a datatable into a file
+function write(obj, fileName, varargin)
+% Write a datatable into a file.
 %
 %   write(TAB, FILENAME)
 %   writes the content of the data table TAB into the file given by name
@@ -66,7 +66,7 @@ function write(this, fileName, varargin)
 format = [];
 writeHeader = true;
 writeRowNames = true;
-writeLevels = hasFactors(this) ;
+writeLevels = hasFactors(obj) ;
 sep = ' ';
 headerSep = '   ';
 
@@ -102,8 +102,8 @@ end
 %% Compute the formatting string
 
 % number of row and columns
-nRows = size(this.Data, 1);
-nCols = size(this.Data, 2);
+nRows = size(obj.Data, 1);
+nCols = size(obj.Data, 2);
 
 % compute default format string for writing data, if not given as argument
 if isempty(format)
@@ -113,7 +113,7 @@ end
 % check which columns are factors, and update format string accordingly
 if writeLevels
     % first check that table has a valid number of levels
-    nLevels = length(this.Levels);
+    nLevels = length(obj.Levels);
     if nLevels == 0 && nLevels ~= nCols
         error('Table:write', ...
             'Number of levels in table should match number of columns');
@@ -127,7 +127,7 @@ if writeLevels
     useRowNamesFormat = length(formats) > nCols;
         
     % for each factor column, replace numeric format by string format
-    isFactorFlag = isFactor(this, 1:nLevels);
+    isFactorFlag = isFactor(obj, 1:nLevels);
     inds = find(isFactorFlag);
     for i = 1:length(inds)
         % current format
@@ -140,7 +140,7 @@ if writeLevels
         
         % compute max length of level names
         n = -1;
-        levels = this.Levels{inds(i)}; 
+        levels = obj.Levels{inds(i)}; 
         for j = 1:length(levels)
             n = max(n, length(levels{j}));
         end
@@ -178,9 +178,9 @@ end
 if nTokens ~= nCols + 1
 %     len = -1;
 %     for i = 1:nRows
-%         len = max(len, length(this.rowNames{i}));
+%         len = max(len, length(obj.rowNames{i}));
 %     end
-    len = max(cellfun(@length, this.RowNames));
+    len = max(cellfun(@length, obj.RowNames));
     format = ['%-' int2str(len) 's ' format];
 end
 
@@ -205,7 +205,7 @@ if writeHeader
 
     % write the names of the columns, separated by spaces
     for i = 1:nCols
-        str = [str headerSep this.ColNames{i}]; %#ok<AGROW>
+        str = [str headerSep obj.ColNames{i}]; %#ok<AGROW>
     end
 
     str = [str '\n'];
@@ -217,11 +217,11 @@ if ~writeLevels
     % write data as numeric
     if writeRowNames
         for i = 1:nRows
-            fprintf(f, format, this.RowNames{i}, this.Data(i, :));
+            fprintf(f, format, obj.RowNames{i}, obj.Data(i, :));
         end
     else
         for i = 1:nRows
-            fprintf(f, format, this.Data(i, :));
+            fprintf(f, format, obj.Data(i, :));
         end
     end
     
@@ -231,16 +231,16 @@ else
     for i = 1:nRows
         % fill up levels
         for j = 1:length(inds)
-            data{inds(j)} = this.Levels{inds(j)}{this.Data(i, inds(j))};
+            data{inds(j)} = obj.Levels{inds(j)}{obj.Data(i, inds(j))};
         end
         % fill up numeric values
         if sum(~isFactorFlag) > 0
-            data(~isFactorFlag) = num2cell(this.Data(i, ~isFactorFlag));
+            data(~isFactorFlag) = num2cell(obj.Data(i, ~isFactorFlag));
         end
         
         % write current row
         if writeRowNames
-            fprintf(f, format, this.RowNames{i}, data{:});
+            fprintf(f, format, obj.RowNames{i}, data{:});
         else
             fprintf(f, format, data{:});
         end

@@ -1,5 +1,5 @@
-function addColumn(this, colData, colName)
-%ADDCOLUMN Add a new column to the data table
+function addColumn(obj, colData, colName)
+% Add a new column to the data table.
 %
 %   addColumn(TAB, DATA, NAME)
 %   Add the column with data DATA and name NAME to the table TAB.
@@ -17,14 +17,14 @@ function addColumn(this, colData, colName)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % current data size
-nRows = size(this.Data, 1);
-nCols = size(this.Data, 2);
+nRows = size(obj.Data, 1);
+nCols = size(obj.Data, 2);
 
 % update column names
 if nargin < 3
     colName = '';
 end
-this.ColNames{nCols + 1} = colName;
+obj.ColNames{nCols + 1} = colName;
 
 % ensure valid values for new column
 if nargin == 2
@@ -45,7 +45,7 @@ else
         
         % transform unique strings to cell array of factor levels
         levels = strtrim(cellstr(levels(inds,:)));
-        this.Levels{nCols + 1} = levels;
+        obj.Levels{nCols + 1} = levels;
         
         % compute corresponding numeric data (level indices)
         numData = zeros(size(indices));
@@ -57,7 +57,7 @@ else
         % Factor are given as a cell array
         [levels, pos, indices] = unique(strtrim(colData));  %#ok<ASGLU>
         numData = indices;
-        this.Levels{nCols + 1} = levels;
+        obj.Levels{nCols + 1} = levels;
         
     else
         error(['Column factor have an unknown type: ' class(colData)]);
@@ -70,5 +70,5 @@ if length(colData) ~= nRows
 end
 
 % concatenate data
-this.Data = [this.Data numData(:)];
+obj.Data = [obj.Data numData(:)];
     

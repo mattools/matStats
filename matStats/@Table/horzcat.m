@@ -1,5 +1,5 @@
-function res = horzcat(this, varargin)
-%HORZCAT Concatenate tables horizontally
+function res = horzcat(obj, varargin)
+% Concatenate tables horizontally.
 %
 %   RES = horzcat(TAB1, TAB2)
 %
@@ -15,18 +15,18 @@ function res = horzcat(this, varargin)
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-if isa(this, 'Table')
-    data = this.Data;
-    parent = this;
-    colNames = this.ColNames;
-    levels = this.Levels;
-    name = this.Name;
+if isa(obj, 'Table')
+    data = obj.Data;
+    parent = obj;
+    colNames = obj.ColNames;
+    levels = obj.Levels;
+    name = obj.Name;
     
 else
-    data = this;
+    data = obj;
     parent = varargin{1};
     colNames = strtrim(cellstr(num2str((1:size(data, 2))')));
-    levels = cell(1, size(this, 2));
+    levels = cell(1, size(obj, 2));
     name = 'NoName';
     
 end
@@ -54,6 +54,6 @@ end
 res = Table.create(data, ...
     'parent', parent, ...
     'colNames', colNames, ...
-    'rowNames', this.RowNames, ...
+    'rowNames', obj.RowNames, ...
     'levels', levels, ...
     'name', name);

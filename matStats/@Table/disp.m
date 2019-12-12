@@ -1,5 +1,5 @@
-function disp(this)
-%DISP Display the content of a data table, with row and column names
+function disp(obj)
+% Display the content of a data table, with row and column names.
 %
 %   disp(TAB)
 %
@@ -36,8 +36,8 @@ maxWidth = maxWidth(1);
 % end
 
 % get table size
-nRows = rowNumber(this);
-nCols = columnNumber(this);
+nRows = rowNumber(obj);
+nCols = columnNumber(obj);
 
 
 % create a char array representing the table contents
@@ -47,18 +47,18 @@ if nRows > 0 && nCols > 0
     colPad = repmat(' ', nRows + 1, 4);
     
     % init row names
-    if ~isempty(this.RowNames)
-        txtArray = strjust([colPad char([{' '}; this.RowNames(:)])], 'left');
+    if ~isempty(obj.RowNames)
+        txtArray = strjust([colPad char([{' '}; obj.RowNames(:)])], 'left');
     else
         txtArray = char(zeros(nRows + 1, 0));
     end
 
     % iterate on columns
     for iCol = 1:nCols
-        name = this.ColNames{iCol};
-        var  = this.Data(:, iCol);
+        name = obj.ColNames{iCol};
+        var  = obj.Data(:, iCol);
          
-        if ~isFactor(this, iCol)
+        if ~isFactor(obj, iCol)
             % data are numeric -> convert to character array
             colText = num2str(var);
                     
@@ -66,7 +66,7 @@ if nRows > 0 && nCols > 0
             % data are factors -> identify level names
             % Get levels of current factor, and add an 'Unknown' level name
             % in case of index 0
-            colLevels = this.Levels{iCol};
+            colLevels = obj.Levels{iCol};
             if iscell(colLevels)
                 % factor levels given as cell array of strings
                 colLevels2 = [{'Unknown'} ; colLevels(:)];
@@ -96,9 +96,9 @@ if nRows > 0 && nCols > 0
         colText = strjust(char(name, colText));
         
         
-        % If this new variable will extend the display past the right margin
+        % If obj new variable will extend the display past the right margin
         % width, display the output built up so far, and then restart for
-        % display starting at the left margin.  Don't do that if this is the
+        % display starting at the left margin.  Don't do that if obj is the
         % first variable, otherwise we'd display only the observation names.
         textWidth = size(txtArray, 2) + size(colPad, 2) + size(colText, 2);
         if iCol > 1 &&  textWidth > maxWidth
@@ -108,8 +108,8 @@ if nRows > 0 && nCols > 0
                 fprintf('\n');
             end
             
-            if ~isempty(this.RowNames)
-                txtArray = strjust([colPad char([{' '}; this.RowNames(:)])]);
+            if ~isempty(obj.RowNames)
+                txtArray = strjust([colPad char([{' '}; obj.RowNames(:)])]);
             else
                 txtArray = char(zeros(nRows + 1, 0));
             end

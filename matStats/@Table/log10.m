@@ -1,5 +1,5 @@
-function res = log10(this)
-%LOG10 Decimal logarithm of table values
+function res = log10(obj)
+% Decimal logarithm of table values.
 %
 %   RES = log10(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -19,19 +19,19 @@ function res = log10(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute log10 for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['log10 of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['log10 of ' obj.Name];
 end
 
-newColNames = strcat('log10', this.ColNames);
+newColNames = strcat('log10', obj.ColNames);
 
-res = Table.create(log10(this.Data), ...
-    'parent', this, ...
+res = Table.create(log10(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

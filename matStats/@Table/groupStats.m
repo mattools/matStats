@@ -1,9 +1,9 @@
-function varargout = groupStats(data, group, stats, varargin)
-%GROUPSTATS Compute basic statistics for each level of a group
+function varargout = groupStats(obj, group, stats, varargin)
+% Compute basic statistics for each level of a group.
 %
 %   RES = groupStats(TAB, FACT)
-%   TAB is a data table or a data array, FACT is either a numeric
-%   vector, a char array, or a data table with one column.
+%   TAB is a obj table or a obj array, FACT is either a numeric
+%   vector, a char array, or a obj table with one column.
 %   At least one of TAB and FACT must be a Table object.
 %
 %   The function extracts levels of the factor input, and computes a set of
@@ -53,13 +53,13 @@ end
 nLevels = length(levels);
 
 % memory allocation
-newData = zeros(nLevels, size(data, 2));
+newData = zeros(nLevels, size(obj, 2));
 
-% if data is a Table object, convert it to simple array
+% if obj is a Table object, convert it to simple array
 this = [];
-if isa(data, 'Table')
-    this = data;
-    data = data.Data;
+if isa(obj, 'Table')
+    this = obj;
+    obj = obj.Data;
 end
 
 varargout = cell(1, nStats);
@@ -70,15 +70,15 @@ for s = 1:nStats
     % apply operation on each column
     for i = 1:nLevels
         inds = groupIndices == i;
-        for j = 1:size(data, 2)
-            newData(i, j) = feval(op, data(inds, j));
+        for j = 1:size(obj, 2)
+            newData(i, j) = feval(op, obj(inds, j));
         end
     end
     
     % extract names of rows, or create them if necessary
     rowNames = strcat([label{1} '='], levels);
         
-    % create result dataTable
+    % create result objTable
     if isempty(this)
         varargout{s} = Table(newData, ...
             'rowNames', rowNames);

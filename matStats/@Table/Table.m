@@ -95,7 +95,7 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   bsxfun                  - Binary Singleton Expansion Function for Table
 %   unique                  - Returns unique values in data tables
 %   concatFiles             - Concatenate a list of files containing tables into new a file
-%   printLatex              - Print content of this table as a latex tabular
+%   printLatex              - Print content of obj table as a latex tabular
 %
 %   Array manipulation
 %   size                    - Size of a data table
@@ -209,7 +209,7 @@ end
 %% Constructor
 methods
 
-    function this = Table(varargin)
+    function obj = Table(varargin)
     % Constructor for Table class
     %
     %   TAB = Table(DATA)
@@ -234,10 +234,10 @@ methods
         % special case of empty constructor
         if nargin == 0
             % empty constructor
-            this.Data = [];
-            this.RowNames = {};
-            this.ColNames = {};
-            this.Levels = {};
+            obj.Data = [];
+            obj.RowNames = {};
+            obj.ColNames = {};
+            obj.Levels = {};
             return;
         end
         
@@ -249,11 +249,11 @@ methods
         if isa(var1, 'Table')
             % copy constructor
             tab = var1;
-            this.Data = tab.Data;
-            this.RowNames   = tab.RowNames;
-            this.ColNames   = tab.ColNames;
-            this.Levels     = tab.Levels;
-            this.Name       = tab.Name;
+            obj.Data = tab.Data;
+            obj.RowNames   = tab.RowNames;
+            obj.ColNames   = tab.ColNames;
+            obj.Levels     = tab.Levels;
+            obj.Name       = tab.Name;
             
             varargin(1) = [];
 
@@ -276,8 +276,8 @@ methods
             end
 
             % format data table
-            this.Data = zeros(nRows, nCols);
-            this.Levels = cell(1, nCols);
+            obj.Data = zeros(nRows, nCols);
+            obj.Levels = cell(1, nCols);
             
             % fill up each column
             for iCol = 1:nCols
@@ -287,7 +287,7 @@ methods
                 
                 if isnumeric(col) || islogical(col)
                     % all data are numeric
-                    this.Data(:, iCol)  = col;
+                    obj.Data(:, iCol)  = col;
                 else
                     % convert char arrays to cell arrays
                     if ischar(col)
@@ -296,8 +296,8 @@ methods
                     
                     % character or cell array are used as factors
                     [levels, I, num]  = unique(col); %#ok<ASGLU>
-                    this.Data(:, iCol)  = num;
-                    this.Levels{iCol}   = levels;
+                    obj.Data(:, iCol)  = num;
+                    obj.Levels{iCol}   = levels;
                 end
             end
             
@@ -305,19 +305,19 @@ methods
             varargin(1:nCols) = [];
             
             % default column names
-            this.ColNames = strtrim(cellstr(num2str((1:nCols)')))';
+            obj.ColNames = strtrim(cellstr(num2str((1:nCols)')))';
             
             % populates the column names from input arguments
             for iCol = 1:nCols
                 name = inputname(iCol);
                 if ~isempty(name)
-                    this.ColNames{iCol} = name;
+                    obj.ColNames{iCol} = name;
                 end
             end
             
         elseif isnumeric(var1) || islogical(var1)
-            % If first argument is numeric, assume this is data array
-            this.Data = var1;
+            % If first argument is numeric, assume obj is data array
+            obj.Data = var1;
             varargin(1) = [];
             
         elseif iscell(var1)
@@ -362,8 +362,8 @@ methods
             end
 
             % format data table
-            this.Data = zeros(nr, nc);
-            this.Levels = cell(1, nc);
+            obj.Data = zeros(nr, nc);
+            obj.Levels = cell(1, nc);
 
             % fill up each column
             for iCol = 1:nc
@@ -373,7 +373,7 @@ methods
                 
                 if isnumeric(col) || islogical(col)
                     % all data are numeric
-                    this.Data(:, iCol)  = col;
+                    obj.Data(:, iCol)  = col;
                 else
                     % convert char arrays to cell arrays
                     if ischar(col)
@@ -382,8 +382,8 @@ methods
                     
                     % character or cell array are used as factors
                     [levels, I, num]  = unique(col); %#ok<ASGLU>
-                    this.Data(:, iCol)  = num;
-                    this.Levels{iCol}   = levels;
+                    obj.Data(:, iCol)  = num;
+                    obj.Levels{iCol}   = levels;
                 end
             end
         end
@@ -395,12 +395,12 @@ methods
         % check if column names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
-                if length(varargin{1}) ~= size(this.Data,2)
+                if length(varargin{1}) ~= size(obj.Data,2)
                     error('Table:Table', ...
                         'Column names have %d elements, whereas table has %d columns', ...
-                        length(varargin{1}), size(this.Data,2));
+                        length(varargin{1}), size(obj.Data,2));
                 end
-                this.ColNames = varargin{1};
+                obj.ColNames = varargin{1};
                 varargin(1) = [];
             end
         end
@@ -408,10 +408,10 @@ methods
         % check if row names were specified
         if ~isempty(varargin)
             if iscell(varargin{1})
-                if length(varargin{1}) ~= size(this.Data,1)
+                if length(varargin{1}) ~= size(obj.Data,1)
                     error('Number of row names does not match row number');
                 end
-                this.RowNames = varargin{1};
+                obj.RowNames = varargin{1};
                 varargin(1) = [];
             end
         end
@@ -426,10 +426,10 @@ methods
                 % initialize new table with values from parent
                 ind = ind * 2 - 1;
                 parent = varargin{ind+1};
-                this.Name        = parent.Name;
-                this.RowNames    = parent.RowNames;
-                this.ColNames    = parent.ColNames;
-                this.Levels      = parent.Levels;
+                obj.Name        = parent.Name;
+                obj.RowNames    = parent.RowNames;
+                obj.ColNames    = parent.ColNames;
+                obj.Levels      = parent.Levels;
                 
                 % remove argumets from the list
                 varargin(ind:ind+1) = [];
@@ -450,28 +450,28 @@ methods
                 if ischar(value)
                     value = strtrim(cellstr(value));
                 end
-                if length(value) ~= size(this.Data,1) && ~isempty(value)
+                if length(value) ~= size(obj.Data,1) && ~isempty(value)
                      error('Number of row names does not match row number');
                 end
-               this.RowNames = value;
+               obj.RowNames = value;
                     
             elseif strcmpi(param, 'colnames')
                 if ischar(value)
                     value = strtrim(cellstr(value))';
                 end
-                if length(value) ~= size(this.Data,2) && ~isempty(value)
+                if length(value) ~= size(obj.Data,2) && ~isempty(value)
                     error('Number of column names does not match column number');
                 end
-                this.ColNames = value;
+                obj.ColNames = value;
                 
             elseif strcmpi(param, 'levels')
-                if length(value) ~= size(this.Data,2)
+                if length(value) ~= size(obj.Data,2)
                      error('Number of level does not match column number');
                 end
-                this.Levels = value;
+                obj.Levels = value;
             
             elseif strcmpi(param, 'name')
-                this.Name = value;
+                obj.Name = value;
             
             else
                 error('Table:Table', ...
@@ -486,13 +486,13 @@ methods
         % create default values for some fields if they were not initialised
 
         % size of the data table            
-        nc = size(this.Data, 2);
+        nc = size(obj.Data, 2);
         
-        if isempty(this.ColNames) && nc > 0
-            this.ColNames = strtrim(cellstr(num2str((1:nc)')))';
+        if isempty(obj.ColNames) && nc > 0
+            obj.ColNames = strtrim(cellstr(num2str((1:nc)')))';
         end
-        if isempty(this.Levels) && nc > 0
-            this.Levels = cell(1, nc);
+        if isempty(obj.Levels) && nc > 0
+            obj.Levels = cell(1, nc);
         end    
 
     end

@@ -1,5 +1,5 @@
-function res = corrcoef(this, varargin)
-%CORRCOEF Correlation coefficients of table data
+function res = corrcoef(obj, varargin)
+% Correlation coefficients of table data.
 %
 %   CORRMAT = corrcoef(TAB)
 %   Returns a new data table givin the correlation coefficient of each
@@ -39,8 +39,8 @@ function res = corrcoef(this, varargin)
 
 if nargin == 1
     % compute correlation coefficient of each couple of variables
-    data = corrcoef(this.Data);
-    res = Table(data, 'rowNames', this.ColNames, 'colNames', this.ColNames);
+    data = corrcoef(obj.Data);
+    res = Table(data, 'rowNames', obj.ColNames, 'colNames', obj.ColNames);
 
 else
     % compute only one correlation coefficient
@@ -49,7 +49,7 @@ else
         data2 = data2.Data;
     end
     
-    data1 = this;
+    data1 = obj;
     if isa(data1, 'Table')
         data1 = data1.Data;
     end

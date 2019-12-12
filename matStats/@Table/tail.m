@@ -1,5 +1,5 @@
-function res = tail(this, k)
-%TAIL Show the last rows of a data table
+function res = tail(obj, k)
+% Show the last rows of a data table.
 %
 %   tail(TAB)
 %   Display the last rows of a data table.
@@ -41,11 +41,11 @@ else
         'tail', 'k')
 end
 
-n = size(this, 1);
+n = size(obj, 1);
 
 if n < k
-	res = this;
+	res = obj;
 else
     subs = struct('type', '()', 'subs', {{n-k+1:n, ':'}});
-    res = subsref(this, subs);
+    res = subsref(obj, subs);
 end

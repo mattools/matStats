@@ -1,5 +1,5 @@
-function hist(this, varargin)
-%HIST Histogram plot of a column in a data table
+function hist(obj, varargin)
+% Histogram plot of a column in a data table.
 %
 %   Deprecated, use 'histogram' instead.
 %
@@ -27,9 +27,9 @@ function hist(this, varargin)
 warning('Table:deprecated', ...
     'function hist is obsolete, use ''histogram'' instead');
 
-if size(this.Data, 2) == 1
+if size(obj.Data, 2) == 1
     % if table has only one column, use it for histogram
-    data = this.Data;
+    data = obj.Data;
     
 else
     % Otherwise, need to specify the index or name of column
@@ -42,23 +42,23 @@ else
     % extract index of column to display
     var = varargin{1};
     varargin(1) = [];
-    ind = columnIndex(this, var);
+    ind = columnIndex(obj, var);
     if isempty(ind) > 0
         error(['input table does not contain column named "' var '"']);
     end
 
     % extract column data
     ind = ind(1);
-    data = this.Data(:, ind);
+    data = obj.Data(:, ind);
     
 end
 
 % histogram of the selected column
 histogram(data, varargin{:});
-xlabel(this.ColNames{1});
+xlabel(obj.ColNames{1});
 
-if ~isempty(this.Name)
-    title(this.Name);
+if ~isempty(obj.Name)
+    title(obj.Name);
 end
 
 % % eventually returns handle to graphics

@@ -1,5 +1,5 @@
-function varargout = find(this, varargin)
-%FIND  Find non zero elements in the table
+function varargout = find(obj, varargin)
+% Find non zero elements in the table.
 %
 %   INDS = find(TAB)
 %   
@@ -30,4 +30,4 @@ function varargout = find(this, varargin)
 nv = max(nargout, 1);
 varargout = cell(1, nv);
 
-[varargout{:}] = find(this.Data, varargin{:});
+[varargout{:}] = find(obj.Data, varargin{:});

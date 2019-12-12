@@ -1,5 +1,5 @@
-function res = abs(this)
-%ABS Absolute value of data in table
+function res = abs(obj)
+% Absolute value of data in table.
 %
 %   RES = abs(TAB)
 %   Returns table with same row names and column names, but containinf
@@ -18,19 +18,19 @@ function res = abs(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute abs for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['abs of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['abs of ' obj.Name];
 end
 
-newColNames = strcat('abs', this.ColNames);
+newColNames = strcat('abs', obj.ColNames);
 
-res = Table.create(abs(this.Data), ...
-    'parent', this, ...
+res = Table.create(abs(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

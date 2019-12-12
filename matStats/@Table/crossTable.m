@@ -1,5 +1,5 @@
 function res = crossTable(obj, obj2)
-%CROSSTABLE Cross-Tabulation of two Tables.
+% Cross-Tabulation of two Tables.
 %
 %   XTAB = crossTable(TAB1, TAB2)
 %

@@ -1,5 +1,5 @@
 function varargout = concatFiles(inputFiles, outputFile, varargin)
-%CONCATFILES  Concatenate a list of files containing tables into new a file
+% Concatenate a list of files containing tables into new a file.
 %
 %   concatFiles(INPUT_FILES, OUTPUT_FILE)
 %

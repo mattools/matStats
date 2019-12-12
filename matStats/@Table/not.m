@@ -1,7 +1,8 @@
-function res = not(this)
-%NOT Invert logical values of table
+function res = not(obj)
+% Invert logical values of table.
 %
 %   RES = not(TAB)
+%   RES = ~TAB
 %   Returns table with same row names and column names, but whose values
 %   are 1-complemented.
 %
@@ -19,19 +20,19 @@ function res = not(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute not for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['not of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['not of ' obj.Name];
 end
 
-newColNames = strcat('not', this.ColNames);
+newColNames = strcat('not', obj.ColNames);
 
-res = Table.create(not(this.Data), ...
-    'parent', this, ...
+res = Table.create(not(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

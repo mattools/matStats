@@ -1,5 +1,5 @@
-function val = getValue(this, row, col)
-%GETVALUE Returns the value for the given row and column
+function val = getValue(obj, row, col)
+% Returns the value for the given row and column.
 %
 %   V = getValue(TAB, R, C)
 %
@@ -19,8 +19,8 @@ function val = getValue(this, row, col)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 % parse indices for row and column
-row = rowIndex(this, row);
-col = columnIndex(this, col);
+row = rowIndex(obj, row);
+col = columnIndex(obj, col);
 
 % return selected value(s)
-val = this.Data(row, col);
+val = obj.Data(row, col);

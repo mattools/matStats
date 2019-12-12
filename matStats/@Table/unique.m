@@ -1,5 +1,5 @@
-function [res, I, J] = unique(this, varargin)
-%UNIQUE Returns unique values in data tables
+function [res, I, J] = unique(obj, varargin)
+% Returns unique values in data tables.
 %
 %   UN = unique(TAB)
 %   Returns unique values in data table TAB.
@@ -31,14 +31,14 @@ function [res, I, J] = unique(this, varargin)
 
 % in case of table with no factor column, simply returns the unique data
 % values.
-if ~hasFactors(this)
-    [res, I, J] = unique(this.Data, varargin{:});
+if ~hasFactors(obj)
+    [res, I, J] = unique(obj.Data, varargin{:});
     return;
 end
 
 % all columns should be factor
-nCols = size(this, 2);
-if sum(~isFactor(this, 1:nCols)) > 0
+nCols = size(obj, 2);
+if sum(~isFactor(obj, 1:nCols)) > 0
     error('Requires either none or all columns to be factors');
 end
 
@@ -46,7 +46,7 @@ end
 format = '%s=%s';
 
 % compute unique group of factors
-[res, I, J] = unique(this.Data, 'rows');
+[res, I, J] = unique(obj.Data, 'rows');
 nRows = size(res, 1);
 
 % allocate memory
@@ -57,17 +57,17 @@ strings = cell(1, nCols);
 for iRow = 1:nRows
     
     % iterate over columns for formatting labels
-    for iCol = 1:size(this, 2)
+    for iCol = 1:size(obj, 2)
         
         % get level for each column as string
-        levels = this.Levels{iCol};
+        levels = obj.Levels{iCol};
         level = levels{res(iRow, iCol)};
         if isnumeric(level)
             level = num2str(level);
         end
         
         % concatenate col name and level name
-        label = sprintf(format, this.ColNames{iCol}, level);
+        label = sprintf(format, obj.ColNames{iCol}, level);
         strings{iCol} = label;
     end
     
@@ -80,5 +80,5 @@ for iRow = 1:nRows
 end
 
 % create the new result table
-res = Table(res, this.ColNames, rowNames);
-res.Levels = this.Levels;
+res = Table(res, obj.ColNames, rowNames);
+res.Levels = obj.Levels;

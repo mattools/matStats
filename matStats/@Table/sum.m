@@ -1,5 +1,5 @@
-function res = sum(this, varargin)
-%SUM Put the sum of each column in a new table
+function res = sum(obj, varargin)
+% Put the sum of each column in a new table.
 %
 %   RES = sum(TAB)
 %
@@ -22,20 +22,20 @@ function res = sum(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % check validity
-if hasFactors(this)
+if hasFactors(obj)
     error('MatStats:sum:FactorColumn', ...
         'Can not compute sum for table with factors');
 end
 
 % compute name for result
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Sum of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Sum of ' obj.Name];
 end
 
 % create result table
-res = Table.create(sum(this.Data, 1), ...
+res = Table.create(sum(obj.Data, 1), ...
     'rowNames', {'sum'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     

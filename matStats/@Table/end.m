@@ -1,5 +1,5 @@
-function ind = end(this, k, n)
-%END  Determine last index when accessing a table
+function ind = end(obj, k, n)
+% Determine last index when accessing a table.
 %
 %   output = end(input)
 %
@@ -17,10 +17,10 @@ function ind = end(this, k, n)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
-if n==1
-    ind = numel(this.Data);
-elseif n==2
-    ind = size(this.Data, k);
+if n == 1
+    ind = numel(obj.Data);
+elseif n == 2
+    ind = size(obj.Data, k);
 else
     error('Table:end', 'not enough dimension in Table object');
 end

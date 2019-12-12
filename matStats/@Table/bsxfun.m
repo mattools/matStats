@@ -1,5 +1,5 @@
-function res = bsxfun(fun, this, that)
-%BSXFUN Binary Singleton Expansion Function for Table
+function res = bsxfun(fun, obj1, obj2)
+% Binary Singleton Expansion Function for Tables.
 %
 %   RES = bsxfun(FUN, A, B)
 %
@@ -19,7 +19,7 @@ function res = bsxfun(fun, this, that)
 % Created: 2012-08-01,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-[data1, data2, parent] = parseInputCouple(this, that);
+[data1, data2, parent] = parseInputCouple(obj1, obj2);
 
 % error checking
 if hasFactors(parent)

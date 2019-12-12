@@ -1,5 +1,5 @@
 function varargout = plotGroupMeans(data, group, varargin)
-%PLOTGROUPMEANS  One-line description here, please.
+% Plot the mean value of each group.
 %
 %   output = plotGroupMeans(input)
 %

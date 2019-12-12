@@ -1,5 +1,5 @@
-function varargout = plotmatrix(this, varargin)
-%PLOTMATRIX Overload plotmatrix function to display column names
+function varargout = plotmatrix(obj, varargin)
+% Overload plotmatrix function to display column names.
 %
 %   plotmatrix(TAB)
 %
@@ -21,26 +21,26 @@ function varargout = plotmatrix(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % call classical plotmatrix function
-[H, AX, BigAx, P, Pax] = plotmatrix(this.Data);
+[H, AX, BigAx, P, Pax] = plotmatrix(obj.Data);
 
 % also display column names as labels
-nCols = size(this, 2);
+nCols = size(obj, 2);
 for i = 1:nCols
-    xlabel(AX(nCols, i), this.ColNames{i}, ...
+    xlabel(AX(nCols, i), obj.ColNames{i}, ...
         'Visible', 'On', 'FontSize', 12);
-    ylabel(AX(i, 1), this.ColNames{i}, ...
+    ylabel(AX(i, 1), obj.ColNames{i}, ...
         'Visible', 'On', 'FontSize', 12, 'Rotation', 0, ...
         'VerticalAlignment', 'Middle', 'HorizontalAlignment', 'Right');
 end
 
 
 % Update histogram data
-nRows = size(this, 1);
+nRows = size(obj, 1);
 nBins = min(nRows / 10, 100);
 % props = {'Vertices', 'Faces', 'FaceVertexCData'};
 for i = 1:nCols
     hf = figure;
-    histogram(this.Data(:, i), nBins);
+    histogram(obj.Data(:, i), nBins);
     
 %     hh = get(gca, 'Children');
 %     set(P(i), props, get(hh, props));

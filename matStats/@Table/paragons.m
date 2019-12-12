@@ -1,5 +1,5 @@
-function [res, inds] = paragons(this, group)
-%PARAGONS Find paragon for each level of a group
+function [res, inds] = paragons(obj, group)
+% Find paragon for each level of a group.
 %
 %   PARS = paragons(TAB, G)
 %   For each group in G, compute the centroid of the numerical values in
@@ -29,12 +29,15 @@ function [res, inds] = paragons(this, group)
 
 nGroups = length(levelNames);
 
-res = Table(zeros([nGroups size(this, 2)]), 'colNames', this.ColNames);
-inds = zeros(nGroups, 1);
+% initialize empty result table
+res = Table(zeros([nGroups size(obj, 2)]), 'colNames', obj.ColNames);
+res.RowNames = cell(nGroups, 1);
 
+% iterate over groups
+inds = zeros(nGroups, 1);
 for i = 1:nGroups
     % data for current level
-    tabi = this.Data(indices == i, :);
+    tabi = obj.Data(indices == i, :);
     
     inds_i = find(indices == i);
     centre = mean(tabi);
@@ -46,7 +49,7 @@ for i = 1:nGroups
     % compute index relative to initial array
     inds(i) = inds_i(ind);
 
-    res.Data(i,:) = this.Data(inds(i), :);
+    res.Data(i,:) = obj.Data(inds(i), :);
     res.RowNames{i} = [label{1} '=' levelNames{i}];
 end
 

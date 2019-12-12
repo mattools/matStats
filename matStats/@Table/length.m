@@ -1,5 +1,5 @@
-function l = length(this)
-%LENGTH Number of rows in the table.
+function l = length(obj)
+% Number of rows in the table.
 %
 %   L = length(TAB)
 %   Returns the number of rows (observations) in the data table TAB.
@@ -15,4 +15,4 @@ function l = length(this)
 % Created: 2011-08-23,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-l = size(this.Data, 1);
+l = size(obj.Data, 1);

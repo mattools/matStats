@@ -1,10 +1,20 @@
-function res = plus(this, that)
-%PLUS  Overload the plus operator for Table objects
+function res = plus(obj1, obj2)
+% Overload the plus operator for Table objects.
 %
-%   output = plus(input)
+%   RES = TAB1 + TAB2;
+%   RES = plus(TAB1, TAB2);
 %
 %   Example
-%   plus
+%     iris = Table.read('fisherIris.txt');
+%     head(iris(:, 1) + iris(:,2))
+%     ans = 
+%              SepalLength+SepalWidth
+%     1                           8.6
+%     2                           7.9
+%     3                           7.9
+%     4                           7.7
+%     5                           8.6
+%     6                           9.3
 %
 %   See also
 %     minus, times, mrdivide
@@ -16,7 +26,7 @@ function res = plus(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[this, that, parent, names1, names2] = parseInputCouple(this, that);
+[obj1, obj2, parent, names1, names2] = parseInputCouple(obj1, obj2);
 
 % error checking
 if hasFactors(parent)
@@ -24,7 +34,7 @@ if hasFactors(parent)
 end
 
 % compute new data
-newData = bsxfun(@plus, this, that);
+newData = bsxfun(@plus, obj1, obj2);
 
 newColNames = strcat(names1, '+', names2);
 

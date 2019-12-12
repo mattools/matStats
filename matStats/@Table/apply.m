@@ -1,5 +1,5 @@
-function res = apply(this, fun, varargin)
-%APPLY Apply the given function to each element of the table
+function res = apply(obj, fun, varargin)
+% Apply the given function to each element of the table.
 %
 %   RES = apply(TAB, FUN)
 %   TAB is a data table, and FUN is a function handle. 
@@ -18,10 +18,10 @@ function res = apply(this, fun, varargin)
 % Created: 2013-07-30,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
-res = zeros(size(this.Data));
+res = zeros(size(obj.Data));
 
-for i = 1:numel(this.Data)
-    res(i) = fun(this.Data(i));
+for i = 1:numel(obj.Data)
+    res(i) = fun(obj.Data(i));
 end
 
-res = Table(res, this.ColNames, this.RowNames);
+res = Table(res, obj.ColNames, obj.RowNames);

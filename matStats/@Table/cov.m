@@ -1,5 +1,5 @@
-function res = cov(this)
-%COV Covariance matrix of the data table
+function res = cov(obj)
+% Covariance matrix of the data table.
 %
 %   C = cov(TAB)
 %   Compute the covariance matrix of the input table.
@@ -27,10 +27,10 @@ function res = cov(this)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % check conditions
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute mean for table with factors');
 end
 
-data = cov(this.Data);
+data = cov(obj.Data);
 
-res = Table(data, 'rowNames', this.ColNames, 'colNames', this.ColNames);
+res = Table(data, 'rowNames', obj.ColNames, 'colNames', obj.ColNames);

@@ -1,5 +1,5 @@
-function res = xor(this, that)
-%XOR Overload the xor operator for Table objects
+function res = xor(obj1, obj2)
+% Overload the xor operator for Table objects.
 %
 %   output = xor(input)
 %
@@ -16,7 +16,7 @@ function res = xor(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platfxorm.
 
-[this, that, parent, names1, names2] = parseInputCouple(this, that);
+[obj1, obj2, parent, names1, names2] = parseInputCouple(obj1, obj2);
 
 % errxor checking
 if hasFactors(parent)
@@ -24,7 +24,7 @@ if hasFactors(parent)
 end
 
 % compute new data
-newData = bsxfun(@xor, this, that);
+newData = bsxfun(@xor, obj1, obj2);
 
 newColNames = strcat(names1, '_XOR_', names2);
 

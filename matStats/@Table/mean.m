@@ -1,5 +1,5 @@
 function res = mean(obj, varargin)
-%MEAN Compute the mean of table columns.
+% Compute the mean of table columns.
 %
 %   M = mean(TAB)
 %   Computes the mean of each column in the table. The result is a new

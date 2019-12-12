@@ -1,5 +1,5 @@
-function res = max(this, varargin)
-%MAX Put the max of each column in a new table
+function res = max(obj, varargin)
+% Put the max of each column in a new table.
 %
 %   output = max(input)
 %
@@ -17,17 +17,17 @@ function res = max(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute max for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Max of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Max of ' obj.Name];
 end
 
-res = Table.create(max(this.Data, [], 1), ...
+res = Table.create(max(obj.Data, [], 1), ...
     'rowNames', {'max'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     

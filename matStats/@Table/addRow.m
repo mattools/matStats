@@ -1,5 +1,5 @@
-function addRow(this, varargin)
-%ADDROW Add a new row to the data table
+function addRow(obj, varargin)
+% Add a new row to the data table.
 %
 %   addRow(TAB, ROWDATA)
 %   Adds the data given in ROWDATA to the data table
@@ -21,8 +21,8 @@ function addRow(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % current data size
-nRows = size(this.data, 1);
-nCols = size(this.data, 2);
+nRows = size(obj.data, 1);
+nCols = size(obj.data, 2);
 
 rowName = '';
 rowData = [];
@@ -63,7 +63,7 @@ end
 %         
 %         % transform unique strings to cell array of factor levels
 %         levels = strtrim(cellstr(levels(inds,:)));
-%         this.levels{nCols + 1} = levels;
+%         obj.levels{nCols + 1} = levels;
 %         
 %         % compute corresponding numeric data (level indices)
 %         numData = zeros(size(indices));
@@ -75,7 +75,7 @@ end
 %         % Factor are given as a cell array
 %         [levels pos indices] = unique(strtrim(colData));  %#ok<ASGLU>
 %         numData = indices;
-%         this.levels{nCols + 1} = levels;
+%         obj.levels{nCols + 1} = levels;
 %         
 %     else
 %         error(['Column factor have an unknown type: ' class(colData)]);
@@ -83,10 +83,10 @@ end
 % end
  
 % concatenate data
-this.Data = [this.Data ; rowData];
+obj.Data = [obj.Data ; rowData];
 
 if isempty(rowName)
     rowName = num2str(nRows + 1, '%d');
 end
-this.RowNames = [this.RowNames ; {rowName}];
+obj.RowNames = [obj.RowNames ; {rowName}];
     

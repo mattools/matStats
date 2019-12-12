@@ -1,5 +1,5 @@
-function res = log2(this)
-%LOG2 Binary logarithm of table values
+function res = log2(obj)
+% Binary logarithm of table values.
 %
 %   RES = log2(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -19,19 +19,19 @@ function res = log2(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute log for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Log2 of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Log2 of ' obj.Name];
 end
 
-newColNames = strcat('log2', this.ColNames);
+newColNames = strcat('log2', obj.ColNames);
 
-res = Table.create(log2(this.Data), ...
-    'parent', this, ...
+res = Table.create(log2(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

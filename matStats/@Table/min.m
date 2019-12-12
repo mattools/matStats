@@ -1,5 +1,5 @@
-function res = min(this, varargin)
-%MIN Put the min of each column in a new table
+function res = min(obj, varargin)
+% Put the min of each column in a new table.
 %
 %   output = min(input)
 %
@@ -17,17 +17,17 @@ function res = min(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute min for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Min of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Min of ' obj.Name];
 end
 
-res = Table.create(min(this.Data, [], 1), ...
+res = Table.create(min(obj.Data, [], 1), ...
     'rowNames', {'min'}, ...
-    'colNames', this.ColNames, ...
+    'colNames', obj.ColNames, ...
     'name', newName);
     

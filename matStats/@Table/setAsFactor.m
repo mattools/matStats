@@ -1,5 +1,5 @@
-function setAsFactor(this, colName, varargin)
-%SETASFACTOR Set the given column as a factor
+function setAsFactor(obj, colName, varargin)
+% Set the given column as a factor.
 %
 %   setAsFactor(TAB, COLNAME)
 %   Specifies that the given column(s) should be considered as a factor.
@@ -36,32 +36,32 @@ function setAsFactor(this, colName, varargin)
 
 
 % extract index (or indices) of column(s)
-ind = columnIndex(this, colName);
+ind = columnIndex(obj, colName);
 
 % convert each specified column as factor
 for i = 1:length(ind)
     indi = ind(i);
     
     % if factors are already set, show warning and switch to next column
-    if ~isempty(this.Levels{indi})
+    if ~isempty(obj.Levels{indi})
         warning('Table:setAsFactor:AlreadySetFactor', ...
-            'Column "%s" is already set as factor', this.ColNames{indi});
+            'Column "%s" is already set as factor', obj.ColNames{indi});
         continue;
     end
     
     % special case of empty arrays
-    if size(this.Data, 1) == 0
-        this.Levels{indi} = {};
+    if size(obj.Data, 1) == 0
+        obj.Levels{indi} = {};
         continue;
     end
     
     % extract unique values
-    [levels, I, J] = unique(this.Data(:, indi)); %#ok<ASGLU>
+    [levels, I, J] = unique(obj.Data(:, indi)); %#ok<ASGLU>
     
     % convert to cell array of strings
     levels = strtrim(cellstr(num2str(unique(levels))));
     
     % set up levels of data tables
-    this.Levels{indi} = levels;
-    this.Data(:, indi) = J;
+    obj.Levels{indi} = levels;
+    obj.Data(:, indi) = J;
 end

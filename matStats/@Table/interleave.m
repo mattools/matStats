@@ -1,5 +1,5 @@
-function res = interleave(this, that)
-%INTERLEAVE Interleave the rows of two data tables
+function res = interleave(obj1, obj2)
+% Interleave the rows of two data tables.
 %
 %   RES = interleave(TAB1, TAB2)
 %   Concatenates the rows of the two data tables. Both data tables must
@@ -31,8 +31,8 @@ function res = interleave(this, that)
 % Copyright 2017 INRA - Cepia Software Platform.
 
 % check validity of inputs
-dim1 = size(this);
-dim2 = size(that);
+dim1 = size(obj1);
+dim2 = size(obj2);
 if any(dim1 ~= dim2)
     error('Both input tables must have the same size');
 end
@@ -40,18 +40,19 @@ end
 % create result array
 nRows = 2 * dim1(1);
 dim = [nRows, dim1(2)];
-res = Table(zeros(dim), this.ColNames);
-res.Levels = this.Levels;
+res = Table(zeros(dim), obj1.ColNames);
+res.Levels = obj1.Levels;
 
 % check presence of factors
-if hasFactors(this) || hasFactors(that)
+if hasFactors(obj1) || hasFactors(obj2)
     warning('Table:interleave:NotImplemented', ...
         'The management of factors is not implemented');
 end
 
 % fill in with data
-res.Data(1:2:nRows, :) = this.Data;
-res.Data(2:2:nRows, :) = that.Data;
-res.RowNames(1:2:nRows) = this.RowNames;
-res.RowNames(2:2:nRows) = that.RowNames;
-    
+res.Data(1:2:nRows, :) = obj1.Data;
+res.Data(2:2:nRows, :) = obj2.Data;
+if ~isempty(obj1.RowNames) && ~isempty(obj2.RowNames)
+    res.RowNames(1:2:nRows) = obj1.RowNames;
+    res.RowNames(2:2:nRows) = obj2.RowNames;
+end

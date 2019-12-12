@@ -1,5 +1,5 @@
-function res = equals(this, that)
-%EQUALS Checks if two Table objects are the same
+function res = equals(obj1, obj2)
+% Checks if two Table objects are the same.
 %
 %   RES = equals(TAB1, TAB2)
 %   Compares the two data table objects, and returns FALSE if they differ.
@@ -30,37 +30,37 @@ function res = equals(this, that)
 res = false;
 
 % check class
-if ~isa(this, 'Table')
+if ~isa(obj1, 'Table')
     return;
 end
 
-if ~isa(that, 'Table')
+if ~isa(obj2, 'Table')
     return;
 end
 
 % check data
-if sum(size(this.Data) ~= size(that.Data)) > 0
+if sum(size(obj1.Data) ~= size(obj2.Data)) > 0
     return;
 end
-if sum(this.Data(:) ~= that.Data(:)) > 0
+if sum(obj1.Data(:) ~= obj2.Data(:)) > 0
     return;
 end
 
 % check row and column names
-if sum(~strcmp(this.ColNames, that.ColNames)) > 0
+if sum(~strcmp(obj1.ColNames, obj2.ColNames)) > 0
     return;
 end
-if sum(~strcmp(this.RowNames, that.RowNames)) > 0
+if sum(~strcmp(obj1.RowNames, obj2.RowNames)) > 0
     return;
 end
 
 % check levels
-if length(this.Levels) ~= length(that.Levels)
+if length(obj1.Levels) ~= length(obj2.Levels)
     return;
 end
-for i = 1:length(this.Levels)
-    lev1 = this.Levels{i};
-    lev2 = that.Levels{i};
+for i = 1:length(obj1.Levels)
+    lev1 = obj1.Levels{i};
+    lev2 = obj2.Levels{i};
     if isempty(lev1) && isempty(lev2)
         continue;
     end

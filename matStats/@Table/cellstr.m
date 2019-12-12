@@ -1,5 +1,5 @@
-function res = cellstr(this)
-%CELLSTR  Convert data table into cell array of strings
+function res = cellstr(obj)
+% Convert data table into cell array of strings.
 %
 %   C = cellstr(TAB)
 %   Converts the data table TAB into a cell array of strings. The resulting
@@ -17,7 +17,7 @@ function res = cellstr(this)
 %         '4.6'    '3.1'    '1.5'    '0.2'    'Setosa'
 %
 %   See also
-%   disp, ismember, find
+%     disp, ismember, find
 %
 
 % ------
@@ -26,18 +26,18 @@ function res = cellstr(this)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-dim = size(this);
+dim = size(obj);
 res = cell(dim);
 
 % iterate over columns
 for c = 1:dim(2)
-    if isFactor(this, c)
+    if isFactor(obj, c)
         % create a column containing level names
-        levels = this.Levels{c};
-        res(:, c) = levels(this.Data(:, c));
+        levels = obj.Levels{c};
+        res(:, c) = levels(obj.Data(:, c));
     else
         % simply convert numeric values
-        res(:, c) = strtrim(cellstr(num2str(this.Data(:, c))));
+        res(:, c) = strtrim(cellstr(num2str(obj.Data(:, c))));
     end
     
 end

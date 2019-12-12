@@ -1,5 +1,5 @@
-function level = getLevel(this, row, col)
-%GETLEVEL Returns the factor level for specified row and column
+function level = getLevel(obj, row, col)
+% Return the factor level for specified row and column.
 %
 %   output = getLevel(input)
 %
@@ -27,21 +27,21 @@ function level = getLevel(this, row, col)
 % Copyright 2013 INRA - Cepia Software Platform.
 
 % extract column index
-col = columnIndex(this, col);
+col = columnIndex(obj, col);
 if length(col) ~= 1
     error('Table:getLevel:TooManyIndices', ...
         'Requires a single column indicator');
 end
 
 % extract levels for the selected column
-if length(this.Levels) < col || isempty(this.Levels{col})
+if length(obj.Levels) < col || isempty(obj.Levels{col})
     error('Table:getLevel:NotAFactor', ...
         'Selected column is not a factor');
 end
-levels = this.Levels{col};
+levels = obj.Levels{col};
 
-row = rowIndex(this, row);
-inds = this.Data(row, col);
+row = rowIndex(obj, row);
+inds = obj.Data(row, col);
 
 if length(row) == 1
     level = levels{inds};

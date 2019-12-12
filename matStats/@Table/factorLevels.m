@@ -1,5 +1,5 @@
-function levels = factorLevels(this, colName)
-%FACTORLEVELS List of the levels for a given factor
+function levels = factorLevels(obj, colName)
+% List of the levels for a given factor.
 %
 %   LEVELS = factorLevels(TAB, COLNAME)
 %   Returns the unique levels contained in the given column.
@@ -37,19 +37,19 @@ function levels = factorLevels(this, colName)
 
 if nargin < 2
     % assumes data table has only one column
-    if size(this.Data, 2) ~= 1
+    if size(obj.Data, 2) ~= 1
         error('Require either a column name, or a single column table');
     end
     
     indFactor = 1;
 else
     % extract column index from column name, and check validity
-    indFactor = columnIndex(this, colName);
+    indFactor = columnIndex(obj, colName);
 end
 
-if isempty(this.Levels{indFactor})
-    error('Column "%s" is not a factor', this.ColNames{indFactor});
+if isempty(obj.Levels{indFactor})
+    error('Column "%s" is not a factor', obj.ColNames{indFactor});
 end
 
 % extract levels
-levels = this.Levels{indFactor};
+levels = obj.Levels{indFactor};

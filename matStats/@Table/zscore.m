@@ -1,5 +1,5 @@
-function [res, mu, sigma] = zscore(this, varargin)
-%ZSCORE Standardized z-score
+function [res, mu, sigma] = zscore(obj, varargin)
+% Standardized z-score of table data.
 %
 %   Z = zscore(TAB)
 %   Returns a centered a,d scaled version of T, the same size as T.
@@ -35,6 +35,10 @@ function [res, mu, sigma] = zscore(this, varargin)
 % Created: 2012-07-12,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
+if hasFactors(obj)
+    error('Table:zscore', 'Can not compute zscore for table with factors');
+end
+
 % process input arguments
 flag = 0;
 if nargin > 1
@@ -42,12 +46,12 @@ if nargin > 1
 end
 
 % compute basic stats
-mu = mean(this);
-sigma = std(this, flag);
+mu = mean(obj);
+sigma = std(obj, flag);
 
 % number of 
-n = size(this, 1);
+n = size(obj, 1);
 
 % compute standardised z-score
-res = (this - repmat(mu, n, 1)) ./ repmat(sigma, n, 1);
-res.ColNames = this.ColNames;
+res = (obj - repmat(mu, n, 1)) ./ repmat(sigma, n, 1);
+res.ColNames = obj.ColNames;

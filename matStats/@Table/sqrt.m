@@ -1,5 +1,5 @@
-function res = sqrt(this)
-%SQRT Square root of table values
+function res = sqrt(obj)
+% Square root of table values.
 %
 %   RES = sqrt(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -19,19 +19,19 @@ function res = sqrt(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute sqrt for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['sqrt of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['sqrt of ' obj.Name];
 end
 
-newColNames = strcat('sqrt', this.ColNames);
+newColNames = strcat('sqrt', obj.ColNames);
 
-res = Table.create(sqrt(this.Data), ...
-    'parent', this, ...
+res = Table.create(sqrt(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

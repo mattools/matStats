@@ -1,5 +1,5 @@
-function res = floor(this)
-%FLOOR Floor values in the table
+function res = floor(obj)
+% Floor values in the table.
 %
 %   RES = floor(TAB)
 %   Returns a new table with floored values.
@@ -23,10 +23,10 @@ function res = floor(this)
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not floor table with factors');
 end
 
-newData = floor(this.Data);
+newData = floor(obj.Data);
 
-res = Table(newData, 'parent', this);
+res = Table(newData, 'parent', obj);

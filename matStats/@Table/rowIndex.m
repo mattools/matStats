@@ -1,5 +1,5 @@
-function indRow = rowIndex(this, rowName)
-%ROWINDEX  Index of a row from its name
+function indRow = rowIndex(obj, rowName)
+% Index of a row from its name.
 %
 %   IND = rowIndex(TABLE, ROWNAME)
 %
@@ -26,9 +26,9 @@ if isnumeric(rowName)
 elseif ischar(rowName)
     % parse row name
     if strcmp(rowName, ':')
-        indRow = 1:length(this.RowNames);
+        indRow = 1:length(obj.RowNames);
     else
-        indRow = find(strcmp(rowName, this.RowNames'));
+        indRow = find(strcmp(rowName, obj.RowNames'));
     end
     
     if isempty(indRow)>0
@@ -39,7 +39,7 @@ elseif iscell(rowName)
     % parse a cell array of row names
     N = length(rowName);
     indRow = zeros(N, 1);
-    names = this.RowNames;
+    names = obj.RowNames;
     for i = 1:N
         ind = find(strcmp(rowName{i}, names));
         if isempty(ind)

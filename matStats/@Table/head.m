@@ -1,5 +1,5 @@
-function res = head(this, k)
-%HEAD Show the first rows of a data table
+function res = head(obj, k)
+% Show the first rows of a data table.
 %
 %   head(TAB)
 %   Display the first rows of a data table.
@@ -42,11 +42,11 @@ else
         'head', 'k')
 end
 
-n = size(this, 1);
+n = size(obj, 1);
 
 if n < k
-	res = this;
+	res = obj;
 else
     subs = struct('type', '()', 'subs', {{1:k, ':'}});
-    res = subsref(this, subs);
+    res = subsref(obj, subs);
 end

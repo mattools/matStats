@@ -1,5 +1,5 @@
 function res = ctranspose(obj)
-%CTRANSPOSE Simple wrapper to transpose function to comply with ' syntax.
+% Simple wrapper to transpose function to comply with ' syntax.
 %
 %   output = ctranspose(input)
 %

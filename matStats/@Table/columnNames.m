@@ -1,5 +1,5 @@
 function names = columnNames(obj)
-%COLUMNNAMES Return the names of the columns in table.
+% Return the names of the columns in table.
 %
 %   NAMES = columnNames(TAB)
 %

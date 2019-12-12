@@ -1,5 +1,5 @@
 function violinPlot(varargin)
-%VIOLINPLOT Plot distribution of data in a table
+% Plot distribution of data in a table.
 %
 %   violinPlot(TAB)
 %   Display the violin plot of each column in tabel TAB.
@@ -35,42 +35,42 @@ lineColor = 'k';
 
 % extract calling object
 indThis = cellfun('isclass', varargin, 'Table');
-this = varargin{indThis(1)};
+obj = varargin{indThis(1)};
 varargin(indThis(1)) = [];
 
 
 %% Determine grouping option
 
 % default: box plot of each column
-data = this.Data;
-indCols = 1:length(this.ColNames);
+data = obj.Data;
+indCols = 1:length(obj.ColNames);
 
 % check grouping
 grouping = false;
 if ~isempty(varargin)
     var1 = varargin{1};
     
-    if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(this, 1))
+    if isa(var1, 'Table') || (iscell(var1) && length(var1) == size(obj, 1))
         % groups are given as table or as cell array
         grouping = true;
         [groupIndices, levels, groupLabel] = parseGroupInfos(var1);
         
         varargin(1) = [];
         
-    elseif ischar(var1) && sum(isColumnName(this, var1)) > 0
+    elseif ischar(var1) && sum(isColumnName(obj, var1)) > 0
         % group is given as the name of a column in the input table
-        indGroup = columnIndex(this, varargin{1});
-        groupIndices = this.data(:, indGroup);
+        indGroup = columnIndex(obj, varargin{1});
+        groupIndices = obj.data(:, indGroup);
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(this.Levels{indGroup})
-            levels = this.Levels{indGroup};
+        if ~isempty(obj.Levels{indGroup})
+            levels = obj.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(groupIndices(:)))));
         end
 
-        groupLabel = this.ColNames(indGroup(1));
+        groupLabel = obj.ColNames(indGroup(1));
 
     end
 end
@@ -111,15 +111,15 @@ if grouping
     
     % set xlabel by concatenating group names
     xlabel(concatLabels(groupLabel(1,:)));
-    ylabel(this.ColNames(indCols(1)), 'interpreter', 'none');
+    ylabel(obj.ColNames(indCols(1)), 'interpreter', 'none');
 
 else
     % Display violin plot of each column in table    
 
-    nCols = size(this, 2);
+    nCols = size(obj, 2);
     
     for i = 1:nCols
-        [f, xf] = ksdensity(this.Data(:, i));
+        [f, xf] = ksdensity(obj.Data(:, i));
         f = f * .5 / max(f);
         
         fill([i+f i-f(end:-1:1)], [xf xf(end:-1:1)], varargin{:});
@@ -130,13 +130,13 @@ else
     xlim([0 nCols+1]);
     
     set(gca, 'xtick', 1:nCols);
-    set(gca, 'xticklabel', this.ColNames);
+    set(gca, 'xticklabel', obj.ColNames);
     
 end
 
 % decorate box plot
-if ~isempty(this.Name)
-    title(this.Name, 'interpreter', 'none');
+if ~isempty(obj.Name)
+    title(obj.Name, 'interpreter', 'none');
 end
 
 % if nargout > 0

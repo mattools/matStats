@@ -1,5 +1,5 @@
-function res = eq(this, that)
-%EQ  Overload the eq operator for Table objects
+function res = eq(obj1, obj2)
+% Overload the eq operator for Table objects.
 %
 %   output = eq(input)
 %
@@ -15,7 +15,7 @@ function res = eq(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[dat1, dat2, parent, names1, names2] = parseInputCouple(this, that, inputname(1), inputname(2));
+[dat1, dat2, parent, names1, names2] = parseInputCouple(obj1, obj2, inputname(1), inputname(2));
 
 if ~hasFactors(parent)
     % compute new data, with numeric data

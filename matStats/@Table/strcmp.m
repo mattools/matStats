@@ -1,5 +1,5 @@
-function res = strcmp(this, that)
-%STRCMP Compare factor levels with a string
+function res = strcmp(obj1, obj2)
+% Compare factor levels with a string.
 %
 %   TF = strcmp(TAB)
 %
@@ -16,7 +16,7 @@ function res = strcmp(this, that)
 % Created: 2015-08-24,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2015 INRA - Cepia Software Platform.
 
-[dat1, dat2, parent, names1, names2] = parseInputCouple(this, that, inputname(1), inputname(2));
+[dat1, dat2, parent, names1, names2] = parseInputCouple(obj1, obj2, inputname(1), inputname(2));
 
 % Limited to one-column tables
 if size(parent, 2) > 1

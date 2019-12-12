@@ -1,5 +1,5 @@
-function res = exp(this)
-%EXP Exponential of table values
+function res = exp(obj)
+% Exponential of table values.
 %
 %   RES = exp(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -18,19 +18,19 @@ function res = exp(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute exp for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['Exp of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['Exp of ' obj.Name];
 end
 
-newColNames = strcat('exp', this.ColNames);
+newColNames = strcat('exp', obj.ColNames);
 
-res = Table.create(exp(this.Data), ...
-    'parent', this, ...
+res = Table.create(exp(obj.Data), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     

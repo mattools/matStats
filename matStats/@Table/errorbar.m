@@ -1,5 +1,5 @@
 function varargout = errorbar(varargin)
-%ERRORBAR Overload the errorbar function to manage data tables
+% Overload the errorbar function to manage data tables.
 %
 %   errorbar(Y, E)
 %   errorbar(X, Y, E)

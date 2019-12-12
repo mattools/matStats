@@ -1,5 +1,5 @@
 function varargout = kmeans(obj, k, varargin)
-%KMEANS K-means clustering of the data table.
+% K-means clustering of the data table.
 %
 %   GROUPS = kmeans(TAB, K)
 %   Computes homogenenous groups in the input data table using the k-means
@@ -31,7 +31,7 @@ if nargin < 2
 end
 
 % check presence of stats toolbox
-if isempty(strfind(path, fullfile('toolbox', 'stats')))
+if ~contains(path, fullfile('toolbox', 'stats'))
     error('Requires the statistics toolbox');
 end
 

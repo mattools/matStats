@@ -1,5 +1,5 @@
 function varargout = plot(varargin)
-%PLOT Plot the content of a column
+% Plot the content of a column.
 %
 %   Syntax
 %   plot(TAB)
@@ -32,17 +32,17 @@ function varargout = plot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % default tables for plotting
 tabX = [];
-tabY = this;
+tabY = obj;
 
 % if two inputs are specified, setup the tabX variable
 if ~isempty(varargin)
     if isa(varargin{1}, 'Table')
-        tabX = this;
+        tabX = obj;
         tabY = varargin{1};
         varargin(1) = [];
     end

@@ -1,7 +1,7 @@
-function res = le(this, that)
-%LE  Overload the le operator for Table objects
+function res = le(obj1, obj2)
+% Overload the le operator for Table objects.
 %
-%   output = le(input)
+%   RES = le(TAB1, TAB2)
 %
 %   Example
 %   le
@@ -16,7 +16,7 @@ function res = le(this, that)
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-[this, that, parent, names1, names2] = parseInputCouple(this, that, inputname(1), inputname(2));
+[obj1, obj2, parent, names1, names2] = parseInputCouple(obj1, obj2, inputname(1), inputname(2));
 
 % error checking
 if hasFactors(parent)
@@ -24,7 +24,7 @@ if hasFactors(parent)
 end
 
 % compute new data
-newData = bsxfun(@le, this, that);
+newData = bsxfun(@le, obj1, obj2);
 
 newColNames = strcat(names1, '<=', names2);
 

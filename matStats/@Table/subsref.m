@@ -1,4 +1,4 @@
-function  varargout = subsref(this, subs)
+function  varargout = subsref(obj, subs)
 % Overrides subsref function for Table objects.
 %
 %   RES = subsref(TAB, SUBS)
@@ -25,7 +25,7 @@ function  varargout = subsref(this, subs)
 %       Table
 %
 %     % Example of curly braces indexing returning another cell array. In
-%     % this case, the size of the result is 3-by-5.
+%     % obj case, the size of the result is 3-by-5.
 %     iris = Table.read('fisherIris.txt');
 %     res = iris{1:3, :}
 %     res = 
@@ -69,11 +69,11 @@ if strcmp(type, '.')
     if nargout > 0
         % if some output arguments are asked, pre-allocate result
         varargout = cell(nargout, 1);
-        [varargout{:}] = builtin('subsref', this, subs);
+        [varargout{:}] = builtin('subsref', obj, subs);
         
     else
         % call parent function, and eventually return answer
-        builtin('subsref', this, subs);
+        builtin('subsref', obj, subs);
         if exist('ans', 'var')
             varargout{1} = ans; %#ok<NOANS>
         end        
@@ -114,7 +114,7 @@ elseif strcmp(type, '()')
             % if sub1 is a string (or a cell array of strings), try to find
             % indices of column(s) that correspond to that string(s)
             if ~strcmp(sub1, ':')
-                inds = columnIndex(this, s1.subs{1})';
+                inds = columnIndex(obj, s1.subs{1})';
                 
                 % transform to 2 indices indexing
                 s1.subs = {':', inds};
@@ -124,9 +124,9 @@ elseif strcmp(type, '()')
         % compute result, that can be either a new table, or a set of
         % values (in case of linear indexing)
         if length(s1.subs) == 1
-            tab = subsref(this.Data, s1);
+            tab = subsref(obj.Data, s1);
         else
-            tab = subsref(this, s1);
+            tab = subsref(obj, s1);
         end
         
     elseif ns == 2
@@ -137,7 +137,7 @@ elseif strcmp(type, '()')
         if ischar(sub1) || iscell(sub1)
             if ~strcmp(sub1, ':') 
                 % parse the name of the row
-                inds = rowIndex(this, sub1)';
+                inds = rowIndex(obj, sub1)';
                 s1.subs{1} = inds;
             end
         end
@@ -147,32 +147,32 @@ elseif strcmp(type, '()')
         if ischar(sub2) || iscell(sub2)
             if strcmp(sub2, ':')
                 % transform into numerical indices
-                s1.subs{2} = 1:size(this.Data, 2);
+                s1.subs{2} = 1:size(obj.Data, 2);
                 
             else
                 % parse the name of the column
-                inds = columnIndex(this, sub2)';
+                inds = columnIndex(obj, sub2)';
                 s1.subs{2} = inds;
             end
         end
         
         % name of the new table
-        newName = this.Name;
+        newName = obj.Name;
         
         colNames = {};
-        if ~isempty(this.ColNames)
-            colNames = this.ColNames(s1.subs{2});
+        if ~isempty(obj.ColNames)
+            colNames = obj.ColNames(s1.subs{2});
         end
         rowNames = {};
-        if ~isempty(this.RowNames)
-            rowNames = this.RowNames(s1.subs{1});
+        if ~isempty(obj.RowNames)
+            rowNames = obj.RowNames(s1.subs{1});
         end
         
         % extract corresponding data
-        tab = Table(this.Data(s1.subs{:}), ...
+        tab = Table(obj.Data(s1.subs{:}), ...
             'colNames', colNames, ...
             'rowNames', rowNames, ...
-            'levels', this.Levels(s1.subs{2}), ...
+            'levels', obj.Levels(s1.subs{2}), ...
             'name', newName);
         
     else
@@ -197,7 +197,7 @@ else
             % if sub1 is a string (or a cell array of strings), try to find
             % indices of column(s) that correspond to that string(s)
             if ~strcmp(inds, ':')
-                inds = columnIndex(this, s1.subs{1})';
+                inds = columnIndex(obj, s1.subs{1})';
             end
         end
         
@@ -214,7 +214,7 @@ else
         if ischar(sub1) || iscell(sub1)
             if ~strcmp(sub1, ':')
                 % parse the name of the row
-                inds = rowIndex(this, sub1)';
+                inds = rowIndex(obj, sub1)';
                 s1.subs{1} = inds;
             end
         end
@@ -224,11 +224,11 @@ else
         if ischar(sub2) || iscell(sub2)
             if strcmp(sub2, ':')
                 % transform into numerical indices
-                s1.subs{2} = 1:size(this.Data, 2);
+                s1.subs{2} = 1:size(obj.Data, 2);
                 
             else
                 % parse the name of the column
-                inds = columnIndex(this, sub2)';
+                inds = columnIndex(obj, sub2)';
                 s1.subs{2} = inds;
             end
         end
@@ -237,27 +237,27 @@ else
         error('Braces indexing requires one or two indices');
     end
     
-    % At this step, s1 is pre-processed and should eb able to index table
+    % At obj step, s1 is pre-processed and should eb able to index table
     % data directly
     
     % extract corresponding data, and transform into a cell array
-    tab = num2cell(this.Data(s1.subs{:}));
+    tab = num2cell(obj.Data(s1.subs{:}));
     
     % compute index of columns containing factors
     colInds = s1.subs{2};
-    inds2 = find(isFactor(this, colInds));
+    inds2 = find(isFactor(obj, colInds));
     
     % additional processing for factors
     for iFact = 1:length(inds2)
         % get levels for current column
         iCol = colInds(inds2((iFact)));
-        colLevels = this.Levels{iCol};
+        colLevels = obj.Levels{iCol};
         
         % add a default level in case of uninitialized value
         colLevels2 = [{'Unknown'} ; colLevels];
         
         % convert indices to level names, and put into result array
-        levelIndices = this.Data(s1.subs{1}, iCol);
+        levelIndices = obj.Data(s1.subs{1}, iCol);
         tab(:,inds2(iFact)) = colLevels2(levelIndices + 1);
     end
 end

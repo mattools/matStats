@@ -1,5 +1,5 @@
-function res = geomean(this, varargin)
-%GEOMEAN Compute geometrical mean of table columns
+function res = geomean(obj, varargin)
+% Compute geometrical mean of table columns.
 %
 %   M = geomean(TAB)
 %   Computes the geomean of each column in the table. The result is a new
@@ -23,7 +23,7 @@ function res = geomean(this, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute geomean for table with factors');
 end
 
@@ -33,22 +33,22 @@ if ~isempty(varargin)
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['geomean of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['geomean of ' obj.Name];
 end
 
 if dim == 1
-    newData = exp(mean(log(this.Data), 1));
+    newData = exp(mean(log(obj.Data), 1));
     
     res = Table.create(newData, ...
         'rowNames', {'geomean'}, ...
-        'colNames', this.ColNames, ...
+        'colNames', obj.ColNames, ...
         'name', newName);
     
 else
-    newData = exp(mean(log(this.Data), 2));
+    newData = exp(mean(log(obj.Data), 2));
     res = Table.create(newData, ...
-        'rowNames', this.RowNames, ...
+        'rowNames', obj.RowNames, ...
         'colNames', {'geomean'}, ...
         'name', newName);
     

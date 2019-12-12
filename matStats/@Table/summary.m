@@ -1,5 +1,5 @@
-function summary(this)
-%SUMMARY Display a summary of the data in the table
+function summary(obj)
+% Display a summary of the data in the table.
 %
 %   summary(TAB)
 %   TAB.summary()
@@ -23,8 +23,8 @@ function summary(this)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % size of table
-nRows = size(this.Data, 1);
-nCols = size(this.Data, 2);
+nRows = size(obj.Data, 1);
+nCols = size(obj.Data, 2);
 
 % number of text columns we can display
 maxWidth = get(0, 'CommandWindowSize');
@@ -54,12 +54,12 @@ if nRows > 0 && nCols > 0
     
     % iterate on columns
     for iCol = 1:nCols
-        colName = this.ColNames{iCol};
-        values  = this.Data(:, iCol);
+        colName = obj.ColNames{iCol};
+        values  = obj.Data(:, iCol);
 
         statCells = repmat({''}, nDisplayRows, 1);
              
-        if ~isFactor(this, iCol)
+        if ~isFactor(obj, iCol)
              % data are numeric -> compute summary statistics
              [vmin, vmax, vmedian, vmean, vq1, vq3] = summaryStatistics(values);
              summaryStats = [...
@@ -90,7 +90,7 @@ if nRows > 0 && nCols > 0
             % data are factors -> display level count
             
             % number of levels
-            nbLevels = length(this.Levels{iCol});
+            nbLevels = length(obj.Levels{iCol});
             
             % Count occurences number of each level
             h = zeros(nbLevels, 1);
@@ -99,13 +99,13 @@ if nRows > 0 && nCols > 0
             end
             
             % number of characters of the lengthest level name
-            nChar = max(cellfun(@length, this.Levels{iCol}));
+            nChar = max(cellfun(@length, obj.Levels{iCol}));
             pattern = ['%-' num2str(nChar+1) 's %d'];
             
             % display the count of each factor level
             for i = 1:min(nbLevels, nDisplayRows)
                 statCells{i} = sprintf(pattern, ...
-                    [this.Levels{iCol}{i} ':'], h(i));
+                    [obj.Levels{iCol}{i} ':'], h(i));
             end
             
             % eventually displays the number of other levels
@@ -121,9 +121,9 @@ if nRows > 0 && nCols > 0
         % add the name of the colum
         colText = strjust(char(colName, colText));
         
-        % If this new variable will extend the display past the right margin
+        % If obj new variable will extend the display past the right margin
         % width, display the output built up so far, and then restart for
-        % display starting at the left margin.  Don't do that if this is the 
+        % display starting at the left margin.  Don't do that if obj is the 
         % first variable, otherwise we'd display only the observation names.
         textWidth = size(txtArray, 2) + size(colPad, 2) + size(colText, 2);
         if iCol > 1 &&  textWidth > maxWidth

@@ -1,5 +1,5 @@
-function h = correlationCircles(this, varargin)
-%CORRELATIONCIRCLES Represent correlation matrix using colored circles
+function h = correlationCircles(obj, varargin)
+% Represent correlation matrix using colored circles.
 %
 %   correlationCircles(TAB)
 %   Represents the correlations between all pairs of quantitative variables
@@ -35,12 +35,12 @@ function h = correlationCircles(this, varargin)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 % number of variables
-n = size(this, 2);
+n = size(obj, 2);
 nRows = n;
 nCols = n;
 
 % compute the correlation matrix of input array
-cc = corrcoef(this);
+cc = corrcoef(obj);
 
 % initialize the colormap
 cmap = jet(256);
@@ -133,12 +133,12 @@ set(textHandles, 'String', '', 'Visible', 'on')
 % display labels on the left and on the top of the circle array
 for i = 1:n
     set(ax(1,i), 'XAxisLocation', 'Top');
-    xlabel(ax(1, i), this.ColNames{i}, ...
+    xlabel(ax(1, i), obj.ColNames{i}, ...
         'Visible', 'On', ...
         'FontSize', 12, 'Rotation', 45, ...
         'VerticalAlignment', 'Middle', ...
         'HorizontalAlignment', 'Left');
-    ylabel(ax(i, 1), this.ColNames{i}, ...
+    ylabel(ax(i, 1), obj.ColNames{i}, ...
         'Visible', 'On', ...
         'FontSize', 12, 'Rotation', 0, ...
         'VerticalAlignment', 'Middle', ...

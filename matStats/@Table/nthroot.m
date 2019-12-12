@@ -1,5 +1,5 @@
-function res = nthroot(this, n)
-%NTHROOT N-th root of table values
+function res = nthroot(obj, n)
+% N-th root of table values.
 %
 %   RES = nthroot(TAB)
 %   Returns table with same row names and column names, but whose values
@@ -19,19 +19,19 @@ function res = nthroot(this, n)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 
-if hasFactors(this)
+if hasFactors(obj)
     error('Can not compute nthroot for table with factors');
 end
 
 newName = '';
-if ~isempty(this.Name)
-    newName = ['nthroot of ' this.Name];
+if ~isempty(obj.Name)
+    newName = ['nthroot of ' obj.Name];
 end
 
-newColNames = strcat('nthroot', this.ColNames);
+newColNames = strcat('nthroot', obj.ColNames);
 
-res = Table.create(nthroot(this.Data, n), ...
-    'parent', this, ...
+res = Table.create(nthroot(obj.Data, n), ...
+    'parent', obj, ...
     'name', newName, ...
     'colNames', newColNames);
     
