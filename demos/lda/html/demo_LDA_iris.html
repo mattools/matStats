@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_LDA_iris</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-11-03"><meta name="DC.source" content="demo_LDA_iris.m"><style type="text/css">
+      --><title>demo_LDA_iris</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-12-13"><meta name="DC.source" content="demo_LDA_iris.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -89,11 +89,11 @@ info(iris);
 data = iris(:, 1:4);
 species = iris(<span class="string">'Species'</span>);
 </pre><pre class="codeoutput">Infos for table fisherIris:
-SepalLength: numerical  [ 4.3 ; 7.9 ]
-SepalWidth:  numerical  [ 2 ; 4.4 ]
-PetalLength: numerical  [ 1 ; 6.9 ]
-PetalWidth:  numerical  [ 0.1 ; 2.5 ]
-Species:     categorical with 3 levels { Setosa ; Versicolor ; Virginica}
+[1] SepalLength : numerical  [ 4.3 ; 7.9 ]
+[2] SepalWidth  : numerical  [ 2 ; 4.4 ]
+[3] PetalLength : numerical  [ 1 ; 6.9 ]
+[4] PetalWidth  : numerical  [ 0.1 ; 2.5 ]
+[5] Species     : categorical with 3 levels { Setosa ; Versicolor ; Virginica}
 </pre><h2 id="3">Apply Linear Discriminant Analysis</h2><pre class="codeinput"><span class="comment">% Apply Principal Component Analysis on the quantitative variables</span>
 irisLda = LinearDiscriminantAnalysis(data, species);
 
@@ -106,7 +106,7 @@ disp(irisLda);
      loadings: &lt;4x2 Table&gt;
   eigenValues: &lt;2x3 Table&gt;
 Type 'properties(LinearDiscriminantAnalysis)' to see all properties
-</pre><img vspace="5" hspace="5" src="demo_LDA_iris_01.png" alt=""> <img vspace="5" hspace="5" src="demo_LDA_iris_02.png" alt=""> <img vspace="5" hspace="5" src="demo_LDA_iris_03.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="demo_LDA_iris_01.png" alt=""> <img vspace="5" hspace="5" src="demo_LDA_iris_02.png" alt=""> <img vspace="5" hspace="5" src="demo_LDA_iris_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %DEMO_LDA_IRIS Demonstration of Linear Discriminant Analysis
 %
