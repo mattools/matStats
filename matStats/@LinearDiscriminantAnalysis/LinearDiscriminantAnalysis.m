@@ -99,7 +99,7 @@ end % end properties
 
 %% Constructor
 methods
-    function this = LinearDiscriminantAnalysis(data, group, varargin)
+    function obj = LinearDiscriminantAnalysis(data, group, varargin)
         % Constructor for LinearDiscriminantAnalysis class
 
         % avoid empty constructor
@@ -110,13 +110,13 @@ methods
         % copy constructor
         if isa(data, 'LinearDiscriminantAnalysis')
             % copy the name
-            this.TableName      = data.TableName;
+            obj.TableName      = data.TableName;
             
             % deep copy of related tables
-            this.Group          = Table(data.Group);
-            this.Scores         = Table(data.Scores);
-            this.Loadings       = Table(data.Loadings);
-            this.EigenValues    = Table(data.EigenValues);
+            obj.Group          = Table(data.Group);
+            obj.Scores         = Table(data.Scores);
+            obj.Loadings       = Table(data.Loadings);
+            obj.EigenValues    = Table(data.EigenValues);
             return;
         end
         
@@ -140,22 +140,22 @@ methods
         if isempty(tableName)
             tableName = inputname(1);
         end
-        this.TableName      = tableName;
-        this.Group          = group;
+        obj.TableName      = tableName;
+        obj.Group          = group;
 
         % compute LinearDiscriminantAnalysis results
-        computeLDA(this, data);
+        computeLDA(obj, data);
         
         % save results
         if options.saveResultsFlag
-            saveResults(this, options.dirResults);
+            saveResults(obj, options.dirResults);
         end
         
         % display results
         if options.display
-            handles = displayResults(this, options);
+            handles = displayResults(obj, options);
             if options.saveFiguresFlag
-                saveFigures(this, handles, options.dirFigures);
+                saveFigures(obj, handles, options.dirFigures);
             end
         end
     
@@ -220,7 +220,7 @@ end % end constructors
 
 %% Computation Methods
 methods (Access = private)
-    function computeLDA(this, tab)
+    function computeLDA(obj, tab)
         % Compute the variance matrices, and the transformed data
 
         % size of data table
@@ -229,12 +229,12 @@ methods (Access = private)
         nVars = size(data, 2);
         
         % number of group / classes
-        [uniGroups, tmp, groupIndices] = unique(this.Group.Data); %#ok<ASGLU>
+        [uniGroups, tmp, groupIndices] = unique(obj.Group.Data); %#ok<ASGLU>
         nGroups = length(uniGroups);
         
         % recenter data
-        this.Means = mean(data);
-        data = bsxfun(@minus, data, this.Means);
+        obj.Means = mean(data);
+        data = bsxfun(@minus, data, obj.Means);
         
         % find the maximal dimension
         nDims = min(nGroups-1, nVars);
@@ -242,17 +242,17 @@ methods (Access = private)
         %% Compute the matrices of the problem
         
         % sum of squared differences (total)
-        this.SSD_T = data' * data;
+        obj.SSD_T = data' * data;
         
         % initialize arrays for computing group means
         groupCounts = zeros(nGroups, 1);
         groupMeans = zeros(nGroups, nVars);
         
         % initialize the "between groups" sum of squared differences
-        this.SSD_B = zeros(nVars, nVars);
+        obj.SSD_B = zeros(nVars, nVars);
         
         % initialize the "within groups" sum of squared differences
-        this.SSD_W = zeros(nVars, nVars);
+        obj.SSD_W = zeros(nVars, nVars);
         
         % Compute matrices by iterating over groups
         for i = 1:nGroups
@@ -262,13 +262,13 @@ methods (Access = private)
             % compute groupe mean
             mu_i = mean(data(inds, :));
             groupMeans(i,:) = mu_i;
-            this.SSD_B = this.SSD_B + (mu_i' * mu_i) * groupCounts(i);
+            obj.SSD_B = obj.SSD_B + (mu_i' * mu_i) * groupCounts(i);
             
             % group data centered on group mean
             gdata = bsxfun(@minus, data(inds,:), mu_i);
             
             % update residual sum of square differences (within groups)
-            this.SSD_W = this.SSD_W + gdata' * gdata;
+            obj.SSD_W = obj.SSD_W + gdata' * gdata;
         end
 
         
@@ -276,11 +276,11 @@ methods (Access = private)
         
         % Compute first eigen vectors
         % (function "manova1" uses a more complicated algorithm, 
-        [v, ev] = eigs(this.SSD_B, this.SSD_W, nDims, 'largestabs');
+        [v, ev] = eigs(obj.SSD_B, obj.SSD_W, nDims, 'largestabs');
         ev = diag(ev);
 
         % Re-scale eigenvectors to ensure the within-group variance is 1
-        vs = diag(v' * this.SSD_W * v)' ./ (nInds - nGroups);
+        vs = diag(v' * obj.SSD_W * v)' ./ (nInds - nGroups);
         vs(vs<=0) = 1;
         v = v ./ repmat(sqrt(vs), size(v,1), 1);
 
@@ -296,7 +296,7 @@ methods (Access = private)
         else
             name = 'Can. Coords';
         end
-        this.Scores = Table.create(data * v(:,1:nDims), ...
+        obj.Scores = Table.create(data * v(:,1:nDims), ...
             'rowNames', tab.RowNames, ...
             'colNames', varNames, ...
             'name', name);
@@ -307,8 +307,8 @@ methods (Access = private)
         else
             name = 'Loadings';
         end
-        this.Loadings = Table.create(v(:,1:nDims), ...
-            'rowNames', tab.colNames, ...
+        obj.Loadings = Table.create(v(:,1:nDims), ...
+            'rowNames', tab.ColNames, ...
             'colNames', varNames, ...
             'name', name);
         
@@ -319,12 +319,12 @@ methods (Access = private)
         eigenVals(:, 3) = cumsum(eigenVals(:,2));   % cumulated inertia
         
         % Table object for eigen values
-        if ~isempty(tab.name)
-            name = sprintf('Eigen values of %s', tab.name);
+        if ~isempty(tab.Name)
+            name = sprintf('Eigen values of %s', tab.Name);
         else
             name = 'Eigen values';
         end
-        this.EigenValues = Table.create(eigenVals, ...
+        obj.EigenValues = Table.create(eigenVals, ...
             'rowNames', varNames, ...
             'name', name, ...
             'colNames', {'EigenValues', 'Inertia', 'Cumulated'});
@@ -334,24 +334,24 @@ end
 %% Methods
 methods (Access = private)
     
-    function saveResults(this, dirResults)
+    function saveResults(obj, dirResults)
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
         % save score array (coordinates of individuals in new basis)
-        fileName = sprintf('%s-cda.scores.txt', this.TableName);
-        write(this.Scores, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.scores.txt', obj.TableName);
+        write(obj.Scores, fullfile(dirResults, fileName));
         
         % save loadings array (corodinates of variable in new basis)
-        fileName = sprintf('%s-cda.loadings.txt', this.TableName);
-        write(this.Loadings, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.loadings.txt', obj.TableName);
+        write(obj.Loadings, fullfile(dirResults, fileName));
         
         % save eigen values array
-        fileName = sprintf('%s-cda.values.txt', this.TableName);
-        write(this.EigenValues, fullfile(dirResults, fileName));
+        fileName = sprintf('%s-cda.values.txt', obj.TableName);
+        write(obj.EigenValues, fullfile(dirResults, fileName));
     end
 
     
-    function handles = displayResults(this, options)
+    function handles = displayResults(obj, options)
         % Display results of LinearDiscriminantAnalysis
         %
         % Returns a structure with fields corresponding to figure handles:
@@ -363,40 +363,40 @@ methods (Access = private)
         
         
         % number of canonical components to display
-        npc = size(this.Scores.data, 2);
+        npc = size(obj.Scores.Data, 2);
         
         % Scree plot of the LinearDiscriminantAnalysis
-        handles.screePlot = screePlot(this, options.axesProperties{:});
+        handles.screePlot = screePlot(obj, options.axesProperties{:});
         
         % individuals in plane CC1-CC2
         if npc >= 2
             handles.scorePlot12 = figure;
-            scorePlot(this, 1, 2, 'showNames', options.showObsNames, options.axesProperties{:});
+            scorePlot(obj, 1, 2, 'showNames', options.showObsNames, options.axesProperties{:});
         end
         
         % individuals in plane CC3-CC4
         if npc >= 4
             handles.scorePlot34 = figure;
-            scorePlot(this, 3, 4, 'showNames', options.showObsNames, options.axesProperties{:});
+            scorePlot(obj, 3, 4, 'showNames', options.showObsNames, options.axesProperties{:});
         end
         
         
         % loading plots CC1-CC2
         if npc >= 2
-            handles.LoadingsPlot12 = figure;
-            loadingPlot(this, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
+            handles.loadingsPlot12 = figure;
+            loadingPlot(obj, 1, 2, 'showNames', options.showVarNames, options.axesProperties{:});
         end
         
         % loading plots CC3-CC4
         if npc >= 4
-            handles.LoadingsPlot34 = figure;
-            loadingPlot(this, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
+            handles.loadingsPlot34 = figure;
+            loadingPlot(obj, 3, 4, 'showNames', options.showVarNames, options.axesProperties{:});
         end
     end
     
-    function saveFigures(this, handles, dirFigs)
+    function saveFigures(obj, handles, dirFigs)
         
-        baseName = this.TableName;
+        baseName = obj.TableName;
         
         fileName = sprintf('%s-lda.ev.png', baseName);
         if ismember(handles, 'screePlot')
@@ -415,25 +415,25 @@ methods (Access = private)
 
         if ismember(handles, 'loadingsPlot12')
             fileName = sprintf('%s-lda.ld12.png', baseName);
-            print(handles.LoadingsPlot12, fullfile(dirFigs, fileName));
+            print(handles.loadingsPlot12, fullfile(dirFigs, fileName));
         end
         
         if ismember(handles, 'loadingsPlot34')
             fileName = sprintf('%s-lda.ld34.png', baseName);
-            print(handles.LoadingsPlot34, fullfile(dirFigs, fileName));
+            print(handles.loadingsPlot34, fullfile(dirFigs, fileName));
         end
     end
 end % end methods
 
 methods
-    function disp(this)
+    function disp(obj)
         % Display a short summary about analysis result
         
         disp('Linear Discriminant Analysis Result');
-        disp(['   Input data: ' this.TableName]);
-        disp(['       scores: ' sprintf('<%dx%d Table>', size(this.Scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d Table>', size(this.Loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(this.EigenValues))]);
+        disp(['   Input data: ' obj.TableName]);
+        disp(['       scores: ' sprintf('<%dx%d Table>', size(obj.Scores))]);
+        disp(['     loadings: ' sprintf('<%dx%d Table>', size(obj.Loadings))]);
+        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(obj.EigenValues))]);
         disp('Type ''properties(LinearDiscriminantAnalysis)'' to see all properties');
     end
 end

@@ -1,5 +1,5 @@
 function varargout = screePlot(varargin)
-%SCREEPLOT  Display the scree plot of the LDA result
+% Display the scree plot of the LDA result.
 %
 %   screePlot(LCA)
 %   Display the scree plot of the PCA object in a new figure.
@@ -26,13 +26,13 @@ function varargout = screePlot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % extract data
-name    = this.TableName;
-coord   = this.Scores.data;
-values  = this.EigenValues.data;
+name    = obj.TableName;
+coord   = obj.Scores.Data;
+values  = obj.EigenValues.Data;
 
 % distribution of the first eigen values
 hFig = get(ax, 'Parent');

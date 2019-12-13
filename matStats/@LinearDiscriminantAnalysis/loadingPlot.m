@@ -1,5 +1,5 @@
 function varargout = loadingPlot(varargin)
-%LOADINGPLOT Plot variables in a factorial plane
+% Plot variables in a factorial plane.
 %
 %   loadingPlot(PCA, I, J)
 %
@@ -22,7 +22,7 @@ function varargout = loadingPlot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % get factorial axes
@@ -35,7 +35,7 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 
-nc = size(this.Scores, 2);
+nc = size(obj.Scores, 2);
 if cp1 > nc || cp2 > nc
     error('Component number should be less than variable number');
 end
@@ -61,18 +61,18 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.Loadings(:, cp1).Data;
-y = this.Loadings(:, cp2).Data;
+x = obj.Loadings(:, cp1).Data;
+y = obj.Loadings(:, cp2).Data;
 
 % display either names or dots
 if showNames
-    drawText(ax, x, y, this.Loadings.RowNames);
+    drawText(ax, x, y, obj.Loadings.RowNames);
 else
     plot(ax, x, y, '.k');
 end
 
 % create legends
-annotateFactorialPlot(this, ax, cp1, cp2);
+annotateFactorialPlot(obj, ax, cp1, cp2);
 
 if nargout > 0
     varargout = {hFig};

@@ -1,10 +1,14 @@
 function varargout = scorePlot(varargin)
-%SCOREPLOT Plot individuals in a factorial plane
+% Plot individuals in a factorial plane.
 %
 %   scorePlot(CDA, I, J)
 %
 %   scorePlot(CDA)
 %   Assumes I = 1 and J = 2.
+%
+%   scorePlot(..., 'showNames', TF)
+%   Specifies the display of individuals on the graph, using the boolean
+%   flag TF. Default is true if number of individuals is less than 200.
 %
 %   Example
 %   scorePlot
@@ -22,7 +26,7 @@ function varargout = scorePlot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling table
-this = varargin{1};
+obj = varargin{1};
 varargin(1) = [];
 
 % get factorial axes
@@ -35,13 +39,13 @@ if length(varargin) >= 2 && isnumeric(varargin{1})
 end
 
 % input argument control
-nc = size(this.Scores, 2);
+nc = size(obj.Scores, 2);
 if cc1 > nc || cc2 > nc
     error('Component number should be less than variable number');
 end
 
 % extract display options
-showNames = true;
+showNames = size(obj.Scores, 1) < 200;
 for i = 1:2:(length(varargin)-1)
     if strcmpi('showNames', varargin{i})
         showNames = varargin{i+1};
@@ -61,20 +65,20 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = this.Scores(:, cc1);
-y = this.Scores(:, cc2);
-scatterGroup(x, y, this.Group);
+x = obj.Scores(:, cc1);
+y = obj.Scores(:, cc2);
+scatterGroup(x, y, obj.Group);
 
 % display either names or dots
 if showNames
-    text(x.Data, y.Data, this.Scores.RowNames, ...
+    text(x.Data, y.Data, obj.Scores.RowNames, ...
     'HorizontalAlignment', 'Center', ...
     'VerticalAlignment', 'Bottom', ...
     'color', 'k', 'fontsize', 8, varargin{:});
 end
 
 % create legends
-annotateFactorialPlot(this, ax, cc1, cc2);
+annotateFactorialPlot(obj, ax, cc1, cc2);
 
 if nargout > 0
     varargout = {hFig};

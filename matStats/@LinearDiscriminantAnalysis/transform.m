@@ -1,5 +1,5 @@
-function res = transform(this, data)
-%TRANSFORM Transform new data to canonical space
+function res = transform(obj, data)
+% Transform new data to canonical space.
 %
 %   RES = transform(LDA, DATA)
 %
@@ -18,17 +18,17 @@ function res = transform(this, data)
 
 
 % name of new columns
-nDims = size(this.Loadings, 2);
+nDims = size(obj.Loadings, 2);
 varNames = strtrim(cellstr(num2str((1:nDims)', 'cc%d')));
 
 % compute new name
 name = 'Can. Coords';
-if ~isempty(this.TableName)
-    name = sprintf('Can. Coords of %s', this.TableName);
+if ~isempty(obj.TableName)
+    name = sprintf('Can. Coords of %s', obj.TableName);
 end
 
 % Table object for canonical coordinates
-res = Table.create(data.Data * this.Loadings.data, ...
+res = Table.create(data.Data * obj.Loadings.data, ...
     'rowNames', data.RowNames, ...
     'colNames', varNames, ...
     'name', name);
