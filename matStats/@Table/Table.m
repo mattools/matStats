@@ -407,11 +407,12 @@ methods
         
         % check if row names were specified
         if ~isempty(varargin)
-            if iscell(varargin{1})
-                if length(varargin{1}) ~= size(obj.Data,1)
+            var1 = varargin{1};
+            if iscell(var1)
+                if length(var1) ~= size(obj.Data,1) && ~isempty(var1)
                     error('Number of row names does not match row number');
                 end
-                obj.RowNames = varargin{1};
+                obj.RowNames = var1;
                 varargin(1) = [];
             end
         end

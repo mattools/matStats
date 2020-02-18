@@ -18,9 +18,9 @@ function varargout = kmeans(obj, k, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-11-15,    using Matlab 7.9.0.529 (R2009b)
-% Copyright 2012 INRA - Cepia Software Platform.
+% Copyright 2012 INRAE - Cepia Software Platform.
 
 
 %% Input checks
@@ -64,7 +64,7 @@ groupNames = strtrim(cellstr(num2str((1:k)', 'class=%d')));
 % format the first output table
 colNames = {sprintf('kmeans%d', k)};
 tabName = [baseName sprintf('_kmeans%d', k)];
-varargout{1} = Table(varargout{1}, colNames, obj.RowNames, 'name', tabName);
+varargout{1} = Table(varargout{1}, colNames, obj.RowNames, 'Name', tabName);
 
 % if centroid output was asked, transform it into a table
 if nargout > 1
