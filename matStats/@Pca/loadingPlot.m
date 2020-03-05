@@ -65,7 +65,7 @@ x = obj.Loadings(:, cp1).Data;
 y = obj.Loadings(:, cp2).Data;
 
 % display either names or dots
-if showNames
+if showNames && ~isempty(obj.Loadings.RowNames)
     drawText(ax, x, y, obj.Loadings.RowNames);
 else
     plot(ax, x, y, '.k');

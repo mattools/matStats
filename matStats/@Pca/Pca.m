@@ -272,11 +272,11 @@ methods (Access = private)
         % Display results of PCA
         %
         % Returns a structure with fields corresponding to figure handles:
-        % * screePlot
-        % * scorePlot12
-        % * scorePlot34
-        % * loadingsPlot12
-        % * loadingsPlot34
+        % * ScreePlot
+        % * ScorePlot12
+        % * ScorePlot34
+        % * LoadingsPlot12
+        % * LoadingsPlot34
         
         % number of principal components to display
         npc = size(obj.Scores.Data, 2);
@@ -298,7 +298,7 @@ methods (Access = private)
         
         % loading plots PC1-PC2
         if npc >= 2
-            handles.loadingsPlot12 = figure;
+            handles.LoadingsPlot12 = figure;
             loadingPlot(obj, 1, 2, 'showNames', options.ShowVarNames, options.AxesProperties{:});
         end
         

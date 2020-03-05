@@ -30,8 +30,8 @@ if nargin < 2
     error('Need to specify class number');
 end
 
-% check presence of stats toolbox
-if ~contains(path, fullfile('toolbox', 'stats'))
+% check presence of stats toolbox (use old syntax fo compatibility)
+if isempty(strfind(path, fullfile('toolbox', 'stats')))
     error('Requires the statistics toolbox');
 end
 

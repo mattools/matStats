@@ -66,7 +66,7 @@ x = obj.Scores(:, cp1).Data;
 y = obj.Scores(:, cp2).Data;
 
 % display either names or dots
-if showNames
+if showNames && ~isempty(obj.Scores.RowNames)
     drawText(ax, x, y, obj.Scores.RowNames);
 else
     plot(ax, x, y, '.k');
