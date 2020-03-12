@@ -26,10 +26,11 @@ function write(obj, fileName, varargin)
 %
 %   'WriteLevels'   boolean indicating whether factor columns must be saved
 %       as numeric values (value = FALSE) or as character strings (value =
-%       TRUE). Default is TRUE. 
+%       TRUE). Default is TRUE if the 'ColNames' property is not empty.
 %
 %   'WriteRowNames' boolean indicating whether the name of each row should
-%       be written in the beginning of each line. Default is TRUE.
+%       be written in the beginning of each line. Default is TRUE if the
+%       'RowNames' property is not empty.
 %
 %   'WriteHeader'   boolean indicating whether the header line should be
 %       written or not. Default is TRUE.
@@ -64,8 +65,8 @@ function write(obj, fileName, varargin)
 
 % default values of parameters
 format = [];
-writeHeader = true;
-writeRowNames = true;
+writeHeader = ~isempty(obj.ColNames);
+writeRowNames = ~isempty(obj.RowNames);
 writeLevels = hasFactors(obj) ;
 sep = ' ';
 headerSep = '   ';
@@ -175,7 +176,7 @@ if nTokens == 1 && nCols > 1
 end
 
 % add '%s ' in the beginning if missing
-if nTokens ~= nCols + 1
+if nTokens ~= nCols + 1 && ~isempty(obj.RowNames)
 %     len = -1;
 %     for i = 1:nRows
 %         len = max(len, length(obj.rowNames{i}));
