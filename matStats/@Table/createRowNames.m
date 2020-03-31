@@ -1,12 +1,19 @@
-function createRowNames(obj, varargin)
+function rowNames = createRowNames(obj, varargin)
 % Create default row names for table.
 %
-%   createRowNames(TAB)
+%   NAMES = createRowNames(TAB)
+%   Creates an array of unique name for each row, as a NROWS-by-1 cell
+%   array. Default is to create a cell array of char representing index of
+%   each row: NAMES = {'1', '2', '3', ...}'.
+%
+%   NAMES = createRowNames(TAB, PATTERN)
+%   Uses the specified pattern for creating row names. Default pattern is
+%   '%d'.
 %
 %   Example
 %     data = reshape(1:12, [3 4])';
 %     tab = Table(data, {'C1', 'C2', 'C3'});
-%     createRowNames(tab, 'row%02d');
+%     tab.RowNames = createRowNames(tab, 'row%02d');
 %     tab
 %     tab = 
 %                  C1    C2    C3
@@ -16,13 +23,13 @@ function createRowNames(obj, varargin)
 %     row04        10    11    12
 %
 %   See also
-%     create, parseFactorFromRowNames
+%     create, write, parseFactorFromRowNames
  
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2019-12-12,    using Matlab 9.7.0.1247435 (R2019b) Update 2
-% Copyright 2019 INRA - Cepia Software Platform.
+% Copyright 2019 INRAE - Cepia Software Platform.
 
 nr = size(obj.Data, 1);
 
@@ -31,4 +38,4 @@ if ~isempty(varargin)
     format = varargin{1};
 end
 
-obj.RowNames = strtrim(cellstr(num2str((1:nr)', format)));
+rowNames = strtrim(cellstr(num2str((1:nr)', format)));

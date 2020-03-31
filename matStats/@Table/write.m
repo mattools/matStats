@@ -66,6 +66,7 @@ function write(obj, fileName, varargin)
 % default values of parameters
 format = [];
 writeHeader = ~isempty(obj.ColNames);
+rowNames = obj.RowNames;
 writeRowNames = ~isempty(obj.RowNames);
 writeLevels = hasFactors(obj) ;
 sep = ' ';
@@ -105,6 +106,11 @@ end
 % number of row and columns
 nRows = size(obj.Data, 1);
 nCols = size(obj.Data, 2);
+
+% if need to write row names without valid row names, ensure valid ones.
+if writeRowNames && isempty(rowNames)
+    rowNames = createRowNames(obj);
+end
 
 % compute default format string for writing data, if not given as argument
 if isempty(format)
@@ -176,12 +182,8 @@ if nTokens == 1 && nCols > 1
 end
 
 % add '%s ' in the beginning if missing
-if nTokens ~= nCols + 1 && ~isempty(obj.RowNames)
-%     len = -1;
-%     for i = 1:nRows
-%         len = max(len, length(obj.rowNames{i}));
-%     end
-    len = max(cellfun(@length, obj.RowNames));
+if nTokens ~= nCols + 1 && writeRowNames
+    len = max(cellfun(@length, rowNames));
     format = ['%-' int2str(len) 's ' format];
 end
 
@@ -201,15 +203,16 @@ end
 
 % write the header line
 if writeHeader
-    % initialize first row with default tag
-    str = 'name';
-
     % write the names of the columns, separated by spaces
-    for i = 1:nCols
-        str = [str headerSep obj.ColNames{i}]; %#ok<AGROW>
-    end
+    pattern = ['%s' repmat([headerSep '%s'], 1, nCols-1) '\\n'];
+    str = sprintf(pattern, obj.ColNames{:});
 
-    str = [str '\n'];
+    % optionnally adds column name for row names
+    if writeRowNames
+        str = ['name' headerSep str];
+    end
+    
+    % print header to file
     fprintf(f, str);
 end
 
@@ -218,7 +221,7 @@ if ~writeLevels
     % write data as numeric
     if writeRowNames
         for i = 1:nRows
-            fprintf(f, format, obj.RowNames{i}, obj.Data(i, :));
+            fprintf(f, format, rowNames{i}, obj.Data(i, :));
         end
     else
         for i = 1:nRows
@@ -241,7 +244,7 @@ else
         
         % write current row
         if writeRowNames
-            fprintf(f, format, obj.RowNames{i}, data{:});
+            fprintf(f, format, rowNames{i}, data{:});
         else
             fprintf(f, format, data{:});
         end
