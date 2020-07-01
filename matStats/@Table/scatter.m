@@ -1,4 +1,4 @@
-function varargout = scatter(obj, varargin)
+function varargout = scatter(varargin)
 % Scatter plot of table data.
 %
 %   scatter(TAB1, TAB2)
@@ -35,6 +35,12 @@ function varargout = scatter(obj, varargin)
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
+% Extract the axis handle to draw in
+[ax, varargin] = parseAxisHandle(varargin{:});
+
+% extract calling table
+obj = varargin{1};
+varargin(1) = [];
 
 if size(obj.Data, 2) == 1
     % Data are given as one table and two column names/indices
@@ -81,7 +87,6 @@ if isempty(varargin)
 end
 
 % scatter plot of selected columns
-ax = gca;
 h = scatter(ax, xdata, ydata, varargin{:});
 
 if isFactor(obj, indx(1))
