@@ -16,12 +16,12 @@ function varargout = plot(varargin)
 %   Example
 %
 %   See also
-%     plotRows
+%     plotRows, bar, stairs, stem, scatter
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-06-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -48,6 +48,16 @@ if ~isempty(varargin)
     end
 end
 
+% parse legend location info
+legendLocation = 'NorthEast';
+ind = find(cellfun(@(x)strcmpi(x, 'LegendLocation'), varargin), 1);
+if ~isempty(ind)
+    legendLocation = varargin{ind+1};
+    varargin(ind:ind+1) = [];
+end
+
+
+%% initialisations
 
 xData = [];
 xAxisLabel = '';
@@ -71,17 +81,35 @@ end
 
 if isempty(tabX)
     % plot(Y)
-    h = plot(ax, tabY.Data, varargin{:});
-    
-%     % setup x-axis limits
-%     set(gca, 'xlim', [1 size(tabY.data, 1)]);
+    types = tabY.PreferredPlotTypes;
+    switch lower(types{1})
+        case 'line'
+            linePlot(ax, tabY, varargin{:});
+        case 'stairsteps'
+            stairStepsPlot(ax, tabY, varargin{:});
+        case 'stem'
+            stemPlot(ax, tabY, varargin{:});
+        case 'bar'
+            barPlot(ax, tabY, varargin{:});
+        otherwise
+            error('MatStats:Table:plot', ['Unknown plot type: ' types{1}]);
+    end
     
 else
     % plot(X, Y)
-    h = plot(ax, xData, tabY.Data, varargin{:});
-    
-%     % setup x-axis limits
-%     set(gca, 'xlim', [min(xData) max(xData)]);
+    types = tabY.PreferredPlotTypes;
+    switch lower(types{1})
+        case 'line'
+            linePlot(ax, xData, tabY, varargin{:});
+        case 'stairsteps'
+            stairStepsPlot(ax, xData, tabY, varargin{:});
+        case 'stem'
+            stemPlot(ax, xData, tabY, varargin{:});
+        case 'bar'
+            barPlot(ax, xData, tabY, varargin{:});
+        otherwise
+            error('MatStats:Table:plot', ['Unknown plot type: ' types{1}]);
+    end
     
     % Annotate X axis
     if ~isempty(xTickLabels)
@@ -103,18 +131,8 @@ if ~isempty(tabY.Name)
     title(tabY.Name, 'Interpreter', 'none');
 end
 
-if min(size(tabY.Data)) > 1
-    % When several curves are drawn, display a legend
-    legend(tabY.ColNames);
-else
-    % otherwise, use only the first column or row as ylabel
-    if size(tabY, 2) == 1
-        label = tabY.ColNames{1};
-    else
-        label = tabY.RowNames{1};
-    end
-    ylabel(label);
-end
+% use column names as legend
+legend(tabY.ColNames, 'Location', legendLocation);
 
 
 %% Format output

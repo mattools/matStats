@@ -28,6 +28,10 @@
 %
 %   Plot and display
 %   plot                    - Plot the content of a column.
+%   linePlot                - Plot the content of a column as continuous lines.
+%   barPlot                 - Bar plot of the table data.
+%   stairStepsPlot          - Plot the content of a column as stairs.
+%   stemPlot                - Plot the content of a column as stems.
 %   errorbar                - Overload the errorbar function to manage data tables.
 %   histogram               - Histogram plot of a column in a data table.
 %   scatter                 - Scatter plot of table data.
@@ -92,11 +96,13 @@
 %   addColumn               - Add a new column to the data table.
 %   addRow                  - Add a new row to the data table.
 %   apply                   - Apply the given function to each element of the table.
-%   bsxfun                  - Binary Singleton Expansion Function for Tables.
+%   findClosestPoint        - Find the index of the row with closest coordinates.
 %   unique                  - Returns unique values in data tables.
+%   bsxfun                  - Binary Singleton Expansion Function for Tables.
+%   bsxfun                  - Binary Singleton Expansion Function for Tables.
 %   concatFiles             - Concatenate a list of files containing tables into new a file.
-%   printLatex              - Print content of this table as a latex tabular.
-%   tabular.
+%   printLatex              - Print content of a table as a latex tabular.
+%   numel                   - Overload default behaviour for the numel function.
 %
 %   Array manipulation
 %   size                    - Size of a data table.
@@ -170,4 +176,5 @@
 
 %   Not yet integrated
 
-%   numel                   - Overload default behaviour for the numel function.
+
+

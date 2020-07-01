@@ -50,7 +50,7 @@ function  varargout = subsref(obj, subs)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -85,7 +85,7 @@ if strcmp(type, '.')
 elseif strcmp(type, '()')
     %% Process parens indexing
     
-    % In case of parens reference, index the inner data
+    % In case of parens reference, extract a sub-table from parent table.
     varargout{1} = 0;
     
     % different processing if 1 or 2 indices are used
@@ -170,10 +170,11 @@ elseif strcmp(type, '()')
         
         % extract corresponding data
         tab = Table(obj.Data(s1.subs{:}), ...
-            'colNames', colNames, ...
-            'rowNames', rowNames, ...
-            'levels', obj.Levels(s1.subs{2}), ...
-            'name', newName);
+            'ColNames', colNames, ...
+            'RowNames', rowNames, ...
+            'Name', newName, ...
+            'Levels', obj.Levels(s1.subs{2}), ...
+            'PreferredPlotTypes', obj.PreferredPlotTypes(s1.subs{2}));
         
     else
         error('Table:subsref', 'Too many indices');

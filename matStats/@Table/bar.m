@@ -1,6 +1,8 @@
 function varargout = bar(varargin)
 % Bar plot of the table data.
 %
+%   Deprecated: use 'barPlot' instead.
+%
 %   bar(TAB)
 %   Simple wrapper to the native "bar" function from Matlab, that also
 %   displays appropriate labels and legend.
@@ -11,13 +13,16 @@ function varargout = bar(varargin)
 %     bar(res')
 %
 %   See also
-%     barweb, plot
+%     barweb, plot, stem, stairs
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-04-20,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
+
+warning('MatStats:deprecated', ...
+    'function bar is obsolete, use barPlot instead');
 
 % replaces table by its data
 ind = cellfun('isclass', varargin, 'Table');

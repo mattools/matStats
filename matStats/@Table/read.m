@@ -86,13 +86,6 @@ end
 % keep filename into data structure
 [path, name] = fileparts(fileName); %#ok<ASGLU>
 
-% create empty data table
-tab = Table();
-
-% setup names
-tab.Name = name;
-tab.FileName = fileName;
-
 if any(options.delim == options.whiteSpaces)
     % if separator is space or tab, allow multiple separators to be treated
     % as only one
@@ -112,7 +105,7 @@ end
 % Read the first line, which contains the name of each column
 if options.header
     names = textscan(fgetl(f), '%s', delimOptions{:});
-    tab.ColNames = names{1}(:)';
+    colNames = names{1}(:)';
 end
 
 
@@ -137,14 +130,14 @@ nc  = n;
 % Try to automatically detect the column containing row names
 if options.rowNamesIndex == -1
     % if first variable is explicitely called 'name', use it for row names
-    if strcmp(tab.ColNames{1}, 'name') || strcmp(tab.ColNames{1}, 'nom')
+    if strcmp(colNames{1}, 'name') || strcmp(colNames{1}, 'nom')
         options.rowNamesIndex = 1;
     end
 end
 
 % if column containing row names is given as string, identifies its index
 if ischar(options.rowNamesIndex)
-    ind = find(strcmp(options.rowNamesIndex, tab.ColNames));
+    ind = find(strcmp(options.rowNamesIndex, colNames));
     if isempty(ind)
         error(['Could not identify row names column from label: ' options.rowNamesIndex]);
     end
@@ -159,14 +152,14 @@ if options.rowNamesIndex > 0
     nc  = n - 1;
 
     % check column names have appropriate number
-    if length(tab.ColNames) > nc
-        tab.ColNames(options.rowNamesIndex) = [];
+    if length(colNames) > nc
+        colNames(options.rowNamesIndex) = [];
     end
     
 else
     % no colum is secified for row names, but row names may still be
     % present. So we check number of columns in header and in first line
-    if options.header && n > length(tab.ColNames)
+    if options.header && n > length(colNames)
         options.rowNamesIndex = 1;
         nc = n - 1;
     end
@@ -174,12 +167,9 @@ end
 
 
 % ensure table has valid column names
-if isempty(tab.ColNames)
-     tab.ColNames = strtrim(cellstr(num2str((1:nc)'))');
+if isempty(colNames)
+     colNames = strtrim(cellstr(num2str((1:nc)'))');
 end
-
-% init levels
-tab.Levels = cell(1, nc);
 
 % determines which columns are numeric
 numeric = isfinite(str2double(C1));
@@ -234,7 +224,7 @@ nr  = length(C{1});
 % determination of row name labels
 if options.rowNamesIndex > 0
     % row names are given in one of the columns
-    tab.RowNames = C{options.rowNamesIndex};
+    rowNames = C{options.rowNamesIndex};
     
     % update remaining data
     C(options.rowNamesIndex) = [];
@@ -242,16 +232,23 @@ if options.rowNamesIndex > 0
     
 elseif ~isempty(options.rowNames)
     % row names are given by the user 
-    tab.RowNames = options.rowNames;
+    rowNames = options.rowNames;
     
 else
     % default row names are indices converted to cell array of chars
-    tab.RowNames = strtrim(cellstr(num2str((1:nr)')));
+    rowNames = strtrim(cellstr(num2str((1:nr)')));
     
 end
 
-% format data table
-tab.Data = zeros(nr, nc);
+
+%% Create table
+
+% create data table with adequate size
+tab = Table(zeros(nr, nc), colNames, rowNames);
+
+% setup names
+tab.Name = name;
+tab.FileName = fileName;
 
 
 %% Format data

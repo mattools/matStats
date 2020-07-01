@@ -1,5 +1,5 @@
 function printLatex(obj, varargin)
-% Print content of this table as a latex tabular.
+% Print content of a table as a latex tabular.
 %
 %   output = printLatex(input)
 %

@@ -18,9 +18,15 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   Table                   - Class for data table with named rows and columns
 %   create                  - Create a new data table
 %
+%   Table display and information
+%   info                    - Display short summary of a data table.
+%   summary                 - Display a summary of the data in the table.
+%   disp                    - Display the content of a data table, with row and column names.
+%   show                    - Display the content of the table in a new figure.
+%   head                    - Show the first rows of a data table.
+%   tail                    - Show the last rows of a data table.
+%
 %   Basic statistical analyses
-%   info                    - Display short summary of a data table
-%   summary                 - Display a summary of the data in the table
 %   stats                   - Compute basic descriptive statistics on data table columns
 %   aggregate               - Group table rows according to unique values in a vector or column
 %   corrcoef                - Correlation coefficients of table data
@@ -30,9 +36,11 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   ttest2                  - Two-sample t-test
 %
 %   Plot and display
-%   disp                    - Display the content of a data table, with row and column names
-%   show                    - Display the content of the table in a new figure
-%   plot                    - Plot the content of a column
+%   plot                    - Plot the content of a column.
+%   linePlot                - Plot the content of a column as continuous lines.
+%   barPlot                 - Bar plot of the table data.
+%   stairStepsPlot          - Plot the content of a column as stairs.
+%   stemPlot                - Plot the content of a column as stems.
 %   errorbar                - Overload the errorbar function to manage data tables
 %   histogram               - Histogram plot of a column in a data table
 %   scatter                 - Scatter plot of table data
@@ -41,7 +49,6 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   hist                    - Histogram plot of a column in a data table
 %   boxplot                 - Box plot of a data table
 %   violinPlot              - Plot distribution of data in a table
-%   bar                     - Bar plot of the table data
 %   barweb                  - Bar plot of the table data with error bars ("WEB")
 %   plotmatrix              - Overload plotmatrix function to display column names
 %   scatterLabels           - Scatter labels according to 2 variables
@@ -89,13 +96,17 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %   write                   - Write a datatable into a file
 %
 %   Utility functions
-%   addColumn               - Add a new column to the data table
-%   addRow                  - Add a new row to the data table
-%   apply                   - Apply the given function to each element of the table
-%   bsxfun                  - Binary Singleton Expansion Function for Table
-%   unique                  - Returns unique values in data tables
-%   concatFiles             - Concatenate a list of files containing tables into new a file
-%   printLatex              - Print content of obj table as a latex tabular
+%   getValue                - Returns the value for the given row and column.
+%   addColumn               - Add a new column to the data table.
+%   addRow                  - Add a new row to the data table.
+%   apply                   - Apply the given function to each element of the table.
+%   findClosestPoint        - Find the index of the row with closest coordinates.
+%   unique                  - Returns unique values in data tables.
+%   bsxfun                  - Binary Singleton Expansion Function for Tables.
+%   bsxfun                  - Binary Singleton Expansion Function for Tables.
+%   concatFiles             - Concatenate a list of files containing tables into new a file.
+%   printLatex              - Print content of a table as a latex tabular.
+%   numel                   - Overload default behaviour for the numel function.
 %
 %   Array manipulation
 %   size                    - Size of a data table
@@ -170,12 +181,6 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 
 %% Declaration of class properties
 properties
-    % The name of the table.
-    Name;
-    
-    % The name of the file used for initializing the Table.
-    FileName;
-    
     % Inner data of the table, stored in a Nr-by-Nc array of double.
     Data (:,:) double;
     
@@ -186,6 +191,12 @@ properties
     % Can be empty.
     RowNames (:,1) cell;
 
+    % The name of the table.
+    Name;
+    
+    % The name of the file used for initializing the Table.
+    FileName;
+    
     % Factor levels, stored in a 1-by-Nc cell array. Each cell can be one
     % of the following:
     % * empty (column is not a factor), 
@@ -195,6 +206,11 @@ properties
     % data array should only contain integer, whose maximum value should
     % not exceed the number of elements in the level cell.
     Levels (1,:) cell;
+    
+    % The preferred plot type of each column. Should have as many elements
+    % as the number of columns. Elements must be one of: {'line', 'stem',
+    % 'stairStep', 'bar'}. Default is 'line'.
+    PreferredPlotTypes (1,:) cell;
 end
 
 
@@ -236,7 +252,9 @@ methods
             obj.Data = [];
             obj.RowNames = {};
             obj.ColNames = {};
+            obj.Name = '';
             obj.Levels = {};
+            obj.PreferredPlotTypes = {};
             return;
         end
         
@@ -251,8 +269,9 @@ methods
             obj.Data = tab.Data;
             obj.RowNames   = tab.RowNames;
             obj.ColNames   = tab.ColNames;
-            obj.Levels     = tab.Levels;
             obj.Name       = tab.Name;
+            obj.Levels     = tab.Levels;
+            obj.PreferredPlotTypes = tab.PreferredPlotType;
             
             varargin(1) = [];
 
@@ -426,10 +445,11 @@ methods
                 % initialize new table with values from parent
                 ind = ind * 2 - 1;
                 parent = varargin{ind+1};
-                obj.Name        = parent.Name;
-                obj.RowNames    = parent.RowNames;
                 obj.ColNames    = parent.ColNames;
+                obj.RowNames    = parent.RowNames;
+                obj.Name        = parent.Name;
                 obj.Levels      = parent.Levels;
+                obj.PreferredPlotTypes = parent.PreferredPlotTypes;
                 
                 % remove argumets from the list
                 varargin(ind:ind+1) = [];
@@ -446,7 +466,7 @@ methods
             value = varargin{2};
             
             % switch
-            if strcmpi(param, 'rownames')
+            if strcmpi(param, 'RowNames')
                 if ischar(value)
                     value = strtrim(cellstr(value));
                 end
@@ -455,7 +475,7 @@ methods
                 end
                obj.RowNames = value;
                     
-            elseif strcmpi(param, 'colnames')
+            elseif strcmpi(param, 'ColNames')
                 if ischar(value)
                     value = strtrim(cellstr(value))';
                 end
@@ -464,15 +484,21 @@ methods
                 end
                 obj.ColNames = value;
                 
-            elseif strcmpi(param, 'levels')
+            elseif strcmpi(param, 'Name')
+                obj.Name = value;
+            
+            elseif strcmpi(param, 'Levels')
                 if length(value) ~= size(obj.Data,2)
                      error('Number of level does not match column number');
                 end
                 obj.Levels = value;
             
-            elseif strcmpi(param, 'name')
-                obj.Name = value;
-            
+            elseif strcmpi(param, 'PreferredPlotTypes')
+                if length(value) ~= size(obj.Data,2)
+                     error('Number of values does not match column number');
+                end
+                obj.PreferredPlotTypes = value;
+
             else
                 error('Table:Table', ...
                     ['Unknown parameter name: ' varargin{1}]);
@@ -493,6 +519,9 @@ methods
         end
         if isempty(obj.Levels) && nc > 0
             obj.Levels = cell(1, nc);
+        end
+        if isempty(obj.PreferredPlotTypes) && nc > 0
+            obj.PreferredPlotTypes = repmat({'line'}, 1, nc);
         end
         
     end
