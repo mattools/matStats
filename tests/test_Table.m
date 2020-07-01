@@ -11,7 +11,7 @@ function test_suite = test_Table(varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -65,7 +65,7 @@ assertEqual(302, getValue(tab, 5, 4));
 
 function testCreateSetColNames
 
-names = strtrim(cellstr(num2str((1:4)', 'i%d')));
+names = strtrim(cellstr(num2str((1:4)', 'i%d')))';
 array = randi(10, [10 4]);
 
 tab = Table(array, names);

@@ -163,7 +163,7 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -177,14 +177,14 @@ properties
     FileName;
     
     % Inner data of the table, stored in a Nr-by-Nc array of double.
-    Data;
+    Data (:,:) double;
     
     % Name of columns, stored in a 1-by-Nc cell array of strings.
-    ColNames;
+    ColNames (1,:) cell;
     
     % Name of rows, stored in a Nr-by-1 cell array of strings.
     % Can be empty.
-    RowNames;
+    RowNames (:,1) cell;
 
     % Factor levels, stored in a 1-by-Nc cell array. Each cell can be one
     % of the following:
@@ -194,9 +194,9 @@ properties
     % For columns considered as factor, the corresponding column in the
     % data array should only contain integer, whose maximum value should
     % not exceed the number of elements in the level cell.
-    Levels;
-    
+    Levels (1,:) cell;
 end
+
 
 %% Declaration of static methods
 methods (Static)
@@ -208,7 +208,6 @@ end
 
 %% Constructor
 methods
-
     function obj = Table(varargin)
     % Constructor for Table class
     %
@@ -494,8 +493,8 @@ methods
         end
         if isempty(obj.Levels) && nc > 0
             obj.Levels = cell(1, nc);
-        end    
-
+        end
+        
     end
     
 end % constructor section
