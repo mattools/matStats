@@ -102,6 +102,9 @@ end
 
 %% Read header
 
+% default column names
+colNames = {};
+
 % Read the first line, which contains the name of each column
 if options.header
     names = textscan(fgetl(f), '%s', delimOptions{:});
@@ -128,7 +131,7 @@ n   = length(C1);
 nc  = n;
 
 % Try to automatically detect the column containing row names
-if options.rowNamesIndex == -1
+if options.header && options.rowNamesIndex == -1
     % if first variable is explicitely called 'name', use it for row names
     if strcmp(colNames{1}, 'name') || strcmp(colNames{1}, 'nom')
         options.rowNamesIndex = 1;

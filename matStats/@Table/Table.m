@@ -271,11 +271,11 @@ methods
             obj.ColNames   = tab.ColNames;
             obj.Name       = tab.Name;
             obj.Levels     = tab.Levels;
-            obj.PreferredPlotTypes = tab.PreferredPlotType;
+            obj.PreferredPlotTypes = tab.PreferredPlotTypes;
             
             varargin(1) = [];
-
-        elseif (isnumeric(var1) || islogical(var1) || iscell(var1)) && size(var1, 2) == 1 && size(var1, 1) > 1 
+            
+        elseif (isnumeric(var1) || islogical(var1) || iscell(var1)) && size(var1, 2) == 1 && size(var1, 1) > 1
             % Each column is specified as a single column, with either
             % numeric or cell type
             
@@ -292,7 +292,7 @@ methods
                 end
                 nCols = nCols + 1;
             end
-
+            
             % format data table
             obj.Data = zeros(nRows, nCols);
             obj.Levels = cell(1, nCols);
@@ -341,14 +341,14 @@ methods
         elseif iscell(var1)
             % create table from cell array.
             % The cell array can be either:
-            % * a N-by-P cell array of N rows and P columns, 
+            % * a N-by-P cell array of N rows and P columns,
             % * a cell array of columns, each column being stored as an
-            %   array. 
+            %   array.
             
             % extract data
             cellArray = var1;
             varargin(1) = [];
-
+            
             % determine dimension of input array
             if size(cellArray, 1) == 1
                 % first argument is either a column in a cell, or a cell
@@ -378,11 +378,11 @@ methods
                     cellArray{iCol} = column;
                 end
             end
-
+            
             % format data table
             obj.Data = zeros(nr, nc);
             obj.Levels = cell(1, nc);
-
+            
             % fill up each column
             for iCol = 1:nc
                 % current column
@@ -405,7 +405,7 @@ methods
                 end
             end
         end
- 
+        
         
         % ---------
         % Parse row and col names
@@ -434,7 +434,7 @@ methods
                 varargin(1) = [];
             end
         end
-
+        
         
         % ---------
         % Process parent table if present
@@ -455,7 +455,7 @@ methods
                 varargin(ind:ind+1) = [];
             end
         end
-
+        
         
         % ---------
         % parse additional arguments set using parameter name-value pairs
@@ -471,10 +471,10 @@ methods
                     value = strtrim(cellstr(value));
                 end
                 if length(value) ~= size(obj.Data,1) && ~isempty(value)
-                     error('Number of row names does not match row number');
+                    error('Number of row names does not match row number');
                 end
-               obj.RowNames = value;
-                    
+                obj.RowNames = value;
+                
             elseif strcmpi(param, 'ColNames')
                 if ischar(value)
                     value = strtrim(cellstr(value))';
@@ -486,19 +486,19 @@ methods
                 
             elseif strcmpi(param, 'Name')
                 obj.Name = value;
-            
+                
             elseif strcmpi(param, 'Levels')
                 if length(value) ~= size(obj.Data,2)
-                     error('Number of level does not match column number');
+                    error('Number of level does not match column number');
                 end
                 obj.Levels = value;
-            
+                
             elseif strcmpi(param, 'PreferredPlotTypes')
                 if length(value) ~= size(obj.Data,2)
-                     error('Number of values does not match column number');
+                    error('Number of values does not match column number');
                 end
                 obj.PreferredPlotTypes = value;
-
+                
             else
                 error('Table:Table', ...
                     ['Unknown parameter name: ' varargin{1}]);
@@ -506,12 +506,12 @@ methods
             
             varargin(1:2) = [];
         end
-       
-            
+        
+        
         % ---------
         % create default values for some fields if they were not initialised
-
-        % size of the data table            
+        
+        % size of the data table
         nc = size(obj.Data, 2);
         
         if isempty(obj.ColNames) && nc > 0
