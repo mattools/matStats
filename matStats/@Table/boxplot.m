@@ -39,7 +39,7 @@ function varargout = boxplot(varargin)
 [ax, varargin] = parseAxisHandle(varargin{:});
 
 % extract calling object
-indThis = cellfun('isclass', varargin, 'Table');
+indThis = cellfun(@(x) isa(x, 'Table'), varargin);
 obj = varargin{indThis(1)};
 varargin(indThis(1)) = [];
 
@@ -66,7 +66,7 @@ if ~isempty(varargin)
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(obj.Levels{indGroup})
+        if isFactor(obj, indGroup)
             levels = obj.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(group(:)))));

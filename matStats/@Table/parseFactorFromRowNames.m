@@ -5,14 +5,23 @@ function res = parseFactorFromRowNames(obj, pos1, len, factorName)
 %   FACT = parseFactorFromRowNames(THIS, POS1, LEN, FACTORNAME)
 %
 %   Example
-%   parseFactorFromRowNames
+%     tab = Table.create(magic(4), 'RowNames', {'G1A', 'G1B', 'G2A', 'G2B'});
+%     fact1 = parseFactorFromRowNames(tab, 2, 1, 'group');
+%     fact2 = parseFactorFromRowNames(tab, 3, 1, 'type');
+%     factors = [fact1 fact2]
+%     factors = 
+%                group    type
+%     G1A            1       A
+%     G1B            1       B
+%     G2A            2       A
+%     G2B            2       B
 %
 %   See also
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-11-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -44,7 +53,7 @@ levels = cellstr(levels)';
 
 % create result table
 res = Table.create(indices, ...
-    'rowNames', obj.RowNames, ...
-    'colNames', {factorName}, ...
-    'levels', {levels}, ...
-    'name', obj.Name);
+    'ColNames', {factorName}, ...
+    'RowNames', obj.RowNames, ...
+    'Levels', {levels}, ...
+    'Name', obj.Name);

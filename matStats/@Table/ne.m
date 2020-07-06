@@ -45,8 +45,10 @@ newColNames = strcat(names1, '~=', names2);
 
 % create result array
 res = Table.create(newData, ...
-    'parent', parent, ...
-    'colNames', newColNames);
+    'Parent', parent, ...
+    'ColNames', newColNames);
 
 % clear levels
-res.Levels = cell(1, size(res, 2));
+if isa(res, 'DataTable')
+    clearFactors(res);
+end

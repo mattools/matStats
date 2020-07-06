@@ -1,8 +1,8 @@
 function tab = stats(obj, varargin)
 % Compute basic descriptive statistics on data table columns.
 %
-%   RES = TAB.stats(STAT_NAMES)
 %   RES = stats(TAB, STAT_NAMES)
+%   RES = TAB.stats(STAT_NAMES)
 %   Computes several descriptive statistics on the data table TAB.
 %
 %   STATS specifies which statistics will be computed. STATS is a cell
@@ -31,7 +31,7 @@ function tab = stats(obj, varargin)
 %   stats
 %
 %   See also
-%     mean, var, std, min, max
+%     summary, mean, var, std, min, max
 %
 
 % ------
@@ -139,7 +139,7 @@ end
 %% format result as data table
 
 % create the table
-tab = Table(res, 'colNames', obj.ColNames, 'rowNames', statNames');
+tab = Table.create(res, 'ColNames', obj.ColNames, 'RowNames', statNames');
 
 % compute name of the table
 if ~isempty(obj.Name)

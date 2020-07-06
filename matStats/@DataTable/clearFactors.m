@@ -13,9 +13,9 @@ function clearFactors(obj)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-09-13,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 nv = size(obj.Data, 2);
-obj.levels = cell(1, nv);
+obj.Levels = cell(1, nv);

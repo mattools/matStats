@@ -55,17 +55,19 @@ if sum(~strcmp(obj1.RowNames, obj2.RowNames)) > 0
 end
 
 % check levels
-if length(obj1.Levels) ~= length(obj2.Levels)
-    return;
-end
-for i = 1:length(obj1.Levels)
-    lev1 = obj1.Levels{i};
-    lev2 = obj2.Levels{i};
-    if isempty(lev1) && isempty(lev2)
-        continue;
-    end
-    if sum(~strcmp(lev1, lev2)) > 0
+if hasFactors(obj1)
+    if length(obj1.Levels) ~= length(obj2.Levels)
         return;
+    end
+    for i = 1:length(obj1.Levels)
+        lev1 = obj1.Levels{i};
+        lev2 = obj2.Levels{i};
+        if isempty(lev1) && isempty(lev2)
+            continue;
+        end
+        if sum(~strcmp(lev1, lev2)) > 0
+            return;
+        end
     end
 end
 

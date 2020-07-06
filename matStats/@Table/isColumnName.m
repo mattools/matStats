@@ -6,9 +6,14 @@ function b = isColumnName(obj, colName)
 %   or if COLNAME is numeric.
 %
 %   Example
-%   isColumnName
+%     tab = Table.read('fisherIris');
+%     isColumnName(tab, 'Species')
+%     ans =
+%       logical
+%        1
 %
 %   See also
+%     columnIndex
 %
 
 % ------

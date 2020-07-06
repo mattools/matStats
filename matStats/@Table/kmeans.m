@@ -9,8 +9,9 @@ function varargout = kmeans(obj, k, varargin)
 %
 %   Example
 %     iris = Table.read('fisherIris');
-%     res = kmeans(iris(:,1:4), 3);
-%     scatterGroup(iris(:,3), iris(:,4), res);
+%     km3 = kmeans(iris(:,1:4), 3);
+%     figure; 
+%     scatterGroup(iris(:,3), iris(:,4), km3);
 %
 %   See also
 %     scatterGroup, aggregate
@@ -31,7 +32,7 @@ if nargin < 2
 end
 
 % check presence of stats toolbox (use old syntax fo compatibility)
-if isempty(strfind(path, fullfile('toolbox', 'stats')))
+if isempty(strfind(path, fullfile('toolbox', 'stats'))) %#ok<STREMP>
     error('Requires the statistics toolbox');
 end
 
@@ -64,17 +65,17 @@ groupNames = strtrim(cellstr(num2str((1:k)', 'class=%d')));
 % format the first output table
 colNames = {sprintf('kmeans%d', k)};
 tabName = [baseName sprintf('_kmeans%d', k)];
-varargout{1} = Table(varargout{1}, colNames, obj.RowNames, 'Name', tabName);
+varargout{1} = Table.create(varargout{1}, colNames, obj.RowNames, 'Name', tabName);
 
 % if centroid output was asked, transform it into a table
 if nargout > 1
     tabName = [baseName sprintf('_kmeans%d_centroids', k)];
-    varargout{2} = Table(varargout{2}, obj.ColNames, groupNames, 'name', tabName);
+    varargout{2} = Table.create(varargout{2}, obj.ColNames, groupNames, 'name', tabName);
 end
 
 % if individual-to-centroid distance is asked, convert to table
 if nargout > 3
-    varargout{4} = Table(varargout{4}, groupNames, obj.RowNames);
+    varargout{4} = Table.create(varargout{4}, groupNames, obj.RowNames);
 end
 
 

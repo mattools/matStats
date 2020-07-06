@@ -64,7 +64,7 @@ if ~isempty(varargin)
         grouping = true;
         varargin(1) = [];
         
-        if ~isempty(obj.Levels{indGroup})
+        if isFactor(obj, indGroup)
             levels = obj.Levels{indGroup};
         else
             levels = strtrim(cellstr(num2str(unique(groupIndices(:)))));

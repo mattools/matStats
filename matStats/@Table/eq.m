@@ -25,7 +25,7 @@ else
     % Case of factor data table
     if size(parent, 2) > 1
         error('Table:eq:FactorColumnForbidden', ...
-            'If table is factor, it should have only one column');
+            'If table has factors, it should have only one column');
     end
     
     % extract factor level for each row
@@ -49,4 +49,6 @@ res = Table.create(newData, ...
     'colNames', newColNames);
 
 % clear levels
-res.Levels = cell(1, size(res, 2));
+if isa(res, 'DataTable')
+    clearFactors(res);
+end

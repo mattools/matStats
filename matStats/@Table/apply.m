@@ -14,7 +14,7 @@ function res = apply(obj, fun, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2013-07-30,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -24,4 +24,4 @@ for i = 1:numel(obj.Data)
     res(i) = fun(obj.Data(i));
 end
 
-res = Table(res, obj.ColNames, obj.RowNames);
+res = Table.create(res, obj.ColNames, obj.RowNames);

@@ -25,7 +25,7 @@ function [res, I] = sortrows(obj, varargin)
 %     6                 5.4           3.9            1.7           0.4     Setosa
 %
 %   See also
-%
+%     find
 
 % ------
 % Author: David Legland
@@ -46,4 +46,4 @@ else
 end
 
 % transform data
-res = Table(obj.Data(I,:), 'rowNames', obj.RowNames(I), 'parent', obj);
+res = Table.create(obj.Data(I,:), 'RowNames', obj.RowNames(I), 'Parent', obj);

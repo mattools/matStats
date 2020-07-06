@@ -20,7 +20,7 @@ tests = functiontests(localfunctions);
 
 function test_MagicSquare(testCase) %#ok<*DEFNU>
 % Test call of function without argument
-tab = Table(magic(3));
+tab = Table.create(magic(3));
 res = ismember(tab, [1 2 3]);
 exp = logical([0 1 0; 1 0 0;0 0 1]);
 

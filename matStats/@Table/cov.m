@@ -33,4 +33,4 @@ end
 
 data = cov(obj.Data);
 
-res = Table(data, 'rowNames', obj.ColNames, 'colNames', obj.ColNames);
+res = Table(data, 'RowNames', obj.ColNames, 'ColNames', obj.ColNames);

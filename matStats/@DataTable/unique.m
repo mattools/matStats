@@ -80,5 +80,5 @@ for iRow = 1:nRows
 end
 
 % create the new result table
-res = Table(res, obj.ColNames, rowNames);
+res = Table.create(res, obj.ColNames, rowNames);
 res.Levels = obj.Levels;

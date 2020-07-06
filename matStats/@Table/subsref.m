@@ -45,7 +45,7 @@ function  varargout = subsref(obj, subs)
 %         'Virginica'
 %
 %   See also
-%     subsasgn, end, getValue, getLevel
+%     subsasgn, end, getLevel
 %
 
 % ------
@@ -169,7 +169,7 @@ elseif strcmp(type, '()')
         end
         
         % extract corresponding data
-        tab = Table(obj.Data(s1.subs{:}), ...
+        tab = Table.create(obj.Data(s1.subs{:}), ...
             'ColNames', colNames, ...
             'RowNames', rowNames, ...
             'Name', newName, ...
@@ -238,7 +238,7 @@ else
         error('Braces indexing requires one or two indices');
     end
     
-    % At obj step, s1 is pre-processed and should eb able to index table
+    % At this step, s1 is pre-processed and should be able to index table
     % data directly
     
     % extract corresponding data, and transform into a cell array

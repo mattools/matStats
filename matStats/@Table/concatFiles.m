@@ -17,7 +17,7 @@ function varargout = concatFiles(inputFiles, outputFile, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2013-07-22,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 
@@ -34,7 +34,7 @@ if ischar(inputFiles)
 end
 
 % initialize result with first file
-res    = Table.read(inputFiles{1});
+res = Table.read(inputFiles{1});
 
 % concatenate all params
 for i = 2:length(list)

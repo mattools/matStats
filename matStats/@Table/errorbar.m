@@ -8,12 +8,13 @@ function varargout = errorbar(varargin)
 %
 %   Example
 %     iris = Table.read('fisherIris.txt');
-%     means = groupStats(iris('PetalLength'), iris('Species'), @mean);
-%     stds = groupStats(iris('PetalLength'), iris('Species'), @std);
-%     errorbar(1:3, means, 2*stds, 'o');
+%     means = aggregate(iris('PetalLength'), iris('Species'), @mean);
+%     stds = aggregate(iris('PetalLength'), iris('Species'), @std);
+%     errorbar(1:3, means, 'b');
+%     errorbar(1:3, means, 2*stds, 'bo');
 %     xlim([0 4]);
 %     set(gca, 'xtick', 1:3);
-%     set(gca, 'xtickLabel', iris.levels{5});
+%     set(gca, 'xtickLabel', iris.Levels{5});
 %
 %   See also
 %

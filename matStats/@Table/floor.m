@@ -29,4 +29,4 @@ end
 
 newData = floor(obj.Data);
 
-res = Table(newData, 'parent', obj);
+res = Table.create(newData, 'Parent', obj);

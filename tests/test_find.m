@@ -19,14 +19,14 @@ tests = functiontests(localfunctions);
 
 function test_nargout1(testCase) %#ok<*DEFNU>
 
-tab = Table(magic(4));
+tab = Table.create(magic(4));
 ind = find(tab == 12);
 assertEqual(testCase, 15, ind);
 
 
 function test_nargout2(testCase)
 
-tab = Table(magic(4));
+tab = Table.create(magic(4));
 [r, c] = find(tab == 12);
 assertEqual(testCase, 3, r);
 assertEqual(testCase, 4, c);

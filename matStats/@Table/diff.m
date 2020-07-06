@@ -40,7 +40,7 @@ end
 %% Check validity
 
 if hasFactors(obj)
-    error('MatStats:diff:FactorColumn', ...
+    error('MatStats:Table:diff', ...
         'Can not process a table containing factors');
 end
 
@@ -52,8 +52,8 @@ newData = diff(obj.Data, n, dim);
 %% format output table
 if dim == 1
     rowNames = strcat('(', obj.RowNames(2:end), ')-(', obj.RowNames(1:end-1), ')');
-    res = Table(newData, obj.ColNames, rowNames);
+    res = Table.create(newData, obj.ColNames, rowNames);
 else
     colNames = strcat('(', obj.ColNames(2:end)', ')-(', obj.ColNames(1:end-1)', ')')';
-    res = Table(newData, colNames, obj.RowNames);
+    res = Table.create(newData, colNames, obj.RowNames);
 end

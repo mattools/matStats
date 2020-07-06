@@ -44,7 +44,7 @@ function tab = read(fileName, varargin)
 %     scatterGroup(tab('petalWidth'), tab('petalLength'), tab('class'));
 %
 %   See also
-%     write, concatFiles, textscan
+%     write, concatFiles, textscan, create
 %
 
 % ------
@@ -247,7 +247,7 @@ end
 %% Create table
 
 % create data table with adequate size
-tab = Table(zeros(nr, nc), colNames, rowNames);
+tab = Table.create(zeros(nr, nc), colNames, rowNames);
 
 % setup names
 tab.Name = name;

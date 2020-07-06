@@ -108,7 +108,7 @@ if keepFactorNames
     format = '%s=%s';
     % iterate on the different factors
     for iGroup = 1:size(levelNames, 2)
-        groupLabel = obj.ColNamess{iGroup};
+        groupLabel = obj.ColNames{iGroup};
 
         for iLevel = 1:size(levelNames, 1)
             levelName = levelNames{iLevel, iGroup};
@@ -138,9 +138,9 @@ end
 
 %% Create resulting data table
 
-colNames = {[obj.ColNamess{1} '*' obj.ColNamess{2}]};
+colNames = {[obj.ColNames{1} '*' obj.ColNames{2}]};
 
-res = Table(groupIndices, ...
-    'colNames', colNames, ...
-    'rowNames', obj.RowNames, ...
-    'levels', {labels});
+res = Table.create(groupIndices, ...
+    'ColNames', colNames, ...
+    'RowNames', obj.RowNames, ...
+    'Levels', {labels});

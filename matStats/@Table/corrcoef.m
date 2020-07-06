@@ -40,7 +40,7 @@ function res = corrcoef(obj, varargin)
 if nargin == 1
     % compute correlation coefficient of each couple of variables
     data = corrcoef(obj.Data);
-    res = Table(data, 'rowNames', obj.ColNames, 'colNames', obj.ColNames);
+    res = Table(data, 'RowNames', obj.ColNames, 'ColNames', obj.ColNames);
 
 else
     % compute only one correlation coefficient

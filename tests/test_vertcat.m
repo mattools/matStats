@@ -20,10 +20,10 @@ tests = functiontests(localfunctions);
 function testTwoTables(testCase) %#ok<*DEFNU>
 
 array1 = randi(10, [6 4]);
-tab1 = Table(array1);
+tab1 = Table.create(array1);
 
 array2 = randi(10, [5 4]);
-tab2 = Table(array2);
+tab2 = Table.create(array2);
 
 res = [tab1 ; tab2];
 assertEqual(testCase, [11 4], size(res.Data));

@@ -25,9 +25,6 @@ function disp(obj)
 % loose format: display more empty lines
 isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
 
-% isLong = ~isempty(strfind(get(0,'Format'),'long'));
-% dblDigits = 5 + 10*isLong; % 5 or 15
-% snglDigits = 5 + 2*isLong; % 5 or 7
 maxWidth = get(0, 'CommandWindowSize');
 maxWidth = maxWidth(1);
 
@@ -58,37 +55,9 @@ if nRows > 0 && nCols > 0
         name = obj.ColNames{iCol};
         var  = obj.Data(:, iCol);
          
-        if ~isFactor(obj, iCol)
-            % data are numeric -> convert to character array
-            colText = num2str(var);
-                    
-        else
-            % data are factors -> identify level names
-            % Get levels of current factor, and add an 'Unknown' level name
-            % in case of index 0
-            colLevels = obj.Levels{iCol};
-            if iscell(colLevels)
-                % factor levels given as cell array of strings
-                colLevels2 = [{'Unknown'} ; colLevels(:)];
-                colText = strjust(char(colLevels2(var + 1)));
-            else
-                % factor levels given as char array
-                colLevels2 = char('Unknown', colLevels);
-                colText = strjust(colLevels2(var + 1, :));
-            end
-            
-            % replace factor levels that are too long by a short description
-            if size(colText, 2) > 12
-                lens = cellfun(@length, strtrim(cellstr(colText)));
-                inds = find(lens > 10);
-                for i = 1:length(inds)
-                    str = sprintf('[1x%d char]', lens(inds(i)));
-                    colText(inds(i), :) = ' ';
-                    colText(inds(i), 1:length(str)) = str;
-                end
-            end
-        end
-
+        % convert numeric data to character array
+        colText = num2str(var);
+        
         % add the name of the column
         if isempty(name)
             name = ' ';

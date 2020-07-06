@@ -55,7 +55,7 @@ function tab = create(data, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-04-26,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -86,9 +86,8 @@ if isstruct(data)
         end
         
         % create data table
-        tab = Table(dat);
-        tab.ColNames = names;
-        tab.RowNames = strtrim(cellstr(num2str((1:nRows)')))';
+        rowNames = strtrim(cellstr(num2str((1:nRows)')))';
+        tab = DataTable(dat, names, rowNames);
         
     else
         % only one struct
@@ -146,16 +145,14 @@ if isstruct(data)
         end
         
         % create data table
-        tab = Table(dat);
-        tab.ColNames = names;
-        tab.Levels = levels;
+        tab = DataTable(dat, names, 'Levels', levels);
     end
     
 elseif iscell(data)
     
 else
     % first argument is assumed to contain data
-    tab = Table(data, varargin{:});
+    tab = DataTable(data, varargin{:});
     
 end
     

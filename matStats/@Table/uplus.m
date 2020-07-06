@@ -17,4 +17,4 @@ function res = uplus(obj)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 newData = builtin('uplus', obj.Data);
-res = Table.create(newData, 'parent', obj);
+res = Table.create(newData, 'Parent', obj);

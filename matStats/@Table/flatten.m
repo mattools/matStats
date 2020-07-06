@@ -31,4 +31,4 @@ function res = flatten(obj)
 % Copyright 2012 INRA - Cepia Software Platform.
 
 data = obj.Data';
-res = Table(data(:)); 
+res = Table.create(data(:)); 

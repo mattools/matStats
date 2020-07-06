@@ -12,13 +12,13 @@ function res = cumsum(obj, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2017-10-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2017 INRA - Cepia Software Platform.
 
 % check validity
 if hasFactors(obj)
-    error('MatStats:cumsum:FactorColumn', ...
+    error('MatStats:Table:cumsum', ...
         'Can not compute sum for table with factors');
 end
 
@@ -30,7 +30,7 @@ end
 
 % create result table
 res = Table.create(cumsum(obj.Data, 1), ...
-    'rowNames', obj.RowNames, ...
-    'colNames', obj.ColNames, ...
-    'name', newName);
+    'RowNames', obj.RowNames, ...
+    'ColNames', obj.ColNames, ...
+    'Name', newName);
     

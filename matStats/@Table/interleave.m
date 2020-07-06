@@ -11,13 +11,13 @@ function res = interleave(obj1, obj2)
 %     tabStd  = aggregate(tab(:, 1:4), tab('Species'), @std);
 %     res = interleave(tabMean, tabStd)
 %         res =
-%                                   SepalLength    SepalWidth    PetalLength    PetalWidth
-%         Species=Setosa                  5.006         3.428          1.462         0.246
-%         Species=Setosa                0.35249       0.37906        0.17366       0.10539
-%         Species=Versicolor              5.936          2.77           4.26         1.326
-%         Species=Versicolor            0.51617        0.3138        0.46991       0.19775
-%         Species=Virginica               6.588         2.974          5.552         2.026
-%         Species=Virginica             0.63588        0.3225        0.55189       0.27465
+%                                SepalLength    SepalWidth    PetalLength    PetalWidth
+%         Setosa-mean                  5.006         3.428          1.462         0.246
+%         Setosa-std                 0.35249       0.37906        0.17366       0.10539
+%         Versicolor-mean              5.936          2.77           4.26         1.326
+%         Versicolor-std             0.51617        0.3138        0.46991       0.19775
+%         Virginica-mean               6.588         2.974          5.552         2.026
+%         Virginica-std              0.63588        0.3225        0.55189       0.27465
 % 
 %
 %   See also
@@ -26,7 +26,7 @@ function res = interleave(obj1, obj2)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2017-05-22,    using Matlab 9.1.0.441655 (R2016b)
 % Copyright 2017 INRA - Cepia Software Platform.
 
@@ -40,8 +40,7 @@ end
 % create result array
 nRows = 2 * dim1(1);
 dim = [nRows, dim1(2)];
-res = Table(zeros(dim), obj1.ColNames);
-res.Levels = obj1.Levels;
+res = Table.create(zeros(dim), obj1.ColNames, 'Parent', obj1);
 
 % check presence of factors
 if hasFactors(obj1) || hasFactors(obj2)

@@ -3,10 +3,17 @@ function res = exp(obj)
 %
 %   RES = exp(TAB)
 %   Returns table with same row names and column names, but whose values
-%   are the exparithms of the values in the table.
+%   are the exponential of the values in the table.
 %
 %   Example
-%   exp
+%     tab = Table.create([0; 1; 2; 3]);
+%     exp(tab)
+%     ans = 
+%         expdata
+%               1
+%         2.71828
+%         7.38906
+%         20.0855
 %
 %   See also
 %     log, sqrt
@@ -30,7 +37,7 @@ end
 newColNames = strcat('exp', obj.ColNames);
 
 res = Table.create(exp(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
+    'Parent', obj, ...
+    'Name', newName, ...
+    'ColNames', newColNames);
     

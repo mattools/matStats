@@ -6,7 +6,14 @@ function res = log2(obj)
 %   are the logarithms of the values in the table.
 %
 %   Example
-%   log
+%     tab = Table.create([1;2;4;8]);
+%     log2(tab)
+%     ans = 
+%         log2data
+%                0
+%                1
+%                2
+%                3
 %
 %   See also
 %     log, log10, sqrt

@@ -19,7 +19,7 @@ function res = transpose(obj)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 % create table with transposed data
-res = Table(obj.Data', obj.RowNames', obj.ColNames');
+res = Table.create(obj.Data', obj.RowNames', obj.ColNames');
 
 % also add a small mark to the title
 if ~isempty(obj.Name)

@@ -47,7 +47,7 @@ if ~isempty(varargin) && iscell(varargin{1})
 end
 
 % create result data table
-res = Table(zeros(newDim));
+res = Table.create(zeros(newDim));
 res.Data(:) = obj.Data(:);
 
 % setup meta data if needed

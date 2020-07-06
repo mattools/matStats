@@ -29,4 +29,4 @@ end
 
 newData = ceil(obj.Data);
 
-res = Table(newData, 'parent', obj);
+res = Table.create(newData, 'parent', obj);

@@ -14,7 +14,7 @@ function res = crossTable(obj, obj2)
 %         2    0    0    0    1
 %         3    0    0    1    0
 % 
-%     % Compare result of k-means on Iris with original classificiation 
+%     % Compare result of k-means on Iris with original classification 
 %     iris = Table.read('fisherIris.txt');
 %     resKMeans = kmeans(iris(:,1:4), 3);
 %     crossTable(iris('Species'), resKMeans)
@@ -31,7 +31,7 @@ function res = crossTable(obj, obj2)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2019-11-21,    using Matlab 9.7.0.1190202 (R2019b)
 % Copyright 2019 INRA - Cepia Software Platform.
 
@@ -67,4 +67,4 @@ for i1 = 1:n1
     end
 end
 
-res = Table(resData, levels2, levels1);
+res = Table.create(resData, levels2, levels1);

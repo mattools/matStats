@@ -12,11 +12,11 @@ function [res, inds] = paragons(obj, group)
 %     figure; hold on;
 %     scatterGroup(iris(:,1), iris(:,2), iris('Species'));
 %     for i = 1:3
-%         drawPoint(pars(i,1).data, pars(i,2).data, 'ko')
+%         drawPoint(pars(i,1).Data, pars(i,2).Data, 'ko')
 %     end
 %
 %   See also
-%     groupStats, aggregate
+%     aggregate
 %
 
 % ------

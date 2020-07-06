@@ -6,10 +6,18 @@ function res = log(obj)
 %   are the logarithms of the values in the table.
 %
 %   Example
-%   log
+%     tab = Table.create([1;2;3;4;5]);
+%     log(tab)
+%     ans = 
+%         logdata
+%               0
+%         0.69315
+%          1.0986
+%          1.3863
+%          1.6094
 %
 %   See also
-%     log2, log10, sqrt
+%     expn log2, log10, sqrt
 %
 
 % ------
@@ -31,7 +39,7 @@ end
 newColNames = strcat('log', obj.ColNames);
 
 res = Table.create(log(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
+    'Parent', obj, ...
+    'Name', newName, ...
+    'ColNames', newColNames);
     

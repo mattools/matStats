@@ -153,7 +153,7 @@ res = zeros(length(uniVals), nCols);
 for i = 1:nValues
     inds = values == uniVals(i);
     for j = 1:nCols
-        res(i, j) = feval(op, obj.data(inds, cols(j)));
+        res(i, j) = feval(op, obj.Data(inds, cols(j)));
     end    
 end
 
@@ -178,5 +178,5 @@ if isempty(rowNames)
 end
 
 % create result dataTable
-res = Table(res, 'colNames', obj.ColNames(cols), 'rowNames', rowNames);
+res = Table.create(res, 'ColNames', obj.ColNames(cols), 'RowNames', rowNames);
 

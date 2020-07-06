@@ -68,8 +68,8 @@ else
     indy = columnIndex(obj, varargin{2});
     varargin(1:2) = [];
 
-    xData = obj.Cata(:,indx);
-    yData = obj.Cata(:,indy);
+    xData = obj.Data(:,indx);
+    yData = obj.Data(:,indy);
     
     labels = obj.RowNames;
     

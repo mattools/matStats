@@ -12,6 +12,15 @@ function indCol = columnIndex(obj, colName)
 %       IND = columnIndex(TAB, NAME);
 %       IND = columnIndex(TAB, columnIndex(TAB, columnIndex(TAB, NAME)));
 %
+%   Example
+%     iris = Table.read('fisherIris.txt');
+%     columnNames(iris)
+%     ans =
+%       1x5 cell array
+%         {'SepalLength'}    {'SepalWidth'}    {'PetalLength'}    {'PetalWidth'}    {'Species'}
+%     index = columnIndex(iris, 'Species')
+%     index =
+%          5
 
 % ------
 % Author: David Legland

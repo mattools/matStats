@@ -42,7 +42,7 @@ function res = ismember(obj, values)
 if isnumeric(values)
     % simple case: no factor
     dat = ismember(obj.Data, values);
-    res = Table(dat, 'parent', obj);
+    res = Table.create(dat, 'Parent', obj);
 
 else
     % can compare levels of a single factor column. 
@@ -57,7 +57,7 @@ else
     cells = cellstr(obj);
     
     % create resulting array
-    res = Table(ismember(cells, values));
+    res = Table.create(ismember(cells, values));
     res.ColNames = {sprintf('ismember(%s,vals)', obj.ColNames{1})};
     res.RowNames = obj.RowNames;
 end

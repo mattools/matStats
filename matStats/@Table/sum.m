@@ -23,7 +23,7 @@ function res = sum(obj, varargin)
 
 % check validity
 if hasFactors(obj)
-    error('MatStats:sum:FactorColumn', ...
+    error('MatStats:Table:sum', ...
         'Can not compute sum for table with factors');
 end
 
@@ -34,8 +34,6 @@ if ~isempty(obj.Name)
 end
 
 % create result table
-res = Table.create(sum(obj.Data, 1), ...
-    'rowNames', {'sum'}, ...
-    'colNames', obj.ColNames, ...
-    'name', newName);
+res = Table.create(sum(obj.Data, 1), obj.ColNames, {'sum'}, ...
+    'Name', newName);
     

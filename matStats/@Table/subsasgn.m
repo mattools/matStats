@@ -11,7 +11,7 @@ function varargout = subsasgn(obj, subs, value)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -37,7 +37,7 @@ elseif strcmp(type, '()')
     if ns == 1
         % one index: use linearised data
         if isa(value, 'Table')
-            value = value.data;
+            value = value.Data;
         end
         obj.Data(s1.subs{1}) = value;
 
@@ -66,7 +66,7 @@ elseif strcmp(type, '()')
        
         % in case right-hand arg is a Table, extract its data
         if isa(value, 'Table')
-            value = value.data;
+            value = value.Data;
         end
         
         % if right-hand arg is char, then it is a factor level
