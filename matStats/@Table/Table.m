@@ -182,14 +182,14 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 %% Declaration of class properties
 properties
     % Inner data of the table, stored in a Nr-by-Nc array of double.
-    Data (:,:) double;
+    Data;
     
     % Name of columns, stored in a 1-by-Nc cell array of strings.
-    ColNames (1,:) cell;
+    ColNames;
     
     % Name of rows, stored in a Nr-by-1 cell array of strings.
     % Can be empty.
-    RowNames (:,1) cell;
+    RowNames;
 
     % The name of the table.
     Name;
@@ -205,12 +205,12 @@ properties
     % For columns considered as factor, the corresponding column in the
     % data array should only contain integer, whose maximum value should
     % not exceed the number of elements in the level cell.
-    Levels (1,:) cell;
+    Levels;
     
     % The preferred plot type of each column. Should have as many elements
     % as the number of columns. Elements must be one of: {'line', 'stem',
     % 'stairStep', 'bar'}. Default is 'line'.
-    PreferredPlotTypes (1,:) cell;
+    PreferredPlotTypes;
 end
 
 
