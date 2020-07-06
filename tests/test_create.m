@@ -1,4 +1,4 @@
-function test_suite = test_create(varargin)
+function tests = test_create(varargin)
 %TEST_create  One-line description here, please.
 %
 %   output = testTable(input)
@@ -16,37 +16,37 @@ function test_suite = test_create(varargin)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function testCreateFromArray %#ok<*DEFNU>
+function testCreateFromArray(testCase) %#ok<*DEFNU>
 
 array = randi(10, [10 4]);
 tab = Table.create(array);
 
-assertTrue(isa(tab, 'Table'));
+assertTrue(testCase, isa(tab, 'Table'));
 
 % test subsref and subsasgn
 tab(2, 3) = 10;
-assertEqual(10, tab(2, 3).Data);
+assertEqual(testCase, 10, tab(2, 3).Data);
 
 
-function testCreateFromStruct
+function testCreateFromStruct(testCase)
 
 str = load('carsmall');
 
 tab = Table.create(str);
 
-assertEqual(100, size(tab, 1));
-assertEqual(10, size(tab, 2));
+assertEqual(testCase, 100, size(tab, 1));
+assertEqual(testCase, 10, size(tab, 2));
 
 
-function testCreateFromStructArray
+function testCreateFromStructArray(testCase)
 
 lbl = logical(imread('coins.png') > 100);
 props = regionprops(lbl, {'Area', 'EquivDiameter', 'Eccentricity'});
 
 tab = Table.create(props);
 
-assertEqual(10, size(tab, 1));
-assertEqual(3, size(tab, 2));
+assertEqual(testCase, 10, size(tab, 1));
+assertEqual(testCase, 3, size(tab, 2));
 

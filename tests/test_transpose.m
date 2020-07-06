@@ -1,4 +1,4 @@
-function test_suite = test_transpose(varargin) 
+function tests = test_transpose(varargin) 
 %test_transpose  One-line description here, please.
 %
 %   output = test_transpose(input)
@@ -16,23 +16,25 @@ function test_suite = test_transpose(varargin)
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function testFunctionCall %#ok<*DEFNU>
+
+function testFunctionCall(testCase) %#ok<*DEFNU>
 
 tab = Table.read(fullfile('files', 'file1.txt'));
 
 tab2 = transpose(tab);
 
-assertEqual(rowNumber(tab), columnNumber(tab2));
-assertEqual(columnNumber(tab), rowNumber(tab2));
+assertEqual(testCase, rowNumber(tab), columnNumber(tab2));
+assertEqual(testCase, columnNumber(tab), rowNumber(tab2));
 
-function testSingleQuote %#ok<*DEFNU>
+
+function testSingleQuote(testCase) %#ok<*DEFNU>
 
 tab = Table.read(fullfile('files', 'file1.txt'));
 
 tab2 = tab';
 
-assertEqual(rowNumber(tab), columnNumber(tab2));
-assertEqual(columnNumber(tab), rowNumber(tab2));
+assertEqual(testCase, rowNumber(tab), columnNumber(tab2));
+assertEqual(testCase, columnNumber(tab), rowNumber(tab2));
 

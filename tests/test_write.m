@@ -1,4 +1,4 @@
-function test_suite = test_write(varargin) 
+function tests = test_write(varargin) 
 %TEST_WRITE  Test case for the file write
 %
 %   Test case for the file write
@@ -15,9 +15,10 @@ function test_suite = test_write(varargin)
 % Created: 2011-09-13,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function test_file1 %#ok<*DEFNU>
+
+function test_file1(testCase) %#ok<*DEFNU>
 % Test writing of a file with 2 columns and 6rows
 
 % read test file
@@ -34,13 +35,13 @@ write(tab, fileName);
 tab2 = Table.read(fileName);
 
 % check both are the same
-assertTrue(equals(tab, tab2));
+assertTrue(testCase, equals(tab, tab2));
 
 % clean up
 delete(fileName);
 
 
-function test_fileWithText
+function test_fileWithText(testCase)
 
 tab = Table.read(fullfile('files', 'fileWithText.txt'));
 
@@ -55,7 +56,7 @@ write(tab, fileName);
 tab2 = Table.read(fileName);
 
 % check both are the same
-assertTrue(equals(tab, tab2));
+assertTrue(testCase, equals(tab, tab2));
 
 % clean up
 delete(fileName);

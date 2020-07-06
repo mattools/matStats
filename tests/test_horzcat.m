@@ -1,4 +1,4 @@
-function test_suite = test_horzcat(varargin) 
+function tests = test_horzcat(varargin) 
 %test_horzcat  One-line description here, please.
 %
 %   output = test_horzcat(input)
@@ -15,9 +15,9 @@ function test_suite = test_horzcat(varargin)
 % Created: 2010-08-04,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function testTwoTables %#ok<*DEFNU>
+function testTwoTables(testCase) %#ok<*DEFNU>
 
 array1 = randi(10, [10 4]);
 tab1 = Table(array1);
@@ -26,4 +26,4 @@ array2 = randi(10, [10 3]);
 tab2 = Table(array2);
 
 res = [tab1 tab2];
-assertEqual([10 7], size(res.Data));
+assertEqual(testCase, [10 7], size(res.Data));

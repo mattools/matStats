@@ -1,4 +1,4 @@
-function test_suite = test_ismember(varargin)
+function tests = test_ismember(varargin)
 %TEST_ISMEMBER  Test case for the file ismember
 %
 %   Test case for the file ismember
@@ -15,13 +15,14 @@ function test_suite = test_ismember(varargin)
 % Created: 2011-12-07,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function test_MagicSquare %#ok<*DEFNU>
+
+function test_MagicSquare(testCase) %#ok<*DEFNU>
 % Test call of function without argument
 tab = Table(magic(3));
 res = ismember(tab, [1 2 3]);
-exp = [0 1 0; 1 0 0;0 0 1];
+exp = logical([0 1 0; 1 0 0;0 0 1]);
 
-assertEqual(exp, res.Data);
+assertEqual(testCase, exp, res.Data);
 

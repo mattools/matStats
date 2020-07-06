@@ -1,4 +1,4 @@
-function test_suite = test_find(varargin)
+function tests = test_find(varargin)
 %TEST_FIND  Test case for the file find
 %
 %   Test case for the file find
@@ -15,20 +15,20 @@ function test_suite = test_find(varargin)
 % Created: 2011-12-07,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+tests = functiontests(localfunctions);
 
-function test_nargout1 %#ok<*DEFNU>
+function test_nargout1(testCase) %#ok<*DEFNU>
 
 tab = Table(magic(4));
 ind = find(tab == 12);
-assertEqual(15, ind);
+assertEqual(testCase, 15, ind);
 
 
-function test_nargout2
+function test_nargout2(testCase)
 
 tab = Table(magic(4));
 [r, c] = find(tab == 12);
-assertEqual(3, r);
-assertEqual(4, c);
+assertEqual(testCase, 3, r);
+assertEqual(testCase, 4, c);
 
 
