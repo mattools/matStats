@@ -43,8 +43,8 @@ if ~isempty(obj.Name)
 end
 
 if dim == 1
-res = Table.create(median(obj.Data, 1), obj.ColNames, {'mean'}, ...
-    'Name', newName);
+    res = Table.create(mean(obj.Data, 1), obj.ColNames, {'mean'}, ...
+        'Name', newName);
     
 else
     res = Table.create(mean(obj.Data, 2), ...
