@@ -94,6 +94,10 @@ methods
             error('Unable to parse first argument')
         end
         
+        % determine size of data array
+        nRows = size(obj.Data, 1);
+        nCols = size(obj.Data, 2);
+
         
         % ---------
         % Parse row and col names
@@ -102,10 +106,10 @@ methods
         if ~isempty(varargin) && ~ischar(varargin{1})
             % check size
             var1 = varargin{1};
-            if length(var1) ~= size(obj.Data,2)
+            if length(var1) ~= nCols
                 error('Spectra:Spectra', ...
                     'X Values have %d elements, whereas data has %d columns', ...
-                    length(var1), size(obj.Data,2));
+                    length(var1), nCols);
             end
             
             if isnumeric(var1)
@@ -127,7 +131,7 @@ methods
         if ~isempty(varargin)
             var1 = varargin{1};
             if iscell(var1)
-                if length(var1) ~= size(obj.Data,1) && ~isempty(var1)
+                if length(var1) ~= nRows && ~isempty(var1)
                     error('Number of row names does not match row number');
                 end
                 obj.RowNames = var1;
@@ -140,19 +144,25 @@ methods
         % Process parent data set if present
         
         if length(varargin) > 1
-            ind = find(strcmp(varargin(1:2:end), 'Parent'));
+            ind = find(strcmpi(varargin(1:2:end), 'Parent'));
             if ~isempty(ind)
                 % initialize new table with values from parent
                 ind = ind * 2 - 1;
                 parent = varargin{ind+1};
-                if isempty(obj.XValues)
-                    obj.XValues     = parent.XValues;
+                
+                % process properties common to all Table classes
+                if isempty(obj.RowNames) && length(parent.RowNames) == nRows
+                    obj.RowNames = parent.RowNames;
                 end
-                if isempty(obj.RowNames)
-                    obj.RowNames    = parent.RowNames;
+                obj.Name = parent.Name;
+
+                % process properties specific to the Spectra class
+                if isa(parent, 'Spectra')
+                    if isempty(obj.XValues) && length(parent.XValues) == nCols
+                        obj.XValues     = parent.XValues;
+                    end
+                    obj.PlotType    = parent.PlotType;
                 end
-                obj.Name        = parent.Name;
-                obj.PlotType    = parent.PlotType;
                 
                 % remove argumets from the list
                 varargin(ind:ind+1) = [];
@@ -165,35 +175,36 @@ methods
         
         while length(varargin) > 1
             % get parameter name and value
-            param = lower(varargin{1});
+            pname = lower(varargin{1});
             value = varargin{2};
             
             % switch
-            if strcmpi(param, 'RowNames')
+            if strcmpi(pname, 'RowNames')
                 if ischar(value)
                     value = strtrim(cellstr(value));
                 end
-                if length(value) ~= size(obj.Data,1) && ~isempty(value)
+                if length(value) ~= nRows && ~isempty(value)
                     error('Number of row names does not match row number');
                 end
                 obj.RowNames = value;
                 
-            elseif strcmpi(param, 'XValues')
-                if length(value) ~= size(obj.Data,2) && ~isempty(value)
+            elseif strcmpi(pname, 'XValues')
+                if length(value) ~= nCols && ~isempty(value)
                     error('Number of column names does not match column number');
                 end
                 obj.XValues = value;
                 
-            elseif strcmpi(param, 'ColNames')
-                obj.ColNames = value;
-
-            elseif strcmpi(param, 'Name')
+            elseif strcmpi(pname, 'ColNames')
+                % simply forget about colnames, as they are initialized by
+                % XValues
+                
+            elseif strcmpi(pname, 'Name')
                 obj.Name = value;
                 
-            elseif strcmpi(param, 'PlotType')
+            elseif strcmpi(pname, 'PlotType')
                 obj.PlotType = value;
 
-            elseif strcmpi(param, 'XAxisDir')
+            elseif strcmpi(pname, 'XAxisDir')
                 obj.XAxisDir = value;
                 
             else

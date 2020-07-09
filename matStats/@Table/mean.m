@@ -43,7 +43,8 @@ if ~isempty(obj.Name)
 end
 
 if dim == 1
-    res = Table.create(mean(obj.Data, 1), obj.ColNames, {'mean'}, ...
+    res = newInstance(obj, mean(obj.Data, 1), 'Parent', obj, ...
+        'RowNames', {'mean'}, ...
         'Name', newName);
     
 else

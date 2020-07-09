@@ -17,4 +17,4 @@ function res = uminus(obj)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 newData = builtin('uminus', obj.Data);
-res = Table.create(newData, 'Parent', obj);
+res = newInstance(obj, newData, 'Parent', obj);

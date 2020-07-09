@@ -5,9 +5,9 @@ function tab = create(data, varargin)
 %   where DATA is a numeric array, creates a new spectra data set
 %   initialized with the content of the array.
 %
-%   TAB = Spectra.create(..., 'ColNames', NAMES)
-%   Also specifies the name of columns. NAMES is a cell array with as many
-%   columns as the number of columns of the data table. 
+%   TAB = Spectra.create(DATA, XVALUES)
+%   where XVALUES is a numeric array, creates a new spectra data set using
+%   the specified array as display reference for x-axis.
 %
 %   TAB = Spectra.create(..., 'RowNames', NAMES)
 %   Also specifies the name of rows. NAMES is a cell array with as many
