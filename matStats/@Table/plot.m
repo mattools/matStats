@@ -57,7 +57,7 @@ if ~isempty(ind)
 end
 
 
-%% initialisations
+%% Initialisations
 
 xData = [];
 xAxisLabel = '';

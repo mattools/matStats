@@ -57,14 +57,20 @@ end
 [showLegend, varargin] = parseInputOption(varargin, 'ShowLegend', size(obj, 2) < 10);
 [legendLocation, varargin] = parseInputOption(varargin, 'LegendLocation', 'NorthEast');
 
+% if plot into an empty axis, make some additional setups. Otherwise, leave
+% as is.
+decoratePlot = isempty(get(ax, 'Children'));
+
 
 %% Initialisations
 
-xData = [];
 xAxisLabel = '';
 xTickLabels = {};
 
-if ~isempty(tabX)
+if isempty(tabX)
+    xData = 1:size(obj, 1);
+else
+    % x-axis meta-data are given explicitely as first argument
     if isa(tabX, 'Table')
         xData = tabX.Data(:, 1);
         
@@ -100,18 +106,29 @@ else
 
 end
 
- 
-%% Graph decoration
+%% Decorate plot
 
-% title is the name of the table
-if ~isempty(tabY.Name)
-    title(tabY.Name, 'Interpreter', 'none');
-end
-
-% optionally display legend
-if showLegend
-    % use column names as legend
-    legend(tabY.ColNames, 'Location', legendLocation);
+if decoratePlot
+    % Annotate X axis
+    if ~isempty(xTickLabels)
+        set(ax, 'XTick', 1:length(xTickLabels));
+        set(ax, 'XTickLabel', xTickLabels);
+    end
+    set(ax, 'XLim', xData([1 end]));
+    if ~isempty(xAxisLabel)
+        xlabel(xAxisLabel);
+    end
+    
+    % title is the name of the table
+    if ~isempty(tabY.Name)
+        title(tabY.Name, 'Interpreter', 'none');
+    end
+    
+    % optionally display legend
+    if showLegend
+        % use column names as legend
+        legend(tabY.ColNames, 'Location', legendLocation);
+    end
 end
 
 
