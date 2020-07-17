@@ -32,20 +32,27 @@ else
     disp('Info for data table:');
 end
 
-% number of column names
-nCols = length(obj.ColNames);
-nameLengths = cellfun(@length, obj.ColNames);
+% number of columns
+nCols = size(obj, 2);
+
+% length of column names
+colNames = obj.ColNames;
+nameLengths = cellfun(@length, colNames);
 maxLength = max(nameLengths);
 
 % create a pattern for the name of current column
 % Example of output: '[%2d] %-15s:'
 nDigits = ceil(log10(nCols));
-namePattern = sprintf('[%%%dd] %%-%ds:', nDigits, maxLength+1);
+namePattern = sprintf('[%%%dd]%%-%ds:', nDigits, maxLength+1);
 
 % iterate over the columns to display a summary line
-for iCol = 1:length(obj.ColNames)
+for iCol = 1:nCols
     % create line header containing column index + name
-    colName = obj.ColNames{iCol};
+    if ~isempty(colNames)
+        colName = [' ' colNames{iCol}];
+    else
+        colName = '';
+    end
     header = sprintf(namePattern, iCol, colName);
     
 %     disp([colName ':']);

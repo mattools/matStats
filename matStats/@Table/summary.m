@@ -54,7 +54,11 @@ if nRows > 0 && nCols > 0
     
     % iterate on columns
     for iCol = 1:nCols
-        colName = obj.ColNames{iCol};
+        if ~isempty(obj.ColNames)
+            colName = obj.ColNames{iCol};
+        else
+            colName = sprintf('(column %d)', iCol);
+        end
         values  = obj.Data(:, iCol);
 
         statCells = repmat({''}, nDisplayRows, 1);
