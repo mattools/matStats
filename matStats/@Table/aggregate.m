@@ -153,7 +153,7 @@ res = zeros(length(uniVals), nCols);
 for i = 1:nValues
     inds = values == uniVals(i);
     for j = 1:nCols
-        res(i, j) = feval(op, obj.data(inds, cols(j)));
+        res(i, j) = feval(op, obj.Data(inds, cols(j))); %#ok<FVAL>
     end    
 end
 
