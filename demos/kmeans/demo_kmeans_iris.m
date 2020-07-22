@@ -28,7 +28,7 @@ species = iris('Species');
 figure; set(gca, 'fontsize', 14); hold on;
 hg = scatterGroup(data(:,3), data(:,4), k);
 hc = scatter(centroids(:,3), centroids(:,4), 'k*');
-legend([hg hc], {'Cluster 1', 'Cluster 2', 'Cluster 3', 'Centroids'}, 'Location', 'NorthWest');
+legend([hg ; hc], {'Cluster 1', 'Cluster 2', 'Cluster 3', 'Centroids'}, 'Location', 'NorthWest');
 
 % compare with original segmentation
 figure; set(gca, 'fontsize', 14);

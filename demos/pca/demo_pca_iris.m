@@ -47,6 +47,6 @@ loadingPlot(irisPca, 1, 2);
 % To display scores with group labelling, simply call the plot method on
 % the score object stored in Pca result
 figure;
-scatterGroup(irisPca.scores(:, 1), irisPca.scores(:, 2), tab('Species'), ...
+scatterGroup(irisPca.Scores(:, 1), irisPca.Scores(:, 2), tab('Species'), ...
     'LegendLocation', 'NorthWest');
 
