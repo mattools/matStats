@@ -24,8 +24,9 @@ function varargout = scatterGroup(obj, varargin)
 %   * 'convexhull':     the convex hull of the points is displayed
 %   * 'ellipse':        an orthogonal ellipse with same variance in X and Y
 %         as the set of points is displayed
-%   * 'inertiaellipse': the inertia ellipse of each group
-%   Display of ellipses or inertia ellipses requires the MatGeom Toolbox.
+%   * 'equivalentellipse': the equivalent ellipse of each group
+%   Note: the display of ellipses or equivalent ellipses requires the
+%   MatGeom Toolbox. 
 %
 %   scatterGroup(..., 'groupColors', COLORS)
 %   scatterGroup(..., 'groupMarkers', MARKERS)
@@ -61,7 +62,7 @@ function varargout = scatterGroup(obj, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-03-08,    using Matlab 7.4.0.287 (R2007a)
 % Copyright 2007 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
  
@@ -215,8 +216,8 @@ for i = 1:nGroups
                 'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
                 'color', groupColors(i,:), varargin{:});
             
-        case 'inertiaellipse'
-            elli    = inertiaEllipse([xdata(inds) ydata(inds)]);
+        case {'inertiaellipse', 'equivalentellipse'}
+            elli    = equivalentEllipse([xdata(inds) ydata(inds)]);
             hl(i)   = drawEllipse(elli,...
                 'marker', 'none', 'linestyle', '-', 'lineWidth', 2, ...
                 'color', groupColors(i,:), varargin{:});
