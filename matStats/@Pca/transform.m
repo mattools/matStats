@@ -21,7 +21,7 @@ function res = transform(obj, data)
  
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2017-11-03,    using Matlab 9.3.0.713579 (R2017b)
 % Copyright 2017 INRA - Cepia Software Platform.
 
@@ -31,13 +31,9 @@ if size(data, 2) ~= size(obj.Loadings, 1)
 end
 
 % compute new coordinates
-coords = bsxfun(@minus, data.Data, obj.Means);
-coords = bsxfun(@mrdivide, coords, obj.Scalings);
+coords = bsxfun(@minus, data.Data, obj.Means.Data);
+coords = bsxfun(@mrdivide, coords, obj.Scalings.Data);
 newCoords = coords * obj.Loadings.Data;
-
-% name of new columns
-nDims = size(obj.Loadings, 2);
-varNames = strtrim(cellstr(num2str((1:nDims)', 'pc%d')));
 
 % compute new name
 name = 'Coords';
@@ -47,6 +43,5 @@ end
 
 % Table object for canonical coordinates
 res = Table.create(newCoords, ...
-    'RowNames', data.RowNames, ...
-    'ColNames', varNames, ...
+    obj.Loadings.ColNames, data.RowNames, ...
     'Name', name);

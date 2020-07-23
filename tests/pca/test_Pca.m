@@ -32,3 +32,4 @@ assertEqual(testCase, size(resPca.Means), [1 4]);
 assertEqual(testCase, size(resPca.Scores), [150 4]);
 assertEqual(testCase, size(resPca.Loadings), [4 4]);
 assertEqual(testCase, size(resPca.EigenValues), [4 3]);
+

@@ -17,7 +17,7 @@ function computePCA(obj, data)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-10-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -94,7 +94,7 @@ eigenValues(:, 2) = 100 * vl / sum(vl);         % inertia
 eigenValues(:, 3) = cumsum(eigenValues(:,2));   % cumulated inertia
 
 
-%% Create result data tables
+%% Create results axes
 
 % name of new components axis elements
 nCols = size(data.Data, 2);
@@ -103,7 +103,10 @@ if transpose
 end
 varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')))';
 
-% Table object for new coordinates
+
+%% Create result data tables
+
+% Table object for new coordinates ("scores")
 if ~isempty(data.Name)
     name = sprintf('Scores of %s', data.Name);
 else

@@ -61,7 +61,7 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Pca < handle
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-09-28,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -74,10 +74,10 @@ properties
     % A boolean flag indicating whether the input table is scaled or not
     Scaled;
     
-    % the mean value of each variable. 1-by-NV.
+    % The mean value of each variable, as 1-by-NV Table object.
     Means;
 
-    % the scaling applied to each variable. 1-by-NV.
+    % The scaling applied to each variable, as 1-by-NV Table object.
     Scalings;
 
     % Table of coordinates of each individual in new coordinate system
