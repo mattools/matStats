@@ -84,13 +84,13 @@ if isempty(tabX)
     types = tabY.PreferredPlotTypes;
     switch lower(types{1})
         case 'line'
-            linePlot(ax, tabY, varargin{:});
+            h = linePlot(ax, tabY, varargin{:});
         case 'stairsteps'
-            stairStepsPlot(ax, tabY, varargin{:});
+            h = stairStepsPlot(ax, tabY, varargin{:});
         case 'stem'
-            stemPlot(ax, tabY, varargin{:});
+            h = stemPlot(ax, tabY, varargin{:});
         case 'bar'
-            barPlot(ax, tabY, varargin{:});
+            h = barPlot(ax, tabY, varargin{:});
         otherwise
             error('MatStats:Table:plot', ['Unknown plot type: ' types{1}]);
     end
@@ -100,13 +100,13 @@ else
     types = tabY.PreferredPlotTypes;
     switch lower(types{1})
         case 'line'
-            linePlot(ax, xData, tabY, varargin{:});
+            h = linePlot(ax, xData, tabY, varargin{:});
         case 'stairsteps'
-            stairStepsPlot(ax, xData, tabY, varargin{:});
+            h = stairStepsPlot(ax, xData, tabY, varargin{:});
         case 'stem'
-            stemPlot(ax, xData, tabY, varargin{:});
+            h = stemPlot(ax, xData, tabY, varargin{:});
         case 'bar'
-            barPlot(ax, xData, tabY, varargin{:});
+            h = barPlot(ax, xData, tabY, varargin{:});
         otherwise
             error('MatStats:Table:plot', ['Unknown plot type: ' types{1}]);
     end
