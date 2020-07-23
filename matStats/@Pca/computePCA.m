@@ -1,9 +1,12 @@
-function [means, sc, ld, ev, sigma] = computePCA(obj, scale)
-% Compute PCA on input data table.
+function computePCA(obj, data)
+% Compute scores and loadings of PCA from a data table and PCA settings.
 %
-%   RES = computePCA(TABLE, SCALE)
-%   TABLE is an instance of Table class. SCALE is a boolean value
-%   indicating whether each coumn should be rescaled or not.
+%   This is a private function, that updates properties of the calling PCA
+%   object.
+%
+%   Usage:
+%   computePCA(OBJ, TABLE)
+%   OBJ is the Pca instance. TABLE is an instance of Table class. 
 %
 %   Example
 %   computePCA
@@ -20,18 +23,25 @@ function [means, sc, ld, ev, sigma] = computePCA(obj, scale)
 
 %% Pre-processing
 
+% keep name of original data table
+obj.TableName = data.Name;
+
+% create table containing mean data
+obj.Means = Table(mean(data.Data, 1), data.ColNames, 'Name', 'Means');
+
 % recenter data (remove mean)
-means = mean(obj.Data, 1);
-cData = bsxfun(@minus, double(obj.Data), means);
+cData = bsxfun(@minus, double(data.Data), obj.Means.Data);
 
 % optional scaling of data (divide each column by standard deviation)
-if scale
-    sigma   = sqrt(var(cData));
-    sigma(sigma < 1e-10) = 1;
-    cData   = cData * diag(1 ./ sigma);
+if obj.Scaled
+    sigmas   = sqrt(var(cData));
+    sigmas(sigmas < 1e-10) = 1;
+    cData   = cData * diag(1 ./ sigmas);
 else
-    sigma = ones(1, size(cData, 2));
+    sigmas = ones(1, size(cData, 2));
 end
+% convert to data table
+obj.Scalings = Table(sigmas, data.ColNames, 'Name', 'Sigmas');
 
 
 %% Computation of Principal components
@@ -86,42 +96,42 @@ eigenValues(:, 3) = cumsum(eigenValues(:,2));   % cumulated inertia
 
 %% Create result data tables
 
-% name of new columns
-nCols = size(obj.Data, 2);
+% name of new components axis elements
+nCols = size(data.Data, 2);
 if transpose
-    nCols = size(obj.Data, 1);
+    nCols = size(data.Data, 1);
 end
 varNames = strtrim(cellstr(num2str((1:nCols)', 'pc%d')))';
 
 % Table object for new coordinates
-if ~isempty(obj.Name)
-    name = sprintf('Scores of %s', obj.Name);
+if ~isempty(data.Name)
+    name = sprintf('Scores of %s', data.Name);
 else
     name = 'Scores';
 end
-sc = Table.create(coord, ...
-    'RowNames', obj.RowNames, ...
+obj.Scores = Table.create(coord, ...
+    'RowNames', data.RowNames, ...
     'ColNames', varNames, ...
     'Name', name);
 
 % Table object for loadings
-if ~isempty(obj.Name)
-    name = sprintf('Loadings of %s', obj.Name);
+if ~isempty(data.Name)
+    name = sprintf('Loadings of %s', data.Name);
 else
     name = 'Loadings';
 end
-ld = Table.create(eigenVectors, ...
-    'RowNames', obj.ColNames, ...
+obj.Loadings = Table.create(eigenVectors, ...
+    'RowNames', data.ColNames, ...
     'ColNames', varNames, ...
     'Name', name);
 
 % Table object for eigen values
-if ~isempty(obj.Name)
-    name = sprintf('Eigen values of %s', obj.Name);
+if ~isempty(data.Name)
+    name = sprintf('Eigen values of %s', data.Name);
 else
     name = 'Eigen values';
 end
-ev = Table.create(eigenValues, ...
+obj.EigenValues = Table.create(eigenValues, ...
     'RowNames', varNames', ...
     'Name', name, ...
     'ColNames', {'EigenValues', 'Inertia', 'Cumulated'});

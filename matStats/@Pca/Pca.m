@@ -8,7 +8,10 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Pca < handle
 %     Scores        the new coordinates of individuals, as N-by-P array
 %     Loadings      the loadinds (or coefficients) of PCA, as P-by-P array
 %     EigenValues   values of inertia, inertia percent and cumulated inertia
+%     Scaled        the boolean indicating whether the analysis was scaled
 %     Means         the mean value of each column of original data array
+%     Scalings      the scalings associated to each column of original data
+%                   array, if the PCA was scaled.
 %   
 %   res = Pca(TAB, PARAM, VALUE);
 %   Specified some processing options using parameter name-value pairs.
@@ -142,19 +145,10 @@ methods
         options = parseInputArguments(options, varargin{:});
 
         % analysis options
-        scale               = options.Scale;
-        obj.Scaled          = scale;
+        obj.Scaled = options.Scale;
         
-        % compute PCA results
-        [m, sc, ld, ev, sigma] = computePCA(data, scale);
-        
-        % keep results
-        obj.TableName   = data.Name;
-        obj.Means       = m;
-        obj.Scalings    = sigma;
-        obj.Scores      = sc;
-        obj.Loadings    = ld;
-        obj.EigenValues = ev;
+        % Intialize PCA results
+        computePCA(obj, data);
         
         % save results
         if options.SaveResultsFlag
@@ -171,7 +165,7 @@ methods
         end
         
         % display correlation circle
-        if options.Display && scale
+        if options.Display && obj.Scaled
             h = displayCorrelationCircle(obj, options.AxesProperties{:});
             
             if options.SaveFiguresFlag
@@ -251,6 +245,8 @@ end % end constructors
 %% Private Methods (used at contruction)
 methods (Access = private)
     
+    computePca(obj);
+
     function savePcaResults(obj, dirResults)
         % Save 3 result files corresponding to Scores, loadings and eigen values
         
@@ -388,11 +384,12 @@ methods
         
         disp('Principal Component Analysis Result');
         disp(['   Input data: ' obj.TableName]);
-        disp(['       scaled: ' scaleString]);
-        disp(['        means: ' sprintf('<%dx%d double>', size(obj.Means))]);
-        disp(['       scores: ' sprintf('<%dx%d Table>', size(obj.Scores))]);
-        disp(['     loadings: ' sprintf('<%dx%d Table>', size(obj.Loadings))]);
-        disp(['  eigenValues: ' sprintf('<%dx%d Table>', size(obj.EigenValues))]);
+        disp(['       Scaled: ' scaleString]);
+        disp(['        Means: ' sprintf('<%dx%d Table>', size(obj.Means))]);
+        disp(['     Scalings: ' sprintf('<%dx%d Table>', size(obj.Scalings))]);
+        disp(['       Scores: ' sprintf('<%dx%d Table>', size(obj.Scores))]);
+        disp(['     Loadings: ' sprintf('<%dx%d Table>', size(obj.Loadings))]);
+        disp(['  EigenValues: ' sprintf('<%dx%d Table>', size(obj.EigenValues))]);
     end
 end
 
