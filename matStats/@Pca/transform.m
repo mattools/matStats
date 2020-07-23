@@ -16,7 +16,7 @@ function res = transform(obj, data)
 %     plot(scores.Data(:,1), scores.Data(:,2), 'bo')
 %
 %   See also
-%     Pca, scorePlot
+%     Pca, scorePlot, reconstruct
 %
  
 % ------
