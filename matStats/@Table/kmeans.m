@@ -31,7 +31,7 @@ if nargin < 2
 end
 
 % check presence of stats toolbox (use old syntax fo compatibility)
-if isempty(strfind(path, fullfile('toolbox', 'stats')))
+if isempty(strfind(path, fullfile('toolbox', 'stats'))) %#ok<STREMP>
     error('Requires the statistics toolbox');
 end
 

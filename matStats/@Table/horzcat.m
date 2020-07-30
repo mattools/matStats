@@ -20,6 +20,7 @@ if isa(obj, 'Table')
     parent = obj;
     colNames = obj.ColNames;
     levels = obj.Levels;
+    plotTypes = obj.PreferredPlotTypes;
     name = obj.Name;
     
 else
@@ -27,6 +28,7 @@ else
     parent = varargin{1};
     colNames = strtrim(cellstr(num2str((1:size(data, 2))')));
     levels = cell(1, size(obj, 2));
+    plotTypes = repmat({'line'}, 1, size(obj, 2));
     name = 'NoName';
     
 end
@@ -38,6 +40,7 @@ for i = 1:length(varargin)
         data = [data var.Data]; %#ok<AGROW>
         colNames = [colNames var.ColNames]; %#ok<AGROW>
         levels = [levels var.Levels]; %#ok<AGROW>
+        plotTypes = [plotTypes var.PreferredPlotTypes]; %#ok<AGROW>
         name = strcat(name, '+', var.Name);
         
     else
@@ -45,6 +48,7 @@ for i = 1:length(varargin)
         newCols = strtrim(cellstr(num2str((1:size(var, 2))')));
         colNames = [colNames(:) ; newCols(:)];
         levels = [levels cell(1, size(var, 2))]; %#ok<AGROW>
+        plotTypes = [plotTypes repmat({'line'}, 1, size(var, 2))]; %#ok<AGROW>
         name = strcat(name, '+', 'NoName');
         
     end
@@ -52,8 +56,9 @@ for i = 1:length(varargin)
 end
 
 res = Table.create(data, ...
-    'parent', parent, ...
-    'colNames', colNames, ...
-    'rowNames', obj.RowNames, ...
-    'levels', levels, ...
-    'name', name);
+    'Parent', parent, ...
+    'ColNames', colNames, ...
+    'RowNames', obj.RowNames, ...
+    'Levels', levels, ...
+    'PreferredPlotTypes', plotTypes, ...
+    'Name', name);

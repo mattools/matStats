@@ -114,7 +114,7 @@ elseif strcmp(type, '()')
             % if sub1 is a string (or a cell array of strings), try to find
             % indices of column(s) that correspond to that string(s)
             if ~strcmp(sub1, ':')
-                inds = columnIndex(obj, s1.subs{1})';
+                inds = columnIndex(obj, sub1)';
                 
                 % transform to 2 indices indexing
                 s1.subs = {':', inds};

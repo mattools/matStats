@@ -34,7 +34,7 @@ elseif ischar(colName)
         indCol = find(strcmp(colName, obj.ColNames));
     end
     
-    if isempty(indCol)>0
+    if isempty(indCol)
         error(errorMsg, colName);
     end
     
