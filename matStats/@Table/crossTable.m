@@ -2,6 +2,9 @@ function res = crossTable(obj, obj2)
 % Cross-Tabulation of two Tables.
 %
 %   XTAB = crossTable(TAB1, TAB2)
+%   Compute the cross-table, or cross-tabulation, of two one-column tables.
+%   Can be used to compute confusion matrice from classiciation algorithms
+%   results.
 %
 %   Example
 %     % Simple example from 'crosstab' doc
@@ -10,28 +13,30 @@ function res = crossTable(obj, obj2)
 %     xtab = crossTable(tab1, tab2)
 %     ans = 
 %              1    2    3    5
+%              -    -    -    -
 %         1    2    1    0    0
 %         2    0    0    0    1
 %         3    0    0    1    0
 % 
 %     % Compare result of k-means on Iris with original classificiation 
 %     iris = Table.read('fisherIris.txt');
-%     resKMeans = kmeans(iris(:,1:4), 3);
-%     crossTable(iris('Species'), resKMeans)
+%     rng(42);
+%     km3 = kmeans(iris(:,1:4), 3);
+%     crossTable(iris('Species'), km3)
 %     ans = 
 %                        1     2     3
-%     Setosa            50     0     0
-%     Versicolor         0     2    48
-%     Virginica          0    36    14
-%     % (results may differ depending on random number initialization)
+%                        -     -     -
+%     Setosa             0     0    50
+%     Versicolor        48     2     0
+%     Virginica         14    36     0
 %
 %   See also
-%     crosstab, grp2idx
+%     crosstab, grp2idx, kmeans, cluster
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2019-11-21,    using Matlab 9.7.0.1190202 (R2019b)
 % Copyright 2019 INRA - Cepia Software Platform.
 
@@ -46,16 +51,15 @@ end
 
 % convert grouping variables to indices
 [inds1, levels1] = parseGroupInfos(obj.Data);
-[inds2, levels2] = parseGroupInfos(obj2.Data);
-
 n1 = length(levels1);
-n2 = length(levels2);
-
 if ~isempty(obj.Levels{1})
     levels1 = obj.Levels{1};
 end
+
+[inds2, levels2] = parseGroupInfos(obj2.Data);
+n2 = length(levels2);
 if ~isempty(obj2.Levels{1})
-    levels1 = obj2.Levels{1};
+    levels2 = obj2.Levels{1};
 end
 
 % compute cross-table
@@ -67,4 +71,5 @@ for i1 = 1:n1
     end
 end
 
+% create table object
 res = Table(resData, levels2, levels1);
