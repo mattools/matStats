@@ -440,7 +440,7 @@ methods
         % Process parent table if present
         
         if length(varargin) > 1
-            ind = find(strcmp(varargin(1:2:end), 'parent'));
+            ind = find(strcmpi(varargin(1:2:end), 'Parent'));
             if ~isempty(ind)
                 % initialize new table with values from parent
                 ind = ind * 2 - 1;
@@ -451,7 +451,7 @@ methods
                 obj.Levels      = parent.Levels;
                 obj.PreferredPlotTypes = parent.PreferredPlotTypes;
                 
-                % remove argumets from the list
+                % remove arguments from the list
                 varargin(ind:ind+1) = [];
             end
         end
