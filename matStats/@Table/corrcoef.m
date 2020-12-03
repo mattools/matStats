@@ -18,10 +18,24 @@ function res = corrcoef(obj, varargin)
 %     corrcoef(iris(:, 1:4))
 %     ans = 
 %                        SepalLength    SepalWidth    PetalLength    PetalWidth
+%                        -----------    ----------    -----------    ----------
 %         SepalLength              1      -0.10937        0.87175       0.81795
 %          SepalWidth       -0.10937             1       -0.42052      -0.35654
 %         PetalLength        0.87175      -0.42052              1       0.96276
 %          PetalWidth        0.81795      -0.35654        0.96276             1
+%
+%     % correlation matrix of different tables
+%     iris = Table.read('fisherIris.txt');
+%     data1 = iris(:, [1 3]);
+%     data1.Name = 'Lengths';
+%     data2 = iris(:, [2 4]);
+%     data1.Name = 'Widths';
+%     res = corrcoef(data1, data2)
+%     res = 
+%                    Lengths     Widths
+%                    -------     ------
+%     Lengths              1    0.82633
+%     Widths         0.82633          1
 %
 %     corrcoef(iris('PetalLength'), iris('SepalLength'))
 %     ans =
@@ -46,16 +60,24 @@ else
     % compute only one correlation coefficient
     data2 = varargin{1};
     if isa(data2, 'Table')
+        name2 = data2.Name;
         data2 = data2.Data;
+    else
+        name2 = inputname(2);
     end
     
     data1 = obj;
     if isa(data1, 'Table')
+        name1 = data1.Name;
         data1 = data1.Data;
+    else
+        name1 = inputname(1);
     end
     
     % correlation coefficient matrix
-    mat = corrcoef(data1(:), data2(:));
+    mat = corrcoef(data1, data2);
     
-    res = mat(1,2);
+    % foramt into a 2-by-2 Table 
+    names = {name1, name2};
+    res = Table(mat, names, names);
 end
