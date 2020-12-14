@@ -128,7 +128,7 @@ for iCol = 1:nCols
         
         % reinitialize text array for processing next column(s)
         if ~isempty(obj.RowNames)
-            txtArray = strjust([colPad char([{' '}; obj.RowNames(:)])]);
+            txtArray = strjust([colPad char([{' '}; {' '}; obj.RowNames(:)])]);
         else
             txtArray = char(zeros(nRows2, 0));
         end
