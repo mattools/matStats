@@ -1,19 +1,20 @@
-function [value, varList] = parseInputOption(name, varList, varargin)
-%PARSEINPUTOPTION Extract the value of an option in varargin list
+function [value, varList] = parseInputOption(varList, name, varargin)
+% Cherry-pick a parameter from an argument list based on its name.
 %
 %   Usage:
-%   [VALUE VARARGIN] = parseInputOption(NAME, VARARGIN)
-%   [VALUE VARARGIN] = parseInputOption(NAME, VARARGIN, DEFAULTVALUE)
+%   [VALUE, VARARGIN] = parseInputOption(VARARGIN, NAME)
+%   [VALUE, VARARGIN] = parseInputOption(VARARGIN, NAME, DEFAULTVALUE)
 %
 %   Example
-%   parseInputOption
+%     [showLegend, varargin] = parseInputOption(varargin, 'ShowLegend', false);
 %
 %   See also
+%     inputParser
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2013-03-10,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2013 INRA - Cepia Software Platform.
 

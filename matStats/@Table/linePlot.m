@@ -53,16 +53,12 @@ if ~isempty(varargin)
     end
 end
 
-% parse legend location info
-legendLocation = 'NorthEast';
-ind = find(cellfun(@(x)strcmpi(x, 'LegendLocation'), varargin), 1);
-if ~isempty(ind)
-    legendLocation = varargin{ind+1};
-    varargin(ind:ind+1) = [];
-end
+% parse optional parameters
+[showLegend, varargin] = parseInputOption(varargin, 'ShowLegend', size(obj, 2) < 10);
+[legendLocation, varargin] = parseInputOption(varargin, 'LegendLocation', 'NorthEast');
 
 
-%% initialisations
+%% Initialisations
 
 xData = [];
 xAxisLabel = '';
@@ -112,8 +108,11 @@ if ~isempty(tabY.Name)
     title(tabY.Name, 'Interpreter', 'none');
 end
 
-% use column names as legend
-legend(tabY.ColNames, 'Location', legendLocation);
+% optionally display legend
+if showLegend
+    % use column names as legend
+    legend(tabY.ColNames, 'Location', legendLocation);
+end
 
 
 %% Format output

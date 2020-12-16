@@ -1,4 +1,4 @@
-function varargout = plotGroupErrorBars(data, group, varargin)
+function varargout = plotGroupErrorBars(varargin)
 % Plot error bars for each group.
 %
 %   output = plotGroupErrorBars(input)
@@ -15,6 +15,13 @@ function varargout = plotGroupErrorBars(data, group, varargin)
 % e-mail: david.legland@inra.fr
 % Created: 2012-04-22,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
+
+% Extract the axis handle to draw in
+[ax, varargin] = parseAxisHandle(varargin{:});
+
+data = varargin{1};
+group = varargin{2};
+varargin(1:2) = [];
 
 % extraction of groups indices and labels from input table
 [groupIndices, levelNames, groupLabel] = parseGroupInfos(group);  %#ok<ASGLU>
@@ -39,7 +46,7 @@ means = groupStats(data, group, @mean);
 errs = groupStats(data, group, fun);
 
 % display the error bars
-h = errorbar(1:nLevels, means, errs, varargin{:});
+h = errorbar(ax, 1:nLevels, means, errs, varargin{:});
 
 % decorate the graph
 xlim([0 nLevels+1]);
