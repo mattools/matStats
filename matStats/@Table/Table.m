@@ -179,6 +179,14 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 % Copyright 2010 INRA - Cepia Software Platform.
 
 
+%% Declaration of static methods
+methods (Static)
+    tab = create(varargin)
+    tab = read(fileName, varargin)
+    varargout = concatFiles(inputFiles, outputFile, varargin)
+end
+
+
 %% Declaration of class properties
 properties
     % Inner data of the table, stored in a Nr-by-Nc array of double.
@@ -211,14 +219,6 @@ properties
     % as the number of columns. Elements must be one of: {'line', 'stem',
     % 'stairStep', 'bar'}. Default is 'line'.
     PreferredPlotTypes;
-end
-
-
-%% Declaration of static methods
-methods (Static)
-    tab = create(varargin)
-    tab = read(fileName, varargin)
-    varargout = concatFiles(inputFiles, outputFile, varargin)
 end
 
 
