@@ -26,10 +26,12 @@ end
 % compute new data
 newData = bsxfun(@rdivide, obj1, obj2);
 
-newColNames = strcat(names1, '/', names2);
-
 % create result array
 res = Table.create(newData, ...
-    'parent', parent, ...
-    'colNames', newColNames);
+    'Parent', parent);
 
+% update column names
+colNames = strcat(names1, '/', names2);
+if length(colNames) == size(res, 2)
+    res.ColNames = colNames;
+end

@@ -9,6 +9,7 @@ function res = plus(obj1, obj2)
 %     head(iris(:, 1) + iris(:,2))
 %     ans = 
 %              SepalLength+SepalWidth
+%              ----------------------
 %     1                           8.6
 %     2                           7.9
 %     3                           7.9
@@ -22,7 +23,7 @@ function res = plus(obj1, obj2)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-08-02,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -36,9 +37,12 @@ end
 % compute new data
 newData = bsxfun(@plus, obj1, obj2);
 
-newColNames = strcat(names1, '+', names2);
-
 % create result array
 res = Table.create(newData, ...
-    'parent', parent, ...
-    'colNames', newColNames);
+    'Parent', parent);
+
+% update column names
+colNames = strcat(names1, '+', names2);
+if length(colNames) == size(res, 2)
+    res.ColNames = colNames;
+end
