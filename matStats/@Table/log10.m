@@ -25,13 +25,12 @@ end
 
 newName = '';
 if ~isempty(obj.Name)
-    newName = ['log10 of ' obj.Name];
+    newName = ['Log10 of ' obj.Name];
 end
 
-newColNames = strcat('log10', obj.ColNames);
+res = Table.create(log10(obj.Data), 'Parent', obj, 'Name', newName);
 
-res = Table.create(log10(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
-    
+% update column names
+if ~isempty(obj.ColNames)
+    res.ColNames = strcat('log10', obj.ColNames);
+end

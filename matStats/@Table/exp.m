@@ -24,13 +24,12 @@ end
 
 newName = '';
 if ~isempty(obj.Name)
-    newName = ['Exp of ' obj.Name];
+    newName = ['exp of ' obj.Name];
 end
 
-newColNames = strcat('exp', obj.ColNames);
+res = Table.create(exp(obj.Data), 'Parent', obj, 'Name', newName);
 
-res = Table.create(exp(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
-    
+% update column names
+if ~isempty(obj.ColNames)
+    res.ColNames = strcat('exp', obj.ColNames);
+end

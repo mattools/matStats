@@ -25,13 +25,13 @@ end
 
 newName = '';
 if ~isempty(obj.Name)
-    newName = ['sqrt of ' obj.Name];
+    newName = ['Sqrt of ' obj.Name];
 end
 
-newColNames = strcat('sqrt', obj.ColNames);
+res = Table.create(sqrt(obj.Data), 'Parent', obj, 'Name', newName);
 
-res = Table.create(sqrt(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
+% update column names
+if ~isempty(obj.ColNames)
+    res.ColNames = strcat('sqrt', obj.ColNames);
+end
     

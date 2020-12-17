@@ -28,10 +28,10 @@ if ~isempty(obj.Name)
     newName = ['nthroot of ' obj.Name];
 end
 
-newColNames = strcat('nthroot', obj.ColNames);
+res = Table.create(nthroot(obj.Data, n), 'Parent', obj, 'Name', newName);
 
-res = Table.create(nthroot(obj.Data, n), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
-    
+% update column names
+if ~isempty(obj.ColNames)
+    res.ColNames = strcat('nthroot', obj.ColNames);
+end
+   

@@ -28,10 +28,9 @@ if ~isempty(obj.Name)
     newName = ['Log of ' obj.Name];
 end
 
-newColNames = strcat('log', obj.ColNames);
+res = Table.create(log(obj.Data), 'Parent', obj, 'Name', newName);
 
-res = Table.create(log(obj.Data), ...
-    'parent', obj, ...
-    'name', newName, ...
-    'colNames', newColNames);
-    
+% update column names
+if ~isempty(obj.ColNames)
+    res.ColNames = strcat('log', obj.ColNames);
+end
