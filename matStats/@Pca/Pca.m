@@ -100,37 +100,48 @@ end % end properties
 
 %% Constructor
 methods
-    function obj = Pca(data, varargin)
-        % Constructor for Pca class
-
-        % avoid empty constructor
-        if nargin == 0
-            error('Pca requires at least one input argument');
-        end
+    function obj = Pca(varargin)
+        % Constructor for Pca class.
         
         % copy constructor
-        if isa(data, 'Pca')
-            obj.TableName      = data.TableName;
-            obj.Scaled         = data.Scaled;
+        if nargin == 1 && isa(varargin{1}, 'Pca')
+            pca = varargin{1};
+            % copy computation options
+            obj.Scaled         = pca.Scaled;
 
-            obj.Means          = data.Means;
-            obj.Scores         = Table(data.Scores);
-            obj.Loadings       = Table(data.Loadings);
-            obj.EigenValues    = Table(data.EigenValues);
+            % copy table data
+            obj.TableName      = pca.TableName;
+            obj.Means          = pca.Means;
+            obj.Scalings       = pca.Scalings;
+            
+            % copy computation results
+            obj.Scores         = Table(pca.Scores);
+            obj.Loadings       = Table(pca.Loadings);
+            obj.EigenValues    = Table(pca.EigenValues);
             return;
         end
         
         
         %% Initialize raw data
         
-        % ensure data is a data table
-        if isnumeric(data)
-            data = Table(data);
-        end
-        
-        % ensure data table has a valid name
-        if isempty(data.Name)
-            data.Name = inputname(1);
+        % if first argument is a table or an array, use it as data.
+        data = [];
+        if nargin > 0
+            var1 = varargin{1};
+            if isnumeric(var1)
+                data = Table(var1);
+                varargin(1) = [];
+            elseif isa(var1, 'Table')
+                data = var1;
+                varargin(1) = [];
+            end
+            
+            if ~isempty(data)
+                % ensure data table has a valid name
+                if isempty(data.Name)
+                    data.Name = inputname(1);
+                end
+            end
         end
         
         
@@ -146,6 +157,10 @@ methods
 
         % analysis options
         obj.Scaled = options.Scale;
+        
+        if isempty(data)
+            return;
+        end
         
         % Intialize PCA results
         computePCA(obj, data);

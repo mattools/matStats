@@ -17,7 +17,8 @@ function tests = test_Pca
 
 tests = functiontests(localfunctions);
 
-function test_iris(testCase) %#ok<*DEFNU>
+
+function test_Pca_iris(testCase) %#ok<*DEFNU>
 % Test call of function without argument.
 
 iris = Table.read('fisherIris.txt');
@@ -33,3 +34,10 @@ assertEqual(testCase, size(resPca.Scores), [150 4]);
 assertEqual(testCase, size(resPca.Loadings), [4 4]);
 assertEqual(testCase, size(resPca.EigenValues), [4 3]);
 
+
+function test_Pca_emptyConstructor(testCase) 
+% Test call of constructor without argument.
+
+resPca = Pca;
+
+assertTrue(testCase, isa(resPca, 'Pca'));
