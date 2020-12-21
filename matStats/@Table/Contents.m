@@ -4,9 +4,11 @@
 %   Table is a class for manipulating data tables.
 %
 %
-%   Table creation
+%   Table creation and I/O
 %   Table                   - Class for data table with named rows and columns.
 %   create                  - Create a new data table.
+%   read                    - Read a file containing table data.
+%   write                   - Write a datatable into a file.
 %
 %   Table display and information
 %   info                    - Display short summary of a data table.
@@ -66,8 +68,12 @@
 %   groupStats              - Compute basic statistics for each level of a group.
 %   paragons                - Find paragon for each level of a group.
 %
-%   Display groups
+%   Clustering and multi-variate analysis
 %   kmeans                  - K-means clustering of the data table.
+%   cluster                 - Compute cluster indices in data using Hierarchical clustering.
+%   nmf                     - Non-negative matrix factorization of a data table.
+%
+%   Display groups
 %   scatterGroup            - Scatter plot individuals grouped by classes.
 %   scatterGroup3d          - Scatter plot individuals grouped by classes.
 %   plotGroups              - Display table data ordered by their group levels.
@@ -87,10 +93,6 @@
 %   rowNames                - Return the names of the rows in table.
 %   createRowNames          - Create default row names for table.
 %
-%   File I/O
-%   read                    - Read a file containing table data.
-%   write                   - Write a datatable into a file.
-%
 %   Utility functions
 %   getValue                - Returns the value for the given row and column.
 %   addColumn               - Add a new column to the data table.
@@ -98,7 +100,6 @@
 %   apply                   - Apply the given function to each element of the table.
 %   findClosestPoint        - Find the index of the row with closest coordinates.
 %   unique                  - Returns unique values in data tables.
-%   bsxfun                  - Binary Singleton Expansion Function for Tables.
 %   bsxfun                  - Binary Singleton Expansion Function for Tables.
 %   concatFiles             - Concatenate a list of files containing tables into new a file.
 %   printLatex              - Print content of a table as a latex tabular.
@@ -130,8 +131,8 @@
 %   floor                   - Floor values in the table.
 %   exp                     - Exponential of table values.
 %   log                     - Logarithm of table values.
-%   log10                   - Decimal logarithm of table values.
 %   log2                    - Binary logarithm of table values.
+%   log10                   - Decimal logarithm of table values.
 %   max                     - Put the max of each column in a new table.
 %   mean                    - Compute the mean of table columns.
 %   median                  - Put the median of each column in a new table.
@@ -173,8 +174,6 @@
 
 %   Deprecated
 
-
 %   Not yet integrated
-
 
 
