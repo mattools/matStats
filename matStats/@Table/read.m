@@ -335,41 +335,41 @@ options.skipLines       = 0;    % the number of lines to skip before reading
 
 % process each couple of argument, identifies the options, and set up the
 % corresponding value in the result structure
-while length(varargin)>1
-    switch lower(varargin{1})
-        
-        case 'rownames'
-            % Specify either row names, or index of column containing row names
-            var = varargin{2};
-            if iscell(var)
-                % row names are directly specified with cell array of names
-                options.rowNames = var;
-            else
-                % row names are given either as index or column name
-                options.rowNamesIndex = var;
-            end
-            
-        case 'header'
-            options.header = varargin{2};
-            
-        case 'decimalpoint'
-            options.decimalPoint = varargin{2};
-            % if not '.' character, we need to parse each item
-            if ~strcmp(options.decimalPoint, '.')
-                options.needParse = true;
-            end
-            
-        case {'delim', 'delimiter'}
-            options.delim = varargin{2};
-            
-        case 'needparse'
-            options.needParse = varargin{2};
-            
-        case 'skiplines'
-            options.skipLines = varargin{2};
+while length(varargin) > 1
+    pname = varargin{1};
+    value = varargin{2};
 
-        otherwise
-            error('Table:read', ['unknown parameter: ' varargin{1}]);
+    if strcmpi(pname, 'RowNames')
+        % Specify either row names, or index of column containing row names
+        if iscell(value)
+            % row names are directly specified with cell array of names
+            options.rowNames = value;
+        else
+            % row names are given either as index or column name
+            options.rowNamesIndex = value;
+        end
+            
+    elseif strcmpi(pname, 'Header')
+        options.header = value;
+            
+    elseif strcmpi(pname, 'DecimalPoint')
+        options.decimalPoint = value;
+        % if not '.' character, we need to parse each item
+        if ~strcmp(options.decimalPoint, '.')
+            options.needParse = true;
+        end
+            
+    elseif any(strcmpi(pname, {'delim', 'Delimiter'}))
+        options.delim = value;
+            
+    elseif strcmpi(pname, 'NeedParse')
+        options.needParse = value;
+            
+    elseif strcmpi(pname, 'SkipLines')
+        options.skipLines = value;
+
+    else
+        error('Table:read', ['unknown parameter: ' pname]);
     end
     
     % remove processed parameter pair
