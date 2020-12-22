@@ -130,6 +130,11 @@ C1  = C1{1};
 n   = length(C1);
 nc  = n;
 
+% name cleanup
+if options.removeQuotes
+    colNames = removeEndQuotes(colNames);
+end
+
 % Try to automatically detect the column containing row names
 if options.header && options.rowNamesIndex == -1
     % if first variable is explicitely called 'name', use it for row names
@@ -313,6 +318,21 @@ for i = 1:nc
         else
             % if there are unconverted values, changes to factor levels
             [levels, I, num]  = unique(col); %#ok<ASGLU>
+            
+            % optionnally remove quotes
+            if options.removeQuotes
+                levels = removeEndQuotes(levels);
+            end
+            
+            % check NaN values
+            indNA = find(strcmp(levels, 'NA'));
+            if ~isempty(indNA)
+                num(num == indNA) = 0;
+                num(num > indNA) = num(num > indNA) - 1;
+                levels(indNA) = [];
+            end
+            
+            % store in Table
             tab.Data(:, i)  = num;
             tab.Levels{i}   = levels;
         end
@@ -332,13 +352,14 @@ options.delim           = options.whiteSpaces;
 options.header          = true; % true if the file contains a header
 options.needParse       = false;% true if each line need to be explicitely parsed
 options.skipLines       = 0;    % the number of lines to skip before reading
+options.removeQuotes    = true;
 
 % process each couple of argument, identifies the options, and set up the
 % corresponding value in the result structure
 while length(varargin) > 1
     pname = varargin{1};
     value = varargin{2};
-
+    
     if strcmpi(pname, 'RowNames')
         % Specify either row names, or index of column containing row names
         if iscell(value)
@@ -348,30 +369,49 @@ while length(varargin) > 1
             % row names are given either as index or column name
             options.rowNamesIndex = value;
         end
-            
+        
     elseif strcmpi(pname, 'Header')
         options.header = value;
-            
+        
     elseif strcmpi(pname, 'DecimalPoint')
         options.decimalPoint = value;
         % if not '.' character, we need to parse each item
         if ~strcmp(options.decimalPoint, '.')
             options.needParse = true;
         end
-            
+        
     elseif any(strcmpi(pname, {'delim', 'Delimiter'}))
         options.delim = value;
-            
+        
     elseif strcmpi(pname, 'NeedParse')
         options.needParse = value;
-            
+        
     elseif strcmpi(pname, 'SkipLines')
         options.skipLines = value;
-
+        
+    elseif strcmpi(pname, 'RemoveQuotes')
+        options.removeQuotes = value;
+        
     else
         error('Table:read', ['unknown parameter: ' pname]);
     end
     
     % remove processed parameter pair
     varargin(1:2) = [];
+end
+
+
+function str = removeEndQuotes(str)
+
+if ischar(str)
+    if str([1 end]) == '"'
+        str = str(2:end-1);
+    end
+elseif iscell(str)
+    for i = 1:length(str)
+        str2 = str{i};
+        if str2([1 end]) == '"'
+            str{i} = str2(2:end-1);
+        end
+    end
 end

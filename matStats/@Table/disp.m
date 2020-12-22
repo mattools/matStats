@@ -82,11 +82,11 @@ for iCol = 1:nCols
         colLevels = obj.Levels{iCol};
         if iscell(colLevels)
             % factor levels given as cell array of strings
-            colLevels2 = [{'Unknown'} ; colLevels(:)];
+            colLevels2 = [{'N.A.'} ; colLevels(:)];
             colText = strjust(char(colLevels2(var + 1)));
         else
             % factor levels given as char array
-            colLevels2 = char('Unknown', colLevels);
+            colLevels2 = char('N.A.', colLevels);
             colText = strjust(colLevels2(var + 1, :));
         end
         
