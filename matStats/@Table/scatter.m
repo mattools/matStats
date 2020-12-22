@@ -1,6 +1,8 @@
 function varargout = scatter(varargin)
 % Scatter plot of table data.
 %
+%   Deprecated, use 'scatterPlot' instead.
+%
 %   scatter(TAB1, TAB2)
 %   Use two tables, with one column each, that respectively specifies the x
 %   and y coordinates.
@@ -34,6 +36,9 @@ function varargout = scatter(varargin)
 % e-mail: david.legland@inra.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
+
+warning('MatStats:deprecated', ...
+    'function ''scatter'' is obsolete, use ''scatterPlot'' instead');
 
 % Extract the axis handle to draw in
 [ax, varargin] = parseAxisHandle(varargin{:});

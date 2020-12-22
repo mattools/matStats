@@ -16,7 +16,7 @@ function varargout = plot(varargin)
 %   Example
 %
 %   See also
-%     plotRows, bar, stairs, stem, scatter
+%     plotRows, bar, stairs, stem, scatterPlot
 %
 
 % ------

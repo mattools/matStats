@@ -25,7 +25,7 @@ function pairPlot(obj, varargin)
 %     pairPlot(iris(:,1:4), iris(:,5), 'Colors', colors);
 %
 %   See also
-%     correlationCircles, plot, histogram, violinPlot
+%     correlationCircles, plot, histogram, violinPlot, scatterPlot
 %
 %   References:
 %   Rewritten from the function 'pairplot', by Ryosuke Takeuchi on the

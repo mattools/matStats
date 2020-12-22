@@ -14,7 +14,7 @@ function histogram(obj, varargin)
 %     figure; histogram(tab('PetalLength'), 10);
 %
 %   See also
-%     plot, plotmatrix
+%     plot, pairPlot, scatterPlot
 %
 
 % ------
