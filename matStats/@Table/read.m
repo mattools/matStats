@@ -192,25 +192,57 @@ else
 end
 format = strtrim(strcat(formats{:}));
 
-% convert values of first line to numeric
-if ~options.needParse
-    C1(numeric) = num2cell(str2double(C1(numeric)));
-end
-
 
 %% Read data
 
 % read the rest of the file, in a Cell array (each cell is a column)
 C = textscan(f, format, delimOptions{:});
 
-% check if all data file was read
+% if a problem occured without parsing, try again by forcing parse
+if ~feof(f) && ~options.needParse
+    warning('Table:UnexpectedEndOfFile', ...
+        'Could not read the whole file, possibly due to NaN or text values.\nRetry by forcing parse.');
+    
+    % restart from beginning of file
+    fseek(f, 0, 'bof');
+    
+    % re-compute necessary options
+    options.needParse = true;
+    formats = cell(1, n);
+    formats(:) = {' %s'};
+    format = strtrim(strcat(formats{:}));
+    
+    % eventually skip some lines
+    for i = 1:options.skipLines
+        fgetl(f);
+    end
+    
+    % read again the header and the first data line
+    if options.header
+        fgetl(f);
+    end
+    fgetl(f);
+    
+    % read the rest of the file in a cell array
+    C = textscan(f, format, delimOptions{:});
+end
+
+% check if end of file was reached.
 if ~feof(f)
-    error('Table:UnExpectedEndOfFile', ...
-        'Could not read the whole file, possibly due to NaN or text values');
+    error('Table:UnexpectedEndOfFile', ...
+        'Could not read the whole file, possibly due to NaN or text values.');
 end
 
 % close file
 fclose(f);
+
+
+%% Format data
+
+% convert values of first line to numeric
+if ~options.needParse
+    C1(numeric) = num2cell(str2double(C1(numeric)));
+end
 
 % concatenate first line with the rest 
 for i = 1:length(C)
@@ -335,7 +367,7 @@ while length(varargin)>1
             
         case 'skiplines'
             options.skipLines = varargin{2};
-            
+
         otherwise
             error('Table:read', ['unknown parameter: ' varargin{1}]);
     end
