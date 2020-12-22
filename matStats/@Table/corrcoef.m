@@ -47,7 +47,7 @@ function res = corrcoef(obj, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-01-10,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
@@ -77,7 +77,7 @@ else
     % correlation coefficient matrix
     mat = corrcoef(data1, data2);
     
-    % foramt into a 2-by-2 Table 
+    % format into a 2-by-2 Table 
     names = {name1, name2};
     res = Table(mat, names, names);
 end

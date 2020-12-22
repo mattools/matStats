@@ -21,7 +21,7 @@ function h = correlationCircles(obj, varargin)
 %     correlationCircles(tab)
 %
 %   See also
-%   corrcoef, plotmatrix
+%     corrcoef, pairPlot, plotmatrix
 %
 %   References
 %   It is inspired by the contribution of Taiyun Wei for R:
@@ -30,7 +30,7 @@ function h = correlationCircles(obj, varargin)
 
 % ------
 % Author: David Legland, based on plotmatrix code
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-07-16,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
