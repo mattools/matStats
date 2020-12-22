@@ -28,26 +28,27 @@
 %   geomean                 - Compute geometrical mean of table columns.
 %   ttest2                  - Two-sample t-test.
 %
-%   Plot and display
+%   Exploration plots
+%   histogram               - Histogram plot of a column in a data table.
+%   boxplot                 - Box plot of a data table.
+%   violinPlot              - Plot distribution of data in a table.
+%   pairPlot                - Pairwise scatter plots and histograms of table columns.
+%   plotmatrix              - Overload plotmatrix function to display column names.
+%   correlationCircles      - Represent correlation matrix using colored circles.
+%
+%   Basic plots
 %   plot                    - Plot the content of a column.
 %   linePlot                - Plot the content of a column as continuous lines.
 %   barPlot                 - Bar plot of the table data.
 %   stairStepsPlot          - Plot the content of a column as stairs.
 %   stemPlot                - Plot the content of a column as stems.
 %   errorbar                - Overload the errorbar function to manage data tables.
-%   histogram               - Histogram plot of a column in a data table.
-%   scatter                 - Scatter plot of table data.
+%   scatterPlot             - Scatter plot of two columns in a table.
 %   scatterNames            - Scatter names according to two variables.
+%   scatterLabels           - Scatter labels according to two variables.
 %   surf                    - Surfacic representation of the data stored in a Table.
-%   hist                    - Histogram plot of a column in a data table.
-%   boxplot                 - Box plot of a data table.
-%   violinPlot              - Plot distribution of data in a table.
 %   bar                     - Bar plot of the table data.
 %   barweb                  - Bar plot of the table data with error bars ("WEB").
-%   plotmatrix              - Overload plotmatrix function to display column names.
-%   scatterLabels           - Scatter labels according to two variables.
-%   scatterPlot             - Scatter plot of two columns in a table.
-%   correlationCircles      - Represent correlation matrix using colored circles.
 %   plotRows                - Plot all the rows of the data table.
 %
 %   Factors Managment
@@ -171,9 +172,8 @@
 %   logical                 - Convert to logical array.
 %
 
-
 %   Deprecated
+%   hist                    - Histogram plot of a column in a data table.
+%   scatter                 - Scatter plot of table data.
 
 %   Not yet integrated
-
-
