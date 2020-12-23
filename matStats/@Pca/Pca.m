@@ -187,7 +187,7 @@ methods
                 fileName = sprintf('%s-pca.cc12.png', obj.TableName);
                 print(h(1), fullfile(options.DirFigures, fileName), '-dpng');
                 
-                if ishandle(h(2))
+                if length(h) > 1
                     fileName = sprintf('%s-pca.cc34.png', obj.TableName);
                     print(h(2), fullfile(options.DirFigures, fileName), '-dpng');
                 end
@@ -315,7 +315,7 @@ methods (Access = private)
         
         % loading plots PC3-PC4
         if npc >= 4
-            handles.loadingsPlot34 = figure;
+            handles.LoadingsPlot34 = figure;
             loadingPlot(obj, 3, 4, 'showNames', options.ShowVarNames, options.AxesProperties{:});
         end
     end
@@ -327,22 +327,22 @@ methods (Access = private)
         fileName = sprintf('%s-pca.ev.png', baseName);
         print(handles.ScreePlot, fullfile(dirFigs, fileName), '-dpng');
         
-        if isfield(handles, 'scorePlot12')
+        if isfield(handles, 'ScorePlot12')
             fileName = sprintf('%s-pca.sc12.png', baseName);
             print(handles.ScorePlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if isfield(handles, 'scorePlot34')
+        if isfield(handles, 'ScorePlot34')
             fileName = sprintf('%s-pca.sc34.png', baseName);
             print(handles.ScorePlot34, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if isfield(handles, 'loadingsPlot12')
+        if isfield(handles, 'LoadingsPlot12')
             fileName = sprintf('%s-pca.ld12.png', baseName);
             print(handles.LoadingsPlot12, fullfile(dirFigs, fileName), '-dpng');
         end
         
-        if isfield(handles, 'loadingsPlot34')
+        if isfield(handles, 'LoadingsPlot34')
             fileName = sprintf('%s-pca.ld34.png', baseName);
             print(handles.LoadingsPlot34, fullfile(dirFigs, fileName), '-dpng');
         end
@@ -374,7 +374,7 @@ methods (Access = private)
             h2 = figure;
             correlationCircle(obj, 3, 4, varargin{:});            
         else
-            h2 = -1;
+            h2 = [];
         end
         
         h = [h1 h2];
