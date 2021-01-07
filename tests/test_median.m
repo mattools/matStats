@@ -27,3 +27,15 @@ res = median(tab);
 
 assertTrue(testCase, isa(res, 'Table'));
 assertEqual(testCase, res.Data, median(data), 'AbsTol', .01);
+
+
+function test_Dim2(testCase) %#ok<*DEFNU>
+% Test call of function without argument.
+
+data = ones([6 4]);
+tab = Table(data);
+
+res = median(tab, 2);
+
+assertTrue(testCase, isa(res, 'Table'));
+assertEqual(testCase, size(res), [6 1]);

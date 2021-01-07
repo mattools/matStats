@@ -2,6 +2,10 @@ function res = sum(obj, varargin)
 % Put the sum of each column in a new table.
 %
 %   RES = sum(TAB)
+%   Computes the sum of each column in the table.
+%
+%   RES = sum(TAB, DIM)
+%   Specifies the dimension for computing sum. Default is 1.
 %
 %   Example
 %     tab = Table.read('fisherIris.txt');
@@ -12,12 +16,12 @@ function res = sum(obj, varargin)
 % 
 %
 %   See also
-%     mean, plus
+%     mean, sum
 %
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2011-06-17,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2011 INRA - Cepia Software Platform.
 
@@ -33,9 +37,26 @@ if ~isempty(obj.Name)
     newName = ['Sum of ' obj.Name];
 end
 
+% parse direction
+dim = 1;
+if ~isempty(varargin)
+    var1 = varargin{1};
+    if isnumeric(var1) && isscalar(var1)
+       dim = var1;
+    else
+        error('Can not interpret optional argument');
+    end
+end
+
 % create result table
-res = Table.create(sum(obj.Data, 1), ...
-    'rowNames', {'sum'}, ...
-    'colNames', obj.ColNames, ...
-    'name', newName);
-    
+if dim == 1
+    res = Table.create(sum(obj.Data, 1), ...
+        'RowNames', {'sum'}, ...
+        'ColNames', obj.ColNames, ...
+        'Name', newName);
+elseif dim == 2
+    res = Table.create(sum(obj.Data, 2), ...
+        'RowNames', obj.RowNames, ...
+        'ColNames', {'sum'}, ...
+        'Name', newName);
+end

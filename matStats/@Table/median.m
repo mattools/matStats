@@ -5,6 +5,9 @@ function res = median(obj, varargin)
 %   Computes the median of each column in the table, and put the result in
 %   a new table.
 %
+%   RES = median(TAB, DIM)
+%   Specifies the dimension for computing sum. Default is 1.
+%
 %   Example
 %     iris = Table.read('fisherIris.txt');
 %     median(iris(:,1:4))
@@ -13,7 +16,7 @@ function res = median(obj, varargin)
 %         median            5.8             3           4.35           1.3
 %
 %   See also
-%     mean, std
+%     mean, std, sum
 %
 
 % ------
@@ -28,14 +31,32 @@ if hasFactors(obj)
     error('Can not compute median for table with factors');
 end
 
+% parse dimension to process
+dim = 1;
+if ~isempty(varargin)
+    var1 = varargin{1};
+    if isnumeric(var1) && isscalar(var1)
+       dim = var1;
+    else
+        error('Can not interpret optional argument');
+    end
+end
 
 newName = '';
 if ~isempty(obj.Name)
     newName = ['Median of ' obj.Name];
 end
 
-res = Table.create(median(obj.Data, 1), ...
-    'rowNames', {'median'}, ...
-    'colNames', obj.ColNames, ...
-    'name', newName);
+if dim == 1
+    res = Table.create(median(obj.Data, 1), ...
+        'Parent', obj, ...
+        'RowNames', {'median'}, ...
+        'Name', newName);
     
+else
+    res = Table.create(median(obj.Data, 2), ...
+        'Parent', obj, ...
+        'ColNames', {'median'}, ...
+        'Name', newName);
+    
+end   
