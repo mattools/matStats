@@ -21,8 +21,8 @@ function addRow(obj, varargin)
 % Copyright 2011 INRA - Cepia Software Platform.
 
 % current data size
-nRows = size(obj.data, 1);
-nCols = size(obj.data, 2);
+nRows = size(obj.Data, 1);
+nCols = size(obj.Data, 2);
 
 rowName = '';
 rowData = [];
@@ -49,39 +49,6 @@ elseif length(rowData) ~= nCols
 end
 
 
-% % determine numerical data to add to the inner data
-% if isnumeric(colData) || islogical(colData)
-%     % column is numeric
-%     numData = colData;
-%     
-% else
-%     % column is a factor
-%     if ischar(colData)
-%         % Factor are given as a char array
-%         [levels pos indices] = unique(strtrim(colData), 'rows');
-%         [pos2 inds] = sort(pos); %#ok<ASGLU>
-%         
-%         % transform unique strings to cell array of factor levels
-%         levels = strtrim(cellstr(levels(inds,:)));
-%         obj.levels{nCols + 1} = levels;
-%         
-%         % compute corresponding numeric data (level indices)
-%         numData = zeros(size(indices));
-%         for i = 1:length(pos)
-%             numData(indices == inds(i)) = i;
-%         end
-%         
-%     elseif iscell(colData)
-%         % Factor are given as a cell array
-%         [levels pos indices] = unique(strtrim(colData));  %#ok<ASGLU>
-%         numData = indices;
-%         obj.levels{nCols + 1} = levels;
-%         
-%     else
-%         error(['Column factor have an unknown type: ' class(colData)]);
-%     end
-% end
- 
 % concatenate data
 obj.Data = [obj.Data ; rowData];
 
