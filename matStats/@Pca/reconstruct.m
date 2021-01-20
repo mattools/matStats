@@ -10,7 +10,19 @@ function res = reconstruct(obj, coords, varargin)
 %
 %
 %   Example
-%   reconstruct
+%     % Create synthetic individuals from coordinates in loadings space
+%     iris = Table.read('fisherIris');
+%     irisPca = Pca(iris(:,1:4), 'Scale', false, 'Display', false);
+%     figure; scatterPlot(irisPca.Scores, 1, 2);
+%     coords = [3.5 0; 0 1.4;-3.5 0];
+%     rec = reconstruct(irisPca, coords)
+%     rec = 
+% 
+%         SepalLength    SepalWidth    PetalLength    PetalWidth
+%         -----------    ----------    -----------    ----------
+%              4.5785        3.3532        0.75965     -0.054679
+%              4.9241        2.0351         4.0007         1.305
+%              7.1082        2.7615         6.7563        2.4533
 %
 %   See also
 %     Pca, transform
@@ -53,7 +65,7 @@ for iRow = 1:nRows
     % (allows to specify less components than the total)
     for iComp = 1:min(nComps, size(coords, 2))
         coeff = coords(iRow, iComp);
-        resi = resi + coeff * obj.Loadings.Data(:,1)' .* obj.Scalings.Data;
+        resi = resi + coeff * obj.Loadings.Data(:,iComp)' .* obj.Scalings.Data;
     end
     
     res(iRow,:) = resi;
