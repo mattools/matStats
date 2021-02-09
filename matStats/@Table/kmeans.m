@@ -53,7 +53,7 @@ end
 
 % call the kmeans function with adequate number of output arguments
 varargout = cell(max(nargout, 1), 1);
-[varargout{:}] = kmeans(obj.Data, k, varargin{:});
+[varargout{:}] = kmeans(double(obj.Data), k, varargin{:});
 
 
 %% Encapsulate results in tables
