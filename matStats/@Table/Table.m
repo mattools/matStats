@@ -420,6 +420,9 @@ methods
                 end
                 obj.ColNames = varargin{1};
                 varargin(1) = [];
+            elseif isempty(var1)
+                % propagate empty column names
+                varargin(1) = [];
             end
         end
         
@@ -431,6 +434,9 @@ methods
                     error('Number of row names does not match row number');
                 end
                 obj.RowNames = var1;
+                varargin(1) = [];
+            elseif isempty(var1)
+                % propagate empty row names
                 varargin(1) = [];
             end
         end
