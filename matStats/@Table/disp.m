@@ -23,13 +23,14 @@ function disp(obj)
 %% Initialisations
 
 % loose format: display more empty lines
-isLoose = strcmp(get(0, 'FormatSpacing'), 'loose');
+[~, formatSpacing] = format();
+isLoose = strcmp(formatSpacing, 'loose');
 
+% For octave, use a default command window size
+maxWidth = 120;
 % isLong = ~isempty(strfind(get(0,'Format'),'long'));
 % dblDigits = 5 + 10*isLong; % 5 or 15
 % snglDigits = 5 + 2*isLong; % 5 or 7
-maxWidth = get(0, 'CommandWindowSize');
-maxWidth = maxWidth(1);
 
 % if isLoose
 %     fprintf('\n');

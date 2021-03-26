@@ -1,4 +1,4 @@
-classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
+classdef Table < handle
 % Class for data table with named rows and columns.
 %
 %   Creation:

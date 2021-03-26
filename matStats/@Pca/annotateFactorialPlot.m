@@ -17,8 +17,8 @@ function annotateFactorialPlot(obj, ax, cp1, cp2)
 % Copyright 2012 INRA - Cepia Software Platform.
 % create legends
 
-vl1 = obj.EigenValues(cp1, 2).Data;
-vl2 = obj.EigenValues(cp2, 2).Data;
+vl1 = obj.EigenValues.Data(cp1, 2);
+vl2 = obj.EigenValues.Data(cp2, 2);
 
 xlabel(ax, sprintf('Principal component %d (%5.2f %%)', cp1, vl1));
 ylabel(ax, sprintf('Principal component %d (%5.2f %%)', cp2, vl2));

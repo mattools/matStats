@@ -62,8 +62,10 @@ if ~isempty(varargin)
 end
 
 % score coordinates
-x = obj.Scores(:, cp1).Data;
-y = obj.Scores(:, cp2).Data;
+scores = obj.Scores;
+coords = scores.Data;
+x = coords(:, cp1);
+y = coords(:, cp2);
 
 % display either names or dots
 if showNames && ~isempty(obj.Scores.RowNames)
