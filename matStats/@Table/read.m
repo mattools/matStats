@@ -72,15 +72,30 @@ options = parseOptions(varargin{:});
 
 %% Open file
 
+[filePath, baseName, ext] = fileparts(fileName);
+
 % open file
-f = fopen(fileName, 'r');
-if f == -1
-    % try to add a txt extension if it was forgotten
-	fileName2 = [fileName '.txt'];
-    f = fopen(fileName2, 'r');
+fullFileName = fullfile(filePath, [baseName ext]);
+
+% if file does not exist, try to add the path to the list of sample files
+if exist(fullFileName, 'file') == 0 && isempty(filePath)
+    % retrieve the path to sample files
+    [filePath, ~] = fileparts(mfilename('fullpath'));
+    filePath = fullfile(filePath, 'private');
+    
+    % create newfile path
+    fullFileName = fullfile(filePath, [baseName ext]);
+    
+    % if file still does not exist, try to add default '.txt' extension
+    if exist(fullFileName, 'file') == 0 && isempty(ext)
+        ext = '.txt';
+        fullFileName = fullfile(filePath, [baseName ext]);
+    end
 end
+
+f = fopen(fullFileName, 'r');
 if f == -1
-	error('Couldn''t open the file %s', fileName);
+	error('Couldn''t open the file %s', [baseName ext]);
 end
 
 % keep filename into data structure
