@@ -49,7 +49,7 @@ function tab = read(fileName, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-05,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -69,8 +69,22 @@ end
 % parse options and group into data structure
 options = parseOptions(varargin{:});
 
+% additional processing of input options
+if any(options.delim == options.whiteSpaces)
+    % if separator is space or tab, allow multiple separators to be treated
+    % as only one
+    delimOptions = {...
+        'Delimiter', options.delim, ...
+        'MultipleDelimsAsOne', true};
+else
+    % otherwise, two separators correspond to distinct columns
+    delimOptions = {...
+        'Delimiter', options.delim, ...
+        'MultipleDelimsAsOne', false};
+end
+ 
 
-%% Open file
+%% Open file for reading
 
 [filePath, baseName, ext] = fileparts(fileName);
 
@@ -101,19 +115,6 @@ end
 % keep filename into data structure
 [path, name] = fileparts(fileName); %#ok<ASGLU>
 
-if any(options.delim == options.whiteSpaces)
-    % if separator is space or tab, allow multiple separators to be treated
-    % as only one
-    delimOptions = {...
-        'Delimiter', options.delim, ...
-        'MultipleDelimsAsOne', true};
-else
-    % otherwise, two separators correspond to distinct columns
-    delimOptions = {...
-        'Delimiter', options.delim, ...
-        'MultipleDelimsAsOne', false};
-end
- 
 
 %% Read header
 
