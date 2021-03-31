@@ -69,38 +69,6 @@ end
 % parse options and group into data structure
 options = parseOptions(varargin{:});
 
-
-%% Open file
-
-[filePath, baseName, ext] = fileparts(fileName);
-
-% open file
-fullFileName = fullfile(filePath, [baseName ext]);
-
-% if file does not exist, try to add the path to the list of sample files
-if exist(fullFileName, 'file') == 0 && isempty(filePath)
-    % retrieve the path to sample files
-    [filePath, ~] = fileparts(mfilename('fullpath'));
-    filePath = fullfile(filePath, 'private');
-    
-    % create newfile path
-    fullFileName = fullfile(filePath, [baseName ext]);
-    
-    % if file still does not exist, try to add default '.txt' extension
-    if exist(fullFileName, 'file') == 0 && isempty(ext)
-        ext = '.txt';
-        fullFileName = fullfile(filePath, [baseName ext]);
-    end
-end
-
-f = fopen(fullFileName, 'r');
-if f == -1
-	error('Couldn''t open the file %s', [baseName ext]);
-end
-
-% keep filename into data structure
-[path, name] = fileparts(fileName); %#ok<ASGLU>
-
 if any(options.delim == options.whiteSpaces)
     % if separator is space or tab, allow multiple separators to be treated
     % as only one
@@ -114,6 +82,35 @@ else
         'MultipleDelimsAsOne', false};
 end
  
+
+
+%% Open file
+
+% parse fileName components
+[filePath, baseName, ext] = fileparts(fileName);
+
+% if file does not exist, try to add the path to the list of sample files
+if exist(fileName, 'file') == 0 && isempty(filePath)
+    % retrieve the path to sample files
+    [filePath, ~] = fileparts(mfilename('fullpath'));
+    filePath = fullfile(filePath, 'sampleTables');
+    
+    % create newfile path
+    fileName = fullfile(filePath, [baseName ext]);
+    
+    % if file still does not exist, try to add default '.txt' extension
+    if exist(fileName, 'file') == 0 && isempty(ext)
+        ext = '.txt';
+        fileName = fullfile(filePath, [baseName ext]);
+    end
+end
+
+f = fopen(fileName, 'r');
+if f == -1
+	error('Couldn''t open the file %s', [baseName ext]);
+end
+
+
 
 %% Read header
 
@@ -302,7 +299,7 @@ end
 tab = Table(zeros(nr, nc), colNames, rowNames);
 
 % setup names
-tab.Name = name;
+tab.Name = baseName;
 tab.FileName = fileName;
 
 
