@@ -1,22 +1,25 @@
 function [res, mu, sigma] = zscore(obj, varargin)
-% Standardized z-score of table data.
+% Standardized z-scores of table data.
 %
-%   Z = zscore(TAB)
-%   Returns a centered a,d scaled version of T, the same size as T.
-%   For vector input T, Z is the vector of z-scores (T-mean(T)) ./ std(T).
-%   For matrix T, z-scores are computed using the mean and standard
-%   deviation along each column of T.
+%   ZTAB = zscore(TAB)
+%   Returns a centered and scaled version of the variables in Table TAB.
+%   The result ZTAB has the same size as input table TAB. For each column,
+%   the resulting column is obtained bu substracting the mean, and dividing
+%   by the standard deviation. Then, for each column of the result the mean
+%   equals 0.0 and the standard deviation equals 1.0 (up to numerical
+%   errors).
 %
-%   [Z, MU, SIGMA] = zscore(T)
+%
+%   [Z, MU, SIGMA] = zscore(TAB)
 %   Also returns mean(T) in MU and std(T) in SIGMA.
 %
-%   [...] = zscore(T, 1) 
-%   normalizes T using std(T,1), i.e., by computing the standard deviation
-%   using N rather than N-1, where N is the number of rows in T.  
-%   zscore(T,0) is the same as zscore(T).
+%   [...] = zscore(TAB, 1) 
+%   Normalizes TAB using std(TAB,1), i.e., by computing the standard
+%   deviation using N rather than N-1, where N is the number of rows in
+%   TAB. zscore(T,0) is the same as zscore(T).
 %
 %   Example
-%     % Compute zscore of Iris numerical variables
+%     % Compute zscore of Iris numerical features
 %     iris = Table.read('fisherIris.txt');
 %     z = zscore(iris(:, 1:4));
 %     [mean(z) ; std(z)]
@@ -31,7 +34,7 @@ function [res, mu, sigma] = zscore(obj, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2012-07-12,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2012 INRA - Cepia Software Platform.
 
