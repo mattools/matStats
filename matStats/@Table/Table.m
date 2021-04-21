@@ -448,9 +448,13 @@ methods
         if length(varargin) > 1
             ind = find(strcmpi(varargin(1:2:end), 'Parent'));
             if ~isempty(ind)
-                % initialize new table with values from parent
+                % initialize new table with values from parent table
                 ind = ind * 2 - 1;
                 parent = varargin{ind+1};
+                if ~isa(parent, 'Table')
+                    error('When parent is specified, it should be a Table');
+                end
+                
                 obj.ColNames    = parent.ColNames;
                 obj.RowNames    = parent.RowNames;
                 obj.Name        = parent.Name;
