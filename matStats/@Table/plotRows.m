@@ -95,7 +95,7 @@ if isempty(xData)
 else
     % plotRows(X, Y)
     h = plot(ax, xData, tabY.Data', varargin{:});
-    xlim(xData([1 end]));
+    xlim(sort(xData([1 end])));
     
     if ~isempty(xAxisLabel)
         xlabel(xAxisLabel);
