@@ -16,8 +16,8 @@ function tab = read(fileName, varargin)
 %   'fisherIrisOld' Matlab Iris data set, with errors on samples 35 and 38
 %   'fleaBeetles'   a data set included in R software, see:
 %       http://rgm2.lab.nig.ac.jp/RGM2/func.php?rd_id=DPpackage:fleabeetles
-%   'decathlon'     results of sportive tournament, described in:
-%       http://factominer.free.fr/classical-methods/analyse-en-composantes-principales.html
+%   'decathlon'     results of sportive tournament, used as sample file for
+%       the 'FactoMineR' R package.
 %   'wine'          results of a chemical analysis of wines grown in the
 %       same region in Italy but derived from three different cultivars.
 %       The dataset is described here:
@@ -37,6 +37,11 @@ function tab = read(fileName, varargin)
 %       If the decimal point is changed, parsing is automatically forced.
 %   'rowNames' specifies index of the column containing the name of rows.
 %       If set to 0, rows are numbered in natural ordering.
+%   'RemoveQuotes' (true or false): if TRUE, forces the parsing of lines,
+%       and removes the quotes of the text values. This can be necessary
+%       for files containing factor levels.
+%   'skipLines' specifies the number of lines to skip between the header
+%       and the first line containing data.
 %
 %
 %   Example
@@ -418,16 +423,19 @@ end
 
 
 function str = removeEndQuotes(str)
+% Local function that removes end quotes in a string, or a string array.
 
 if ischar(str)
-    if str([1 end]) == '"'
-        str = str(2:end-1);
-    end
-elseif iscell(str)
-    for i = 1:length(str)
-        str2 = str{i};
-        if str2([1 end]) == '"'
-            str{i} = str2(2:end-1);
+    % removes quotes in a string
+    if ~isempty(str)
+        if str([1 end]) == '"'
+            str = str(2:end-1);
         end
+    end
+    
+elseif iscell(str)
+    % in the case of a cell array of strings, process each element
+    for i = 1:length(str)
+        str{i} = removeEndQuotes(str{i});
     end
 end
