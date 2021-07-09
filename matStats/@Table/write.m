@@ -114,7 +114,7 @@ end
 
 % compute default format string for writing data, if not given as argument
 if isempty(format)
-    format = ['%g' repmat(' %g', 1, nCols-1) '\n'];
+    format = ['%g' repmat([sep '%g'], 1, nCols-1) '\n'];
 end
 
 % check which columns are factors, and update format string accordingly
@@ -127,7 +127,7 @@ if writeLevels
     end
      
     % extract format tokens
-    formats = textscan(format, '%s');
+    formats = textscan(format, '%s', 'Delimiter', sep);
     formats = formats{1};
     
     % use flag
@@ -170,7 +170,7 @@ end
 % check the presence of '%s' in the beginning, and '\n' at the end
 
 % count number of tokens
-tokens = textscan(format, '%s');
+tokens = textscan(format, '%s', 'Delimiter', sep);
 nTokens = length(tokens{1});
 
 % If only one formatting argument is given, it is repeated by the number of
@@ -184,7 +184,7 @@ end
 % add '%s ' in the beginning if missing
 if nTokens ~= nCols + 1 && writeRowNames
     len = max(cellfun(@length, rowNames));
-    format = ['%-' int2str(len) 's ' format];
+    format = ['%-' int2str(len) 's' sep format];
 end
 
 % add '\n' if missing
