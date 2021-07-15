@@ -75,7 +75,7 @@ end
 options = parseOptions(varargin{:});
 
 % additional processing of input options
-if any(options.delim == options.whiteSpaces)
+if any(ismember(options.delim, options.whiteSpaces))
     % if separator is space or tab, allow multiple separators to be treated
     % as only one
     delimOptions = {...
