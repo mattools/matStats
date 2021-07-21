@@ -19,7 +19,7 @@ function histogram(obj, varargin)
 
 % ------
 % Author: David Legland
-% e-mail: david.legland@inra.fr
+% e-mail: david.legland@inrae.fr
 % Created: 2010-08-06,    using Matlab 7.9.0.529 (R2009b)
 % Copyright 2010 INRA - Cepia Software Platform.
 
@@ -49,10 +49,11 @@ else
     
 end
 
-% histogram of the selected column
+% plot histogram of the selected column
 histogram(data, varargin{:});
-xlabel(obj.ColNames{1});
 
+% decorate plot
+xlabel(obj.ColNames{1});
 if ~isempty(obj.Name)
-    title(obj.Name);
+    title(obj.Name, 'Interpreter', 'None');
 end
