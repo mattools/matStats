@@ -1,0 +1,7698 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrreprt
+\begin_preamble
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[T1]{fontenc}
+
+\usepackage{hyperref}
+
+\definecolor{bl}{rgb}{0.0,0.2,0.6} 
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\hypersetup{colorlinks=true, citecolor=blue, linkcolor=blue}
+
+
+% package that modifies style of section headers
+\addtokomafont{chapter}{\color{bl}\scshape \selectfont}
+\addtokomafont{section}{\color{bl}\scshape \selectfont}
+\addtokomafont{subsection}{\color{bl}\scshape \selectfont}
+\addtokomafont{subsubsection}{\color{bl}\scshape \selectfont}
+%\allsectionsfont{\color{bl}\scshape \selectfont }
+
+% setup font style for different title elements
+\setkomafont{title}{\color{bl} \bfseries \scshape}
+\setkomafont{author}{\centering \small}
+\setkomafont{date}{\centering \small}
+
+
+% Change the abstract environment
+\usepackage[runin]{abstract}			% runin option for a run-in title
+\setlength\absleftindent{30pt}		% left margin
+\setlength\absrightindent{30pt}		% right margin
+\abslabeldelim{\quad }						% 
+\setlength{\abstitleskip}{-10pt}
+\renewcommand{\abstractname}{}
+\renewcommand{\abstracttextfont}{\color{bl} \small \slshape }	% slanted text
+
+
+% Custom headers and adapted to KOMA-Script
+\usepackage{scrlayer-scrpage}
+\usepackage{lastpage}	
+
+% header
+\lehead*{\slshape\rightmark}
+\rohead*{\slshape\rightmark}
+
+% footer
+\ofoot{\footnotesize page \thepage\ / \pageref{LastPage}}
+\ifoot{\footnotesize MatStats user manual}
+
+
+% right section with number
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+% Added by lyx2lyx
+\usepackage[charter]{mathdesign}
+
+% setup of figure captions 
+\usepackage[format=plain,font=it,labelfont=bf]{caption}
+
+% enhance the typesetting of matlab code
+\usepackage{matlab-prettifier}
+
+
+% some info for populating document title page
+\author{D. Legland}
+\date{\today}
+\end_preamble
+\options usenames,dvipsnames
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\index functions
+\shortcut fun
+\color #0000ff
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\listings_params "language=Matlab,style={Matlab-editor},numbers=left,tabsize=2,frame=single,breaklines=true,basicstyle={\scriptsize\mlttfamily},aboveskip=5pt,showspaces=false"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+MatStats user manual
+\end_layout
+
+\begin_layout Abstract
+User manual for the matStats library.
+ The matStats library aims at facilitating data exploration and statistical
+ analyses within the Matlab environment.
+ 
+\end_layout
+
+\begin_layout Abstract
+The main contribution of the library is a 
+\begin_inset Quotes eld
+\end_inset
+
+Table
+\begin_inset Quotes erd
+\end_inset
+
+ class that encapsulates tabular data together with its meta data (names
+ of rows and columns), and that allows the manipulation of categorical variables
+ (or factors).
+ A large number of methods have been overloaded or specifically developped
+ to automatically annotate plots and/or processing results with meta data,
+ and facilitate the manipulation and the exploration of the data.
+ 
+\end_layout
+
+\begin_layout Abstract
+The library also contains classes for performing dimensionality reduction
+ (using for example principal component analysis - PCA), clustering (kmeans)
+ or analysis of variance (ANOVA).
+ All classes provides facilities for the display and the export of results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Quick tour
+\end_layout
+
+\begin_layout Standard
+The aim of the 
+\series bold
+Table
+\series default
+ class is to facilitate the manipulation of data tables containing numerical
+ as well as categorical values, together with meta data such as row names
+ and column names.
+ The rows of data tables usually correspond to individual or observations,
+ and columns correspond to variables, features, or sampling factors.
+\end_layout
+
+\begin_layout Standard
+Data tables can be imported via the 
+\family typewriter
+\color gray
+read
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+read
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method, that can manage most data tables organised as separated values.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Read data from a csv file (several options can be specified)
+\end_layout
+
+\begin_layout Plain Layout
+
+>> tab = Table.read('fisherIris.txt');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To content of a data table can be displayed as for a numeric array.
+ Categorical columns are displayed as readable text.
+ The 
+\family typewriter
+\color gray
+show
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+show
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method displays the same content in a figure with navigation sliders.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % display a part of the table on the console
+\end_layout
+
+\begin_layout Plain Layout
+
+>> disp(tab(1:3, :));
+\end_layout
+
+\begin_layout Plain Layout
+
+         SepalLength    SepalWidth    PetalLength    PetalWidth    Species
+\end_layout
+
+\begin_layout Plain Layout
+
+1                5.1           3.5            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+2                4.9             3            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+3                4.7           3.2            1.3           0.2     Setosa
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+info
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+info
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ methods displays the list of columns names, and the corresponding range
+ of values.
+ For factor columns, it displays the list of the levels if not too numerous.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> info(tab)
+\end_layout
+
+\begin_layout Plain Layout
+
+Infos for table fisherIris:
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalLength: numerical  [ 4.3 ; 7.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalWidth:  numerical  [ 2 ; 4.4 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalLength: numerical  [ 1 ; 6.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalWidth:  numerical  [ 0.1 ; 2.5 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+Species:     categorical with 3 levels { Setosa ; Versicolor ; Virginica}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A 
+\family typewriter
+\color gray
+summary
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+summary
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method is also provided that provides more information on the distribution
+ of values within each column.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Matlab"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Or display summary of the data, like in R
+\end_layout
+
+\begin_layout Plain Layout
+
+>> summary(tab);
+\end_layout
+
+\begin_layout Plain Layout
+
+        SepalLength         SepalWidth        PetalLength         PetalWidth
+           Species
+\end_layout
+
+\begin_layout Plain Layout
+
+    Min:     4.3000    Min:     2.0000    Min:     1.0000    Min:     0.1000
+    Setosa:     50
+\end_layout
+
+\begin_layout Plain Layout
+
+    1st Qu.: 5.1000    1st Qu.: 2.8000    1st Qu.: 1.6000    1st Qu.: 0.3000   
+ Versicolor: 50
+\end_layout
+
+\begin_layout Plain Layout
+
+    Median:  5.8000    Median:  3.0000    Median:  4.3000    Median:  1.3000
+    Virginica:  50
+\end_layout
+
+\begin_layout Plain Layout
+
+    Mean:    5.8433    Mean:    3.0573    Mean:    3.7580    Mean:    1.1993
+                  
+\end_layout
+
+\begin_layout Plain Layout
+
+    3rd Qu.: 6.4000    3rd Qu.: 3.3000    3rd Qu.: 5.1000    3rd Qu.: 1.8000   
+               
+\end_layout
+
+\begin_layout Plain Layout
+
+    Max:     7.9000    Max:     4.4000    Max:     6.9000    Max:     2.5000
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Table class provides several methods for quickly exploring the data
+ stored in the table.
+ The following script results in the figures shown in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Table-graphical-representation"
+
+\end_inset
+
+.
+ Columns can be quickly 
+\series bold
+indexed via their name
+\series default
+, facilitating the readability.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% histogram of each feature, and scatter plot of feature pairs,
+\end_layout
+
+\begin_layout Plain Layout
+
+% displays are grouped by the 
+\begin_inset Quotes eld
+\end_inset
+
+Species
+\begin_inset Quotes erd
+\end_inset
+
+ factor.
+\end_layout
+
+\begin_layout Plain Layout
+
+pairPlot(iris(:,1:4), iris(:,5));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_pairPlot_bySpecies.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/pca/iris_pca_cp12_byGroup.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Table-graphical-representation"
+
+\end_inset
+
+Visual exploration of a table using histograms and scatter plots, and visual
+ ijnspection of the result of a Principal Components Analysis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Categorical columns / variables
+\series default
+ can be used for facilitating the interpretation of displays.
+ Summary features of each level may also be obtained via the 
+\family typewriter
+\color gray
+aggregate
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+aggregate
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% scatter plot using groups
+\end_layout
+
+\begin_layout Plain Layout
+
+scatterGroup(tab('PetalLength'), tab('PetalWidth'), tab('Species'), ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'Envelope', 'InertiaEllipse', 'LegendLocation', 'NorthWest');
+\end_layout
+
+\begin_layout Plain Layout
+
+% Compute the mean of each group
+\end_layout
+
+\begin_layout Plain Layout
+
+disp(aggregate(tab(:,1:4), tab('Species'), @mean));
+\end_layout
+
+\begin_layout Plain Layout
+
+                       SepalLength    SepalWidth    PetalLength    PetalWidth
+\end_layout
+
+\begin_layout Plain Layout
+
+Setosa-mean                  5.006         3.428          1.462         0.246
+\end_layout
+
+\begin_layout Plain Layout
+
+Versicolor-mean              5.936          2.77           4.26         1.326
+\end_layout
+
+\begin_layout Plain Layout
+
+Virginica-mean               6.588         2.974          5.552         2.026
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Statistical analysis of a data table can be performed via specific commands.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Table-graphical-representation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ also shows the result of a 
+\series bold
+principal component analysis
+\series default
+ performed on the same data set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% Apply Principal Component Analysis on the quantitative variables 
+\end_layout
+
+\begin_layout Plain Layout
+
+irisPca = Pca(tab(:, 1:4), 'display', 'off');
+\end_layout
+
+\begin_layout Plain Layout
+
+% display the scores with group labelling, by simply calling the plot method
+ on the "score" Table
+\end_layout
+
+\begin_layout Plain Layout
+
+scatterGroup(irisPca.scores(:, 1), irisPca.scores(:, 2), tab('Species'), ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'LegendLocation', 'NorthWest');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Installation and configuration
+\end_layout
+
+\begin_layout Section
+Getting the software
+\end_layout
+
+\begin_layout Standard
+The latest version of the MatStats library may be obtained from GitHub
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/mattools/matStats
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, in the 
+\begin_inset Quotes eld
+\end_inset
+
+mattools
+\begin_inset Quotes erd
+\end_inset
+
+ organisation.
+ The whole project can be cloned from the main page.
+ Several releases are available as well.
+\end_layout
+
+\begin_layout Standard
+Another version is available from the Mathworks File Exchange
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://fr.mathworks.com/matlabcentral/fileexchange/43912-table-class
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ It is less frequently updated.
+\end_layout
+
+\begin_layout Section
+Installation
+\end_layout
+
+\begin_layout Standard
+To install the MatStats library, simply download and extract the latest
+ release, or clone the Git repository.
+ Then add the 
+\begin_inset Quotes eld
+\end_inset
+
+matStats
+\begin_inset Quotes erd
+\end_inset
+
+ directory (containing the 
+\begin_inset Quotes eld
+\end_inset
+
+@Table
+\begin_inset Quotes erd
+\end_inset
+
+ directory) to the path list of Matlab.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+add screenshot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Getting help
+\end_layout
+
+\begin_layout Standard
+A basic help is provided for each class:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> help Table
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To get help about a specific method of the Table class, type:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> help Table.methodName
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, the list of methods available for the Table class, or for an instance
+ of the Table class, can be obtained via the 
+\family typewriter
+\color gray
+methods
+\family default
+\color inherit
+ function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % list of methods of the class
+\end_layout
+
+\begin_layout Plain Layout
+
+>> methods('Table')
+\end_layout
+
+\begin_layout Plain Layout
+
+>> 
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % list of methods for a class instance (same result as previous line)
+\end_layout
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> methods(iris)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Basic functionalities
+\end_layout
+
+\begin_layout Standard
+This section summarises the design and the basic functionalities provided
+ by the Table class.
+\end_layout
+
+\begin_layout Section
+Table class
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+Table
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Table
+\end_layout
+
+\end_inset
+
+
+\series default
+ class is a data structure developed to facilitate the manipulation and
+ the statistical analysis of data tables.
+ It can contains numerical values as well as categorical values, together
+ with meta data such as row names and column names.
+ 
+\end_layout
+
+\begin_layout Standard
+Data tables are organised as arrays where the 
+\series bold
+rows
+\series default
+ usually correspond to individual or observations, and the 
+\series bold
+columns
+\series default
+ correspond to variables, features, measurements, or associated sampling
+ factors.
+\end_layout
+
+\begin_layout Subsection
+Table properties
+\end_layout
+
+\begin_layout Standard
+An instance of the 
+\begin_inset Quotes eld
+\end_inset
+
+Table
+\begin_inset Quotes erd
+\end_inset
+
+ class contains several inner variables (called 
+\begin_inset Quotes eld
+\end_inset
+
+properties
+\begin_inset Quotes erd
+\end_inset
+
+ in the Matlab documentation):
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Data
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+
+ a numeric array containing the values stored in the data table.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ColNames
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+ColNames
+\end_layout
+
+\end_inset
+
+ a cell array containing the name of each column / variable.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+RowNames
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+RowNames
+\end_layout
+
+\end_inset
+
+ (optional) a cell array containing the name of each row / observation.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Levels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Levels
+\end_layout
+
+\end_inset
+
+ (optional) a cell array used to store the different levels of categorical
+ variables.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+
+ (optional) the name of the data table, used for creating plot legends.
+\end_layout
+
+\begin_layout Section
+Creating a table
+\end_layout
+
+\begin_layout Standard
+A data table can be easily created 
+\series bold
+from a numeric array
+\series default
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> tab = Table(magic(4))
+\end_layout
+
+\begin_layout Plain Layout
+
+tab = 
+\end_layout
+
+\begin_layout Plain Layout
+
+          1     2     3     4
+\end_layout
+
+\begin_layout Plain Layout
+
+1        16     2     3    13
+\end_layout
+
+\begin_layout Plain Layout
+
+2         5    11    10     8
+\end_layout
+
+\begin_layout Plain Layout
+
+3         9     7     6    12
+\end_layout
+
+\begin_layout Plain Layout
+
+4         4    14    15     1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The names of the columns and of the rows can be specified as cell arrays
+ of chars.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> data = reshape(1:15, [3 4])';
+\end_layout
+
+\begin_layout Plain Layout
+
+>> cols = {'C1', 'C2', 'C3'};
+\end_layout
+
+\begin_layout Plain Layout
+
+>> rows = {'R1'; 'R2'; 'R3'; 'R4'};
+\end_layout
+
+\begin_layout Plain Layout
+
+>> tab = Table(data, cols, rows)
+\end_layout
+
+\begin_layout Plain Layout
+
+tab = 
+\end_layout
+
+\begin_layout Plain Layout
+
+          C1    C2    C3
+\end_layout
+
+\begin_layout Plain Layout
+
+R1         1     2     3
+\end_layout
+
+\begin_layout Plain Layout
+
+R2         4     5     6
+\end_layout
+
+\begin_layout Plain Layout
+
+R3         7     8     9
+\end_layout
+
+\begin_layout Plain Layout
+
+R4        10    11    12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Data tables can also contain
+\series bold
+ categorical data
+\series default
+.
+ They are initialised with cell arrays of chars:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> levels = Table({'A'; 'B'; 'C'})
+\end_layout
+
+\begin_layout Plain Layout
+
+levels = 
+\end_layout
+
+\begin_layout Plain Layout
+
+         1
+\end_layout
+
+\begin_layout Plain Layout
+
+1        A
+\end_layout
+
+\begin_layout Plain Layout
+
+2        B
+\end_layout
+
+\begin_layout Plain Layout
+
+3        C
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+More information for the manipulation of categorical data (also called 
+\begin_inset Quotes eld
+\end_inset
+
+groups
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+factors
+\begin_inset Quotes erd
+\end_inset
+
+) are given in the 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Group-manipulation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ section.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO:
+\end_layout
+
+\begin_layout Itemize
+Create method...
+\end_layout
+
+\begin_layout Itemize
+Conversion methods (
+\begin_inset Quotes eld
+\end_inset
+
+tab = table2Table(tbl)
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Display of tables content
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+disp
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+disp
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method simply displays the content of a data table, together with the names
+ of columns and rows.
+ When an expression returning a data table ends without semi-colon, it is
+ silency called.
+ Indexing can be used to display only a part of the whole data table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> disp(iris(1:3, :))
+\end_layout
+
+\begin_layout Plain Layout
+
+         SepalLength    SepalWidth    PetalLength    PetalWidth    Species
+\end_layout
+
+\begin_layout Plain Layout
+
+1                5.1           3.5            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+2                4.9             3            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+3                4.7           3.2            1.3           0.2     Setosa
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first or the last rows of a data table can be displayed with the 
+\family typewriter
+\color gray
+head
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+head
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ or the 
+\family typewriter
+\color gray
+tail
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+tail
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ functions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> head(iris)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+         SepalLength    SepalWidth    PetalLength    PetalWidth    Species
+\end_layout
+
+\begin_layout Plain Layout
+
+1                5.1           3.5            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+2                4.9             3            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+3                4.7           3.2            1.3           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+4                4.6           3.1            1.5           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+5                  5           3.6            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+6                5.4           3.9            1.7           0.4     Setosa
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+show
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+show
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ functions opens a new figure and display the content of the table using
+ the graphical widgets provided with Matlab.
+\end_layout
+
+\begin_layout Section
+Information on data tables
+\end_layout
+
+\begin_layout Standard
+Several methods are implemented to have a quick overview of the content
+ of a data table without displaying its whole content.
+ The 
+\family typewriter
+\color gray
+info
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+info
+\end_layout
+
+\end_inset
+
+
+\family default
+\series bold
+\color inherit
+ 
+\series default
+method displays the list of columns names, and the corresponding range of
+ values.
+ For factor columns, it displays the list of the levels if not too numerous.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> info(iris)
+\end_layout
+
+\begin_layout Plain Layout
+
+Infos for table fisherIris:
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalLength: numerical  [ 4.3 ; 7.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalWidth:  numerical  [ 2 ; 4.4 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalLength: numerical  [ 1 ; 6.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalWidth:  numerical  [ 0.1 ; 2.5 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+Species:     categorical with 3 levels { Setosa ; Versicolor ; Virginica}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "op:Summary"
+
+\end_inset
+
+More detailed info about each column can be obtained via the 
+\family typewriter
+\color gray
+summary
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+summary
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method.
+ It displays several statistics computed on numerical columns, and the number
+ of each level for categorical columns.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> summary(iris)
+\end_layout
+
+\begin_layout Plain Layout
+
+        SepalLength         SepalWidth        PetalLength         PetalWidth
+           Species
+\end_layout
+
+\begin_layout Plain Layout
+
+    Min:     4.3000    Min:     2.0000    Min:     1.0000    Min:     0.1000
+    Setosa:     50
+\end_layout
+
+\begin_layout Plain Layout
+
+    1st Qu.: 5.1000    1st Qu.: 2.8000    1st Qu.: 1.6000    1st Qu.: 0.3000   
+ Versicolor: 50
+\end_layout
+
+\begin_layout Plain Layout
+
+    Median:  5.8000    Median:  3.0000    Median:  4.3000    Median:  1.3000
+    Virginica:  50
+\end_layout
+
+\begin_layout Plain Layout
+
+    Mean:    5.8433    Mean:    3.0573    Mean:    3.7580    Mean:    1.1993
+                  
+\end_layout
+
+\begin_layout Plain Layout
+
+    3rd Qu.: 6.4000    3rd Qu.: 3.3000    3rd Qu.: 5.1000    3rd Qu.: 1.8000   
+               
+\end_layout
+
+\begin_layout Plain Layout
+
+    Max:     7.9000    Max:     4.4000    Max:     6.9000    Max:     2.5000
+                  
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Reading Table from text files
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+read
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+read
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method allows to load the content of a text file.
+ Most separated values formats can easily be imported.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% read a simple file with space-delimited values
+\end_layout
+
+\begin_layout Plain Layout
+
+tab = Table.read('myData.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+% a more complicated example requiring to change default values
+\end_layout
+
+\begin_layout Plain Layout
+
+tab = Table.read('myData.csv', ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'Delimiter', ';', 'decimalPoint', ',', ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'rowNames', 'Label');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Exporting data table 
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+write
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+write
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method allows for writing the content of a data table into a text file.
+ The names of the columns are written on the first line, and the name of
+ each row is written on the beginning of each line.
+ Default settings are tabulation-separated values.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+write(tab, 'myData.txt');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Data table manipulation
+\end_layout
+
+\begin_layout Standard
+Most of the examples of this section make use of the 
+\begin_inset Quotes eld
+\end_inset
+
+iris
+\begin_inset Quotes erd
+\end_inset
+
+ data set, that can be loaded via the following line:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Size
+\end_layout
+
+\begin_layout Standard
+The size of a data table can be obtained with the 
+\family typewriter
+\color gray
+size
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+size
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> size(iris)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+   150     5 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If required, the dimension can be specified, making it possible to obtain
+ the number of rows or columns of the table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> size(iris, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+   150 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A subset of a data table can be obtained via classical 
+\series bold
+array indexing
+\series default
+:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> sub = iris(1:10, 1:4);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> whos sub
+\end_layout
+
+\begin_layout Plain Layout
+
+  Name       Size            Bytes  Class    Attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+  sub       10x4                 8  Table              
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Accessing values
+\end_layout
+
+\begin_layout Standard
+To access the inner data of a Table, it is possible to access the 
+\begin_inset Quotes eld
+\end_inset
+
+Data
+\begin_inset Quotes erd
+\end_inset
+
+ property:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> sub2 = iris.Data(1:10, 1:4);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> whos sub2
+\end_layout
+
+\begin_layout Plain Layout
+
+  Name       Size            Bytes  Class     Attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+  sub2      10x4               320  double              
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The names of rows and columns are stored in the fields 
+\family typewriter
+\color gray
+RowNames
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+RowNames
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ and 
+\family typewriter
+\color gray
+ColNames
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+ColNames
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ respectively.
+ For a data table with 
+\begin_inset Formula $n$
+\end_inset
+
+ rows and 
+\begin_inset Formula $p$
+\end_inset
+
+ columns, the row names are stored in a 
+\begin_inset Formula $n\times1$
+\end_inset
+
+ cell array, and the column names in a 
+\begin_inset Formula $1\times p$
+\end_inset
+
+ cell array.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % display column names
+\end_layout
+
+\begin_layout Plain Layout
+
+>> iris.ColNames
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  1x5 cell array
+\end_layout
+
+\begin_layout Plain Layout
+
+    'SepalLength'    'SepalWidth'    'PetalLength'    'PetalWidth'    'Species'
+\end_layout
+
+\begin_layout Plain Layout
+
+>> 
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % display the name of the five first rows
+\end_layout
+
+\begin_layout Plain Layout
+
+>> iris.RowNames(1:5)'
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  1x5 cell array
+\end_layout
+
+\begin_layout Plain Layout
+
+    '1'    '2'    '3'    '4'    '5'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Indexing
+\end_layout
+
+\begin_layout Standard
+The rows and the columns of a Table can be
+\series bold
+ indexed by their names
+\series default
+ to facilitate the readability.
+ When only named index is specified, it is assumed to be that of a column:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> petalLength = iris('PetalLength');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> whos petalLength
+\end_layout
+
+\begin_layout Plain Layout
+
+  Name               Size            Bytes  Class    Attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+  petalLength      150x1                 8  Table              
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eventually, a combination of column names can be used.
+ The following script 
+\series bold
+re-order the columns
+\series default
+ of the data table in the specified order:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris2 = iris({'PetalLength', 'SepalLength', 'PetalWidth', 'SepalWidth'});
+\end_layout
+
+\begin_layout Plain Layout
+
+>> info(iris2)
+\end_layout
+
+\begin_layout Plain Layout
+
+Infos for table fisherIris:
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalLength: numerical  [ 1 ; 6.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalLength: numerical  [ 4.3 ; 7.9 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+PetalWidth:  numerical  [ 0.1 ; 2.5 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+SepalWidth:  numerical  [ 2 ; 4.4 ]             
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Concatenation
+\end_layout
+
+\begin_layout Standard
+Most array operators have been overloaded for Table objects.
+ In particular, the 
+\family typewriter
+\color gray
+horzcat
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+horzcat
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ and the 
+\family typewriter
+\color gray
+vertcat
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+vertcat
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ methods make it possible to concatenate data tables using brackets notation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> dat = Table(ones(3, 3));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % aggregation by columns (horzat)
+\end_layout
+
+\begin_layout Plain Layout
+
+>> threeRows = [dat dat dat dat];
+\end_layout
+
+\begin_layout Plain Layout
+
+>> whos threeRows
+\end_layout
+
+\begin_layout Plain Layout
+
+  Name          Size            Bytes  Class    Attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+  threeRows     3x12                8  Table              
+\end_layout
+
+\begin_layout Plain Layout
+
+>>
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % aggregation by rows (vertcat)
+\end_layout
+
+\begin_layout Plain Layout
+
+>> threeCols = [dat ; dat ; dat ; dat];
+\end_layout
+
+\begin_layout Plain Layout
+
+>> whos threeCols
+\end_layout
+
+\begin_layout Plain Layout
+
+  Name            Size            Bytes  Class    Attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+  threeCols      12x3                 8  Table              
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The names of the rows and colums are repeated accordingly.
+ The 
+\family typewriter
+\color gray
+repmat
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+repmat
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method is an alternative way for concatenating data tables.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+add repmat example?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection
+Sorting
+\end_layout
+
+\begin_layout Plain Layout
+Tables containing numerical columns can be sorted according to one of the
+ columns values.
+ Here is an example of the 
+\family typewriter
+\color gray
+sortrows
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+sortrows
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method applied on an excerpt of the iris table:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> sortrows(iris(1:10, :), 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+  ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+            SepalLength    SepalWidth    PetalLength    PetalWidth    Species
+\end_layout
+
+\begin_layout Plain Layout
+
+  9                 4.4           2.9            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  4                 4.6           3.1            1.5           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  7                 4.6           3.4            1.4           0.3     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  3                 4.7           3.2            1.3           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  2                 4.9             3            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  10                4.9           3.1            1.5           0.1     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  5                   5           3.6            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  8                   5           3.4            1.5           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  1                 5.1           3.5            1.4           0.2     Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+  6                 5.4           3.9            1.7           0.4     Setosa
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Advanced operations
+\end_layout
+
+\begin_layout Minisec
+corrcoef
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+correlation
+\end_layout
+
+\end_inset
+
+The
+\series bold
+ correlation matrix
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+correlation matrix
+\end_layout
+
+\end_inset
+
+
+\series default
+ is a common tool to quickly compute the correlations between all couples
+ of quantitative variables with in data table.
+ It can be obtained via the 
+\family typewriter
+\color gray
+corrcoef
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+corrcoef
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function.
+ The corrcoef is a matlab function, which has been overloaded for Table
+ objects such that it also returns the names of the variables in rows and
+ columns.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> corrcoef(iris(:, 1:4))
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+                     SepalLength    SepalWidth    PetalLength    PetalWidth
+\end_layout
+
+\begin_layout Plain Layout
+
+      SepalLength              1      -0.10937        0.87175       0.81795
+\end_layout
+
+\begin_layout Plain Layout
+
+       SepalWidth       -0.10937             1       -0.42052      -0.35654
+\end_layout
+
+\begin_layout Plain Layout
+
+      PetalLength        0.87175      -0.42052              1       0.96276
+\end_layout
+
+\begin_layout Plain Layout
+
+       PetalWidth        0.81795      -0.35654        0.96276             1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The correlation coefficient of two variables may also be obtained by using
+ two inputs.
+ In this case, the result is a numeric scalar.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> corrcoef(iris('PetalLength'), iris('SepalLength'))
+\end_layout
+
+\begin_layout Plain Layout
+
+  ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+       0.8718
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Group manipulation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Group-manipulation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO:
+\end_layout
+
+\begin_layout Itemize
+rewrite intro
+\end_layout
+
+\begin_layout Itemize
+introduce setFactorLevels
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Categorical variables
+\end_layout
+
+\begin_layout Standard
+Contrary to numerical variables, categorical variables take values in a
+ finite set of values, that can be numeric or alpha-numeric.
+ For the iris data set, the 
+\begin_inset Quotes eld
+\end_inset
+
+Species
+\begin_inset Quotes erd
+\end_inset
+
+ column corresponds to a categorical variable.
+ 
+\end_layout
+
+\begin_layout Standard
+For the Table class, categorical variables are called 
+\series bold
+factors
+\series default
+, and the possible values of a categorical variable are called 
+\series bold
+levels
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> isFactor(iris, {'PetalLength', 'Species'})
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  1x2 logical array
+\end_layout
+
+\begin_layout Plain Layout
+
+   0   1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The levels of a factor are stored in a cell array containing the name of
+ each level.
+ They can be accessed via the 
+\family typewriter
+\color gray
+factorLevels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+factorLevels
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris.factorLevels('Species')
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  3x1 cell array
+\end_layout
+
+\begin_layout Plain Layout
+
+    'Setosa'
+\end_layout
+
+\begin_layout Plain Layout
+
+    'Versicolor'
+\end_layout
+
+\begin_layout Plain Layout
+
+    'Virginica'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The different levels of a factor are stored in the 
+\family typewriter
+\color gray
+Levels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Levels
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ inner variable, that can also be accessed directly.
+ The levels variables has as many cells as the numberof columns in the table.
+ If a cell is not empty, the corresponding column is considered as a factor
+ column.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris.Levels
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  1x5 cell array
+\end_layout
+
+\begin_layout Plain Layout
+
+    []    []    []    []    {3x1 cell} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+hasFactor
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+hasFactor
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method can be used to know if a data table contains one or more columns
+ containing categorical variables.
+\end_layout
+
+\begin_layout Section
+Operations on factor columns
+\end_layout
+
+\begin_layout Standard
+Several methods have been overloaded for facilitating the manipulation of
+ factor columns.
+ For comparisons, the 
+\family typewriter
+\color gray
+strcmp
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+strcmp
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method allows to check if a level is the same as a specified value:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> strcmp(iris(1, 'Species'), 'Setosa')
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+         Species==Setosa
+\end_layout
+
+\begin_layout Plain Layout
+
+1                      1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Other operations for manipulation of factors include:
+\end_layout
+
+\begin_layout Minisec
+trimLevels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+trimLevels
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Recomputes level indices to keep only existing values.
+\end_layout
+
+\begin_layout Minisec
+reorderLevels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+reorderLevels
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Changes the order the levels are stored.
+\end_layout
+
+\begin_layout Minisec
+combineFactors
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+combineFactors
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Aggregates two factors to create a new factor.
+\end_layout
+
+\begin_layout Minisec
+mergeFactorLevels
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+mergeFactorLevels
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Merges several levels of a factor.
+\end_layout
+
+\begin_layout Minisec
+clearFactors
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+clearFactors
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Replaces all factor columns by numeric columns.
+\end_layout
+
+\begin_layout Section
+Table reduction from groups
+\end_layout
+
+\begin_layout Standard
+Some functions allows to summarize table values according to grouping variables.
+\end_layout
+
+\begin_layout Minisec
+aggregate
+\end_layout
+
+\begin_layout Standard
+Summary features of each level of a categorical variable can be obtained
+ via the 
+\family typewriter
+\color gray
+aggregate
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+aggregate
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Compute the mean of each group
+\end_layout
+
+\begin_layout Plain Layout
+
+>> meanByGroup = aggregate(tab(:,1:4), tab('Species'), @mean);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> disp(meanByGroup)
+\end_layout
+
+\begin_layout Plain Layout
+
+                       SepalLength    SepalWidth    PetalLength    PetalWidth
+\end_layout
+
+\begin_layout Plain Layout
+
+Setosa-mean                  5.006         3.428          1.462         0.246
+\end_layout
+
+\begin_layout Plain Layout
+
+Versicolor-mean              5.936          2.77           4.26         1.326
+\end_layout
+
+\begin_layout Plain Layout
+
+Virginica-mean               6.588         2.974          5.552         2.026
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+crossTable
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Contingency table
+\end_layout
+
+\end_inset
+
+Contingency table, or cross-tabulation, can be obtained via 
+\family typewriter
+\color gray
+crossTable
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+crossTable
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> resKMeans = kmeans(iris(:,1:4), 3);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> crossTable(iris('Species'), resKMeans)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+                   1     2     3
+\end_layout
+
+\begin_layout Plain Layout
+
+Setosa            50     0     0
+\end_layout
+
+\begin_layout Plain Layout
+
+Versicolor         0     2    48
+\end_layout
+
+\begin_layout Plain Layout
+
+Virginica          0    36    14
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Plotting functions
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Plotting"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Table class of the MatStats library proposes a collection of functions
+ for the graphical representation of data.
+ Most of them consist in overloading classical Matlab plotting functions,
+ by adding relevant meta-data to the plot.
+ Several functions also provide support for grouping variables, that can
+ be specified either as a separate array, or as an instance of Table containing
+ only one factor column.
+\end_layout
+
+\begin_layout Section
+Distribution plots
+\end_layout
+
+\begin_layout Subsection
+Histograms
+\end_layout
+
+\begin_layout Standard
+It is often useful to display a global view of the values within a column.
+ The result of the 
+\family typewriter
+\color gray
+histogram
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+histogram
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ and of the 
+\family typewriter
+\color gray
+violinplot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+violinplot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ methods are shown on figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:histogram"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> histogram(iris('PetalLength'), 30);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_histogram_n30.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:histogram"
+
+\end_inset
+
+Assessing the distribution of a feature values by using the histogram.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Box plot and violin plot
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+boxplot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+boxplot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ is a common method for investigating the distribution of a collection of
+ features (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:boxplot-violinplot"
+
+\end_inset
+
+).
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> boxplot(iris(:, 1:4));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_boxplot.png
+	lyxscale 50
+	width 35text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/iris_violinPlot.png
+	lyxscale 50
+	width 35text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:boxplot-violinplot"
+
+\end_inset
+
+Assessing the distribution of values by using the violin plots.
+ Left: boxplot of a collection of numerical variables.
+ Right: violin plot of a collection of numerical variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+violin plot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+violin plot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ is a less common way of visualising the distribution of a collection of
+ variables (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:boxplot-violinplot"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), but can be an interesting alternative to more classical box plots.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> violinPlot(iris(:,1:4));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Distribution by factor
+\end_layout
+
+\begin_layout Standard
+Both box plot and violin plot can be applied on a single numerical variable
+ in conjunction with a factor variable (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Violin-plot-factor"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> violinPlot(iris('PetalWidth'), iris('Species'), 'y');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_violinPlotByGroup.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Violin-plot-factor"
+
+\end_inset
+
+Violin plot for a the different levels of a factor.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Correlation plots
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Add joint Histogram display.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Scatter plot
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+plot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+plot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function may also be used to display the values of a given column, or to
+ create a scatter plot of two values (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatterPlot"
+
+\end_inset
+
+).
+ As it relies on the original plot function from Matlab, all options for
+ changing drawing style can be supplied as parameter name-value pairs, or
+ as a single plot option.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+should use 
+\begin_inset Quotes eld
+\end_inset
+
+scatter
+\begin_inset Quotes erd
+\end_inset
+
+ or scatterplot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> plot(iris('PetalLength'), 's'); 
+\end_layout
+
+\begin_layout Plain Layout
+
+>> plot(iris('PetalLength'), iris('PetalWidth'), '*');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_plotPetalLength_sq.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/iris_petalWidth_petalLength_star.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:scatterPlot"
+
+\end_inset
+
+Data representation using scatter plot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To display scatter plot by group, it is necessary to use the 
+\family typewriter
+\color gray
+scatterGroup
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+scatterGroup
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatterGroups"
+
+\end_inset
+
+).
+ The default behaviour is to add a surrounding polygon around the points
+ of each group, in order to better visualize the groups.
+ This can be changed to an ellipse or to nothing.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> scatterGroup(iris('PetalLength'), iris('SepalLength'), iris('Species'),
+ ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'legendLocation', 'NorthWest');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+scatterGroup3d
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+scatterGroup3d
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ works in a similar way, by allowing three input variables (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatterGroups"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> scatterGroup3d(iris('PetalLength'), iris('SepalLength'), iris('SepalWidth'),
+ iris('Species'), ...
+\end_layout
+
+\begin_layout Plain Layout
+
+    'legendLocation', 'NorthWest');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_scatterGroup.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/iris_scatterGroup3d.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:scatterGroups"
+
+\end_inset
+
+Application of the scatterGroup and of the scatterGroup3d functions.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Pair plot and correlogram
+\end_layout
+
+\begin_layout Standard
+The exploration of the correlation matrix may be tedious if the number of
+ variables is large, and it could be useful to visualize simultaneously
+ the correlations between all pairs variables.
+ The 
+\family typewriter
+\color gray
+pairPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+pairPlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function allows to quickly represent the distribution of features, as well
+ as the bivariate distributions of each pair of features (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pairPlot"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ A grouping feature can also be specified.
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+correlationCircles
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+correlationCircles
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function displays the correlations between all pairs of quantitative variables
+ as a collection of colored circles (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:correlation-circles"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Red colors correpond to positive correlations, whereas blue colors correspond
+ to negative correlations.
+ The size of the circles is also related to the intensity of the correlation.
+ Such representation may also be known as 
+\series bold
+correlogram
+\series default
+.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+heatmap?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_pairPlot_bySpecies.png
+	lyxscale 50
+	width 47text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pairPlot"
+
+\end_inset
+
+pairPlot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/carsmall_correlationCircles.png
+	lyxscale 70
+	width 47text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:correlation-circles"
+
+\end_inset
+
+correlationCircles.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AdvancedStatPlots"
+
+\end_inset
+
+Advanced plot functions for exploratory data analysis.
+ (a) Usage of the PairPlot function with a factor column, showing the distributi
+ons of each feature according to the factor levels, and the scatter plots
+ of all pairs of features.
+ (b) Graphical representation of correlations between all pairs of quantitative
+ variables using the 
+\family typewriter
+\color gray
+correlationCircles
+\family default
+\color inherit
+ function, on a subset of the 
+\begin_inset Quotes eld
+\end_inset
+
+carsmall
+\begin_inset Quotes erd
+\end_inset
+
+ data table.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Plot column values
+\end_layout
+
+\begin_layout Standard
+When the row order of the values in the table has a specific meaning (typically
+ the sampling time), it is relevant to represent the values of the columns
+ according to this order.
+ The 
+\family typewriter
+\color gray
+linePlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+linePlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function displays data as a continuous curve (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:plot-stairs-stem"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/plot/plotDemo_01.png
+	lyxscale 50
+	width 50text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/plot/plotDemo_02.png
+	lyxscale 50
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/plot/plotDemo_03.png
+	lyxscale 50
+	width 50text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/plot/plotDemo_04.png
+	lyxscale 50
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:plot-stairs-stem"
+
+\end_inset
+
+Various plotting functions.
+ From left to right: line plot, bar plot, stair-steps plot, and stem plot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is possible to specifiy another column that determines the coordinates
+ on the X-axis.
+ As it relies on the original plot function from Matlab, all options for
+ changing drawing style can be supplied as parameter name-value pairs, or
+ as a single plot option such as 'b.-'.
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> t = linspace(0, 2*pi, 100)';
+\end_layout
+
+\begin_layout Plain Layout
+
+>> data = [t cos(t) sin(t)];
+\end_layout
+
+\begin_layout Plain Layout
+
+>> tab = Table(data, {'t', 'Cos(t)', 'Sin(t)'}, 'Name', 'Sine and Cosine');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure; linePlot(tab(:,1), tab(:,2:3));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Depending on the nature of the variables, the 
+\family typewriter
+\color gray
+barPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+barPlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+, the 
+\family typewriter
+\color gray
+stairStepsPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+stairStepsPlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+, or the 
+\family typewriter
+\color gray
+stemPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+stemPlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ functions may be more appropriate.
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> figure; barPlot(tab(:,1), tab(:,2:3));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure; stairStepPlot(tab(:,1), tab(:,2:3));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure; stemPlot(tab(:,1), tab(:,2:3));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The average values by group, or any other summary statistics, can be computed
+ with the 
+\family typewriter
+\color gray
+aggregate
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+aggregate
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ function.
+ The result can be displayed with the 
+\family typewriter
+\color gray
+barPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+barPlot
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:BarPlot"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Compute the mean of each group
+\end_layout
+
+\begin_layout Plain Layout
+
+>> meanByGroup = aggregate(iris(:,1:4), iris('Species'), @mean);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure;
+\end_layout
+
+\begin_layout Plain Layout
+
+>> barPlot(meanByGroup')
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/iris_meanByGroup_bar.png
+	lyxscale 50
+	width 47text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:BarPlot"
+
+\end_inset
+
+Usage of the 
+\family typewriter
+\color gray
+barPlot
+\family default
+\color inherit
+ function, on a collection of quantitative variables.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+add error bar plot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Dimensionality reduction
+\end_layout
+
+\begin_layout Standard
+The aim of dimensionality reduction is to transform a table into another
+ table with same number of rows and smaller number of columns (features),
+ by keeping as much as possible the similarities between the rows (the samples).
+\end_layout
+
+\begin_layout Standard
+The most common method for dimensionality reduction is principal component
+ analysis (PCA).
+\end_layout
+
+\begin_layout Section
+Principal component analysis (PCA)
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Principal-Component-Analysis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection*
+Principles of PCA
+\end_layout
+
+\begin_layout Plain Layout
+Transform data array 
+\begin_inset Formula $X$
+\end_inset
+
+ with 
+\begin_inset Formula $n$
+\end_inset
+
+ rows (corresponding to observations, or individuals) and 
+\begin_inset Formula $p$
+\end_inset
+
+ columns (corresponding to features, or variables) into a matrix product
+ 
+\begin_inset Formula $Y\cdot P^{t}$
+\end_inset
+
+, where 
+\begin_inset Formula $Y$
+\end_inset
+
+ is a 
+\begin_inset Formula $n\times q$
+\end_inset
+
+ array an 
+\begin_inset Formula $P$
+\end_inset
+
+ is a 
+\begin_inset Formula $p\times q$
+\end_inset
+
+ array.
+\end_layout
+
+\begin_layout Plain Layout
+Alternative way:
+\end_layout
+
+\begin_layout Plain Layout
+The goal is to compute transformed variables 
+\begin_inset Formula $T$
+\end_inset
+
+ such that
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{T}=\boldsymbol{X}\cdot\boldsymbol{W}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $W$
+\end_inset
+
+ is a 
+\begin_inset Formula $p$
+\end_inset
+
+-by-
+\begin_inset Formula $p$
+\end_inset
+
+ matrix of weights whose columns are the eigenvectors of 
+\begin_inset Formula $X^{t}X$
+\end_inset
+
+.
+ Columns of W multiplied by the square root of corresponding eigenvalues,
+ that is, eigenvectors scaled up by the variances, are called loadings in
+ PCA or in Factor analysis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Pca
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pca
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ class can be used to perform principal component analysis
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+principal component analysis
+\end_layout
+
+\end_inset
+
+ (PCA) on a Table.
+ Note: the 
+\begin_inset Quotes eld
+\end_inset
+
+Pca
+\begin_inset Quotes erd
+\end_inset
+
+ class should not be confused with the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\color gray
+pca
+\family default
+\color inherit
+
+\begin_inset Quotes erd
+\end_inset
+
+ function from the statistical toolbox from Mathworks.
+ 
+\end_layout
+
+\begin_layout Subsection
+Principles
+\end_layout
+
+\begin_layout Standard
+Before analysis, the values of each column are centered.
+ The Pca can be scaled (default) or not.
+ When the Pca is scaled, the (centered) values of each column are divided
+ by the standard deviation of the column.
+ Therefore, each column has mean equal to 0 and standard deviation equal
+ to 1.
+ In most cases, Pca are performed using scaling.
+ Non-scaled Pca may be of interest for data tables corresponding to spectra,
+ or more generally for data where the column correspond to same measurement.
+\end_layout
+
+\begin_layout Standard
+The results of a PCA are grouped within the properties of the Pca class.
+ Several methods are provided to quickly display the results annotated with
+ relevant information such as inertia coefficients, row or columns names...
+\end_layout
+
+\begin_layout Subsection
+Associated plots
+\end_layout
+
+\begin_layout Itemize
+the scree plot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+scree plot (PCA)
+\end_layout
+
+\end_inset
+
+: displays the eigen values, or the relative proportion of the eigen values,
+ depending on the component index.
+\end_layout
+
+\begin_layout Itemize
+the score plot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+score plot (PCA)
+\end_layout
+
+\end_inset
+
+: 2D (or 3D) scatter plot of the individuals in the space of 2 or 3 principal
+ components.
+ This can be used to better identify potential clusters or outliers.
+\end_layout
+
+\begin_layout Itemize
+the loading plot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+loadings plot (PCA)
+\end_layout
+
+\end_inset
+
+: 2D (or 3D) scatter plot of the original variables or features in the space
+ of 2 or 3 principal components.
+ This can be used to identify the relative contribution of the original
+ variables to each reduced dimension.
+\end_layout
+
+\begin_layout Itemize
+the correlation circles
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+correlation circles (PCA)
+\end_layout
+
+\end_inset
+
+: an alternative to the loading plot that normalizes the variables according
+ to their correlation coefficient.
+\end_layout
+
+\begin_layout Subsection
+Usage
+\end_layout
+
+\begin_layout Standard
+The principal component analysis is computed when creating the class.
+ A typical usage is as follow:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> tab = Table.read(...);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> resPCA = Pca(tab);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The default behaviour is to perform a scaled analysis (each column is divided
+ by its standard deviation) and to display several figures:
+\end_layout
+
+\begin_layout Itemize
+the scree plot
+\end_layout
+
+\begin_layout Itemize
+the scatter plot of scores on the spaces defined by principal components
+ 1 and 2, and 3 and 4
+\end_layout
+
+\begin_layout Itemize
+the loading plot of variables on the spaces defined by principal components
+ 1 and 2, and 3 and 4
+\end_layout
+
+\begin_layout Itemize
+the correlation circles of variables on the spaces defined by principal
+ components 1 and 2, and 3 and 4
+\end_layout
+
+\begin_layout Subsection
+Example on the cities data set 
+\end_layout
+
+\begin_layout Standard
+An example using a data set provided with Matlab is given below.
+ An excerpt of the results is presented on Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:PCA-cities-results"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Reading and converting data
+\end_layout
+
+\begin_layout Plain Layout
+
+>> load cities.mat
+\end_layout
+
+\begin_layout Plain Layout
+
+>> cities = Table.create(ratings, strtrim(cellstr(categories))', strtrim(cellstr(
+names)));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> cities(1:5,1:7)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+                     climate    housing    health    crime    transportation
+    education    arts
+\end_layout
+
+\begin_layout Plain Layout
+
+Abilene, TX              521       6200       237      923             
+ 4031         2757     996
+\end_layout
+
+\begin_layout Plain Layout
+
+Akron, OH                575       8138      1656      886             
+ 4883         2438    5564
+\end_layout
+
+\begin_layout Plain Layout
+
+Albany, GA               468       7339       618      970             
+ 2531         2560     237
+\end_layout
+
+\begin_layout Plain Layout
+
+Albany-Troy, NY          476       7908      1431      610             
+ 6883         3399    4655
+\end_layout
+
+\begin_layout Plain Layout
+
+Albuquerque, NM          659       8393      1853     1483             
+ 6558         3026    4496
+\end_layout
+
+\begin_layout Plain Layout
+
+>> Pca(cities);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pca/cities-pca.ev.png
+	lyxscale 50
+	width 45text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Scree Plot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pca/cities-pca.sc12.png
+	lyxscale 50
+	width 45text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Score Plot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pca/cities-pca.ld12.png
+	lyxscale 50
+	width 45text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Loadings Plot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pca/cities-pca.cc12.png
+	lyxscale 50
+	width 45text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Circle of Correlations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:PCA-cities-results"
+
+\end_inset
+
+Result plots of principal component analysis on 
+\begin_inset Quotes eld
+\end_inset
+
+cities
+\begin_inset Quotes erd
+\end_inset
+
+ dataset.
+ (a)
+\begin_inset space ~
+\end_inset
+
+Scree plot, showing the fraction of the total inertia explained by each
+ principal component.
+ (b)
+\begin_inset space ~
+\end_inset
+
+Scatter plot of scores on the first two principal components.
+ (c)
+\begin_inset space ~
+\end_inset
+
+Loadings plot of variables in the first two principal components.
+ (d)
+\begin_inset space ~
+\end_inset
+
+Circle of correlations for the first two principal components.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Result
+\end_layout
+
+\begin_layout Standard
+The result is an instance of the class 
+\begin_inset Quotes eld
+\end_inset
+
+Pca
+\begin_inset Quotes erd
+\end_inset
+
+, with the following properties:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Scores the new coordinates of individuals, as a 
+\begin_inset Formula $n\times p$
+\end_inset
+
+ Table
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Loadings the loadings (or coefficients) of PCA, as a 
+\begin_inset Formula $p\times p$
+\end_inset
+
+ Table
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+EigenValues values of inertia, inertia percent and cumulated inertia for
+ each variable, as a 
+\begin_inset Formula $p\times3$
+\end_inset
+
+ Table
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Means the mean value of each column in the original data array
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Scalings the scaling factor associated to each column.
+ Usually corresponds either to the variance of each column (in case of scaled
+ analysis) or a row vector of ones (in Pca is not scaled) 
+\end_layout
+
+\begin_layout Standard
+The result tables may be used by accessing the corresponding property in
+ the Pca instance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> irisPCA = Pca(iris(:, 1:4));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % Display scatter plot along components 1 and 2
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure; plot(irisPCA.Scores(:,1), irisPCA.Scores(:,2), 'b+');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is also possible to use coloration depending on a grouping factor (see
+ section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Group-manipulation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> figure; scatterGroup(irisPCA.Scores(:, 1), irisPCA.Scores(:, 2), iris('Species'
+));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pca/iris_pca_sc12_bPlus.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/pca/iris_pca_sc12_groupSpecies.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:iris-pca-scorePlot-scorePlotByGroup"
+
+\end_inset
+
+Various displays of PCA results.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Options
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+scale boolean flag indicating whether the data array should be scaled (the
+ default) or not.
+ If data are scaled, they are divided by their standard deviation.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+display {'on'} or 'off', specifies if figures should be displayed or not.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+obsNames character array with value 'on' or 'off', indicating whether row
+ names should be displayed on score plots, or if only dots are plotted.
+ Default value is 'on' if the number of observations is less than 200.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+varNames character array with value 'on' (the default) or 'off', indicating
+ whether column names should be displayed on loadings plots, or if only
+ dots are plotted.
+ Default value is 'on' if the number of variables is less than 50.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+saveResults char array with value 'on' or 'off' indicating whether the results
+ should be saved as text files or not.
+ Default is 'off'.
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+saveFigures char array with value 'on' or 'off' indicating whether the displayed
+ figures should be saved or not.
+ Default is 'off'.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+resultsDir character array indicating the directory to which the results
+ will be saved.
+ Default is the current directory.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+figuresDir character array indicating the directory to which the figures
+ will be saved.
+ Default is the current directory.
+\end_layout
+
+\begin_layout Subsection
+Methods
+\end_layout
+
+\begin_layout Standard
+The Pca class provides several methods for facilitating the visualization
+ and the interpretation of the resulting transform:
+\end_layout
+
+\begin_layout Minisec
+screePlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+scree plot (PCA)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Displays the scree plot of the PCA result.
+\end_layout
+
+\begin_layout Minisec
+scorePlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+score plot (PCA)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Plots individuals in a factorial plane.
+\end_layout
+
+\begin_layout Minisec
+loadingPlot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+loadings plot (PCA)
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Plots variables in a factorial plane.
+\end_layout
+
+\begin_layout Minisec
+biplot
+\end_layout
+
+\begin_layout Standard
+Biplot of a Principal Component Analysis, showing both individuals and variables
+ on the same plot.
+\end_layout
+
+\begin_layout Minisec
+correlationCircle
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+correlation circles (PCA)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Plots correlation circle in a factorial plane.
+\end_layout
+
+\begin_layout Minisec
+save 
+\end_layout
+
+\begin_layout Standard
+Saves the result of the PCA into several files.
+\end_layout
+
+\begin_layout Minisec
+disp
+\end_layout
+
+\begin_layout Standard
+Displays a summary of the principal component analysis (names and dimensions
+ of the various result tables).
+\end_layout
+
+\begin_layout Minisec
+isScaled 
+\end_layout
+
+\begin_layout Standard
+Returns true if the PCA was performed with the 
+\begin_inset Quotes eld
+\end_inset
+
+scaled
+\begin_inset Quotes erd
+\end_inset
+
+ option.
+\end_layout
+
+\begin_layout Minisec
+flipAxis 
+\end_layout
+
+\begin_layout Standard
+Reverses the coordinates in one of the axes of the PCA.
+\end_layout
+
+\begin_layout Minisec
+reconstruct
+\end_layout
+
+\begin_layout Standard
+Creates a synthetic data set from its coordinates in the space of loadings.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Linear discriminant analysis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Linear discriminant analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Linear discriminant analysis (LDA), or discriminant function analysis is
+ a generalization of Fisher's linear discriminant analysis that consists
+ in finding a linear combination of features that best separates two or
+ more classes of objects.
+ LDA is closely related to the analysis of variance (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Analysis-of-Variance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and to the principal component analysis (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Principal-Component-Analysis"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% read data table
+\end_layout
+
+\begin_layout Plain Layout
+
+iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% separate numerical and categorical data
+\end_layout
+
+\begin_layout Plain Layout
+
+data = iris(:, 1:4);
+\end_layout
+
+\begin_layout Plain Layout
+
+species = iris('Species');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Apply Principal Component Analysis on the quantitative variables
+\end_layout
+
+\begin_layout Plain Layout
+
+irisLda = LinearDiscriminantAnalysis(data, species);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/lda_iris/demo_LDA_iris_01.png
+	width 32text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/lda_iris/demo_LDA_iris_02.png
+	width 32text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/lda_iris/demo_LDA_iris_03.png
+	width 32text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Result of Linear Discriminant Analysis applied on iris data set.
+ The three graphs display the scree plot of the eigen values, the score
+ plot of the individuals in the transformed space, and the loadings plot
+ of the features in the transformed space.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Non-negative matrix factorisation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Non-negative matrix factorisation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The non-negative matrix factorisation is an alternative to the Principal
+ Component Analysis that computes a factorisation of the (non-negative)
+ input matrix 
+\begin_inset Formula $\boldsymbol{X}$
+\end_inset
+
+ into two matrices 
+\begin_inset Formula $\boldsymbol{W}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{H}$
+\end_inset
+
+ such that both 
+\begin_inset Formula $\boldsymbol{W}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{H}$
+\end_inset
+
+ contains only non negative coefficients.
+ This may be useful for interpreting features whose domain of definition
+ is positive (age, weight, counts...).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename matlab/nmf/nmf_iris_biplot.png
+	lyxscale 50
+	width 70text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Result of non-negative matrix factorisation represented as a biplot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The non-negative matrix factorisation can be computed on a Table object
+ by using the 
+\family typewriter
+\color gray
+nmf
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+nmf
+\end_layout
+
+\end_inset
+
+
+\family default
+\color inherit
+ method, which is simply a wrapper to the 'nnmf' function from the Statistics
+ Toolbox.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> [W, H] = nmf(iris(:,1:4), 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> % use Matlab 'biplot' function to represent the results
+\end_layout
+
+\begin_layout Plain Layout
+
+>> biplot(H.Data', 'Scores', W.Data, 'varLabels', H.ColNames);
+\end_layout
+
+\begin_layout Plain Layout
+
+>> axis equal; axis([0 1.2 0 1.0]);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Analysis of variance (ANOVA)
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Analysis-of-Variance"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Anova
+\begin_inset Quotes erd
+\end_inset
+
+ class performs an analysis of variance
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+analysis of variance
+\end_layout
+
+\end_inset
+
+ on a data set, and stores the results in the resulting object instance.
+ 
+\end_layout
+
+\begin_layout Standard
+The Anova class mainly consists in an encapsulation of the anovan function,
+ that annotates output results with the names of observations or factors,
+ and that provides utility methods for exploring anova results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+add example with ttest2?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Usage
+\end_layout
+
+\begin_layout Standard
+The syntax for creating an Anova is to call the 
+\begin_inset Quotes eld
+\end_inset
+
+Anova
+\begin_inset Quotes erd
+\end_inset
+
+ command, with at least two arguments:
+\end_layout
+
+\begin_layout Itemize
+the one-column Table containing the data
+\end_layout
+
+\begin_layout Itemize
+the Table containing the factors to be considered in the model
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> RES = Anova(DATA, GROUP);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additional arguments can be specified as parameter name-value pairs:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+display the flag used to display ('on') or not ('off') the frame containing
+ summary results of the anova.
+ Default is 'on'.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+model the type of model to use, specified as for the anovan function.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+random a vector of indices indicating which grouping variables are random
+ effects (all are fixed by default)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+nested a binary matrix specifying the nesting relationships among the grouping
+ variables
+\end_layout
+
+\begin_layout Section
+Simple example
+\end_layout
+
+\begin_layout Standard
+The following example performs an analysis of variance on the 
+\begin_inset Quotes eld
+\end_inset
+
+SepalLength
+\begin_inset Quotes erd
+\end_inset
+
+ variable from the iris dataset, using the 
+\begin_inset Quotes eld
+\end_inset
+
+Species
+\begin_inset Quotes erd
+\end_inset
+
+ variable as group.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> % Analysis of variance on Fisher's iris
+\end_layout
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> res = Anova(iris('SepalLength'), iris('Species'));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The anova is summarized in a new figure, as for the classical anova function
+ (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:iris-anova-resultDialog"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/anova-iris/anova-irisPL-dlg.png
+	lyxscale 70
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:iris-anova-resultDialog"
+
+\end_inset
+
+Result dialog of the Anova.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result is a new variable with following properties:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+TableName the name of the data table containing the original data
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+VarName the name of the grouping variables
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+PValues the p-value for each grouping variable
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Table a cell array containing the result of the anova
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Stats the 
+\begin_inset Quotes eld
+\end_inset
+
+stats
+\begin_inset Quotes erd
+\end_inset
+
+ results of the anovan output
+\end_layout
+
+\begin_layout Section
+Methods
+\end_layout
+
+\begin_layout Standard
+The Anova class provides several methods for facilitating the visualization
+ and the interpretation of the resulting analysis:
+\end_layout
+
+\begin_layout Minisec
+coefficients 
+\end_layout
+
+\begin_layout Standard
+Return the coefficients computed for a group or factor.
+\end_layout
+
+\begin_layout Minisec
+plotCoefficients 
+\end_layout
+
+\begin_layout Standard
+Display the levels of fitted values for grouping variables.
+\end_layout
+
+\begin_layout Minisec
+residuals
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+residuals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Return the residuals of the model fitting.
+\end_layout
+
+\begin_layout Minisec
+plotResidual 
+\end_layout
+
+\begin_layout Standard
+Display the residuals of the model fitting.
+ This can be useful for identifying outliers or biases in the model.
+\end_layout
+
+\begin_layout Standard
+The Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:iris-anova-residuals"
+
+\end_inset
+
+ shows some example of residuals display for an Anova on the petal length
+ of iris data set.
+ It can be noticed that the variability slightly differs depending on the
+ species, and that the homoscedasticity assumption is not be totally fulfilled.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> anovaPL = Anova(iris('PetalLength'), iris('Species'));
+\end_layout
+
+\begin_layout Plain Layout
+
+>> coefficients(anovaPL, 'Species')
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+                  PetalLength
+\end_layout
+
+\begin_layout Plain Layout
+
+Setosa                  1.462
+\end_layout
+
+\begin_layout Plain Layout
+
+Versicolor               4.26
+\end_layout
+
+\begin_layout Plain Layout
+
+Virginica               5.552
+\end_layout
+
+\begin_layout Plain Layout
+
+>> plotResiduals(anovaPL)
+\end_layout
+
+\begin_layout Plain Layout
+
+>> figure; plot(iris('Species'), residuals(anovaPL), 'bs');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/anova-iris/anova-irisPL-resids.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/anova-iris/anova-irisPL-residsBySpecies.png
+	lyxscale 50
+	height 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:iris-anova-residuals"
+
+\end_inset
+
+Displaying the residuals of an Anova on petal length.
+ Left: residuals in the order of observation.
+ Right: residuals ordered by factor level.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Clustering and statistical learning
+\end_layout
+
+\begin_layout Standard
+The library provides some functionality for cluster analysis and machine
+ learning.
+\end_layout
+
+\begin_layout Section
+K-means
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+kmeans
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+K-means clustering is a popular method for cluster analysis in data mining.
+ It consits in computing a partition of 
+\begin_inset Formula $n$
+\end_inset
+
+ observations into 
+\begin_inset Formula $k$
+\end_inset
+
+ clusters in which each observation belongs to the cluster with the nearest
+ mean or centroid, serving as a prototype of the cluster.
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+kmeans
+\series default
+ function of the MatStats library simply overloads the kmeans function of
+ statistics toolbox, and returns the result in Table instance(s).
+ The first output correspond to the index of the cluster each observation
+ is classified, as a 
+\begin_inset Formula $n\times1$
+\end_inset
+
+ table.
+ The second (optional) output corresponds to the coordinates of the centroids,
+ as a 
+\begin_inset Formula $k\times p$
+\end_inset
+
+ table, where 
+\begin_inset Formula $p$
+\end_inset
+
+ is the number of features.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% read data table
+\end_layout
+
+\begin_layout Plain Layout
+
+iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% keep only numerical data
+\end_layout
+
+\begin_layout Plain Layout
+
+data = iris(:, 1:4);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Apply k-means, and returns both cluster indices and centroid
+\end_layout
+
+\begin_layout Plain Layout
+
+[km3, centroids] = kmeans(data, 3);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% display result
+\end_layout
+
+\begin_layout Plain Layout
+
+figure; set(gca, 'fontsize', 14); hold on;
+\end_layout
+
+\begin_layout Plain Layout
+
+hs = scatterGroup(data(:,3), data(:,4), km3);
+\end_layout
+
+\begin_layout Plain Layout
+
+hc = plot(centroids.Data(:,3)', centroids.Data(:,4)', 'k*');
+\end_layout
+
+\begin_layout Plain Layout
+
+legend([hs ; hc], {'Cluster 1', 'Cluster 2', 'Cluster 3', 'Centroids'},
+ 'Location', 'NorthWest');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/kmeans/demo_kmeans_iris_01.png
+	width 45text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kmeans-iris"
+
+\end_inset
+
+Result of the kmeans algorithm applied on the iris data set.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Hierarchical Cluster Analysis
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:HierarchicalClusterAnalysis"
+
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+cluster
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Currently implemented through the 
+\begin_inset Quotes eld
+\end_inset
+
+cluster
+\begin_inset Quotes erd
+\end_inset
+
+ method of the Table class, which is mostly a wrapper for the 
+\begin_inset Quotes eld
+\end_inset
+
+clusterdata
+\begin_inset Quotes erd
+\end_inset
+
+ function from the Statistics Toolbox.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Section
+Management of spectra data sets
+\end_layout
+
+\begin_layout Plain Layout
+This section describes the application of the MatStats library for the investiga
+tion of spectra data.
+ In such cases, the features of the data sets typically corresponds to wavelengt
+hs, frequencies, or more generally to a continuous variable.
+ Several functions can be otpiized to facilitate the interpretation of spectral
+ data.
+\end_layout
+
+\begin_layout Subsection
+Representation of spectra using Table class
+\end_layout
+
+\begin_layout Plain Layout
+Spectra data sets can be stored as Table instances.
+ In order to facilitate the interpretation, it is convenient to enforce
+ a numerical representation of the spectral axis.
+ This can be done by explicitely creating the Axis object for the second
+ dimension.
+ The following example load spectra data, and convert them to Table.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% load data into workspace
+\end_layout
+
+\begin_layout Plain Layout
+
+load spectra
+\end_layout
+
+\begin_layout Plain Layout
+
+% convert NIR data to Table object
+\end_layout
+
+\begin_layout Plain Layout
+
+tab = Table(NIR);
+\end_layout
+
+\begin_layout Plain Layout
+
+% specify meta-data for wavelength axis (second dimension)
+\end_layout
+
+\begin_layout Plain Layout
+
+tab.Axes{2} = table.axis.NumericalAxis('WaveLengths (nm)', 900:2:1700);
+\end_layout
+
+\begin_layout Plain Layout
+
+tab.PlotAxis = 2;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+When plotting functions are called, the data set is automatically represented
+ using curves.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% display spectra data
+\end_layout
+
+\begin_layout Plain Layout
+
+figure; 
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(tab);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+[Figure Plot]
+\end_layout
+
+\begin_layout Plain Layout
+The readSpectra method allows to quickly import a data file where the columns
+ represents frequencies or wavelength.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+tab = Table.readSpectra('spectraFile.csv');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Dimensionality reduction
+\end_layout
+
+\begin_layout Plain Layout
+Dimensionality reduction can be performed on spectra data sets as for classical
+ data sets.
+ One noticeable difference is that usually, the features are not normalized
+ by the variance prior to processing.
+\end_layout
+
+\begin_layout Plain Layout
+It is more convenient to represent the loadings with curves, using the numerical
+ axis as x-data.
+\end_layout
+
+\begin_layout Plain Layout
+[Figure Loadings]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Mathematical operators for Tables
+\end_layout
+
+\begin_layout Standard
+Most array operators have been overloaded for the Table class.
+ They are recalled here for convenience.
+\end_layout
+
+\begin_layout Section
+Arithmetic operators
+\end_layout
+
+\begin_layout Standard
+The following methods operate on numerical Tables.
+ Most of them can also be obtained through the summary method (section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "op:Summary"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Simple example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> mean(iris(:,1:4))
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+            SepalLength    SepalWidth    PetalLength    PetalWidth
+\end_layout
+
+\begin_layout Plain Layout
+
+            -----------    ----------    -----------    ----------
+\end_layout
+
+\begin_layout Plain Layout
+
+mean             5.8433        3.0573          3.758        1.1993
+\end_layout
+
+\begin_layout Plain Layout
+
+>> min(iris(:,1:4))
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+           SepalLength    SepalWidth    PetalLength    PetalWidth
+\end_layout
+
+\begin_layout Plain Layout
+
+           -----------    ----------    -----------    ----------
+\end_layout
+
+\begin_layout Plain Layout
+
+min                4.3             2              1           0.1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+mean
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+mean
+\end_layout
+
+\end_inset
+
+Computes the mean of values within each column and returns a new Table with
+ one row.
+\end_layout
+
+\begin_layout Minisec
+sum
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+sum
+\end_layout
+
+\end_inset
+
+Computes the sum of values within each column and returns a new Table with
+ one row.
+\end_layout
+
+\begin_layout Minisec
+cumsum
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+cumsum
+\end_layout
+
+\end_inset
+
+Computes the cumulative sum of values within each column.
+ Returns a new Table with the same size as the original Table.
+\end_layout
+
+\begin_layout Minisec
+diff
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+diff
+\end_layout
+
+\end_inset
+
+Overload the 
+\begin_inset Quotes eld
+\end_inset
+
+diff
+\begin_inset Quotes erd
+\end_inset
+
+ operator for numerical Table.
+\end_layout
+
+\begin_layout Minisec
+min
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+min
+\end_layout
+
+\end_inset
+
+Computes the minimum of values within each column and returns a new Table
+ with one row.
+\end_layout
+
+\begin_layout Minisec
+max
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+max
+\end_layout
+
+\end_inset
+
+Computes the maximum of values within each column and returns a new Table
+ with one row.
+\end_layout
+
+\begin_layout Minisec
+median
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+median
+\end_layout
+
+\end_inset
+
+Computes median values within each column and returns a new Table with one
+ row.
+\end_layout
+
+\begin_layout Section
+Binary operators
+\end_layout
+
+\begin_layout Standard
+The following methods operate on numerical Tables.
+\end_layout
+
+\begin_layout Minisec
+plus
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+plus
+\end_layout
+
+\end_inset
+
+Adds the values of two Tables with same size, or adds a scalar value.
+\end_layout
+
+\begin_layout Minisec
+minus
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+minus
+\end_layout
+
+\end_inset
+
+Subtracts the values of two Tables with same size, or subtracts a scalar
+ value.
+\end_layout
+
+\begin_layout Minisec
+times, mtimes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+times
+\end_layout
+
+\end_inset
+
+Multiplies the values of two Tables with same size, or mutliplies by a scalar
+ value.
+\end_layout
+
+\begin_layout Minisec
+mrdivides
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+mrdivides
+\end_layout
+
+\end_inset
+
+Divides the values of two Tables with same size, or divides by a scalar
+ value.
+\end_layout
+
+\begin_layout Minisec
+power, mpower
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+power
+\end_layout
+
+\end_inset
+
+Overload the mpower operator for Table objects.
+\end_layout
+
+\begin_layout Section
+Trigonometric Functions
+\end_layout
+
+\begin_layout Standard
+Trigonometric functions results in a new Table with the same size as the
+ original Table.
+\end_layout
+
+\begin_layout Minisec
+sqrt
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+sqrt
+\end_layout
+
+\end_inset
+
+Computes the square root of each value within a numeric Table.
+\end_layout
+
+\begin_layout Minisec
+nthroot
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+nthroot
+\end_layout
+
+\end_inset
+
+Computes the n-th root of each value within a numeric Table.
+\end_layout
+
+\begin_layout Minisec
+log
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+log
+\end_layout
+
+\end_inset
+
+Computes the natural logarithm of each value within a numeric Table.
+\end_layout
+
+\begin_layout Minisec
+log2
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+log2
+\end_layout
+
+\end_inset
+
+Computes the base-2 logarithm of each value within a numeric Table.
+\end_layout
+
+\begin_layout Minisec
+log10
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+log10
+\end_layout
+
+\end_inset
+
+Computes the base-10 logarithm of each value within a numeric Table.
+\end_layout
+
+\begin_layout Minisec
+exp
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+exp
+\end_layout
+
+\end_inset
+
+Computes the exponential of each value within a numeric Table.
+\end_layout
+
+\begin_layout Section
+Logical operators
+\end_layout
+
+\begin_layout Standard
+Logical operators have also been overloaded, allowing to use Table columns
+ as logical variables.
+ Example of use:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> iris = Table.read('fisherIris.txt');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> sepalLength = iris('SepalLength');
+\end_layout
+
+\begin_layout Plain Layout
+
+>> sum(sepalLength > 5 & sepalLength < 6)
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 
+\end_layout
+
+\begin_layout Plain Layout
+
+           SepalLength>5&SepalLength<6
+\end_layout
+
+\begin_layout Plain Layout
+
+           ---------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+sum                                 51
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Minisec
+eq (
+\begin_inset Quotes eld
+\end_inset
+
+==
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+eq
+\end_layout
+
+\end_inset
+
+Equality operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+ne (
+\begin_inset Quotes eld
+\end_inset
+
+~=
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+ne
+\end_layout
+
+\end_inset
+
+Inequality operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+ge (
+\begin_inset Quotes eld
+\end_inset
+
+>=
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+ge
+\end_layout
+
+\end_inset
+
+Overload the 
+\begin_inset Quotes eld
+\end_inset
+
+greater than or equal
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+gt (
+\begin_inset Quotes eld
+\end_inset
+
+>
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+gt
+\end_layout
+
+\end_inset
+
+Overload the 
+\begin_inset Quotes eld
+\end_inset
+
+greater than
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+le (
+\begin_inset Quotes eld
+\end_inset
+
+<=
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+le
+\end_layout
+
+\end_inset
+
+Overload the 
+\begin_inset Quotes eld
+\end_inset
+
+lesser than or equal
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+lt (
+\begin_inset Quotes eld
+\end_inset
+
+<
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+lt
+\end_layout
+
+\end_inset
+
+Overload the 
+\begin_inset Quotes eld
+\end_inset
+
+lesser than
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Section
+Comparison operators
+\end_layout
+
+\begin_layout Minisec
+and (
+\begin_inset Quotes eld
+\end_inset
+
+&
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+and
+\end_layout
+
+\end_inset
+
+Overload the logical 
+\begin_inset Quotes eld
+\end_inset
+
+and
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+or (
+\begin_inset Quotes eld
+\end_inset
+
+|
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+or
+\end_layout
+
+\end_inset
+
+Overload the logical 
+\begin_inset Quotes eld
+\end_inset
+
+or
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+not (
+\begin_inset Quotes eld
+\end_inset
+
+~
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+not
+\end_layout
+
+\end_inset
+
+Overload the logical 
+\begin_inset Quotes eld
+\end_inset
+
+not
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Minisec
+xor
+\end_layout
+
+\begin_layout Standard
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+xor
+\end_layout
+
+\end_inset
+
+Overload the logical 
+\begin_inset Quotes eld
+\end_inset
+
+exclusive or
+\begin_inset Quotes erd
+\end_inset
+
+ operator for Tables.
+\end_layout
+
+\begin_layout Chapter
+Correspondencies with Matlab functions
+\end_layout
+
+\begin_layout Standard
+Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Correspondences-IO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ provides correspondencies for Matlab native functions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="15text%">
+<column alignment="left" valignment="top" width="15text%">
+<column alignment="left" valignment="top" width="55text%">
+<column alignment="center" valignment="top" width="5text%">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Matlab
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Image class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Notes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Page
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+plot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+plot, linePlot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+plot method dispatch processing to linePlot, stemPlot, barPlot or stairStepsPlot.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sec:Plotting"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bar
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+barPlot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sec:Plotting"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+stem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+stemPlot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sec:Plotting"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+stairs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+stairStepsPlot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sec:Plotting"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+crosstab
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+crossTable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cross-tabulation, can be used for confusion matrix.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Correspondences-IO"
+
+\end_inset
+
+Correspondencies from Matlab functions to corresponding Table methods.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+split native Matlab and statistics toolbox?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset index_print
+LatexCommand printindex
+type "idx"
+name "Index"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
