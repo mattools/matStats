@@ -5,7 +5,7 @@ The toolbox is organized around a **Table** class, similar to the dataframe in R
 
 The toolbox also contains facilities for statistical analysis of data tables, such as principal component analysis, analysis of variance, or linear discriminant analysis. Again, intuitive methods are povided for exploring and analysing the results by taking into account the names of the rows or of the columns.
 
-A presentation of the library is provided in the [matStats-manual.pdf](https://github.com/mattools/matStats/releases/download/v1.0/matStats-manual-1.0.pdf) document.
+A presentation of the library is provided in the [matStats-manual.pdf](https://github.com/mattools/matStats/releases/download/v1.1.4/matStats-manual-1.1.4.pdf) document.
 
 Installation
 ---
