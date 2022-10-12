@@ -66,7 +66,6 @@ function write(obj, fileName, varargin)
 % default values of parameters
 format = [];
 writeHeader = ~isempty(obj.ColNames);
-rowNames = obj.RowNames;
 writeRowNames = ~isempty(obj.RowNames);
 writeLevels = hasFactors(obj) ;
 sep = ' ';
@@ -108,8 +107,8 @@ nRows = size(obj.Data, 1);
 nCols = size(obj.Data, 2);
 
 % if need to write row names without valid row names, ensure valid ones.
-if writeRowNames && isempty(rowNames)
-    rowNames = createRowNames(obj);
+if writeRowNames
+    rowNames = consolidatedRowNames(obj);
 end
 
 % compute default format string for writing data, if not given as argument

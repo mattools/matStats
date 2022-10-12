@@ -222,6 +222,12 @@ properties
 end
 
 
+%% Private methods declaration
+methods (Access = private)
+    rowNames = consolidatedRowNames(obj, varargin);
+end
+
+
 %% Constructor
 methods
     function obj = Table(varargin)

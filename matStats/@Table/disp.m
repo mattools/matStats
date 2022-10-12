@@ -59,12 +59,14 @@ nRows2 = nRows + 2;
 % padding between columns
 colPad = repmat(' ', nRows2, 4);
 
-% init row names
+% init text array containing row names
 if ~isempty(obj.RowNames)
-    txtArray = strjust([colPad char([{' '}; {' '}; obj.RowNames(:)])], 'left');
+    rowNames = consolidatedRowNames(obj);
+    rowNamesArray = strjust([colPad char([{' '}; {' '}; rowNames(:)])], 'left');
 else
-    txtArray = char(zeros(nRows2, 0));
+    rowNamesArray = char(zeros(nRows2, 0));
 end
+txtArray = rowNamesArray;
 
 % iterate on columns to append text
 for iCol = 1:nCols
@@ -127,11 +129,7 @@ for iCol = 1:nCols
         end
         
         % reinitialize text array for processing next column(s)
-        if ~isempty(obj.RowNames)
-            txtArray = strjust([colPad char([{' '}; {' '}; obj.RowNames(:)])]);
-        else
-            txtArray = char(zeros(nRows2, 0));
-        end
+        txtArray = rowNamesArray;
     end
     txtArray = [txtArray colPad colText]; %#ok<AGROW>
     
