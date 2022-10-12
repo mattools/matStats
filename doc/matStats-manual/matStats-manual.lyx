@@ -220,8 +220,19 @@ Table
  class is to facilitate the manipulation of data tables containing numerical
  as well as categorical values, together with meta data such as row names
  and column names.
- The rows of data tables usually correspond to individual or observations,
- and columns correspond to variables, features, or sampling factors.
+ The 
+\series bold
+rows
+\series default
+ of data tables usually correspond to 
+\series bold
+individual or observations
+\series default
+, and 
+\series bold
+columns correspond to variables
+\series default
+, features, or sampling factors.
 \end_layout
 
 \begin_layout Standard
@@ -573,7 +584,7 @@ name "fig:Table-graphical-representation"
 \end_inset
 
 Visual exploration of a table using histograms and scatter plots, and visual
- ijnspection of the result of a Principal Components Analysis.
+ inspection of the result of a Principal Components Analysis.
 \end_layout
 
 \end_inset
@@ -1504,7 +1515,7 @@ Several methods are implemented to have a quick overview of the content
 \color gray
 info
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 info
@@ -1585,7 +1596,7 @@ More detailed info about each column can be obtained via the
 \color gray
 summary
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 summary
@@ -1673,7 +1684,7 @@ The
 \color gray
 read
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 read
@@ -1738,7 +1749,7 @@ The
 \color gray
 write
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 write
@@ -2567,6 +2578,115 @@ status open
 
 \end_layout
 
+\begin_layout Section
+Utility methods
+\end_layout
+
+\begin_layout Standard
+Some methods have been implemented to facilitate the management and the
+ repairing of tables.
+\end_layout
+
+\begin_layout Subsection
+Management of row names
+\end_layout
+
+\begin_layout Minisec
+rowNames
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+rowNames
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Retrieves the names of the rows of the table.
+\end_layout
+
+\begin_layout Minisec
+createRowNames
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+createRowNames
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Generates a series of default names for table rows, based on the number
+ of rows and an optional string pattern.
+\end_layout
+
+\begin_layout Minisec
+consolidateRowNames
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+consolidateRowNames
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Generates a series of names, based on the row names already present in the
+ tables, such that there is no empty cell within the result array.
+\end_layout
+
+\begin_layout Subsection
+Management of columns
+\end_layout
+
+\begin_layout Minisec
+isColumnName
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+isColumnName
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Checks if the table contains a column with the given name.
+\end_layout
+
+\begin_layout Minisec
+columnNames
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+columnNames
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Retrieves the names of the columns of the table.
+\end_layout
+
 \begin_layout Chapter
 Group manipulation
 \end_layout
@@ -3036,7 +3156,7 @@ crossTable
 status open
 
 \begin_layout Plain Layout
-Contingency table
+contingency table
 \end_layout
 
 \end_inset
@@ -3164,12 +3284,12 @@ histogram
  and of the 
 \family typewriter
 \color gray
-violinplot
+violinPlot
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-violinplot
+violinPlot
 \end_layout
 
 \end_inset
@@ -7354,7 +7474,7 @@ Matlab
 \begin_inset Text
 
 \begin_layout Plain Layout
-Image class
+Table class
 \end_layout
 
 \end_inset
@@ -7401,7 +7521,8 @@ plot, linePlot
 \begin_inset Text
 
 \begin_layout Plain Layout
-plot method dispatch processing to linePlot, stemPlot, barPlot or stairStepsPlot.
+The plot method dispatches the processing to linePlot, stemPlot, barPlot
+ or stairStepsPlot methods.
 \end_layout
 
 \end_inset
