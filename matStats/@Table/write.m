@@ -126,7 +126,7 @@ if writeLevels
     end
      
     % extract format tokens
-    formats = textscan(format, '%s', 'Delimiter', sep);
+    formats = textscan(format, '%s', 'Delimiter', ' \t', 'MultipleDelimsAsOne', true);
     formats = formats{1};
     
     % use flag
@@ -169,7 +169,7 @@ end
 % check the presence of '%s' in the beginning, and '\n' at the end
 
 % count number of tokens
-tokens = textscan(format, '%s', 'Delimiter', sep);
+tokens = textscan(format, '%s', 'Delimiter', ' \t', 'MultipleDelimsAsOne', true);
 nTokens = length(tokens{1});
 
 % If only one formatting argument is given, it is repeated by the number of
