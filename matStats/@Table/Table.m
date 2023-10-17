@@ -183,6 +183,7 @@ classdef (InferiorClasses = {?matlab.graphics.axis.Axes}) Table < handle
 methods (Static)
     tab = create(varargin)
     tab = read(fileName, varargin)
+    tab = convertCharArray(names, varargin)
     varargout = concatFiles(inputFiles, outputFile, varargin)
 end
 
