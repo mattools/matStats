@@ -960,7 +960,7 @@ The
 \series bold
 Table
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Table
@@ -1018,7 +1018,7 @@ properties
 \labelwidthstring 00.00.0000
 Data
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Data
@@ -1034,7 +1034,7 @@ Data
 \labelwidthstring 00.00.0000
 ColNames
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 ColNames
@@ -1050,7 +1050,7 @@ ColNames
 \labelwidthstring 00.00.0000
 RowNames
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 RowNames
@@ -1066,7 +1066,7 @@ RowNames
 \labelwidthstring 00.00.0000
 Levels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Levels
@@ -1082,7 +1082,7 @@ Levels
 \labelwidthstring 00.00.0000
 Name
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Name
@@ -2791,7 +2791,7 @@ The levels of a factor are stored in a cell array containing the name of
 \color gray
 factorLevels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 factorLevels
@@ -2851,7 +2851,7 @@ The different levels of a factor are stored in the
 \color gray
 Levels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Levels
@@ -2904,7 +2904,7 @@ The
 \color gray
 hasFactor
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 hasFactor
@@ -2931,7 +2931,7 @@ Several methods have been overloaded for facilitating the manipulation of
 \color gray
 strcmp
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 strcmp
@@ -2982,7 +2982,7 @@ Other operations for manipulation of factors include:
 \begin_layout Minisec
 trimLevels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 trimLevels
@@ -3000,7 +3000,7 @@ Recomputes level indices to keep only existing values.
 \begin_layout Minisec
 reorderLevels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 reorderLevels
@@ -3018,7 +3018,7 @@ Changes the order the levels are stored.
 \begin_layout Minisec
 combineFactors
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 combineFactors
@@ -3036,7 +3036,7 @@ Aggregates two factors to create a new factor.
 \begin_layout Minisec
 mergeFactorLevels
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 mergeFactorLevels
@@ -3054,7 +3054,7 @@ Merges several levels of a factor.
 \begin_layout Minisec
 clearFactors
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 clearFactors
@@ -3088,7 +3088,7 @@ Summary features of each level of a categorical variable can be obtained
 \color gray
 aggregate
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 aggregate
@@ -3153,7 +3153,7 @@ crossTable
 
 \begin_layout Standard
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 contingency table
@@ -3166,7 +3166,7 @@ Contingency table, or cross-tabulation, can be obtained via
 \color gray
 crossTable
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 crossTable
@@ -3231,6 +3231,28 @@ Virginica          0    36    14
 
 \end_layout
 
+\begin_layout Section
+Utilities
+\end_layout
+
+\begin_layout Minisec
+convertCharArray
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+convertCharArray
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Creates a factor table by parsing a character array.
+\end_layout
+
 \begin_layout Chapter
 Plotting functions
 \end_layout
@@ -3270,7 +3292,7 @@ It is often useful to display a global view of the values within a column.
 \color gray
 histogram
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 histogram
@@ -3286,7 +3308,7 @@ histogram
 \color gray
 violinPlot
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 violinPlot
@@ -5701,7 +5723,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename matlab/nmf/nmf_iris_biplot.png
+	filename images/nmf/nmf_iris_biplot.png
 	lyxscale 50
 	width 70text%
 
@@ -5734,7 +5756,7 @@ The non-negative matrix factorisation can be computed on a Table object
 \color gray
 nmf
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 nmf
