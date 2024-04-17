@@ -2192,6 +2192,10 @@ SepalWidth:  numerical  [ 2 ; 4.4 ]
 Concatenation
 \end_layout
 
+\begin_layout Minisec
+horzcat, vertcat
+\end_layout
+
 \begin_layout Standard
 Most array operators have been overloaded for Table objects.
  In particular, the 
@@ -2226,7 +2230,9 @@ vertcat
 
 \family default
 \color inherit
- methods make it possible to concatenate data tables using brackets notation:
+ methods make it possible to concatenate data tables using brackets notation.
+ The names of the rows and colums are repeated accordingly.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2299,12 +2305,11 @@ status open
 
 \end_layout
 
-\begin_layout Standard
-The names of the rows and colums are repeated accordingly.
- The 
+\begin_layout Minisec
+repmat
 \family typewriter
 \color gray
-repmat
+
 \begin_inset Index idx
 status open
 
@@ -2315,6 +2320,13 @@ repmat
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+\color gray
+repmat
 \family default
 \color inherit
  method is an alternative way for concatenating data tables.
@@ -2331,23 +2343,10 @@ add repmat example?
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Subsection
-Sorting
-\end_layout
-
-\begin_layout Plain Layout
-Tables containing numerical columns can be sorted according to one of the
- columns values.
- Here is an example of the 
-\family typewriter
-\color gray
+\begin_layout Minisec
 sortrows
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 sortrows
@@ -2356,12 +2355,21 @@ sortrows
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Tables containing numerical columns can be sorted according to one of the
+ columns values.
+ Here is an example of the 
+\family typewriter
+\color gray
+sortrows
 \family default
 \color inherit
  method applied on an excerpt of the iris table:
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset listings
 inline false
 status open
@@ -2373,72 +2381,47 @@ status open
 
 \begin_layout Plain Layout
 
->> sortrows(iris(1:10, :), 1)
+>> sortrows(iris(1:5, :), 1)
 \end_layout
 
 \begin_layout Plain Layout
 
-  ans = 
+ans = 
 \end_layout
 
 \begin_layout Plain Layout
 
-            SepalLength    SepalWidth    PetalLength    PetalWidth    Species
+         SepalLength    SepalWidth    PetalLength    PetalWidth    Species
 \end_layout
 
 \begin_layout Plain Layout
 
-  9                 4.4           2.9            1.4           0.2     Setosa
+         -----------    ----------    -----------    ----------    -------
 \end_layout
 
 \begin_layout Plain Layout
 
-  4                 4.6           3.1            1.5           0.2     Setosa
+4                4.6           3.1            1.5           0.2     Setosa
 \end_layout
 
 \begin_layout Plain Layout
 
-  7                 4.6           3.4            1.4           0.3     Setosa
+3                4.7           3.2            1.3           0.2     Setosa
 \end_layout
 
 \begin_layout Plain Layout
 
-  3                 4.7           3.2            1.3           0.2     Setosa
+2                4.9             3            1.4           0.2     Setosa
 \end_layout
 
 \begin_layout Plain Layout
 
-  2                 4.9             3            1.4           0.2     Setosa
+5                  5           3.6            1.4           0.2     Setosa
 \end_layout
 
 \begin_layout Plain Layout
 
-  10                4.9           3.1            1.5           0.1     Setosa
-\end_layout
-
-\begin_layout Plain Layout
-
-  5                   5           3.6            1.4           0.2     Setosa
-\end_layout
-
-\begin_layout Plain Layout
-
-  8                   5           3.4            1.5           0.2     Setosa
-\end_layout
-
-\begin_layout Plain Layout
-
-  1                 5.1           3.5            1.4           0.2     Setosa
-\end_layout
-
-\begin_layout Plain Layout
-
-  6                 5.4           3.9            1.7           0.4     Setosa
-\end_layout
-
-\end_inset
-
-
+1                5.1           3.5            1.4           0.2     Setosa
 \end_layout
 
 \end_inset
@@ -2578,6 +2561,13 @@ status open
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Utility methods
 \end_layout
@@ -2585,6 +2575,75 @@ Utility methods
 \begin_layout Standard
 Some methods have been implemented to facilitate the management and the
  repairing of tables.
+\end_layout
+
+\begin_layout Subsection
+Conversion
+\end_layout
+
+\begin_layout Minisec
+cellstr
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+cellstr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Converts the contents of the table into a cell array.
+ Each cell contains a char array corresponding to the string conversion
+ of the corresponding table content.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+>> cellstr(iris(1:4,:))
+\end_layout
+
+\begin_layout Plain Layout
+
+ans =
+\end_layout
+
+\begin_layout Plain Layout
+
+  4x5 cell array
+\end_layout
+
+\begin_layout Plain Layout
+
+    {'5.1'}    {'3.5'}    {'1.4'}    {'0.2'}    {'Setosa'}
+\end_layout
+
+\begin_layout Plain Layout
+
+    {'4.9'}    {'3'  }    {'1.4'}    {'0.2'}    {'Setosa'}
+\end_layout
+
+\begin_layout Plain Layout
+
+    {'4.7'}    {'3.2'}    {'1.3'}    {'0.2'}    {'Setosa'}
+\end_layout
+
+\begin_layout Plain Layout
+
+    {'4.6'}    {'3.1'}    {'1.5'}    {'0.2'}    {'Setosa'}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -5433,6 +5492,16 @@ Plots variables in a factorial plane.
 
 \begin_layout Minisec
 biplot
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+biplot
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5468,6 +5537,16 @@ Saves the result of the PCA into several files.
 
 \begin_layout Minisec
 disp
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+disp
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5492,7 +5571,17 @@ scaled
 \end_layout
 
 \begin_layout Minisec
-flipAxis 
+flipAxis
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+flipAxis
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -5501,6 +5590,16 @@ Reverses the coordinates in one of the axes of the PCA.
 
 \begin_layout Minisec
 reconstruct
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+reconstruct
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6082,7 +6181,17 @@ The Anova class provides several methods for facilitating the visualization
 \end_layout
 
 \begin_layout Minisec
-coefficients 
+coefficients
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+coefficients
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -6090,7 +6199,17 @@ Return the coefficients computed for a group or factor.
 \end_layout
 
 \begin_layout Minisec
-plotCoefficients 
+plotCoefficients
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+plotCoefficients
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -6100,7 +6219,7 @@ Display the levels of fitted values for grouping variables.
 \begin_layout Minisec
 residuals
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 residuals
@@ -6116,7 +6235,17 @@ Return the residuals of the model fitting.
 \end_layout
 
 \begin_layout Minisec
-plotResidual 
+plotResiduals
+\begin_inset Index idx
+status collapsed
+
+\begin_layout Plain Layout
+plotResiduals
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -6268,7 +6397,7 @@ K-means
 
 \begin_layout Standard
 \begin_inset Index idx
-status open
+status collapsed
 
 \begin_layout Plain Layout
 kmeans
