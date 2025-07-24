@@ -21,7 +21,7 @@ function testOneColumnName(testCase) %#ok<*DEFNU>
 
 tab = Table.read('demo1.txt');
 
-assertTrue(isColumnName(tab, 'sint'));
+assertTrue(testCase, isColumnName(tab, 'sint'));
 
 
 function testCharArray(testCase)

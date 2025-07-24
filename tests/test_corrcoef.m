@@ -24,7 +24,7 @@ iris = Table.read('fisherIris.txt');
 
 res = corrcoef(iris(:,1:4));
 
-assertTrue(isa(res, 'Table'));
+assertTrue(testCase, isa(res, 'Table'));
 assertEqual(testCase, size(res), [4 4]);
 
 
@@ -35,7 +35,7 @@ iris = Table.read('fisherIris.txt');
 
 res = corrcoef(iris(:,1:2), iris(:,3:4));
 
-assertTrue(isa(res, 'Table'));
+assertTrue(testCase, isa(res, 'Table'));
 assertEqual(testCase, size(res), [2 2]);
 assertEqual(testCase, res.Data(1,1), 1);
 assertEqual(testCase, res.Data(2,2), 1);
