@@ -3,8 +3,8 @@ function  varargout = subsref(obj, subs)
 %
 %   RES = subsref(TAB, SUBS)
 %   TAB is a Table object and SUBS is a structure following subsref syntax,
-%   see Matlab's documentation for details. The result RES can be either
-%   another table (in case of parens indexing), or a cell array (in case of
+%   see Matlab documentation for details. The result RES can be either
+%   another table (in case of paren indexing), or a cell array (in case of
 %   curly braces indexing).
 %
 %   TAB2 = TAB(ROWS, COLS);
@@ -12,7 +12,7 @@ function  varargout = subsref(obj, subs)
 %   or COLS.
 %
 %   Example
-%     % Example of parens indexing returning another Table
+%     % Example of paren indexing returning another Table
 %     iris = Table.read('fisherIris.txt');
 %     tab2 = iris(1:3, :)
 %     tab2 = 
@@ -103,11 +103,11 @@ elseif strcmp(type, '()')
             if siz(2) > 1
                 % if indexing table has several columns, use linear
                 % indexing 
-                s1.subs = {find(sub1.data > 0)};
+                s1.subs = {find(sub1.Data > 0)};
             else
                 % if indexing table has only one column, use it for row
                 % indexing
-                s1.subs = {find(sub1.data > 0), ':'};
+                s1.subs = {find(sub1.Data > 0), ':'};
             end
         
         elseif ischar(sub1) || iscell(sub1)
@@ -123,7 +123,7 @@ elseif strcmp(type, '()')
         
         % compute result, that can be either a new table, or a set of
         % values (in case of linear indexing)
-        if length(s1.subs) == 1
+        if isscalar(s1.subs)
             tab = subsref(obj.Data, s1);
         else
             tab = subsref(obj, s1);
@@ -185,7 +185,7 @@ else
     
     % Returns results in a cell array
     
-    % In case of parens reference, index the inner data
+    % In case of paren reference, index the inner data
     varargout{1} = 0;
     
     % switch processing depending on number of subs
@@ -238,7 +238,7 @@ else
         error('Braces indexing requires one or two indices');
     end
     
-    % At obj step, s1 is pre-processed and should eb able to index table
+    % At obj step, s1 is pre-processed and should be able to index table
     % data directly
     
     % extract corresponding data, and transform into a cell array
@@ -266,7 +266,7 @@ end
 
 %% Additional processing of other subsref calls
 
-if length(subs) == 1
+if isscalar(subs)
     varargout = cell(nargout, 1);
     varargout{1} = tab;
     
