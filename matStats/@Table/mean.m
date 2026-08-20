@@ -7,7 +7,7 @@ function res = mean(obj, varargin)
 %
 %   M = mean(TAB, DIM)
 %   Specifies the dimension to operate. DIM can be either 1 (the default)
-%   or 2. In the latter case, mean is computed fo each row of the table,
+%   or 2. In the latter case, mean is computed for each row of the table,
 %   and the result is a table with one column, called 'mean'.
 %
 %   Example
